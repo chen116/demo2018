@@ -252,13 +252,12 @@ int anchors_heartbeat_finish(int hb_shm_id) {
     pthread_mutex_destroy(&hb->mutex);
     free(hb->window);
     if(hb->text_file != NULL) {
-          printf("meow\n");
       hb_flush_buffer(hb);
       fclose(hb->text_file);
     }
     remove(hb->filename);
     /*TODO : need to deallocate log */
-    free(hb);
+        printf("meow\n");
   }
   return 1;
 }
