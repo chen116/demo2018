@@ -1,3 +1,4 @@
+
 def run_demo():
 	import numpy as np
 	import cv2
@@ -27,7 +28,10 @@ def run_demo():
 		#g2 = cv2.Canny(frame,w1.get(),w2.get())
 	#	g2 = abs(g1h + (1j)*g1v)
 		#g2 = cv2.cvtColor(g,cv2.COLORMAP_SUMMER)
-		g2 = abs(frame-frame2)
+		try:
+			g2 = abs(frame-frame2)
+		except:
+			break
 	#	g2 = np.log(abs(fft.fftshift(fft.fft2(frame[500:800,500:800]))))
 	    # Our operations on the frame come here
 		#gray = cv2.cvtColor(g, cv2.COLOR_BGR2RGB)
@@ -45,3 +49,4 @@ def run_demo():
 	cap.release()
 	cv2.destroyAllWindows()
 #mainloop()
+run()
