@@ -18,12 +18,12 @@ void write_vlog(_heartbeat_record_t*,_HB_global_state_t*, int);
 int get_hr(_heartbeat_record_t*, int);
 int64_t get_ts(_heartbeat_record_t*, int);
 
-int heartbeat_finish(int) ;
-int64_t heartbeat( int, int );
+int anchors_heartbeat_finish(int) ;
+int64_t anchors_heartbeat( int, int );
 int get_index(_HB_global_state_t*);
 
 
-int heartbeat_init(int,int,int64_t,int64_t ,const char* , double ,double );
+int anchors_heartbeat_init(int,int,int64_t,int64_t ,const char* , double ,double );
 int get_index(_HB_global_state_t* g)
 {
 	return g->read_index;
@@ -122,7 +122,7 @@ void setshm_log(key_t key, int64_t buffer_size )
 }
 
 
-int heartbeat_init(int hb_shm_id, int hb_record_shm_id,int64_t window_size,
+int anchors_heartbeat_init(int hb_shm_id, int hb_record_shm_id,int64_t window_size,
                             int64_t buffer_depth,
                             const char* log_name,
                             double min_target,
@@ -219,7 +219,7 @@ hb = (_heartbeat_record_t*) shmat(shmid, NULL, 0);
 
   return 1;
 }
-int heartbeat_finish(int hb_shm_id) {
+int anchors_heartbeat_finish(int hb_shm_id) {
     if ((shmid = shmget(hb_shm_id, 1*sizeof(heartbeat_t), 0666)) < 0) {
         perror("shmget");
         return 0;
@@ -239,7 +239,7 @@ int heartbeat_finish(int hb_shm_id) {
   return 1;
 }
 
-int64_t heartbeat( int hb_shm_id, int tag )
+int64_t anchors_heartbeat( int hb_shm_id, int tag )
 {
   if ((shmid = shmget(hb_shm_id, 1*sizeof(heartbeat_t), 0666)) < 0) {
         perror("shmget");
