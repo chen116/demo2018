@@ -6,7 +6,7 @@
 
 
 
-// #include <heartbeats/heartbeat-util-shared.h>
+#include <heartbeat-util-shared.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -213,7 +213,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
 }
 int anchors_heartbeat_finish(int hb_shm_id) {
     int shmid;
-  
+
     if ((shmid = shmget(hb_shm_id, 1*sizeof(heartbeat_t), 0666)) < 0) {
         perror("shmget");
         return 0;
