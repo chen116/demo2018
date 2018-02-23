@@ -68,7 +68,7 @@ result = None
 # 	pass
 
 cnt=-1
-while cnt<0:
+while cnt<3:
 	cnt+=1
 	time.sleep(1)
 	for i in range(lenn):
@@ -77,8 +77,9 @@ while cnt<0:
 		hbtime = shmlib.anchors_heartbeat(pids[i],cnt)
 		hr = shmlib.get_hr_from_hb(pids[i],cnt)/1e6
 		print('hbtime',hbtime,'hr',hr)
-		shmlib.anchors_heartbeat_finish(pids[i])
-# for i in range(lenn):
+for i in range(lenn):
+	print(shmlib.anchors_heartbeat_finish(pids[i]))
+
  	
 
 
