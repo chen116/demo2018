@@ -38,7 +38,7 @@ int get_hr(_heartbeat_record_t* p,int index)
 }
 int get_hr_from_hb(int hb_shm_id, int index)
 {
-
+int shmid;
   if ((shmid = shmget(hb_shm_id, 1*sizeof(heartbeat_t), 0666)) < 0) {
         perror("shmget");
         return 0;
