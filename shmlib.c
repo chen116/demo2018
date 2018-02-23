@@ -212,7 +212,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   shmid = shmget(hb_record_shm_id << 1, buffer_size*sizeof(_heartbeat_record_t), IPC_CREAT | 0666);
   if (shmid < 0) {
     perror("cannot allocate shared memory for heartbeat records");
-    return NULL;
+    return 0;
   }
 
   /*
@@ -221,7 +221,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   HB_alloc_log_p = (_heartbeat_record_t*) shmat(shmid, NULL, 0);
   if (HB_alloc_log_p == (_heartbeat_record_t*) -1) {
     perror("cannot attach shared memory to heartbeat enabled process");
-    return NULL;
+    return 0;
   }
 
   hb->log = HB_alloc_log_p;
