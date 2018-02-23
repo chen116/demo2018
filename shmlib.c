@@ -137,7 +137,7 @@ if ((shmid = shmget(hb_shm_id, 1*sizeof(heartbeat_t), IPC_CREAT | 0666)) < 0) {
     }
 
 heartbeat_t* hb = NULL;
-hb = (_heartbeat_record_t*) shmat(shmid, NULL, 0); 
+hb = (heartbeat_t*) shmat(shmid, NULL, 0); 
 
   if (hb == NULL) {
     perror("Failed to malloc heartbeat");

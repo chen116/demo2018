@@ -50,7 +50,7 @@ vic_log_file ="vic.log";
 vic_min_target = 100;
 vic_max_target = 1000;
 for i in range(lenn):
-	shmlib.heartbeat_init(hb,vic_win_size,vic_buf_depth,vic_log_file,vic_min_target,vic_max_target)
+	shmlib.anchors_heartbeat_init(hb,vic_win_size,vic_buf_depth,vic_log_file,vic_min_target,vic_max_target)
 logmem = []
 glomem = []
 result = None
@@ -70,11 +70,11 @@ while cnt<10:
 	for i in range(lenn):
 		p=logmem[i].read()
 		shmlib.heartbeat.restype = ctypes.c_int64
-		hbtime = shmlib.heartbeat(hbids[i],cnt)
+		hbtime = shmlib.anchors_heartbeat(hbids[i],cnt)
 		hr = shmlib.get_hr(p,tmp_index)/1e6
 		print('hbtime',hbtime,'hr',hr)
 for i in range(lenn):
-	shmlib.heartbeat_finish(hbids[i])
+	shmlib.anchors_heartbeat_finish(hbids[i])
 
 
 
