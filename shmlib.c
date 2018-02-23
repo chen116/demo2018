@@ -5,8 +5,8 @@
 #include <sys/shm.h>
 
 
-#include "heartbeat.h"
-#include "heartbeat-util-shared.h"
+
+#include <heartbeats/heartbeat-util-shared.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
