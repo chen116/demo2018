@@ -57,7 +57,7 @@ def kk(base_name,figure_cnt):
 	plt.xlabel('time(sec)')
 	plt.ylabel('heart rate(beats/sec)')
 	# plt.title('Dynamo')
-	# plt.legend(('c0'))
+	plt.legend(('frames/sec'))
 
 
 
