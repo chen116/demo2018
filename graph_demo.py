@@ -28,7 +28,7 @@ def kk(base_name,figure_cnt):
 				if len(its)==4:
 					index = cnt
 					hr = float(its[3])
-					ts = int(its[1])
+					ts = float(its[1])
 					xs[index].append(ts)
 					ys[index].append(hr)
 					cnt+=1
@@ -51,7 +51,7 @@ def kk(base_name,figure_cnt):
 	for i,x in enumerate(xs):
 		for j in range(len(x)):
 			x[j]-=xmin
-			x[j]=x[j]/1e9
+			x[j]=x[j]
 	plt.figure(figure_cnt)
 	# plt.subplot(211)
 	opt=[':*b',':*r']
