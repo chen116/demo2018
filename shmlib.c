@@ -25,7 +25,7 @@ _HB_global_state_t* HB_alloc_state(int );
 int anchors_heartbeat_finish(int) ;
 int64_t anchors_heartbeat( int, int );
 int get_index(_HB_global_state_t*);
-
+int get_hr_from_hb(int , int);
 
 int anchors_heartbeat_init(int,int64_t,int64_t ,const char* , double ,double );
 int get_index(_HB_global_state_t* g)
@@ -36,6 +36,19 @@ int get_hr(_heartbeat_record_t* p,int index)
 {
 	return p[index].instant_rate*1000000;
 }
+int get_hr_from_hb(int hb_shm_id, int index)
+{
+
+  if ((shmid = shmget(hb_shm_id, 1*sizeof(heartbeat_t), 0666)) < 0) {
+        perror("shmget");
+        return 0;
+    }
+  heartbeat_t* hb = (heartbeat_t*) shmat(shmid, NULL, 0);
+  return hb->log[index].instant_rate*1000000;
+
+
+}
+
 int64_t get_ts(_heartbeat_record_t* p,int index)
 {                                          
 
@@ -301,7 +314,7 @@ int64_t anchors_heartbeat( int hb_shm_id, int tag )
       hb->log[index].timestamp = time;
       hb->log[index].window_rate = window_heartrate;
       hb->log[index].instant_rate = instant_heartrate;
-      printf("meow meow meow\n");
+
 
       hb->log[index].global_rate = global_heartrate;
       hb->state->buffer_index++;
