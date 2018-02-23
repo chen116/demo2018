@@ -61,7 +61,8 @@ try:
 		logmem.append(sysv_ipc.SharedMemory(logids[i]))
 		glomem.append(sysv_ipc.SharedMemory(gloids[i]))
 		result=1
-except:
+except Exception as e: 
+	print(e)
 	print("nooo")
 	pass
 
