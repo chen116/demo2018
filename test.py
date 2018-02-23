@@ -5,7 +5,7 @@ import sys
 
 import time
 import _thread
-
+import demo_obj_track
 shmlib = cdll.LoadLibrary('./shmlib.so')
 pids = [1024]
 
