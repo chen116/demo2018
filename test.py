@@ -55,14 +55,14 @@ for i in range(lenn):
 logmem = []
 glomem = []
 result = None
-while result is None:
-	try:
-		for i in range(lenn):
-			logmem.append(sysv_ipc.SharedMemory(logids[i]))
-			glomem.append(sysv_ipc.SharedMemory(gloids[i]))
-			result=1
-	except:
-		pass
+
+try:
+	for i in range(lenn):
+		logmem.append(sysv_ipc.SharedMemory(logids[i]))
+		glomem.append(sysv_ipc.SharedMemory(gloids[i]))
+		result=1
+except:
+	pass
 
 cnt=-1
 while cnt<10:
