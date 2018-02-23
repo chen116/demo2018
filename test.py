@@ -12,7 +12,7 @@ pids = [1024]
 lenn = len(pids)
 logids=[]
 gloids=[]
-pids=[]
+
 for x in pids:
 	logids.append(x*2)
 	gloids.append(x*2+1)
