@@ -1,9 +1,9 @@
-
+import numpy as np
+import cv2
+from tkinter import *
+import numpy.fft as fft
 def run_demo():
-	import numpy as np
-	import cv2
-	from tkinter import *
-	import numpy.fft as fft
+
 	master = Tk()
 	w1 = Scale(master,from_=0,to=400)
 	w1.set(100)
