@@ -380,6 +380,7 @@ static void hb_flush_buffer(heartbeat_t volatile * hb) {
   }
 }
 
+
 _heartbeat_record_t* HB_alloc_log(int pid, int64_t buffer_size) {
   _heartbeat_record_t* p = NULL;
   int shmid;
