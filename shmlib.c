@@ -6,7 +6,7 @@
 
 
 
-#include <heartbeat-util-shared.h>
+//#include <heartbeat-util-shared.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -275,7 +275,7 @@ int64_t anchors_heartbeat( int hb_shm_id, int tag )
       //printf("In heartbeat - NOT first time stamp - read index = %d\n",hb->state->read_index );
       int64_t index =  hb->state->buffer_index;
       hb->last_timestamp = time;
-      double window_heartrate = hb_window_average(hb, time-old_last_time);
+      double window_heartrate = 1.0;//hb_window_average(hb, time-old_last_time);
       double global_heartrate =
   (((double) hb->state->counter+1) /
    ((double) (time - hb->first_timestamp)))*1000000000.0;
