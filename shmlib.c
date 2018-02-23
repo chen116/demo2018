@@ -279,6 +279,7 @@ int64_t anchors_heartbeat( int hb_shm_id, int tag )
       hb->log[0].timestamp = time;
       hb->log[0].window_rate = 0;
       hb->log[0].instant_rate = 0;
+      printf("meow meow\n");
       hb->log[0].global_rate = 0;
       hb->state->counter++;
       hb->state->buffer_index++;
@@ -300,6 +301,8 @@ int64_t anchors_heartbeat( int hb_shm_id, int tag )
       hb->log[index].timestamp = time;
       hb->log[index].window_rate = window_heartrate;
       hb->log[index].instant_rate = instant_heartrate;
+      printf("meow meow meow\n");
+
       hb->log[index].global_rate = global_heartrate;
       hb->state->buffer_index++;
       hb->state->counter++;
