@@ -41,6 +41,7 @@ int get_hr_from_hb(int hb_shm_id, int index)
 int shmid;
   if ((shmid = shmget(hb_shm_id, 1*sizeof(heartbeat_t), 0666)) < 0) {
         perror("shmget");
+        printf("no hb\n");
         return 0;
     }
   heartbeat_t* hb = (heartbeat_t*) shmat(shmid, NULL, 0);
