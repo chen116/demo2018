@@ -6,7 +6,7 @@
 
 
 
-//#include <heartbeat-util-shared.h>
+#include <heartbeat-util-shared.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -150,7 +150,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   hb->state = HB_alloc_state(hb_record_shm_id);
   if (hb->state == NULL) {
     printf("meow\n");
-    return anchors_heartbeat_finish(hb_shm_id);
+    heartbeat_finish(hb);
     return 0;
   }
   hb->state->pid = pid;
@@ -159,7 +159,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
     hb->text_file = fopen(log_name, "w");
     if (hb->text_file == NULL) {
       perror("Failed to open heartbeat log file");
-      return anchors_heartbeat_finish(hb_shm_id);
+      heartbeat_finish(hb);
       return 0;
     } else {
       fprintf(hb->text_file, "Beat    Tag    Timestamp    Global Rate    Window Rate    Instant Rate\n" );
@@ -170,7 +170,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
 
   enabled_dir = getenv("HEARTBEAT_ENABLED_DIR");
   if(!enabled_dir) {
-    return anchors_heartbeat_finish(hb_shm_id);
+    heartbeat_finish(hb);
     return 0;
   }
   snprintf(hb->filename, sizeof(hb->filename), "%s/%d", enabled_dir, hb->state->pid);
@@ -179,7 +179,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   // hb->log = HB_alloc_log(hb->state->pid, buffer_depth);
   hb->log = HB_alloc_log(hb_record_shm_id, buffer_depth);
   if(hb->log == NULL) {
-    return anchors_heartbeat_finish(hb_shm_id);
+    heartbeat_finish(hb);
     return 0;
   }
 
@@ -188,7 +188,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   hb->window = (int64_t*) malloc((size_t)window_size * sizeof(int64_t));
   if (hb->window == NULL) {
     perror("Failed to malloc window size");
-    return anchors_heartbeat_finish(hb_shm_id);
+    heartbeat_finish(hb);
     return 0;
   }
   hb->current_index = 0;
@@ -205,7 +205,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   hb->binary_file = fopen(hb->filename, "w");
   if ( hb->binary_file == NULL ) {
     perror("Failed to open heartbeat log");
-    return anchors_heartbeat_finish(hb_shm_id);
+    heartbeat_finish(hb);
     return 0;
   }
   fclose(hb->binary_file);
