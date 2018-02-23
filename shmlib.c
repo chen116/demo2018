@@ -239,19 +239,20 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
 }
 int anchors_heartbeat_finish(int hb_shm_id) {
     int shmid;
-    printf("meow2\n");
+
 
   if ((shmid = shmget(hb_shm_id, 1*sizeof(heartbeat_t), 0666)) < 0) {
         perror("shmget");
         return 0;
     }
-    printf("meow\n");
+
 
   heartbeat_t* hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   if (hb != NULL) {
     pthread_mutex_destroy(&hb->mutex);
     free(hb->window);
     if(hb->text_file != NULL) {
+          printf("meow\n");
       hb_flush_buffer(hb);
       fclose(hb->text_file);
     }
