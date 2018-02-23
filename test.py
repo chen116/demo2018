@@ -12,6 +12,7 @@ ids = [1024]
 lenn = len(ids)
 logids=[]
 gloids=[]
+hbids=[]
 for x in ids:
 	hbids.append(int(x/2))
 	logids.append(x*2)
