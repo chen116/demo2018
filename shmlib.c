@@ -147,7 +147,31 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   hb->window = NULL;
   hb->text_file = NULL;
 
-  hb->state = HB_alloc_state(hb_record_shm_id);
+  
+  // start of HB_alloc_state to replace hb->state = HB_alloc_state(hb_record_shm_id);
+
+
+
+  _HB_global_state_t* HB_alloc_state_p = NULL;
+
+
+  shmid = shmget((hb_record_shm_id << 1) | 1, 1*sizeof(_HB_global_state_t), IPC_CREAT | 0666);
+  if (shmid < 0) {
+    perror("cannot allocate shared memory for heartbeat global state");
+    return 0;
+  }
+
+  /*
+   * Now we attach the segment to our data space.
+   */
+  HB_alloc_state_p = (_HB_global_state_t*) shmat(shmid, NULL, 0);
+  if (HB_alloc_state_p == (_HB_global_state_t*) -1) {
+    perror("cannot attach shared memory to heartbeat global state");
+    return 0;
+  }
+
+  hb->state = HB_alloc_state_p;
+  // end of HB_alloc_state
   if (hb->state == NULL) {
     printf("meow\n");
     anchors_heartbeat_finish(hb_shm_id);
