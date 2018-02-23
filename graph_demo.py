@@ -25,7 +25,7 @@ def kk(base_name,figure_cnt):
 		with open(filepath) as fp: 
 			for line in fp:  
 				its = line.split()
-				if len(its)<8:
+				if len(its)==5:
 					index = cnt
 					hr = float(its[3])
 					ts = int(its[1])
