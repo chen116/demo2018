@@ -57,23 +57,22 @@ logmem = []
 glomem = []
 result = None
 
-try:
-	for i in range(lenn):
-		logmem.append(sysv_ipc.SharedMemory(logids[i]))
-		glomem.append(sysv_ipc.SharedMemory(gloids[i]))
-		result=1
-except Exception as e: 
-	print(e)
-	print("nooo")
-	pass
+# try:
+# 	for i in range(lenn):
+# 		logmem.append(sysv_ipc.SharedMemory(logids[i]))
+# 		glomem.append(sysv_ipc.SharedMemory(gloids[i]))
+# 		result=1
+# except Exception as e: 
+# 	print(e)
+# 	print("nooo")
+# 	pass
 
 cnt=-1
 while cnt<10:
 	cnt+=1
 	time.sleep(1)
 	for i in range(lenn):
-		p=logmem[i].read()
-		print("meow")
+		# p=logmem[i].read()
 		shmlib.anchors_heartbeat.restype = ctypes.c_int64
 		hbtime = shmlib.anchors_heartbeat(pids[i],cnt)
 		hr = shmlib.get_hr_from_hb(pids[i],cnt)/1e6
