@@ -16,6 +16,7 @@ void setshm_glo(key_t);
 void setshm_log(key_t,int64_t);
 void write_vlog(_heartbeat_record_t*,_HB_global_state_t*, int);
 int get_hr(_heartbeat_record_t*, int);
+static void hb_flush_buffer(heartbeat_t volatile * );
 int64_t get_ts(_heartbeat_record_t*, int);
 
 int anchors_heartbeat_finish(int) ;
@@ -209,7 +210,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
 
   printf("Allocating log for: pid,pid<<1 %d, %d\n", pid, pid << 1);
 
-  shmid = shmget(hb_record_shm_id << 1, buffer_size*sizeof(_heartbeat_record_t), IPC_CREAT | 0666);
+  shmid = shmget(hb_record_shm_id << 1, buffer_depth*sizeof(_heartbeat_record_t), IPC_CREAT | 0666);
   if (shmid < 0) {
     perror("cannot allocate shared memory for heartbeat records");
     return 0;
@@ -360,4 +361,27 @@ int64_t anchors_heartbeat( int hb_shm_id, int tag )
     pthread_mutex_unlock(&hb->mutex);
     return time;
 
+}
+
+static void hb_flush_buffer(heartbeat_t volatile * hb) {
+  int64_t i;
+  int64_t nrecords = hb->state->buffer_index; // buffer_depth
+
+  //printf("Flushing buffer - %lld records\n",
+  //   (long long int) nrecords);
+
+  if(hb->text_file != NULL) {
+    for(i = 0; i < nrecords; i++) {
+      fprintf(hb->text_file,
+        "%lld    %d    %lld    %f    %f    %f\n",
+        (long long int) hb->log[i].beat,
+        hb->log[i].tag,
+        (long long int) hb->log[i].timestamp,
+        hb->log[i].global_rate,
+        hb->log[i].window_rate,
+        hb->log[i].instant_rate);
+    }
+
+    fflush(hb->text_file);
+  }
 }
