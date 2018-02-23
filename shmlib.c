@@ -149,7 +149,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
 
   hb->state = HB_alloc_state(hb_record_shm_id);
   if (hb->state == NULL) {
-    printf("meow\n", );
+    printf("meow\n");
     heartbeat_finish(hb);
     return 0;
   }
