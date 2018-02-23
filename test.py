@@ -51,7 +51,7 @@ vic_log_file ="vic.log";
 vic_min_target = 100;
 vic_max_target = 1000;
 for i in range(lenn):
-	suc = shmlib.anchors_heartbeat_init(hbids[i],pids[i],vic_win_size,vic_buf_depth,vic_log_file,vic_min_target,vic_max_target))
+	suc = shmlib.anchors_heartbeat_init(hbids[i],pids[i],vic_win_size,vic_buf_depth,vic_log_file,vic_min_target,vic_max_target)
 	if suc:
 		print("hb_init!")
 logmem = []
