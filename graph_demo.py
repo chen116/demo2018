@@ -56,7 +56,7 @@ def kk(base_name,figure_cnt):
 		plt.plot(xs[i],ys[i],opt[i],label=str(i))
 	plt.xlabel('time(sec)')
 	plt.ylabel('heart rate(frames/sec)')
-	plt.title('Demo openCV app on DomU')
+	plt.title('Simple openCV app on DomU')
 	# plt.legend(('frames/sec'))
 
 
