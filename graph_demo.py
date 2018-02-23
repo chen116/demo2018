@@ -74,8 +74,8 @@ def kk(base_name,figure_cnt):
 	# return 
 
 
-base_name='vlog'
-kk('vlogflat',1)
+
+kk('logtest',1)
 # kk('vlog0',2)
 
 plt.show()
