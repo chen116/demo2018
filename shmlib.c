@@ -201,7 +201,38 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   printf("%s\n", hb->filename);
 
   // hb->log = HB_alloc_log(hb->state->pid, buffer_depth);
-  hb->log = HB_alloc_log(hb_record_shm_id, buffer_depth);
+  
+
+//start of HB_alloc_log(hb_record_shm_id, buffer_depth); to replace hb->log = HB_alloc_log(hb_record_shm_id, buffer_depth);
+
+  _heartbeat_record_t* HB_alloc_log_p = NULL;
+
+  printf("Allocating log for: pid,pid<<1 %d, %d\n", pid, pid << 1);
+
+  shmid = shmget(hb_record_shm_id << 1, buffer_size*sizeof(_heartbeat_record_t), IPC_CREAT | 0666);
+  if (shmid < 0) {
+    perror("cannot allocate shared memory for heartbeat records");
+    return NULL;
+  }
+
+  /*
+   * Now we attach the segment to our data space.
+   */
+  HB_alloc_log_p = (_heartbeat_record_t*) shmat(shmid, NULL, 0);
+  if (HB_alloc_log_p == (_heartbeat_record_t*) -1) {
+    perror("cannot attach shared memory to heartbeat enabled process");
+    return NULL;
+  }
+
+  hb->log = HB_alloc_log_p;
+
+
+
+
+//end of hb->log = HB_alloc_log(hb_record_shm_id, buffer_depth);
+
+
+
   if(hb->log == NULL) {
     anchors_heartbeat_finish(hb_shm_id);
     return 0;
