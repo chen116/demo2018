@@ -62,6 +62,7 @@ try:
 		glomem.append(sysv_ipc.SharedMemory(gloids[i]))
 		result=1
 except:
+	print("nooo")
 	pass
 
 cnt=-1
