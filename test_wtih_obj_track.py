@@ -104,7 +104,7 @@ while(True):
 		shmlib.anchors_heartbeat.restype = ctypes.c_int64
 		hbtime = shmlib.anchors_heartbeat(pids[i],cnt)
 		hr = shmlib.get_hr_from_hb(pids[i],cnt)/1e6
-		print('hbtime',hbtime,'hr',hr)
+		print('hbtime',hbtime/1e9,'hr',hr)
 
 
 
