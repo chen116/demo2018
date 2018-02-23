@@ -27,7 +27,7 @@ int64_t anchors_heartbeat( int, int );
 int get_index(_HB_global_state_t*);
 
 
-int anchors_heartbeat_init(int,int,int64_t,int64_t ,const char* , double ,double );
+int anchors_heartbeat_init(int,int64_t,int64_t ,const char* , double ,double );
 int get_index(_HB_global_state_t* g)
 {
 	return g->read_index;
@@ -126,7 +126,7 @@ void setshm_log(key_t key, int64_t buffer_size )
 }
 
 
-int anchors_heartbeat_init(int hb_shm_id, int hb_record_shm_id,int64_t window_size,
+int anchors_heartbeat_init(int hb_shm_id,int64_t window_size,
                             int64_t buffer_depth,
                             const char* log_name,
                             double min_target,
@@ -152,7 +152,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   hb->text_file = NULL;
 
   
-  hb->state = HB_alloc_state(hb_record_shm_id);
+  hb->state = HB_alloc_state(hb_shm_id);
 
   if (hb->state == NULL) {
     printf("meow\n");
@@ -185,7 +185,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   // hb->log = HB_alloc_log(hb->state->pid, buffer_depth);
   
 
-  hb->log = HB_alloc_log(hb_record_shm_id, buffer_depth);
+  hb->log = HB_alloc_log(hb_shm_id, buffer_depth);
 
 
 
