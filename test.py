@@ -68,7 +68,7 @@ result = None
 # 	pass
 
 cnt=-1
-while cnt<10:
+while cnt<3:
 	cnt+=1
 	time.sleep(1)
 	for i in range(lenn):
