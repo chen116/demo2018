@@ -79,7 +79,7 @@ while cnt<10:
 		hr = shmlib.get_hr(p,cnt)/1e6
 		print('hbtime',hbtime,'hr',hr)
 for i in range(lenn):
-	shmlib.anchors_heartbeat_finish(hbids[i])
+	shmlib.anchors_heartbeat_finish(pids[i])
 
 
 
