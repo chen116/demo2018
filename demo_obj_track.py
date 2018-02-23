@@ -49,4 +49,4 @@ def run_demo():
 	cap.release()
 	cv2.destroyAllWindows()
 #mainloop()
-run()
+run_demo()
