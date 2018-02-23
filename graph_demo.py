@@ -18,20 +18,17 @@ def kk(base_name,figure_cnt):
 		ys.append([])
 		cs.append([])
 	#x1,x2,y1,y2=[],[],[],[]
-
+	index=0
 	for i in files:
 		filepath = i
-		cnt=0
 		with open(filepath) as fp: 
 			for line in fp:  
 				its = line.split()
 				if len(its)==4:
-					index = cnt
 					hr = float(its[3])
 					ts = float(its[1])
 					xs[index].append(ts)
 					ys[index].append(hr)
-					cnt+=1
 				if len(its)>8:
 					index = int(its[1])
 					cpu = int(its[-1])/1e4
