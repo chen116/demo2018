@@ -17,7 +17,10 @@ void setshm_log(key_t,int64_t);
 void write_vlog(_heartbeat_record_t*,_HB_global_state_t*, int);
 int get_hr(_heartbeat_record_t*, int);
 static void hb_flush_buffer(heartbeat_t volatile * );
+static float hb_window_average(heartbeat_t volatile * ,int64_t );
 int64_t get_ts(_heartbeat_record_t*, int);
+_heartbeat_record_t* HB_alloc_log(int , int64_t );
+_HB_global_state_t* HB_alloc_state(int );
 
 int anchors_heartbeat_finish(int) ;
 int64_t anchors_heartbeat( int, int );
@@ -149,30 +152,8 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   hb->text_file = NULL;
 
   
-  // start of HB_alloc_state to replace hb->state = HB_alloc_state(hb_record_shm_id);
+  hb->state = HB_alloc_state(hb_record_shm_id);
 
-
-
-  _HB_global_state_t* HB_alloc_state_p = NULL;
-
-
-  shmid = shmget((hb_record_shm_id << 1) | 1, 1*sizeof(_HB_global_state_t), IPC_CREAT | 0666);
-  if (shmid < 0) {
-    perror("cannot allocate shared memory for heartbeat global state");
-    return 0;
-  }
-
-  /*
-   * Now we attach the segment to our data space.
-   */
-  HB_alloc_state_p = (_HB_global_state_t*) shmat(shmid, NULL, 0);
-  if (HB_alloc_state_p == (_HB_global_state_t*) -1) {
-    perror("cannot attach shared memory to heartbeat global state");
-    return 0;
-  }
-
-  hb->state = HB_alloc_state_p;
-  // end of HB_alloc_state
   if (hb->state == NULL) {
     printf("meow\n");
     anchors_heartbeat_finish(hb_shm_id);
@@ -204,33 +185,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   // hb->log = HB_alloc_log(hb->state->pid, buffer_depth);
   
 
-//start of HB_alloc_log(hb_record_shm_id, buffer_depth); to replace hb->log = HB_alloc_log(hb_record_shm_id, buffer_depth);
-
-  _heartbeat_record_t* HB_alloc_log_p = NULL;
-
-  printf("Allocating log for: pid,pid<<1 %d, %d\n", pid, pid << 1);
-
-  shmid = shmget(hb_record_shm_id << 1, buffer_depth*sizeof(_heartbeat_record_t), IPC_CREAT | 0666);
-  if (shmid < 0) {
-    perror("cannot allocate shared memory for heartbeat records");
-    return 0;
-  }
-
-  /*
-   * Now we attach the segment to our data space.
-   */
-  HB_alloc_log_p = (_heartbeat_record_t*) shmat(shmid, NULL, 0);
-  if (HB_alloc_log_p == (_heartbeat_record_t*) -1) {
-    perror("cannot attach shared memory to heartbeat enabled process");
-    return 0;
-  }
-
-  hb->log = HB_alloc_log_p;
-
-
-
-
-//end of hb->log = HB_alloc_log(hb_record_shm_id, buffer_depth);
+  hb->log = HB_alloc_log(hb_record_shm_id, buffer_depth);
 
 
 
@@ -332,7 +287,7 @@ int64_t anchors_heartbeat( int hb_shm_id, int tag )
       //printf("In heartbeat - NOT first time stamp - read index = %d\n",hb->state->read_index );
       int64_t index =  hb->state->buffer_index;
       hb->last_timestamp = time;
-      double window_heartrate = 1.0;//hb_window_average(hb, time-old_last_time);
+      double window_heartrate = hb_window_average(hb, time-old_last_time);
       double global_heartrate =
   (((double) hb->state->counter+1) /
    ((double) (time - hb->first_timestamp)))*1000000000.0;
@@ -362,7 +317,45 @@ int64_t anchors_heartbeat( int hb_shm_id, int tag )
     return time;
 
 }
+static float hb_window_average(heartbeat_t volatile * hb,
+              int64_t time) {
+  int i;
+  double average_time = 0;
+  double fps;
 
+
+  if(!hb->steady_state) {
+    hb->window[hb->current_index] = time;
+
+    for(i = 0; i < hb->current_index+1; i++) {
+      average_time += (double) hb->window[i];
+    }
+    average_time = average_time / ((double) hb->current_index+1);
+    hb->last_average_time = average_time;
+    hb->current_index++;
+    if( hb->current_index == hb->state->window_size) {
+      hb->current_index = 0;
+      hb->steady_state = 1;
+    }
+  }
+  else {
+    average_time =
+      hb->last_average_time -
+      ((double) hb->window[hb->current_index]/ (double) hb->state->window_size);
+    average_time += (double) time /  (double) hb->state->window_size;
+
+    hb->last_average_time = average_time;
+
+    hb->window[hb->current_index] = time;
+    hb->current_index++;
+
+    if( hb->current_index == hb->state->window_size)
+      hb->current_index = 0;
+  }
+  fps = (1.0 / (float) average_time)*1000000000;
+
+  return (float)fps;
+}
 static void hb_flush_buffer(heartbeat_t volatile * hb) {
   int64_t i;
   int64_t nrecords = hb->state->buffer_index; // buffer_depth
@@ -384,4 +377,72 @@ static void hb_flush_buffer(heartbeat_t volatile * hb) {
 
     fflush(hb->text_file);
   }
+}
+
+_heartbeat_record_t* HB_alloc_log(int pid, int64_t buffer_size) {
+  _heartbeat_record_t* p = NULL;
+  int shmid;
+
+  printf("Allocating log for %d, %d\n", pid, pid << 1);
+
+  shmid = shmget(pid << 1, buffer_size*sizeof(_heartbeat_record_t), IPC_CREAT | 0666);
+  if (shmid < 0) {
+    perror("cannot allocate shared memory for heartbeat records");
+    return NULL;
+  }
+
+  /*
+   * Now we attach the segment to our data space.
+   */
+  p = (_heartbeat_record_t*) shmat(shmid, NULL, 0);
+  if (p == (_heartbeat_record_t*) -1) {
+    perror("cannot attach shared memory to heartbeat enabled process");
+    return NULL;
+  }
+
+  return p;
+}
+_heartbeat_record_t* HB_alloc_log(int pid, int64_t buffer_size) {
+  _heartbeat_record_t* p = NULL;
+  int shmid;
+
+  printf("Allocating log for %d, %d\n", pid, pid << 1);
+
+  shmid = shmget(pid << 1, buffer_size*sizeof(_heartbeat_record_t), IPC_CREAT | 0666);
+  if (shmid < 0) {
+    perror("cannot allocate shared memory for heartbeat records");
+    return NULL;
+  }
+
+  /*
+   * Now we attach the segment to our data space.
+   */
+  p = (_heartbeat_record_t*) shmat(shmid, NULL, 0);
+  if (p == (_heartbeat_record_t*) -1) {
+    perror("cannot attach shared memory to heartbeat enabled process");
+    return NULL;
+  }
+
+  return p;
+}
+_HB_global_state_t* HB_alloc_state(int pid) {
+  _HB_global_state_t* p = NULL;
+  int shmid;
+
+  shmid = shmget((pid << 1) | 1, 1*sizeof(_HB_global_state_t), IPC_CREAT | 0666);
+  if (shmid < 0) {
+    perror("cannot allocate shared memory for heartbeat global state");
+    return NULL;
+  }
+
+  /*
+   * Now we attach the segment to our data space.
+   */
+  p = (_HB_global_state_t*) shmat(shmid, NULL, 0);
+  if (p == (_HB_global_state_t*) -1) {
+    perror("cannot attach shared memory to heartbeat global state");
+    return NULL;
+  }
+
+  return p;
 }
