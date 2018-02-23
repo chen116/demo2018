@@ -314,7 +314,7 @@ int64_t anchors_heartbeat( int hb_shm_id, int tag )
       hb->log[index].timestamp = time;
       hb->log[index].window_rate = window_heartrate;
       hb->log[index].instant_rate = instant_heartrate;
-      printf("%f\n",hb->log[index].instant_rate)
+      printf("%f\n",hb->log[index].instant_rate);
 
       hb->log[index].global_rate = global_heartrate;
       hb->state->buffer_index++;
