@@ -77,8 +77,8 @@ while cnt<3:
 		hbtime = shmlib.anchors_heartbeat(pids[i],cnt)
 		hr = shmlib.get_hr_from_hb(pids[i],cnt)/1e6
 		print('hbtime',hbtime,'hr',hr)
-for i in range(lenn):
-	# shmlib.anchors_heartbeat_finish(pids[i])
+# for i in range(lenn):
+#  	shmlib.anchors_heartbeat_finish(pids[i])
 
 
 
