@@ -7,13 +7,13 @@ import time
 import _thread
 
 shmlib = cdll.LoadLibrary('./shmlib.so')
-ids = [1024]
+pids = [1024]
 
-lenn = len(ids)
+lenn = len(pids)
 logids=[]
 gloids=[]
 hbids=[]
-for x in ids:
+for x in pids:
 	hbids.append(int(x/2))
 	logids.append(x*2)
 	gloids.append(x*2+1)
@@ -51,7 +51,7 @@ vic_log_file ="vic.log";
 vic_min_target = 100;
 vic_max_target = 1000;
 for i in range(lenn):
-	print(shmlib.anchors_heartbeat_init(hbids[i],ids[i],vic_win_size,vic_buf_depth,vic_log_file,vic_min_target,vic_max_target))
+	print(shmlib.anchors_heartbeat_init(hbids[i],pids[i],vic_win_size,vic_buf_depth,vic_log_file,vic_min_target,vic_max_target))
 logmem = []
 glomem = []
 result = None
@@ -72,7 +72,7 @@ while cnt<10:
 	time.sleep(1)
 	for i in range(lenn):
 		p=logmem[i].read()
-		shmlib.heartbeat.restype = ctypes.c_int64
+		shmlib.anchors_heartbeat.restype = ctypes.c_int64
 		hbtime = shmlib.anchors_heartbeat(hbids[i],cnt)
 		hr = shmlib.get_hr(p,tmp_index)/1e6
 		print('hbtime',hbtime,'hr',hr)
