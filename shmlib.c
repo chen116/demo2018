@@ -239,10 +239,10 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
 }
 int anchors_heartbeat_finish(int hb_shm_id) {
     int shmid;
+        printf("meow\n");
 
     if ((shmid = shmget(hb_shm_id, 1*sizeof(heartbeat_t), 0666)) < 0) {
         perror("shmget");
-        printf("meow\n");
         return 0;
     }
   heartbeat_t* hb = (heartbeat_t*) shmat(shmid, NULL, 0);
