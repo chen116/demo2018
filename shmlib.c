@@ -130,18 +130,10 @@ int anchors_heartbeat_init(int hb_shm_id, int hb_record_shm_id,int64_t window_si
   int pid = getpid();
 
   char* enabled_dir;
+    int shmid;
 
 if ((shmid = shmget(hb_shm_id, 1*sizeof(heartbeat_t), IPC_CREAT | 0666)) < 0) {
-         perror("shmget");
-        printf("%s",strerror(errno));
-        perror("Error in Shared Memory get statement");
-        shmid = shmget(key, SHMSIZE, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH | IPC_CREAT);
-        if (shmid == -1)  {
-                // printf("%s",strerror(errno));
-                perror("Error in Shared Memory get statement");
-                return 0;
-        }
- 
+  return 0; 
     }
 
 heartbeat_t* hb = NULL;
@@ -220,6 +212,8 @@ hb = (_heartbeat_record_t*) shmat(shmid, NULL, 0);
   return 1;
 }
 int anchors_heartbeat_finish(int hb_shm_id) {
+    int shmid;
+  
     if ((shmid = shmget(hb_shm_id, 1*sizeof(heartbeat_t), 0666)) < 0) {
         perror("shmget");
         return 0;
@@ -241,6 +235,8 @@ int anchors_heartbeat_finish(int hb_shm_id) {
 
 int64_t anchors_heartbeat( int hb_shm_id, int tag )
 {
+    int shmid;
+
   if ((shmid = shmget(hb_shm_id, 1*sizeof(heartbeat_t), 0666)) < 0) {
         perror("shmget");
         return 0;
