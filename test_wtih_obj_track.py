@@ -8,11 +8,7 @@ import cv2
 from tkinter import *
 import numpy.fft as fft
 
-from pyxs import Client
-with Client(xen_bus_path="/dev/xen/xenbus") as c:
-	print(c.read(b"/local/domain/4/name"))
 
-exit()
 
 # master = Tk()
 # w1 = Scale(master,from_=0,to=400)
