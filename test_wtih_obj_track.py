@@ -40,7 +40,7 @@ while(True):
 	# master.update()
 	hb.heartbeat_beat()
 	inst_hr = hb.get_instant_heartrate()
-	hc.send2host(inst_hr,10000)
+	hc.send2host(hb.hb_cnt,10000)
 
 
 
