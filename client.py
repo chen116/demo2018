@@ -4,7 +4,7 @@ def Main():
         host = '10.1.1.2'
         port = 5000
 
-        mySocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        mySocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         mySocket.connect((host,port))
 
         message = input(" -> ")
