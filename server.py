@@ -22,7 +22,7 @@ def Main():
              
     # conn.close()
     #UDP
-    UDP_IP = "gpu3"
+    UDP_IP = "10.1.1.3"
     UDP_PORT = 5000
     sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM) # UDP
     sock.bind((UDP_IP, UDP_PORT)) 
