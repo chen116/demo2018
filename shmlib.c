@@ -27,6 +27,7 @@ int get_instant_heartrate(int anchors_hb_shm_key, int index)
         return 0;
     }
   heartbeat_t* hb = (heartbeat_t*) shmat(shmid, NULL, 0);
+  printf("form c %d\n",hb->log[index].instant_rate*1000000 );
   return hb->log[index].instant_rate*1000000;
 
 
