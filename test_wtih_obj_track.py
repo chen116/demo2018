@@ -9,10 +9,10 @@ from tkinter import *
 import numpy.fft as fft
 
 from pyxs import Client
-with Client() as c:
+with Client(xen_bus_path="/dev/xen/xenbus") as c:
 	print(c[b"/local/domain/0/name"])
 
-
+exit()
 
 # master = Tk()
 # w1 = Scale(master,from_=0,to=400)
