@@ -27,10 +27,12 @@ def Main():
     UDP_PORT = 5005
     message = "udp started"
     sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM) # UDP
+    sock.sendto(message.encode(), (UDP_IP, UDP_PORT))
+
     while message != 'q':
-        sock.sendto(message.encode(), (UDP_IP, UDP_PORT))
         print("sending:",message)
         message = input("->")
+        sock.sendto(message.encode(), (UDP_IP, UDP_PORT))
 
 if __name__ == '__main__':
     Main()
