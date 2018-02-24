@@ -38,6 +38,7 @@ while(True):
 	master.update_idletasks()
 	master.update()
 	hb.heartbeat_beat()
+	print(hb.get_instant_heartrate)
 
 
 

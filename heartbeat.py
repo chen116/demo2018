@@ -12,7 +12,7 @@ class Heartbeat:
 		self.max_target = max_target
 		self.shm_key = shm_key
 		self.shmlib = cdll.LoadLibrary('./shmlib.so')
-		self.hb_cnt = 0
+		self.hb_cnt = -1
 		# conversion is from hearbeat code
 		log_shm_key = self.shm_key*2
 		state_shm_eky = self.shm_key*2+1
@@ -31,11 +31,12 @@ class Heartbeat:
 		if suc:
 			print("hb_init!")	
 	def heartbeat_beat(self):
-		self.shmlib.anchors_heartbeat.restype = ctypes.c_int64
-		hbtime = self.shmlib.anchors_heartbeat(self.shm_key,self.hb_cnt)
-		hr = self.shmlib.get_hearbeat(self.shm_key,self.hb_cnt)/1e6
 		self.hb_cnt+=1
-		print('hbtime',hbtime/1e9,'hr',hr)
+		self.shmlib.anchors_heartbeat.restype = ctypes.c_int64
+		hbtime = self.shmlib.anchors_heartbeat(self.shm_key,self.hb_cnt) # hbtime/1e9 = seconds
+	def get_instant_heartrate(self):
+		hr = self.shmlib.get_instant_heartrate(self.shm_key,self.hb_cnt)/1e6
+		return hr
 	def heartbeat_finish(self):
 		if self.shmlib.anchors_heartbeat_finish(self.shm_key):
 			print("clean up",self.shm_key)

@@ -15,11 +15,11 @@ _HB_global_state_t* HB_alloc_state(int );
 
 int anchors_heartbeat_finish(int) ;
 int64_t anchors_heartbeat( int, int );
-int get_hearbeat(int , int);
+int get_instant_heartrate(int , int);
 int anchors_heartbeat_init(int,int64_t,int64_t ,const char* , double ,double );
 
 
-int get_hearbeat(int anchors_hb_shm_key, int index)
+int get_instant_heartrate(int anchors_hb_shm_key, int index)
 {
   int shmid;
   if ((shmid = shmget(anchors_hb_shm_key, 1*sizeof(heartbeat_t), 0666)) < 0) {
@@ -89,7 +89,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   }
   snprintf(hb->filename, sizeof(hb->filename), "%s/%d", enabled_dir, hb->state->pid);
 
-  
+
   // printf("%s\n", hb->filename);
 
   // hb->log = HB_alloc_log(hb->state->pid, buffer_depth);

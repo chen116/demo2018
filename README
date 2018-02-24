@@ -5,7 +5,12 @@
 
 from mac vnc to bespin, ssh -X to compute node or controller node, ssh -X into VM
 
-at VM in this dir:
+
+at VM:
+
+scp drop.avi to /root/
+
+at VM in demo2018/:
 
 make
 python3 test_with_obj_track.py > logtest

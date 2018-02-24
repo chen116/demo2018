@@ -1,5 +1,9 @@
 import socket
 import time
+class HostComm:
+    def function():
+        pass
+
 def Main():
     # tcp/ip
     # host = '10.1.1.3'
