@@ -8,7 +8,7 @@ class HostComm:
         self.sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM) # UDP
     def send2host(self,message,target):
         if message < target:
-            self.sock.sendto(message, (UDP_IP, UDP_PORT))
+            self.sock.sendto(message, (self.UDP_IP, self.UDP_PORT))
 
     # tcp/ip
     # host = '10.1.1.3'
