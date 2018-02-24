@@ -1,10 +1,15 @@
 import socket
 import time
 class HostComm:
-    def function():
-        pass
+    def __init__(self,UDP_IP,UDP_PORT):
+        self.UDP_IP=UDP_IP #"10.1.1.3"
+        self.UDP_PORT=UDP_PORT #5000
+        message = "udp started"
+        self.sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM) # UDP
+    def send2host(self,message,target):
+        if message < target:
+            self.sock.sendto(message.encode(), (UDP_IP, UDP_PORT))
 
-def Main():
     # tcp/ip
     # host = '10.1.1.3'
     # port = 5000
@@ -27,16 +32,16 @@ def Main():
 
     # mySocket.close()
     # UDP
-    UDP_IP = "10.1.1.3"
-    UDP_PORT = 5000
-    message = "udp started"
-    sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM) # UDP
-    sock.sendto(message.encode(), (UDP_IP, UDP_PORT))
+    # UDP_IP = "10.1.1.3"
+    # UDP_PORT = 5000
+    # message = "udp started"
+    # sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM) # UDP
+    # sock.sendto(message.encode(), (UDP_IP, UDP_PORT))
 
-    while message != 'q':
-        print("sending:",message)
-        message = input("->")
-        sock.sendto(message.encode(), (UDP_IP, UDP_PORT))
+    # while message != 'q':
+    #     print("sending:",message)
+    #     message = input("->")
+    #     sock.sendto(message.encode(), (UDP_IP, UDP_PORT))
 
 if __name__ == '__main__':
     Main()

@@ -20,12 +20,12 @@ class Heartbeat:
 		shm_ids = [shm_key ,log_shm_key, state_shm_eky]
 		for tmp_shm_key in shm_ids:
 			try:
-			    memory = sysv_ipc.SharedMemory(tmp_shm_key)
+				memory = sysv_ipc.SharedMemory(tmp_shm_key)
 			except sysv_ipc.ExistentialError:
-			    print('''The shared memory with tmp_shm_key "{}" doesn't exist.'''.format(tmp_shm_key))
+				print('''The shared memory with tmp_shm_key "{}" doesn't exist.'''.format(tmp_shm_key))
 			else:
-			    memory.remove()
-			    print('Removed the shared memory with tmp_shm_key "{}".'.format(tmp_shm_key))
+				memory.remove()
+				print('Removed the shared memory with tmp_shm_key "{}".'.format(tmp_shm_key))
 		self.shmlib.anchors_heartbeat_init.argtypes = [ctypes.c_int,ctypes.c_int64,ctypes.c_int64,ctypes.c_char_p,ctypes.c_double,ctypes.c_double ]
 		suc = self.shmlib.anchors_heartbeat_init(self.shm_key,self.win_size,self.buf_depth,self.log_file,self.min_target,self.max_target)
 		if suc:
@@ -35,7 +35,10 @@ class Heartbeat:
 		self.shmlib.anchors_heartbeat.restype = ctypes.c_int64
 		hbtime = self.shmlib.anchors_heartbeat(self.shm_key,self.hb_cnt) # hbtime/1e9 = seconds
 	def get_instant_heartrate(self):
-		hr = self.shmlib.get_instant_heartrate(self.shm_key,self.hb_cnt)/1e6
+		if self.hb_cnt > 0:
+			hr = self.shmlib.get_instant_heartrate(self.shm_key,self.hb_cnt)/1e6
+		else:
+			hr = sys.maxint 
 		return hr
 	def heartbeat_finish(self):
 		if self.shmlib.anchors_heartbeat_finish(self.shm_key):
