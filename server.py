@@ -30,7 +30,7 @@ def Main():
     while rxdata!='q':
         data, addr = sock.recvfrom(1024) # buffer size is 1024 bytes
         rxdata=data.decode()
-        print("received message:", rxdata, "from",addr)
+        print("received message:", rxdata, "from",addr[0])
      
 if __name__ == '__main__':
     Main()
