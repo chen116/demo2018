@@ -29,8 +29,10 @@ def Main():
     rxdata = ""
     while rxdata!='q':
         data, addr = sock.recvfrom(1024) # buffer size is 1024 bytes
-        rxdata=data.decode()
-        print("received message:", rxdata, "from",addr[0])
+        rxdata=data.decode().split()
+
+        display = rxdata[0]+" delta time: "+ str(time.time()-float(rxdata[1]))
+        print("received message: from",addr[0], display)
      
 if __name__ == '__main__':
     Main()
