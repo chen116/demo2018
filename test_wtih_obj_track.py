@@ -1,6 +1,6 @@
-# for heartbeat
-import heartbeat
 
+import heartbeat
+import hostcomm
 
 # for obj track
 import numpy as np
@@ -24,6 +24,7 @@ ret,frame = cap.read()
 frame2 = np.zeros((frame.shape),dtype=frame.dtype)
 
 hb = heartbeat.Heartbeat(1024, 10,1000,"vic.log",10,100)
+hc = hostcomm.HostComm("10.1.1.3",5000)
 
 while(True):
 	ret, frame = cap.read()
@@ -38,7 +39,10 @@ while(True):
 	master.update_idletasks()
 	master.update()
 	hb.heartbeat_beat()
-	if hb.get_instant_heartrate()
+	inst_hr = hb.get_instant_heartrate()
+	if inst_hr < 100:
+		hc.send2host(inst_hr,hb.hb_cnt)
+
 
 
 

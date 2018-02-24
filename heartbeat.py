@@ -35,10 +35,7 @@ class Heartbeat:
 		self.shmlib.anchors_heartbeat.restype = ctypes.c_int64
 		hbtime = self.shmlib.anchors_heartbeat(self.shm_key,self.hb_cnt) # hbtime/1e9 = seconds
 	def get_instant_heartrate(self):
-		if self.hb_cnt > 0:
-			hr = self.shmlib.get_instant_heartrate(self.shm_key,self.hb_cnt)/1e6
-		else:
-			hr = sys.maxint 
+		hr = self.shmlib.get_instant_heartrate(self.shm_key,self.hb_cnt)/1e6
 		return hr
 	def heartbeat_finish(self):
 		if self.shmlib.anchors_heartbeat_finish(self.shm_key):
