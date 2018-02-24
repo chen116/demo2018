@@ -24,7 +24,7 @@ def Main():
     # mySocket.close()
     # UDP
     UDP_IP = "10.1.1.3"
-    UDP_PORT = 5005
+    UDP_PORT = 5000
     message = "udp started"
     sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM) # UDP
     sock.sendto(message.encode(), (UDP_IP, UDP_PORT))
