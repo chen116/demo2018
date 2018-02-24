@@ -10,7 +10,7 @@ import numpy.fft as fft
 
 from pyxs import Client
 with Client(xen_bus_path="/dev/xen/xenbus") as c:
-	print(c.read())
+	print(c.read("/local/domain/4/name"))
 
 exit()
 
