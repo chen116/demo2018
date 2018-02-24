@@ -8,7 +8,7 @@ class HostComm:
         self.sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM) # UDP
     def send2host(self,data,target):
         if data < target:
-            message=str(data)
+            message=str(data)+" "+str(time.time())
             self.sock.sendto(message.encode(), (self.UDP_IP, self.UDP_PORT))
 
     # tcp/ip
