@@ -14,7 +14,7 @@ class Heartbeat:
 		self.shmlib = cdll.LoadLibrary('./shmlib.so')
 		self.hb_cnt = 0
 		# conversion is from hearbeat code
-		log_shm_key = self.shm_key
+		log_shm_key = self.shm_key*2
 		state_shm_eky = self.shm_key*2+1
 		# remove exsisting shm
 		shm_ids = [shm_key ,log_shm_key, state_shm_eky]
