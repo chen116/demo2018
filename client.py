@@ -28,7 +28,7 @@ def Main():
     message = "udp started"
     sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM) # UDP
     while message != 'q':
-        sock.sendto(str(message), (UDP_IP, UDP_PORT))
+        sock.sendto(message.encode(), (UDP_IP, UDP_PORT))
         print("sending:",message)
         message = input("->")
 
