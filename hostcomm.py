@@ -6,9 +6,10 @@ class HostComm:
         self.UDP_PORT=UDP_PORT #5000
         message = "udp started"
         self.sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM) # UDP
-    def send2host(self,message,target):
-        if message < target:
-            self.sock.sendto(message, (self.UDP_IP, self.UDP_PORT))
+    def send2host(self,data,target):
+        if data < target:
+            message=str(data)
+            self.sock.sendto(message.encode(), (self.UDP_IP, self.UDP_PORT))
 
     # tcp/ip
     # host = '10.1.1.3'

@@ -40,8 +40,7 @@ while(True):
 	master.update()
 	hb.heartbeat_beat()
 	inst_hr = hb.get_instant_heartrate()
-	if inst_hr < 100:
-		hc.send2host(inst_hr,hb.hb_cnt)
+	hc.send2host(inst_hr,10000)
 
 
 
