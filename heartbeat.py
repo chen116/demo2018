@@ -7,7 +7,7 @@ class Heartbeat:
 	def __init__(self,shm_key, win_size,buf_depth,log_file,min_target,max_target):
 		self.win_size = win_size
 		self.buf_depth = buf_depth
-		self.log_file = log_file
+		self.log_file = log_file.encode('utf-8')
 		self.min_target = min_target
 		self.max_target = max_target
 		self.shm_key = shm_key
