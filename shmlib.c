@@ -3,45 +3,27 @@
 #include <sys/ipc.h>
 #include <sys/types.h>
 #include <sys/shm.h>
-
-
-
-// #include <heartbeat-util-shared.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <time.h>
 
-void setshm_glo(key_t);
-void setshm_log(key_t,int64_t);
-void write_vlog(_heartbeat_record_t*,_HB_global_state_t*, int);
-int get_hr(_heartbeat_record_t*, int);
 static void hb_flush_buffer(heartbeat_t volatile * );
 static float hb_window_average(heartbeat_t volatile * ,int64_t );
-int64_t get_ts(_heartbeat_record_t*, int);
 _heartbeat_record_t* HB_alloc_log(int , int64_t );
 _HB_global_state_t* HB_alloc_state(int );
 
 int anchors_heartbeat_finish(int) ;
 int64_t anchors_heartbeat( int, int );
-int get_index(_HB_global_state_t*);
-int get_hr_from_hb(int , int);
-
+int get_hearbeat(int , int);
 int anchors_heartbeat_init(int,int64_t,int64_t ,const char* , double ,double );
-int get_index(_HB_global_state_t* g)
+
+
+int get_hearbeat(int anchors_hb_shm_key, int index)
 {
-	return g->read_index;
-}
-int get_hr(_heartbeat_record_t* p,int index)
-{
-	return p[index].instant_rate*1000000;
-}
-int get_hr_from_hb(int hb_shm_id, int index)
-{
-int shmid;
-  if ((shmid = shmget(hb_shm_id, 1*sizeof(heartbeat_t), 0666)) < 0) {
+  int shmid;
+  if ((shmid = shmget(anchors_hb_shm_key, 1*sizeof(heartbeat_t), 0666)) < 0) {
         perror("shmget");
-        printf("no hb\n");
         return 0;
     }
   heartbeat_t* hb = (heartbeat_t*) shmat(shmid, NULL, 0);
@@ -50,97 +32,9 @@ int shmid;
 
 }
 
-int64_t get_ts(_heartbeat_record_t* p,int index)
-{                                          
-
- // return p[index].timestamp%10000;
-  return p[index].timestamp;
-  //return p[index].timestamp;
-}
-void write_vlog(_heartbeat_record_t* p,_HB_global_state_t* g, int fname_index)
-{ 
-    FILE * fp;
-    char * str1 = "vlog";
-    char str2[10];
-    sprintf(str2, "%d", fname_index);   
-    char * str3 = (char *) malloc(1 + strlen(str1)+ strlen(str2) );
-    strcpy(str3, str1);
-    strcat(str3, str2);
-    /* open the file for writing*/
-    fp = fopen (str3,"w");
-
- 
-   /* write 10 lines of text into the file stream*/
-   //for(int i = 0; i < g->buffer_index;i++){
-   for(int i = 0; i < 51;i++){
-    fprintf(fp,"%lld    %d    %lld    %f    %f    %f\n",
-          (long long int) p[i].beat,
-          p[i].tag,
-          (long long int) p[i].timestamp,
-          p[i].global_rate,
-          p[i].window_rate,
-          p[i].instant_rate);
-   }
- 
-   /* close the file*/  
-   fclose (fp);
-   return;
-
-// printf("%d    %d    %d   %f   %f\n",
-//       g->buffer_index,
-//       g->counter,
-//       g->read_index,
-//         g->min_heartrate,
-//       g->max_heartrate);
-
-//    return g->counter;
-}
-
-void setshm_glo(key_t key)
-{
-
-    // key_t key;
-    int shmid;
-
-    if ((shmid = shmget(key, 1*sizeof(_HB_global_state_t), IPC_CREAT | 0666)) < 0) {
-         perror("shmget");
-        // printf("%s",strerror(errno));
-        perror("Error in Shared Memory get statement");
-        //shmid = shmget(key, SHMSIZE, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH | IPC_CREAT);
-        if (shmid == -1)  {
-                // printf("%s",strerror(errno));
-                perror("Error in Shared Memory get statement");
-                exit(1);
-        }
- 
-    }
-    return;
-
-}
-void setshm_log(key_t key, int64_t buffer_size )
-{
-
-    // key_t key;
-    int shmid;
-
-    if ((shmid = shmget(key, buffer_size*sizeof(_heartbeat_record_t), IPC_CREAT | 0666)) < 0) {
-         perror("shmget");
-        // printf("%s",strerror(errno));
-        perror("Error in Shared Memory get statement");
-        //shmid = shmget(key, SHMSIZE, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH | IPC_CREAT);
-        if (shmid == -1)  {
-                // printf("%s",strerror(errno));
-                perror("Error in Shared Memory get statement");
-                exit(1);
-        }
- 
-    }
-    return;
-
-}
 
 
-int anchors_heartbeat_init(int hb_shm_id,int64_t window_size,
+int anchors_heartbeat_init(int anchors_hb_shm_key,int64_t window_size,
                             int64_t buffer_depth,
                             const char* log_name,
                             double min_target,
@@ -150,7 +44,7 @@ int anchors_heartbeat_init(int hb_shm_id,int64_t window_size,
   char* enabled_dir;
     int shmid;
 
-if ((shmid = shmget(hb_shm_id, 1*sizeof(heartbeat_t), IPC_CREAT | 0666)) < 0) {
+if ((shmid = shmget(anchors_hb_shm_key, 1*sizeof(heartbeat_t), IPC_CREAT | 0666)) < 0) {
   return 0; 
     }
 
@@ -166,11 +60,11 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   hb->text_file = NULL;
 
   
-  hb->state = HB_alloc_state(hb_shm_id);
+  hb->state = HB_alloc_state(anchors_hb_shm_key);
 
   if (hb->state == NULL) {
-    printf("meow\n");
-    anchors_heartbeat_finish(hb_shm_id);
+
+    anchors_heartbeat_finish(anchors_hb_shm_key);
     return 0;
   }
   hb->state->pid = pid;
@@ -179,7 +73,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
     hb->text_file = fopen(log_name, "w");
     if (hb->text_file == NULL) {
       perror("Failed to open heartbeat log file");
-      anchors_heartbeat_finish(hb_shm_id);
+      anchors_heartbeat_finish(anchors_hb_shm_key);
       return 0;
     } else {
       fprintf(hb->text_file, "Beat    Tag    Timestamp    Global Rate    Window Rate    Instant Rate\n" );
@@ -190,21 +84,23 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
 
   enabled_dir = getenv("HEARTBEAT_ENABLED_DIR");
   if(!enabled_dir) {
-    anchors_heartbeat_finish(hb_shm_id);
+    anchors_heartbeat_finish(anchors_hb_shm_key);
     return 0;
   }
   snprintf(hb->filename, sizeof(hb->filename), "%s/%d", enabled_dir, hb->state->pid);
-  printf("%s\n", hb->filename);
+
+  
+  // printf("%s\n", hb->filename);
 
   // hb->log = HB_alloc_log(hb->state->pid, buffer_depth);
   
 
-  hb->log = HB_alloc_log(hb_shm_id, buffer_depth);
+  hb->log = HB_alloc_log(anchors_hb_shm_key, buffer_depth);
 
 
 
   if(hb->log == NULL) {
-    anchors_heartbeat_finish(hb_shm_id);
+    anchors_heartbeat_finish(anchors_hb_shm_key);
     return 0;
   }
 
@@ -213,7 +109,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   hb->window = (int64_t*) malloc((size_t)window_size * sizeof(int64_t));
   if (hb->window == NULL) {
     perror("Failed to malloc window size");
-    anchors_heartbeat_finish(hb_shm_id);
+    anchors_heartbeat_finish(anchors_hb_shm_key);
     return 0;
   }
   hb->current_index = 0;
@@ -230,18 +126,18 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   hb->binary_file = fopen(hb->filename, "w");
   if ( hb->binary_file == NULL ) {
     perror("Failed to open heartbeat log");
-    anchors_heartbeat_finish(hb_shm_id);
+    anchors_heartbeat_finish(anchors_hb_shm_key);
     return 0;
   }
   fclose(hb->binary_file);
 
   return 1;
 }
-int anchors_heartbeat_finish(int hb_shm_id) {
+int anchors_heartbeat_finish(int anchors_hb_shm_key) {
     int shmid;
 
 
-  if ((shmid = shmget(hb_shm_id, 1*sizeof(heartbeat_t), 0666)) < 0) {
+  if ((shmid = shmget(anchors_hb_shm_key, 1*sizeof(heartbeat_t), 0666)) < 0) {
         perror("shmget");
         return 0;
     }
@@ -257,16 +153,15 @@ int anchors_heartbeat_finish(int hb_shm_id) {
     }
     remove(hb->filename);
     /*TODO : need to deallocate log */
-        printf("meow\n");
   }
   return 1;
 }
 
-int64_t anchors_heartbeat( int hb_shm_id, int tag )
+int64_t anchors_heartbeat( int anchors_hb_shm_key, int tag )
 {
     int shmid;
 
-  if ((shmid = shmget(hb_shm_id, 1*sizeof(heartbeat_t), 0666)) < 0) {
+  if ((shmid = shmget(anchors_hb_shm_key, 1*sizeof(heartbeat_t), 0666)) < 0) {
         perror("shmget");
         return 0;
     }
@@ -401,7 +296,7 @@ _heartbeat_record_t* HB_alloc_log(int pid, int64_t buffer_size) {
   _heartbeat_record_t* p = NULL;
   int shmid;
 
-  printf("Allocating log for %d, %d\n", pid, pid << 1);
+  // printf("Allocating log for %d, %d\n", pid, pid << 1);
 
   shmid = shmget(pid << 1, buffer_size*sizeof(_heartbeat_record_t), IPC_CREAT | 0666);
   if (shmid < 0) {
