@@ -26,8 +26,8 @@ class Heartbeat:
 			else:
 			    memory.remove()
 			    print('Removed the shared memory with tmp_shm_key "{}".'.format(tmp_shm_key))
-
-		suc = self.shmlib.anchors_heartbeat_init(self.shm_key,self.win_size,self.buf_depth,ctypes.c_char_p(self.log_file),self.min_target,self.max_target)
+		self.shmlib.anchors_heartbeat_init.argtypes = [c_int,c_int64,c_int64,c_char_p,c_double,c_double ]
+		suc = self.shmlib.anchors_heartbeat_init(self.shm_key,self.win_size,self.buf_depth,self.log_file,self.min_target,self.max_target)
 		if suc:
 			print("hb_init!")	
 	def heartbeat_beat(self):
