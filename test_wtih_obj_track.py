@@ -12,14 +12,14 @@ import numpy.fft as fft
 
 
 
-master = Tk()
-w1 = Scale(master,from_=0,to=400)
-w1.set(100)
-w1.pack()
-w2 = Scale(master,from_=0,to=400,orient=HORIZONTAL)
-w2.set(200)
-w2.pack()
-cap = cv2.VideoCapture('/root/drop.avi')
+# master = Tk()
+# w1 = Scale(master,from_=0,to=400)
+# w1.set(100)
+# w1.pack()
+# w2 = Scale(master,from_=0,to=400,orient=HORIZONTAL)
+# w2.set(200)
+# w2.pack()
+cap = cv2.VideoCapture('/root/bird.avi')
 ret,frame = cap.read()
 frame2 = np.zeros((frame.shape),dtype=frame.dtype)
 
@@ -36,8 +36,8 @@ while(True):
 	frame2=frame
 	if cv2.waitKey(1) & 0xFF == ord('q'):
 		break
-	master.update_idletasks()
-	master.update()
+	# master.update_idletasks()
+	# master.update()
 	hb.heartbeat_beat()
 	inst_hr = hb.get_instant_heartrate()
 	hc.send2host(inst_hr,10000)
