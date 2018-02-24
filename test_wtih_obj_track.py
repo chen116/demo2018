@@ -8,7 +8,9 @@ import cv2
 from tkinter import *
 import numpy.fft as fft
 
-
+from pyxs import Client
+with Client() as c:
+	print(c[b"/local/domain/0/name"])
 
 
 
@@ -48,7 +50,7 @@ while(True):
 
 
 
-	# When everything done, release the capture
+# When everything done, release the capture
 cap.release()
 cv2.destroyAllWindows()
 hb.heartbeat_finish()
