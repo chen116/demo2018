@@ -7,7 +7,7 @@ def Main():
     mySocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     mySocket.bind((host,port))
      
-    mySocket.listen(1)
+    mySocket.listen()
     conn, addr = mySocket.accept()
     print ("Connection from: " + str(addr))
     while True:
