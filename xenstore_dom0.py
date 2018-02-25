@@ -8,8 +8,8 @@ with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
 	msg = input('->')
 	while msg!='q':
 		print((next(m.wait()))[0])
+		print(c.read(b'/local/domain/4/vic2'))
 		msg = input('->')
 
-	# print(c.read(b'/local/domain/4/vic2'))
 	# c.set_perms(b"/local/domain/4/vic2",[b'b4',b'b0'])
 
