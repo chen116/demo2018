@@ -5,11 +5,11 @@ with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
 	# c.write(b'/local/domain/4/vic2',b'hey')
 	m = c.monitor()
 	m.watch(b"/local/domain/4/vic2", b"a unique token")
-	msg = input('->')
+	msg = ""
 	while msg!='q':
 		print((next(m.wait()))[0])
-		print(c.read(b'/local/domain/4/vic2'))
-		msg = input('->')
+		msg = c.read(b'/local/domain/4/vic2').decode()
+		print(msg)
 
 	# c.set_perms(b"/local/domain/4/vic2",[b'b4',b'b0'])
 
