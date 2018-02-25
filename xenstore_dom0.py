@@ -7,7 +7,7 @@ with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
 	m.watch(b"/local/domain/4/vic2", b"a unique token")
 	msg = input('->')
 	while msg!='q':
-		print(next(m.wait()))
+		print(m.wait())
 		msg = input('->')
 
 	# print(c.read(b'/local/domain/4/vic2'))
