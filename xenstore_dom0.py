@@ -21,10 +21,6 @@ with Client(xen_bus_path="/dev/xen/xenbus") as c:
 			c.write(tmp_key_path,tmp_val)
 			c.set_perms(tmp_key_path,permissions)
 			print('created',key,'for dom',domuid)
-
-
-
-
 with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
 	m = c.monitor()
 	for domuid in domu_ids:
