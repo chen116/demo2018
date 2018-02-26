@@ -5,7 +5,7 @@ from pyxs import Client
 
 
 domu_ids = []
-keys = ["heart_rate"]
+keys = ["heart_rate","tager_rate"]
 base_path = '/local/domain'
 with Client(xen_bus_path="/dev/xen/xenbus") as c:
 	for x in c.list(base_path.encode()):
