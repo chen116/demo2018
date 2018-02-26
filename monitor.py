@@ -2,7 +2,7 @@
 import subprocess
 import xencomm
 
-c = Dom0(["heart_rate"])
+c = xencomm.Dom0(["heart_rate"])
 c.monitor()
 
 
