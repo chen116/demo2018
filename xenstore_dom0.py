@@ -19,7 +19,7 @@ with Client(xen_bus_path="/dev/xen/xenbus") as c:
 			tmp_key_path = base_path+'/'+domuid+'/'+key
 			tmp_val = 'init'
 			c.write(tmp_key_path.encode(),tmp_val.encode())
-			c.set_perms(tmp_key_path,permissions)
+			c.set_perms(tmp_key_path.encode(),permissions)
 			print('created',key,'for dom',domuid)
 
 
