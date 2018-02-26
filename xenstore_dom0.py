@@ -8,10 +8,10 @@ with Client(xen_bus_path="/dev/xen/xenbus") as c:
 		domU_ids.append(x.decode())
 	print(domU_ids)
 exit()
-	c.write(b'/local/domain/5/vic',b'init_key_vic')
-	c.set_perms(b"/local/domain/5/vic",[b'b5',b'b0'])
-	c.write(b'/local/domain/4/vic',b'init_key_vic')
-	c.set_perms(b"/local/domain/4/vic",[b'b4',b'b0'])
+	# c.write(b'/local/domain/5/vic',b'init_key_vic')
+	# c.set_perms(b"/local/domain/5/vic",[b'b5',b'b0'])
+	# c.write(b'/local/domain/4/vic',b'init_key_vic')
+	# c.set_perms(b"/local/domain/4/vic",[b'b4',b'b0'])
 
 
 with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
