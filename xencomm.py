@@ -33,7 +33,7 @@ class Dom0:
 					tmp_key_path = (self.base_path+'/'+domuid+'/'+key).encode()
 					token = (key+' '+domuid).encode()
 					m.watch(tmp_key_path,token)
-					print('watching',key,'for dom',domuid)
+					print('watching',key,'of dom',domuid)
 			num_done = 0
 			while num_done < len(self.domu_ids):
 				path,token=next(m.wait())
@@ -41,7 +41,22 @@ class Dom0:
 				print( token.decode(),':',msg)
 				if msg=='q':
 					num_done+=1
+class DomU:
+	def __init__(self,keys=['test'],base_path='/local/domain'):
+		self.domu_id=""
+		self.keys=keys
+		self.base_path=base_path
+		self.key_path_hash = {}
+		with Client(xen_bus_path="/dev/xen/xenbus") as c:
+			self.domu_id = c.read("domid".encode())
+				for key in self.keys:
+					self.key_path_hash[key]=(self.base_path+'/'+self.domu_id.decode()+'/'+key).encode()
+	def write(self,key='test',val='0'):
+		with Client(xen_bus_path="/dev/xen/xenbus") as c:
+			msg=str(val).encode()
+			c.write(self.key_path_hash[key],msg)
 
 
-c = Dom0()
-c.monitor()
+if __name__ == "__main__":
+	c = Dom0()
+	c.monitor()
