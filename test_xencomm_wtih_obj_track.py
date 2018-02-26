@@ -23,7 +23,7 @@ frame2 = np.zeros((frame.shape),dtype=frame.dtype)
 
 hb = heartbeat.Heartbeat(1024,10,1000,"vic.log",10,100)
 comm = xencomm.DomU(["heart_rate"])
-
+cnt=0
 while(True):
 	ret, frame = cap.read()
 	try:
@@ -38,7 +38,8 @@ while(True):
 	# master.update()
 	hb.heartbeat_beat()
 	inst_hr = hb.get_instant_heartrate()
-	comm.write("heart_rate",inst_hr)
+	comm.write("heart_rate",str(inst_hr)+' '+str(cnt))
+	cnt+=1
 
 
 
