@@ -22,6 +22,7 @@ with Client(router=router) as c:
 	m.watch(b"/local/domain/4/vic", b"a-unique-token")
 	print(c.router.is_connected)
 	c.router.subscribe(b"a-unique-token",m)
+	c.router.start()
 
 
 
