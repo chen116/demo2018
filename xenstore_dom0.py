@@ -16,10 +16,10 @@ with Client(xen_bus_path="/dev/xen/xenbus") as c:
 		permissions.append(('b'+'0').encode())
 		permissions.append(('b'+domuid).encode())
 		for key in keys:
-			tmp_key_path = base_path+'/'+domuid+'/'+key
-			tmp_val = 'init'
-			c.write(tmp_key_path.encode(),tmp_val.encode())
-			c.set_perms(tmp_key_path.encode(),permissions)
+			tmp_key_path = (base_path+'/'+domuid+'/'+key).encode()
+			tmp_val = ('init').encode()
+			c.write(tmp_key_path,tmp_val)
+			c.set_perms(tmp_key_path,permissions)
 			print('created',key,'for dom',domuid)
 
 
@@ -29,8 +29,9 @@ with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
 	m = c.monitor()
 	for domuid in domu_ids:
 		for key in keys:
-			tmp_key_path = base_path+'/'+domuid+'/'+key
-			m.watch(tmp_key_path.encode(),(key+' '+domuid).encode())
+			tmp_key_path = (base_path+'/'+domuid+'/'+key).encode()
+			token = (key+' '+domuid).encode()
+			m.watch(tmp_key_path,token)
 			print('watching',key,'for dom',domuid)
 	num_done = 0
 	while num_done < len(domu_ids):
