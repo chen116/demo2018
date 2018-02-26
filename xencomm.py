@@ -102,7 +102,7 @@ class MonitorThread(threading.Thread):
 				self.threadLock.acquire()
 				self.shared_data[0]+=1
 				print('vic',self.shared_data[0],self.domuid)
-				if self.shared_data[0] == 713:
+				if self.shared_data[0] == 712:
 					self.res_allo()
 				self.threadLock.release()
 
