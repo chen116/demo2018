@@ -11,7 +11,7 @@ c = xencomm.Dom0(["heart_rate"])
 
 threadLock = threading.Lock()
 threads = []
-shared_data = [0]
+shared_data = {'vcpu':0,'p',:0}
 
 def res_allo():
     proc = subprocess.Popen(['xl','list'])

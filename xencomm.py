@@ -100,9 +100,9 @@ class MonitorThread(threading.Thread):
 			while msg!='q':
 				path,token=next(m.wait())
 				self.threadLock.acquire()
-				self.shared_data[0]+=1
-				print('vic',self.shared_data[0],self.domuid)
-				if self.shared_data[0] % 350 == 0:
+				self.shared_data['vcpu']+=1
+				print('vic',self.shared_data['vcpu'],self.domuid)
+				if self.shared_data['vcpu'] % 350 == 0:
 					self.res_allo()
 				self.threadLock.release()
 
