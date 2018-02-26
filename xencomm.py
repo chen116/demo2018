@@ -71,7 +71,7 @@ class DomU:
 
 
 
-class myThread(threading.Thread):
+class MonitorThread(threading.Thread):
     def __init__(self, threadLock,domuid,keys=['test'],base_path='/local/domain'):
         threading.Thread.__init__(self)
         self.domuid=int(domuid)
