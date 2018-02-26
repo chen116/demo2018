@@ -9,9 +9,9 @@ class Dom0:
 		self.base_path=base_path
 		with Client(xen_bus_path="/dev/xen/xenbus") as c:
 			for x in c.list(base_path.encode()):
-				domu_ids.append(x.decode())
-			domu_ids.pop(0)
-			for domuid in domu_ids:
+				self.domu_ids.append(x.decode())
+			self.domu_ids.pop(0)
+			for domuid in self.domu_ids:
 				permissions = []
 				permissions.append(('b'+'0').encode())
 				permissions.append(('b'+domuid).encode())
