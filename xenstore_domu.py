@@ -4,7 +4,7 @@ from pyxs import Client
 
 with Client(xen_bus_path="/dev/xen/xenbus") as c:
 	domU_id = c.read("domid".encode())
-	path = "/local/domain/"+domU_id.decode()+'vic'
+	path = "/local/domain/"+domU_id.decode()+'/vic'
 	path = path.encode()
 	msg= ""
 	while msg!='q':
