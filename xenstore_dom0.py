@@ -7,6 +7,7 @@ with Client(xen_bus_path="/dev/xen/xenbus") as c:
 	for x in c.list(b'/local/domain'):
 		domU_ids.append(x.decode())
 	print(domU_ids)
+exit()
 	c.write(b'/local/domain/5/vic',b'init_key_vic')
 	c.set_perms(b"/local/domain/5/vic",[b'b5',b'b0'])
 	c.write(b'/local/domain/4/vic',b'init_key_vic')
