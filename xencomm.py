@@ -72,34 +72,41 @@ class DomU:
 
 
 class MonitorThread(threading.Thread):
-    def __init__(self, threadLock,domuid,keys=['test'],base_path='/local/domain'):
-        threading.Thread.__init__(self)
-        self.domuid=(domuid)
-        self.keys=keys
-        self.base_path=base_path
-        self.threadLock=threadLock
-    def run(self):
-        # Acquire lock to synchronize thread
-        # self.threadLock.acquire()
-        self.vmonitor()
-        # Release lock for the next thread
-        # self.threadLock.release()
-        print("Exiting " , self.name)
-    def vmonitor(self):  # one monitor observe one domU at a time
-        with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
-            m = c.monitor()
-            for key in self.keys:
-                tmp_key_path = (self.base_path+'/'+self.domuid+'/'+key).encode()
-                token = (key+' '+self.domuid).encode()
-                m.watch(tmp_key_path,token)
-                print('watching',key,'of dom',self.domuid)
-            num_done = 0
-            while num_done < 1:
-                path,token=next(m.wait())
-                msg=c.read(path).decode()
-                print( token.decode(),':',msg)
-                if msg=='q':
-                    num_done+=1
+	def __init__(self, threadLock,shared_data,domuid,keys=['test'],base_path='/local/domain'):
+		threading.Thread.__init__(self)
+		self.domuid=(domuid)
+		self.keys=keys
+		self.base_path=base_path
+		self.threadLock=threadLock
+		self.shared_data=shared_data
+	def run(self):
+		# Acquire lock to synchronize thread
+		# self.threadLock.acquire()
+		self.vmonitor()
+		# Release lock for the next thread
+		# self.threadLock.release()
+		print("Exiting " , self.name)
+	def vmonitor(self):  # one monitor observe one domU at a time
+		with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
+			m = c.monitor()
+			for key in self.keys:
+				tmp_key_path = (self.base_path+'/'+self.domuid+'/'+key).encode()
+				token = (key+' '+self.domuid).encode()
+				m.watch(tmp_key_path,token)
+				print('watching',key,'of dom',self.domuid)
+			num_done = 0
+			while num_done < 1:
+				path,token=next(m.wait())
+				self.threadLock.acquire()
+				self.shared_data[0]+=1
+				print('vic',vicdata[0])
+				self.threadLock.release()
+
+				msg=c.read(path).decode()
+
+				print( token.decode(),':',msg)
+				if msg=='q':
+					num_done+=1
 
 if __name__ == "__main__":
 	c = Dom0()

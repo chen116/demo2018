@@ -11,11 +11,11 @@ c = xencomm.Dom0(["heart_rate"])
 
 threadLock = threading.Lock()
 threads = []
-vicdata = [1,2]
+shared_data = [1]
 vic=1
 
 for domuid in c.domu_ids:
-    tmp_thread = xencomm.MonitorThread(threadLock,domuid,["heart_rate"])
+    tmp_thread = xencomm.MonitorThread(threadLock,shared_data,domuid,["heart_rate"])
     tmp_thread.start()
     threads.append(tmp_thread)
 
