@@ -9,30 +9,31 @@ import datetime
 exitFlag = 0
 
 class myThread (threading.Thread):
-    def __init__(self, name, counter):
+    def __init__(self, name, counter,threadLock):
         threading.Thread.__init__(self)
         self.threadID = counter
         self.name = name
         self.counter = counter
+        self.threadLock=threadLock
     def run(self):
         print("Starting " , self.name)
         global vic
         # Acquire lock to synchronize thread
-        threadLock.acquire()
-        print_date(self.name, self.counter)
+        self.threadLock.acquire()
+        self.print_date(self.name, self.counter)
         print(vicdata[0])
         vicdata[0]+=4
         print(vic)
         vic+=5
         # Release lock for the next thread
-        threadLock.release()
+        self.threadLock.release()
         print("Exiting " , self.name)
 
-def print_date(threadName, counter):
-    datefields = []
-    today = datetime.date.today()
-    datefields.append(today)
-    print(threadName, counter, datefields[0] )
+    def print_date(self,threadName, counter):
+        datefields = []
+        today = datetime.date.today()
+        datefields.append(today)
+        print(threadName, counter, datefields[0] )
 
 threadLock = threading.Lock()
 threads = []
@@ -41,8 +42,8 @@ vic=1
 
 
 # Create new threads
-thread1 = myThread("Thread", 1)
-thread2 = myThread("Thread", 2)
+thread1 = myThread("Thread", 1,threadLock)
+thread2 = myThread("Thread", 2,threadLock)
 
 # Start new Threads
 thread1.start()

@@ -1,4 +1,6 @@
 from pyxs import Client
+import threading
+
 # from pyxs import Router
 # from pyxs.connection import XenBusConnection
 
@@ -67,6 +69,37 @@ class DomU:
 			msg=str(val).encode()
 			c.write(self.key_path_hash[key],msg)
 
+
+
+class myThread(threading.Thread):
+    def __init__(self, threadLock,domuid,keys=['test'],base_path='/local/domain'):
+        threading.Thread.__init__(self)
+        self.domuid=int(domuid)
+        self.keys=keys
+        self.base_path=base_path
+        self.threadLock=threadLock
+    def run(self):
+        # Acquire lock to synchronize thread
+        # self.threadLock.acquire()
+        self.vmonitor()
+        # Release lock for the next thread
+        # self.threadLock.release()
+        print("Exiting " , self.name)
+    def vmonitor(self):  # one monitor observe one domU at a time
+        with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
+            m = c.monitor()
+            for key in self.keys:
+                tmp_key_path = (self.base_path+'/'+domuid+'/'+key).encode()
+                token = (key+' '+domuid).encode()
+                m.watch(tmp_key_path,token)
+                print('watching',key,'of dom',domuid)
+            num_done = 0
+            while num_done < 1:
+                path,token=next(m.wait())
+                msg=c.read(path).decode()
+                print( token.decode(),':',msg)
+                if msg=='q':
+                    num_done+=1
 
 if __name__ == "__main__":
 	c = Dom0()

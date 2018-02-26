@@ -3,6 +3,8 @@ import subprocess
 import xencomm
 from queue import Queue
 from threading import Thread
+import threading
+
 
 c = xencomm.Dom0(["heart_rate"])
 c.monitor()
