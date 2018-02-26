@@ -49,8 +49,8 @@ class DomU:
 		self.key_path_hash = {}
 		with Client(xen_bus_path="/dev/xen/xenbus") as c:
 			self.domu_id = c.read("domid".encode())
-				for key in self.keys:
-					self.key_path_hash[key]=(self.base_path+'/'+self.domu_id.decode()+'/'+key).encode()
+			for key in self.keys:
+				self.key_path_hash[key]=(self.base_path+'/'+self.domu_id.decode()+'/'+key).encode()
 	def write(self,key='test',val='0'):
 		with Client(xen_bus_path="/dev/xen/xenbus") as c:
 			msg=str(val).encode()
