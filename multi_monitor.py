@@ -14,7 +14,7 @@ threads = []
 vicdata = [1,2]
 vic=1
 
-for domuid in c.domuid_ids:
+for domuid in c.domu_ids:
     tmp_thread = myThread(threadLock,domuid,["heart_rate"])
     tmp_thread.start()
     threads.append(tmp_thread)
