@@ -94,8 +94,9 @@ class MonitorThread(threading.Thread):
 				token = (key+' '+self.domuid).encode()
 				m.watch(tmp_key_path,token)
 				print('watching',key,'of dom',self.domuid)
-			num_done = 0
-			while num_done < 1:
+
+			msg=""
+			while msg!='q':
 				path,token=next(m.wait())
 				self.threadLock.acquire()
 				self.shared_data[0]+=1
@@ -105,8 +106,7 @@ class MonitorThread(threading.Thread):
 				msg=c.read(path).decode()
 
 				print( token.decode(),':',msg)
-				if msg=='q':
-					num_done+=1
+
 
 if __name__ == "__main__":
 	c = Dom0()
