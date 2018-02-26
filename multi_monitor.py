@@ -11,11 +11,18 @@ c = xencomm.Dom0(["heart_rate"])
 
 threadLock = threading.Lock()
 threads = []
-shared_data = [1]
-vic=1
+shared_data = [0]
+
+def res_allo():
+    proc = subprocess.Popen(['xl','list'])
+    try:
+        outs, errs = proc.communicate(timeout=15)
+    except TimeoutExpired:
+        proc.kill()
+        outs, errs = proc.communicate()
 
 for domuid in c.domu_ids:
-    tmp_thread = xencomm.MonitorThread(threadLock,shared_data,domuid,["heart_rate"])
+    tmp_thread = xencomm.MonitorThread(threadLock,shared_data,,res_allo,domuid,["heart_rate"])
     tmp_thread.start()
     threads.append(tmp_thread)
 
@@ -23,7 +30,7 @@ for domuid in c.domu_ids:
 # Wait for all threads to complete
 for t in threads:
     t.join()
-print("Exiting the Program!!!")
+print("Exiting the Monitor")
 
 # Create a queue to communicate with the worker threads
 # queue = Queue()

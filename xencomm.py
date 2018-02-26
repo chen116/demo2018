@@ -72,13 +72,14 @@ class DomU:
 
 
 class MonitorThread(threading.Thread):
-	def __init__(self, threadLock,shared_data,domuid,keys=['test'],base_path='/local/domain'):
+	def __init__(self, threadLock,shared_data,res_allo,domuid,keys=['test'],base_path='/local/domain'):
 		threading.Thread.__init__(self)
 		self.domuid=(domuid)
 		self.keys=keys
 		self.base_path=base_path
 		self.threadLock=threadLock
 		self.shared_data=shared_data
+		self.res_allo=res_allo
 	def run(self):
 		# Acquire lock to synchronize thread
 		# self.threadLock.acquire()
@@ -101,6 +102,8 @@ class MonitorThread(threading.Thread):
 				self.threadLock.acquire()
 				self.shared_data[0]+=1
 				print('vic',self.shared_data[0],self.domuid)
+				if self.shared_data[0] == 713:
+					self.res_allo()
 				self.threadLock.release()
 
 				msg=c.read(path).decode()
