@@ -1,6 +1,5 @@
 from pyxs import Client
-
-
+from pyxs import Router
 
 with Client(xen_bus_path="/dev/xen/xenbus") as c:
 	c.write(b'/local/domain/5/vic',b'init_key_vic')
@@ -10,14 +9,16 @@ with Client(xen_bus_path="/dev/xen/xenbus") as c:
 
 
 
+router = Router(XenBusConnection())
+with Client(router=router) as c:
+	print(c.is_connected())
+
 
 with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
 	m = c.monitor()
 	m.watch(b"/local/domain/4/vic", b"a-unique-token")
 	msg = ""
 
-	r = c.router()
-	print(r.is_connected())
 
 	while msg!='q':
 		print((next(m.wait()))[0])
