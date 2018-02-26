@@ -3,11 +3,11 @@ to see xenstore work:
 
 at dom0:
 
-python3 xenstore_dom0.py
+python3 multi_monitor.py
 
 at domU 
 
-python3 xenstore_domu.py
+python3 test_xencomm_wtih_obj_track.py
 
 
 
