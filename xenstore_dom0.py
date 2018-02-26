@@ -2,7 +2,10 @@ from pyxs import Client
 # from pyxs import Router
 # from pyxs.connection import XenBusConnection
 
+
+
 domU_ids = []
+keys = []
 with Client(xen_bus_path="/dev/xen/xenbus") as c:
 	for x in c.list(b'/local/domain'):
 		domU_ids.append(x.decode())
