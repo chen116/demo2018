@@ -1,3 +1,13 @@
+to see xenstore work:
+
+
+at dom0:
+
+python3 xenstore_dom0.py
+
+at domU 
+
+python3 xenstore_domu.py
 
 
 

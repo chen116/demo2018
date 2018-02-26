@@ -1,11 +1,10 @@
 from pyxs import Client
-from pyxs import Router
-from pyxs.connection import XenBusConnection
+# from pyxs import Router
+# from pyxs.connection import XenBusConnection
 
-import pyxs
 
 with Client(xen_bus_path="/dev/xen/xenbus") as c:
-	print(c.list(b'/local/domain'))
+	print(c.list(b'/local/domain')).encode()
 	c.write(b'/local/domain/5/vic',b'init_key_vic')
 	c.set_perms(b"/local/domain/5/vic",[b'b5',b'b0'])
 	c.write(b'/local/domain/4/vic',b'init_key_vic')
