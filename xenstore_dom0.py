@@ -6,6 +6,7 @@ domU_ids = []
 with Client(xen_bus_path="/dev/xen/xenbus") as c:
 	for x in c.list(b'/local/domain'):
 		domU_ids.append(x.decode())
+	domU_ids.pop(0)
 	print(domU_ids)
 exit()
 	# c.write(b'/local/domain/5/vic',b'init_key_vic')
