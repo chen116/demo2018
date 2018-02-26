@@ -74,7 +74,7 @@ class DomU:
 class MonitorThread(threading.Thread):
     def __init__(self, threadLock,domuid,keys=['test'],base_path='/local/domain'):
         threading.Thread.__init__(self)
-        self.domuid=int(domuid)
+        self.domuid=(domuid)
         self.keys=keys
         self.base_path=base_path
         self.threadLock=threadLock
@@ -89,7 +89,7 @@ class MonitorThread(threading.Thread):
         with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
             m = c.monitor()
             for key in self.keys:
-                tmp_key_path = (self.base_path+'/'+domuid+'/'+key).encode()
+                tmp_key_path = (self.base_path+'/'+self.domuid+'/'+key).encode()
                 token = (key+' '+domuid).encode()
                 m.watch(tmp_key_path,token)
                 print('watching',key,'of dom',domuid)

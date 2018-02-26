@@ -26,7 +26,7 @@ for t in threads:
 print("Exiting the Program!!!")
 
 # Create a queue to communicate with the worker threads
-queue = Queue()
+# queue = Queue()
 
 
 proc = subprocess.Popen(['xl','list'])#, stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True)#,cwd='./linpack')
