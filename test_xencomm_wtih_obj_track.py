@@ -22,7 +22,7 @@ hb = heartbeat.Heartbeat(1024,10,1000,"vic.log",10,100)
 comm = xencomm.DomU(["heart_rate"])
 
 
-cap = cv2.VideoCapture('/root/bird.avi')
+cap = cv2.VideoCapture('/root/jellyfish-25-mbps-hd-hevc.avi')
 ret,frame = cap.read()
 frame2 = np.zeros((frame.shape),dtype=frame.dtype)
 
