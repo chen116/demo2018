@@ -5,11 +5,17 @@ from pyxs import Client
 
 
 domU_ids = []
-keys = []
+keys = ["heart_rate"]
 with Client(xen_bus_path="/dev/xen/xenbus") as c:
 	for x in c.list(b'/local/domain'):
 		domU_ids.append(x.decode())
 	domU_ids.pop(0)
+	# for domuid in domU_ids:
+	# 	for key in keys:
+			
+	c.write(b'/local/domain/5/vic',b'init_key_vic')
+	c.write(b'/local/domain/5/vic',b'init_key_vic')
+
 	print(domU_ids)
 exit()
 	# c.write(b'/local/domain/5/vic',b'init_key_vic')
