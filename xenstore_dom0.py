@@ -25,7 +25,9 @@ with Client(xen_bus_path="/dev/xen/xenbus") as c:
 
 
 
-with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
+#with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
+with Client(xen_bus_path="/dev/xen/xenbus") as c:
+
 	m = c.monitor()
 	m.watch(b"/local/domain/4/vic", b"dom4")
 	m.watch(b"/local/domain/5/vic", b"dom5")
