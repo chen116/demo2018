@@ -12,24 +12,27 @@ with Client(xen_bus_path="/dev/xen/xenbus") as c:
 
 
 
-router = Router(pyxs.connection.UnixSocketConnection())
-with Client(router=router,unix_socket_path="/var/run/xenstored/socket_ro") as c:
+# router = Router(pyxs.connection.UnixSocketConnection())
+# with Client(router=router,unix_socket_path="/var/run/xenstored/socket_ro") as c:
+# 	# m = c.monitor()
+# 	m.watch(b"/local/domain/4/vic", b"dom4")
+# 	m.watch(b"/local/domain/5/vic", b"dom5")
+
+
+	# c.router.subscribe(b"a-unique-token",m)
+	# c.router.start()
+
+
+
+with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
 	m = c.monitor()
-	m.watch(b"/local/domain/4/vic", b"a-unique-token")
-	print(c.router.is_connected)
-	c.router.subscribe(b"a-unique-token",m)
-	c.router.start()
-
-
-
-# with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
-# 	m = c.monitor()
-# 	m.watch(b"/local/domain/4/vic", b"a-unique-token")
-# 	msg = ""
-# 	while msg!='q':
-# 		print((next(m.wait()))[0])
-# 		msg = c.read(b'/local/domain/4/vic').decode()
-# 		print(msg)
+	m.watch(b"/local/domain/4/vic", b"dom4")
+	m.watch(b"/local/domain/5/vic", b"dom5")
+	msg = ""
+	while msg!='q':
+		print("from",(next(m.wait()))[0])
+		msg = c.read(b'/local/domain/4/vic').decode()
+		print(msg)
 
 
 
