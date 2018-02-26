@@ -92,7 +92,7 @@ class MonitorThread(threading.Thread):
                 tmp_key_path = (self.base_path+'/'+self.domuid+'/'+key).encode()
                 token = (key+' '+self.domuid).encode()
                 m.watch(tmp_key_path,token)
-                print('watching',key,'of dom',domuid)
+                print('watching',key,'of dom',self.domuid)
             num_done = 0
             while num_done < 1:
                 path,token=next(m.wait())
