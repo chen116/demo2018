@@ -7,6 +7,7 @@ class Dom0:
 		self.domu_ids = []
 		self.keys=keys
 		self.base_path=base_path
+		self.c = 
 		with Client(xen_bus_path="/dev/xen/xenbus") as c:
 			for x in c.list(base_path.encode()):
 				self.domu_ids.append(x.decode())
@@ -21,6 +22,8 @@ class Dom0:
 					c.write(tmp_key_path,tmp_val)
 					c.set_perms(tmp_key_path,permissions)
 					print('created',key,'for dom',domuid)
+
+
 
 
 	def monitor(self):
