@@ -15,7 +15,7 @@ vicdata = [1,2]
 vic=1
 
 for domuid in c.domu_ids:
-    tmp_thread = myThread(threadLock,domuid,["heart_rate"])
+    tmp_thread = xencomm.MonitorThread(threadLock,domuid,["heart_rate"])
     tmp_thread.start()
     threads.append(tmp_thread)
 
