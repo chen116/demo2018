@@ -38,8 +38,8 @@ while(True):
 	# master.update()
 	hb.heartbeat_beat()
 	inst_hr = hb.get_instant_heartrate()
-	comm.write("heart_rate",str(inst_hr)+' '+str(cnt))
-	# comm.write("heart_rate",inst_hr)
+	# comm.write("heart_rate",str(inst_hr)+' '+str(cnt))
+	comm.write("heart_rate",inst_hr)
 	cnt+=1
 
 

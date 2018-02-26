@@ -15,11 +15,12 @@ _HB_global_state_t* HB_alloc_state(int );
 
 int anchors_heartbeat_finish(int) ;
 int64_t anchors_heartbeat( int, int );
-int get_instant_heartrate(int , int);
+float get_instant_heartrate(int , int);
+float get_window_heartrate(int , int);
 int anchors_heartbeat_init(int,int64_t,int64_t ,const char* , double ,double );
 
 
-int get_instant_heartrate(int anchors_hb_shm_key, int index)
+float get_instant_heartrate(int anchors_hb_shm_key, int index)
 {
   int shmid;
   if ((shmid = shmget(anchors_hb_shm_key, 1*sizeof(heartbeat_t), 0666)) < 0) {
@@ -27,8 +28,21 @@ int get_instant_heartrate(int anchors_hb_shm_key, int index)
         return 0;
     }
   heartbeat_t* hb = (heartbeat_t*) shmat(shmid, NULL, 0);
-  return hb->log[index].instant_rate*1000000;
+  return hb->log[index].instant_rate;
+       
 
+
+}
+float get_window_heartrate(int anchors_hb_shm_key, int index)
+{
+  int shmid;
+  if ((shmid = shmget(anchors_hb_shm_key, 1*sizeof(heartbeat_t), 0666)) < 0) {
+        perror("shmget");
+        return 0;
+    }
+  heartbeat_t* hb = (heartbeat_t*) shmat(shmid, NULL, 0);
+  return hb->log[index].window_rate;
+      
 
 }
 
