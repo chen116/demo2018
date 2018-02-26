@@ -34,7 +34,7 @@ class Dom0:
 					token = (key+' '+domuid).encode()
 					m.watch(tmp_key_path,token)
 					print('watching',key,'of dom',domuid)
-			num_done = 0
+			num_done = -1
 			while num_done < len(self.domu_ids):
 				path,token=next(m.wait())
 				msg=c.read(path).decode()
