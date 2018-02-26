@@ -3,10 +3,10 @@ from pyxs import Client
 # from pyxs.connection import XenBusConnection
 
 class Dom0:
-    def __init__(self,keys=['test'],base_path='/local/domain'):
-    	self.domu_ids = []
-    	self.keys=keys
-    	self.base_path=base_path
+	def __init__(self,keys=['test'],base_path='/local/domain'):
+		self.domu_ids = []
+		self.keys=keys
+		self.base_path=base_path
 		with Client(xen_bus_path="/dev/xen/xenbus") as c:
 			for x in c.list(base_path.encode()):
 				domu_ids.append(x.decode())
