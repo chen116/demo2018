@@ -13,7 +13,7 @@ with Client(xen_bus_path="/dev/xen/xenbus") as c:
 
 
 # router = Router(pyxs.connection.UnixSocketConnection())
-with Client(router=router,unix_socket_path="/var/run/xenstored/socket_ro") as c:
+# with Client(router=router,unix_socket_path="/var/run/xenstored/socket_ro") as c:
 
 
 
