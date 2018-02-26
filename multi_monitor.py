@@ -22,7 +22,7 @@ def res_allo():
         outs, errs = proc.communicate()
 
 for domuid in c.domu_ids:
-    tmp_thread = xencomm.MonitorThread(threadLock,shared_data,,res_allo,domuid,["heart_rate"])
+    tmp_thread = xencomm.MonitorThread(threadLock,shared_data,res_allo,domuid,["heart_rate"])
     tmp_thread.start()
     threads.append(tmp_thread)
 
