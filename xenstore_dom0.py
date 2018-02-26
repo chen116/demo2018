@@ -14,7 +14,7 @@ with Client(xen_bus_path="/dev/xen/xenbus") as c:
 
 router = Router(pyxs.connection.UnixSocketConnection())
 with Client(router=router) as c:
-	print(c.is_connected())
+	print(r.is_connected())
 
 
 with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
