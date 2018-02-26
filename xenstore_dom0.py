@@ -4,9 +4,8 @@ from pyxs import Client
 
 domU_ids = []
 with Client(xen_bus_path="/dev/xen/xenbus") as c:
-	domU_ids = c.list(b'/local/domain')
-	for x in domU_ids:
-		x = x.decode()
+	for x in c.list(b'/local/domain'):
+		domU_ids.append(x.decode())
 	print(domU_ids)
 	c.write(b'/local/domain/5/vic',b'init_key_vic')
 	c.set_perms(b"/local/domain/5/vic",[b'b5',b'b0'])
