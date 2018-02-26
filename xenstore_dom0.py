@@ -17,6 +17,8 @@ with Client(router=router) as c:
 	print(c.router.is_connected)
 
 
+with Router(pyxs.connection.UnixSocketConnection()) as r:
+	print(r.is_connected)
 # with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
 # 	m = c.monitor()
 # 	m.watch(b"/local/domain/4/vic", b"a-unique-token")
