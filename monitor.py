@@ -1,11 +1,14 @@
 
 import subprocess
 import xencomm
+from queue import Queue
+from threading import Thread
 
 c = xencomm.Dom0(["heart_rate"])
 c.monitor()
 
-
+# Create a queue to communicate with the worker threads
+queue = Queue()
 
 
 proc = subprocess.Popen(['xl','list'])#, stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True)#,cwd='./linpack')

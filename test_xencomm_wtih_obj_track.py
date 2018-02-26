@@ -17,13 +17,17 @@ import numpy.fft as fft
 # w2 = Scale(master,from_=0,to=400,orient=HORIZONTAL)
 # w2.set(200)
 # w2.pack()
+
+hb = heartbeat.Heartbeat(1024,10,1000,"vic.log",10,100)
+comm = xencomm.DomU(["heart_rate"])
+
+
 cap = cv2.VideoCapture('/root/bird.avi')
 ret,frame = cap.read()
 frame2 = np.zeros((frame.shape),dtype=frame.dtype)
 
-hb = heartbeat.Heartbeat(1024,10,1000,"vic.log",10,100)
-comm = xencomm.DomU(["heart_rate"])
-cnt=0
+
+
 while(True):
 	ret, frame = cap.read()
 	try:
@@ -37,10 +41,9 @@ while(True):
 	# master.update_idletasks()
 	# master.update()
 	hb.heartbeat_beat()
-	inst_hr = hb.get_instant_heartrate()
-	# comm.write("heart_rate",str(inst_hr)+' '+str(cnt))
-	comm.write("heart_rate",inst_hr)
-	cnt+=1
+	hr = hb.get_instant_heartrate()
+	comm.write("heart_rate",hr)
+
 
 
 

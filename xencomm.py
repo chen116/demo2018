@@ -21,22 +21,37 @@ class Dom0:
 					c.write(tmp_key_path,tmp_val)
 					c.set_perms(tmp_key_path,permissions)
 					print('created',key,'for dom',domuid)
-	def monitor(self):
+	def monitor(self, domuid):  # one monitor observe one domU at a time
 		with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
 			m = c.monitor()
-			for domuid in self.domu_ids:
-				for key in self.keys:
-					tmp_key_path = (self.base_path+'/'+domuid+'/'+key).encode()
-					token = (key+' '+domuid).encode()
-					m.watch(tmp_key_path,token)
-					print('watching',key,'of dom',domuid)
-			num_done = -1
-			while 1:#num_done < len(self.domu_ids):
+			for key in self.keys:
+				tmp_key_path = (self.base_path+'/'+domuid+'/'+key).encode()
+				token = (key+' '+domuid).encode()
+				m.watch(tmp_key_path,token)
+				print('watching',key,'of dom',domuid)
+			num_done = 0
+			while num_done < len(self.domu_ids):
 				path,token=next(m.wait())
 				msg=c.read(path).decode()
 				print( token.decode(),':',msg)
 				if msg=='q':
 					num_done+=1
+	# def monitor(self):  # one monitor observe all domUs
+	# 	with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
+	# 		m = c.monitor()
+	# 		for domuid in self.domu_ids:
+	# 			for key in self.keys:
+	# 				tmp_key_path = (self.base_path+'/'+domuid+'/'+key).encode()
+	# 				token = (key+' '+domuid).encode()
+	# 				m.watch(tmp_key_path,token)
+	# 				print('watching',key,'of dom',domuid)
+	# 		num_done = 0
+	# 		while num_done < len(self.domu_ids):
+	# 			path,token=next(m.wait())
+	# 			msg=c.read(path).decode()
+	# 			print( token.decode(),':',msg)
+	# 			if msg=='q':
+	# 				num_done+=1
 class DomU:
 	def __init__(self,keys=['test'],base_path='/local/domain'):
 		self.domu_id=""
