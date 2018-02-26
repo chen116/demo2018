@@ -1,5 +1,6 @@
 from pyxs import Client
 from pyxs import Router
+import pyxs
 
 with Client(xen_bus_path="/dev/xen/xenbus") as c:
 	c.write(b'/local/domain/5/vic',b'init_key_vic')
@@ -9,7 +10,7 @@ with Client(xen_bus_path="/dev/xen/xenbus") as c:
 
 
 
-router = Router(XenBusConnection())
+router = Router(pyxs.connection.UnixSocketConnection)
 with Client(router=router) as c:
 	print(c.is_connected())
 
