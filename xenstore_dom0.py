@@ -12,19 +12,13 @@ with Client(xen_bus_path="/dev/xen/xenbus") as c:
 
 
 
-# router = Router(pyxs.connection.UnixSocketConnection())
-# with Client(router=router,unix_socket_path="/var/run/xenstored/socket_ro") as c:
-
-
-
-
-with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
-	# c.router=Router(pyxs.connection.UnixSocketConnection())
+router = Router(pyxs.connection.UnixSocketConnection())
+with Client(router=router,unix_socket_path="/var/run/xenstored/socket_ro") as c:
 	m = c.monitor()
 	m.watch(b"/local/domain/4/vic", b"a-unique-token")
-	# print(c.router.is_connected)
-	# c.router.subscribe(b"a-unique-token",m)
-	# c.router.start()
+	print(c.router.is_connected)
+	c.router.subscribe(b"a-unique-token",m)
+	c.router.start()
 
 
 
