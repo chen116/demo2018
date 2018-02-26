@@ -99,7 +99,7 @@ class MonitorThread(threading.Thread):
 				path,token=next(m.wait())
 				self.threadLock.acquire()
 				self.shared_data[0]+=1
-				print('vic',shared_data[0])
+				print('vic',self.shared_data[0])
 				self.threadLock.release()
 
 				msg=c.read(path).decode()
