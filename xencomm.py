@@ -94,11 +94,11 @@ class MonitorThread(threading.Thread):
 				tmp_key_path = (self.base_path+'/'+self.domuid+'/'+key).encode()
 				token = (key+' '+self.domuid).encode()
 				m.watch(tmp_key_path,token)
-				print('watching',key,'of dom',self.domuid)
 
-			msg=""
-			while msg!='q q':
+			msg="confirm xenstore entry:"
+			while msg!='q':
 				path,token=next(m.wait())
+				msg=c.read(path).decode()
 				self.threadLock.acquire()
 
 
@@ -113,7 +113,6 @@ class MonitorThread(threading.Thread):
 
 
 				self.threadLock.release()
-				msg=c.read(path).decode()
 
 				# print( token.decode(),':',msg)
 

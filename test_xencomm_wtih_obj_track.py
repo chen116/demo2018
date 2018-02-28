@@ -57,7 +57,7 @@ while(True):
 cap.release()
 cv2.destroyAllWindows()
 hb.heartbeat_finish()
-comm.write("heart_rate","q q")
+comm.write("heart_rate","q")
 
 
 
