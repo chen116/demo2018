@@ -33,7 +33,7 @@ def res_allo(heart_rate,thread_shared_data,domuid):
     # cpupool, vcpupin, rtds-budget,period, extratime, vcpu-list
     # https://wiki.xenproject.org/wiki/Tuning_Xen_for_Performance
 
-    if heart_rate<200:
+    if heart_rate<20:
         if thread_shared_data[domuid]['bud'] < 10000:
             thread_shared_data[domuid]['bud']+=100
             proc = subprocess.Popen(['xl','sched-rtds','-d',domuid,'-p','10000','-b',str(thread_shared_data[domuid]['bud'])])
@@ -42,7 +42,7 @@ def res_allo(heart_rate,thread_shared_data,domuid):
             # except TimeoutExpired:
             #     proc.kill()
             #     outs, errs = proc.communicate()
-    if heart_rate>400:
+    if heart_rate>25:
         if thread_shared_data[domuid]['bud'] < 10000:
             thread_shared_data[domuid]['bud']-=100
             proc = subprocess.Popen(['xl','sched-rtds','-d',domuid,'-p','10000','-b',str(thread_shared_data[domuid]['bud'])])
