@@ -6,7 +6,7 @@ import matplotlib
 def kk(base_name,figure_cnt):
 	
 
-	container_cnt=1
+	container_cnt=2
 
 	xs =[]
 	ys =[]
@@ -23,14 +23,12 @@ def kk(base_name,figure_cnt):
 		with open(filepath) as fp: 
 			for line in fp:  
 				its = line.split()
-				if len(its)==4:
+				if len(its)==5:
 					if 'bud'==its[0]:
-						index = int(its[2])-4
-						ts = float(its[1])
-
-					cpu = int(its[-1])/1e4
-					hr = float(its[7])
-					ts = int(its[5])
+						index = int(its[1])-4
+						ts = float(its[2])
+						cpu = int(its[3])
+						hr = float(its[4])
 					xs[index].append(ts)
 					ys[index].append(hr)
 					cs[index].append(cpu)
@@ -45,7 +43,6 @@ def kk(base_name,figure_cnt):
 	for i,x in enumerate(xs):
 		for j in range(len(x)):
 			x[j]-=xmin
-			x[j]=x[j]
 	plt.figure(figure_cnt)
 	plt.subplot(211)
 	opt=[':*b',':*r']
@@ -53,8 +50,8 @@ def kk(base_name,figure_cnt):
 		plt.plot(xs[i],ys[i],opt[i],label=str(i))
 	plt.xlabel('time(sec)')
 	plt.ylabel('heart rate(frames/sec)')
-	plt.title('Simple openCV app on DomU')
-	plt.legend(('frames/sec'))
+	plt.title('Simple openCV app')
+	plt.legend(('vm1','vm2'))
 
 
 
@@ -63,13 +60,13 @@ def kk(base_name,figure_cnt):
 	for i in range(0,len(xs)):
 		plt.plot(xs[i],cs[i],opt[i])
 	plt.xlabel('time(sec)')
-	plt.ylabel('CPUs')
-	plt.legend(('c0','c1'))
+	plt.ylabel('budget')
+	plt.legend(('vm1','vm2'))
 	return 
 
 
 
-kk('meow',2)
+kk('meow',1)
 # kk('vlog0',2)
 
 plt.show()
