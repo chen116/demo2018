@@ -14,7 +14,7 @@ threads = []
 shared_data = {'vcpu':0,'p':0}
 
 
-print(subprocess.check_output(['ls', '-l']))
+print(subprocess.check_output(['xl', 'list']).decode().split())
 
 
 
