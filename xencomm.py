@@ -38,22 +38,22 @@ class Dom0:
 	# 			print( token.decode(),':',msg)
 	# 			if msg=='q':
 	# 				num_done+=1
-	def monitor(self):  # one monitor observe all domUs
-		with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
-			m = c.monitor()
-			for domuid in self.domu_ids:
-				for key in self.keys:
-					tmp_key_path = (self.base_path+'/'+domuid+'/'+key).encode()
-					token = (key+' '+domuid).encode()
-					m.watch(tmp_key_path,token)
-					print('watching',key,'of dom',domuid)
-			num_done = 0
-			while num_done < len(self.domu_ids):
-				path,token=next(m.wait())
-				msg=c.read(path).decode()
-				print( token.decode(),':',msg)
-				if msg=='q q':
-					num_done+=1
+	# def monitor(self):  # one monitor observe all domUs
+	# 	with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
+	# 		m = c.monitor()
+	# 		for domuid in self.domu_ids:
+	# 			for key in self.keys:
+	# 				tmp_key_path = (self.base_path+'/'+domuid+'/'+key).encode()
+	# 				token = (key+' '+domuid).encode()
+	# 				m.watch(tmp_key_path,token)
+	# 				print('watching',key,'of dom',domuid)
+	# 		num_done = 0
+	# 		while num_done < len(self.domu_ids):
+	# 			path,token=next(m.wait())
+	# 			msg=c.read(path).decode()
+	# 			print( token.decode(),':',msg)
+	# 			if msg=='done':
+	# 				num_done+=1
 class DomU:
 	def __init__(self,keys=['test'],base_path='/local/domain'):
 		self.domu_id=""
@@ -96,7 +96,7 @@ class MonitorThread(threading.Thread):
 				m.watch(tmp_key_path,token)
 
 			msg=""
-			while msg!='q':
+			while msg!='done':
 				path,token=next(m.wait())
 				msg=c.read(path).decode()
 				self.threadLock.acquire()
