@@ -26,15 +26,16 @@ for lines in out:
         shared_data[line[1]]['bud']=int(line[3])
 print(shared_data)
 
+                self.res_allo(float(msg),self.shared_data,self.domuid)
 
 def res_allo(heart_rate,thread_shared_data,domuid):
     # https://xenbits.xen.org/docs/unstable/man/xl.1.html#SCHEDULER-SUBCOMMANDS
     # cpupool, vcpupin, rtds-budget,period, extratime
     # https://wiki.xenproject.org/wiki/Tuning_Xen_for_Performance
-    if heart_rate<2000000:
-        if thread_shared_data[domuid]['bud'] > 100:
+    if heart_rate<200:
+        if thread_shared_data[domuid]['bud'] < 100:
             thread_shared_data[domuid]['bud']+=1000
-            # proc = subprocess.Popen(['xl','sched-rtds','-d',thread_shared_data])
+            proc = subprocess.Popen(['xl','sched-rtds','-d',domuid,'-p','10000','-b',str(thread_shared_data[domuid]['bud'])])
             # try:
             #     outs, errs = proc.communicate(timeout=15)
             # except TimeoutExpired:

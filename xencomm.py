@@ -102,8 +102,7 @@ class MonitorThread(threading.Thread):
 				self.threadLock.acquire()
 				print("dom",self.domuid,"got lock")
 
-				print('vic',self.shared_data[self.domuid])
-				print(self.domuid,msg)
+
 
 				try :
 					self.res_allo(float(msg),self.shared_data,self.domuid)
@@ -112,7 +111,7 @@ class MonitorThread(threading.Thread):
 
 
 
-				print("dom",self.domuid,"release lock")
+
 				self.threadLock.release()
 				msg=c.read(path).decode()
 
