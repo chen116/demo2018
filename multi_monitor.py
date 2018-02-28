@@ -33,7 +33,7 @@ def res_allo(heart_rate,thread_shared_data,domuid):
     # cpupool, vcpupin, rtds-budget,period, extratime
     # https://wiki.xenproject.org/wiki/Tuning_Xen_for_Performance
     if heart_rate<2000000:
-        if thread_shared_data[domuid]['bud'] < 10000:
+        if thread_shared_data[domuid]['bud'] > 100:
             thread_shared_data[domuid]['bud']+=1000
             # proc = subprocess.Popen(['xl','sched-rtds','-d',thread_shared_data])
             # try:
