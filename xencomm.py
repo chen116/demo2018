@@ -100,13 +100,14 @@ class MonitorThread(threading.Thread):
 			while msg!='q':
 				path,token=next(m.wait())
 				self.threadLock.acquire()
+				print("dom",self.domuid,"got lock")
 				self.shared_data['vcpu']+=1
 				print('vic',self.shared_data['vcpu'],self.domuid)
 				if self.shared_data['vcpu'] % 350 == 0:
-					print("got lock")
+					self.res_allo(float(msg))
+
 				self.threadLock.release()
 				msg=c.read(path).decode()
-				self.res_allo(float(msg))
 
 				print( token.decode(),':',msg)
 
