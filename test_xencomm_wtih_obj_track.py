@@ -43,7 +43,7 @@ while(True):
 	# master.update()
 	hb.heartbeat_beat()
 	window_hr = hb.get_window_heartrate()
-	if (hb.cnt%10==0):
+	if (hb.cnt%100==0):
 		comm.write("heart_rate",window_hr)
 
 
