@@ -36,7 +36,7 @@ def res_allo(heart_rate,thread_shared_data,domuid):
 
     if heart_rate<20:
         if thread_shared_data[domuid]['bud'] < 10000:
-            thread_shared_data[domuid]['bud']+=300
+            thread_shared_data[domuid]['bud']+=500
             print('bud',domuid,time.time(),thread_shared_data[domuid]['bud'])
             proc = subprocess.Popen(['xl','sched-rtds','-d',domuid,'-p','10000','-b',str(thread_shared_data[domuid]['bud'])])
             # try:

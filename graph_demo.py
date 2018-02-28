@@ -72,7 +72,7 @@ def kk(base_name,figure_cnt):
 
 
 
-kk('logtest',1)
+kk('meow',2)
 # kk('vlog0',2)
 
 plt.show()
