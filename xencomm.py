@@ -97,7 +97,7 @@ class MonitorThread(threading.Thread):
 				print('watching',key,'of dom',self.domuid)
 
 			msg=""
-			while msg!='q':
+			while msg!='q q':
 				path,token=next(m.wait())
 				self.threadLock.acquire()
 
