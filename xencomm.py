@@ -103,8 +103,10 @@ class MonitorThread(threading.Thread):
 				print("dom",self.domuid,"got lock")
 
 				print('vic',self.shared_data[self.domuid])
-				self.res_allo(float(msg),self.shared_data,self.domuid)
-
+				try :
+					self.res_allo(float(msg),self.shared_data,self.domuid)
+				except:
+					print(self.domuid,msg)
 
 
 
