@@ -35,7 +35,7 @@ while(True):
 		g2 = abs(frame-frame2)
 	except:
 		break
-	cv2.imshow('frame',g2)
+	# cv2.imshow('frame',g2)
 	frame2=frame
 	if cv2.waitKey(1) & 0xFF == ord('q'):
 		break
