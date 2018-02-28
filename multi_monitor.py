@@ -26,7 +26,7 @@ for lines in out:
         shared_data[line[1]]['bud']=int(line[3])
 print(shared_data)
 
-                self.res_allo(float(msg),self.shared_data,self.domuid)
+
 
 def res_allo(heart_rate,thread_shared_data,domuid):
     # https://xenbits.xen.org/docs/unstable/man/xl.1.html#SCHEDULER-SUBCOMMANDS
