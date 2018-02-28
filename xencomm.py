@@ -19,7 +19,7 @@ class Dom0:
 				permissions.append(('b'+domuid).encode())
 				for key in keys:
 					tmp_key_path = (base_path+'/'+domuid+'/'+key).encode()
-					tmp_val = ('init xenstore entry').encode()
+					tmp_val = ('init').encode()
 					c.write(tmp_key_path,tmp_val)
 					c.set_perms(tmp_key_path,permissions)
 					print('created',key,'for dom',domuid)
