@@ -18,19 +18,16 @@ def kk(base_name,figure_cnt):
 		ys.append([])
 		cs.append([])
 	#x1,x2,y1,y2=[],[],[],[]
-	index=0
 	for i in files:
 		filepath = i
 		with open(filepath) as fp: 
 			for line in fp:  
 				its = line.split()
 				if len(its)==4:
-					hr = float(its[3])
-					ts = float(its[1])
-					xs[index].append(ts)
-					ys[index].append(hr)
-				if len(its)>8:
-					index = int(its[1])
+					if 'bud'==its[0]:
+						index = int(its[2])-4
+						ts = float(its[1])
+
 					cpu = int(its[-1])/1e4
 					hr = float(its[7])
 					ts = int(its[5])
@@ -50,25 +47,25 @@ def kk(base_name,figure_cnt):
 			x[j]-=xmin
 			x[j]=x[j]
 	plt.figure(figure_cnt)
-	# plt.subplot(211)
+	plt.subplot(211)
 	opt=[':*b',':*r']
 	for i in range(0,len(xs)):
 		plt.plot(xs[i],ys[i],opt[i],label=str(i))
 	plt.xlabel('time(sec)')
 	plt.ylabel('heart rate(frames/sec)')
 	plt.title('Simple openCV app on DomU')
-	# plt.legend(('frames/sec'))
+	plt.legend(('frames/sec'))
 
 
 
-	# plt.subplot(212)
-	# opt=['-*b','-*r']
-	# for i in range(0,len(xs)):
-	# 	plt.plot(xs[i],cs[i],opt[i])
-	# plt.xlabel('time(sec)')
-	# plt.ylabel('CPUs')
-	# plt.legend(('c0','c1'))
-	# return 
+	plt.subplot(212)
+	opt=['-*b','-*r']
+	for i in range(0,len(xs)):
+		plt.plot(xs[i],cs[i],opt[i])
+	plt.xlabel('time(sec)')
+	plt.ylabel('CPUs')
+	plt.legend(('c0','c1'))
+	return 
 
 
 

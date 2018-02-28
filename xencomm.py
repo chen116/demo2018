@@ -115,7 +115,7 @@ class MonitorThread(threading.Thread):
 				self.threadLock.release()
 				msg=c.read(path).decode()
 
-				print( token.decode(),':',msg)
+				# print( token.decode(),':',msg)
 
 
 if __name__ == "__main__":
