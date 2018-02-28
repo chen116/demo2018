@@ -4,6 +4,7 @@ import xencomm
 
 from threading import Thread
 import threading
+import time
 
 
 c = xencomm.Dom0(["heart_rate"])
@@ -36,6 +37,7 @@ def res_allo(heart_rate,thread_shared_data,domuid):
     if heart_rate<20:
         if thread_shared_data[domuid]['bud'] < 10000:
             thread_shared_data[domuid]['bud']+=100
+            print('bud',time.time(),domuid,thread_shared_data[domuid]['bud'])
             proc = subprocess.Popen(['xl','sched-rtds','-d',domuid,'-p','10000','-b',str(thread_shared_data[domuid]['bud'])])
             # try:
             #     outs, errs = proc.communicate(timeout=15)
@@ -45,6 +47,7 @@ def res_allo(heart_rate,thread_shared_data,domuid):
     if heart_rate>25:
         if thread_shared_data[domuid]['bud'] < 10000:
             thread_shared_data[domuid]['bud']-=100
+            print('bud',time.time(),domuid,thread_shared_data[domuid]['bud'])
             proc = subprocess.Popen(['xl','sched-rtds','-d',domuid,'-p','10000','-b',str(thread_shared_data[domuid]['bud'])])
             # try:
             #     outs, errs = proc.communicate(timeout=15)

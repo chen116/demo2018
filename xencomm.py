@@ -19,7 +19,7 @@ class Dom0:
 				permissions.append(('b'+domuid).encode())
 				for key in keys:
 					tmp_key_path = (base_path+'/'+domuid+'/'+key).encode()
-					tmp_val = ('init').encode()
+					tmp_val = ('init xenstore entry').encode()
 					c.write(tmp_key_path,tmp_val)
 					c.set_perms(tmp_key_path,permissions)
 					print('created',key,'for dom',domuid)
@@ -52,7 +52,7 @@ class Dom0:
 				path,token=next(m.wait())
 				msg=c.read(path).decode()
 				print( token.decode(),':',msg)
-				if msg=='q':
+				if msg=='q q':
 					num_done+=1
 class DomU:
 	def __init__(self,keys=['test'],base_path='/local/domain'):
