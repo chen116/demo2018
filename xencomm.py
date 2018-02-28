@@ -100,7 +100,7 @@ class MonitorThread(threading.Thread):
 			while msg!='q':
 				path,token=next(m.wait())
 				self.threadLock.acquire()
-				print("dom",self.domuid,"got lock")
+
 
 
 
