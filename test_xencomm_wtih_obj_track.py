@@ -23,7 +23,7 @@ comm = xencomm.DomU(["heart_rate"])
 
 
 cap = cv2.VideoCapture('/root/jellyfish-25-mbps-hd-hevc.avi')
-cap = cv2.VideoCapture('/root/bird.avi')
+# cap = cv2.VideoCapture('/root/bird.avi')
 ret,frame = cap.read()
 frame2 = np.zeros((frame.shape),dtype=frame.dtype)
 
@@ -43,7 +43,7 @@ while(True):
 	# master.update()
 	hb.heartbeat_beat()
 	window_hr = hb.get_window_heartrate()
-	if (hb.cnt%100==0):
+	if (hb.cnt%10==1):
 		comm.write("heart_rate",window_hr)
 
 

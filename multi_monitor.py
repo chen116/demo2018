@@ -30,13 +30,14 @@ print(shared_data)
 
 def res_allo(heart_rate,thread_shared_data,domuid):
     # https://xenbits.xen.org/docs/unstable/man/xl.1.html#SCHEDULER-SUBCOMMANDS
-    # cpupool, vcpupin, rtds-budget,period, extratime
+    # cpupool, vcpupin, rtds-budget,period, extratime, vcpu-list
     # https://wiki.xenproject.org/wiki/Tuning_Xen_for_Performance
+
     if heart_rate<200:
         if thread_shared_data[domuid]['bud'] < 10000:
             thread_shared_data[domuid]['bud']+=1000
-            # subprocess.call(['xl','sched-rtds','-d',domuid,'-p','10000','-b',str(thread_shared_data[domuid]['bud'])])
-            proc = subprocess.Popen(['xl','sched-rtds','-d',domuid,'-p','10000','-b',str(thread_shared_data[domuid]['bud'])])
+
+            # proc = subprocess.Popen(['xl','sched-rtds','-d',domuid,'-p','10000','-b',str(thread_shared_data[domuid]['bud'])])
             # try:
             #     outs, errs = proc.communicate(timeout=15)
             # except TimeoutExpired:
