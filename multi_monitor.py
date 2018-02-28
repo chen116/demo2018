@@ -18,7 +18,7 @@ out =  subprocess.check_output(['xl', 'list']).decode().split('\n')
 for i in out:
     print(i)
 
-
+exit()
 def res_allo(heart_rate):
     # https://xenbits.xen.org/docs/unstable/man/xl.1.html#SCHEDULER-SUBCOMMANDS
     # cpupool, vcpupin, rtds-budget,period, extratime
