@@ -9,20 +9,26 @@ import threading
 c = xencomm.Dom0(["heart_rate"])
 
 
+
+
+
+
+
 threadLock = threading.Lock()
 threads = []
 shared_data = {}
 
-
 out =  subprocess.check_output(['xl', 'sched-rtds']).decode().split('\n')
 for lines in out:
     line = lines.split()
+    print(line)
     if 'instance' in line[0]:
         shared_data[line[1]]={}
         shared_data[line[1]]['bud']=int(line[3])
 print(shared_data)
 
 exit()
+
 def res_allo(heart_rate):
     # https://xenbits.xen.org/docs/unstable/man/xl.1.html#SCHEDULER-SUBCOMMANDS
     # cpupool, vcpupin, rtds-budget,period, extratime
