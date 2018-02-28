@@ -13,13 +13,26 @@ threadLock = threading.Lock()
 threads = []
 shared_data = {'vcpu':0,'p':0}
 
-def res_allo():
+
+print(subprocess.check_output(['ls', '-l']))
+
+
+
+def res_allo(heart_rate):
+    # https://xenbits.xen.org/docs/unstable/man/xl.1.html#SCHEDULER-SUBCOMMANDS
+    # cpupool, vcpupin, rtds-budget,period, extratime
+    # https://wiki.xenproject.org/wiki/Tuning_Xen_for_Performance
+    if heart_rate<10
     proc = subprocess.Popen(['xl','list'])
     try:
         outs, errs = proc.communicate(timeout=15)
     except TimeoutExpired:
         proc.kill()
         outs, errs = proc.communicate()
+
+
+
+
 
 for domuid in c.domu_ids:
     tmp_thread = xencomm.MonitorThread(threadLock,shared_data,res_allo,domuid,["heart_rate"])

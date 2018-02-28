@@ -41,8 +41,9 @@ while(True):
 	# master.update_idletasks()
 	# master.update()
 	hb.heartbeat_beat()
-	hr = hb.get_instant_heartrate()
-	comm.write("heart_rate",hr)
+	window_hr = hb.get_window_heartrate()
+	if (hb.cnt%10==0):
+		comm.write("heart_rate",hr)
 
 
 
