@@ -19,7 +19,7 @@ class Dom0:
 				permissions.append(('b'+domuid).encode())
 				for key in keys:
 					tmp_key_path = (base_path+'/'+domuid+'/'+key).encode()
-					tmp_val = ('init').encode()
+					tmp_val = ('xenstore entry init').encode()
 					c.write(tmp_key_path,tmp_val)
 					c.set_perms(tmp_key_path,permissions)
 					print('created',key,'for dom',domuid)
@@ -95,7 +95,7 @@ class MonitorThread(threading.Thread):
 				token = (key+' '+self.domuid).encode()
 				m.watch(tmp_key_path,token)
 
-			msg="confirm xenstore entry:"
+			msg=""
 			while msg!='q':
 				path,token=next(m.wait())
 				msg=c.read(path).decode()
