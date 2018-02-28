@@ -22,7 +22,7 @@ def res_allo(heart_rate):
     # https://xenbits.xen.org/docs/unstable/man/xl.1.html#SCHEDULER-SUBCOMMANDS
     # cpupool, vcpupin, rtds-budget,period, extratime
     # https://wiki.xenproject.org/wiki/Tuning_Xen_for_Performance
-    if heart_rate<10
+    # if heart_rate<10
     proc = subprocess.Popen(['xl','list'])
     try:
         outs, errs = proc.communicate(timeout=15)
