@@ -14,8 +14,9 @@ threads = []
 shared_data = {'vcpu':0,'p':0}
 
 
-print(subprocess.check_output(['xl', 'list']).decode().split())
-
+out =  subprocess.check_output(['xl', 'list']).decode().split()
+for i in out:
+    print(i)
 
 
 def res_allo(heart_rate):
