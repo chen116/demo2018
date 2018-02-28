@@ -35,12 +35,13 @@ def res_allo(heart_rate,thread_shared_data,domuid):
     if heart_rate<200:
         if thread_shared_data[domuid]['bud'] < 100:
             thread_shared_data[domuid]['bud']+=1000
-            proc = subprocess.Popen(['xl','sched-rtds','-d',domuid,'-p','10000','-b',str(thread_shared_data[domuid]['bud'])])
-            try:
-                outs, errs = proc.communicate(timeout=15)
-            except TimeoutExpired:
-                proc.kill()
-                outs, errs = proc.communicate()
+            subprocess.call(['xl','sched-rtds','-d',domuid,'-p','10000','-b',str(thread_shared_data[domuid]['bud'])])
+            # proc = subprocess.Popen(['xl','sched-rtds','-d',domuid,'-p','10000','-b',str(thread_shared_data[domuid]['bud'])])
+            # try:
+            #     outs, errs = proc.communicate(timeout=15)
+            # except TimeoutExpired:
+            #     proc.kill()
+            #     outs, errs = proc.communicate()
 
 
 
