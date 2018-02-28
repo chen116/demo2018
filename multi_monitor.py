@@ -22,7 +22,7 @@ out =  subprocess.check_output(['xl', 'sched-rtds']).decode().split('\n')
 for lines in out:
     line = lines.split()
     print(line)
-    if 'instance' in line[0]:
+    if line and 'instance' in line[0]:
         shared_data[line[1]]={}
         shared_data[line[1]]['bud']=int(line[3])
 print(shared_data)
