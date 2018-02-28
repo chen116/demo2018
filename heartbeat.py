@@ -38,7 +38,7 @@ class Heartbeat:
 		self.shmlib.get_instant_heartrate.restype = ctypes.c_double
 		return self.shmlib.get_instant_heartrate(self.shm_key,self.cnt)
 	def get_window_heartrate(self):
-		self.shmlib.get_instant_heartrate.restype = ctypes.c_double
+		self.shmlib.get_window_heartrate.restype = ctypes.c_double
 		return self.shmlib.get_window_heartrate(self.shm_key,self.cnt)
 	def heartbeat_finish(self):
 		if self.shmlib.anchors_heartbeat_finish(self.shm_key):
