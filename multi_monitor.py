@@ -11,14 +11,16 @@ c = xencomm.Dom0(["heart_rate"])
 
 threadLock = threading.Lock()
 threads = []
-shared_data = {'vcpu':0,'p':0}
+shared_data = {}
 
 
 out =  subprocess.check_output(['xl', 'sched-rtds']).decode().split('\n')
 for lines in out:
     line = lines.split()
     if 'instance' in line[0]:
-        print(line[1],line[3])
+        shared_data[line[1]]={}
+        shared_data[line[1]]['bud']=int(line[3])
+print(shared_data)
 
 exit()
 def res_allo(heart_rate):
