@@ -126,7 +126,7 @@ def res_allo(heart_rate,thread_shared_data,domuid):
             #     proc.kill()
             #     outs, errs = proc.communicate()
     if heart_rate>25:
-        print(thread_shared_data[domuid]['bud'] )
+        print(thread_shared_data[domuid]['bud'],'sdf')
         if thread_shared_data[domuid]['bud'] < 10000:
             thread_shared_data[domuid]['bud']-=100
             # print('bud',time.time(),domuid,thread_shared_data[domuid]['bud'])
