@@ -37,7 +37,8 @@ for lines in out:
         shared_data[line[1]].append(create_single_vcpu_info(line))
 
 out =  subprocess.check_output(['xl', 'sched-credit2']).decode().split('\n')
-print(out)
+if out[0]=='':
+    print('yay')
 
 
 for domuid in shared_data:
