@@ -3,14 +3,39 @@
 
 
 import subprocess
+
+
+def create_single_vcpu_info(line):
+    single_cpu_info={}
+    pcpu = line[3]
+    if pcpu.isdigit():
+        single_cpu_info['pcpu']=int(pcpu)
+    else:
+        single_cpu_info['pcpu']=-1
+    pcpu_pin = line[6]
+    if pcpu_pin.isdigit():
+        single_cpu_info['pcpu_pin']=int(pcpu_pin)
+    else:
+        single_cpu_info['pcpu_pin']=-1    
+    return single_cpu_info
+
+
 shared_data = {}
 
-out =  subprocess.check_output(['xl', 'sched-rtds']).decode().split('\n')
+out =  subprocess.check_output(['xl', 'vcpu-list']).decode().split('\n')
+# out =  subprocess.check_output(['xl', 'sched-rtds','-v','all']).decode().split('\n')
+out.pop(0)
 for lines in out:
     line = lines.split()
-    if line and 'ID' not in line[1] and len(line)==4:
+    if line[1] not in shared_data:
         shared_data[line[1]]={}
-        shared_data[line[1]]['bud']=int(line[3])
+        shared_data[line[1]]['vcpus']=[]
+        shared_data[line[1]]['vcpus'].append(create_single_vcpu_info(line))
+    else:
+        shared_data[line[1]]['vcpus'].append(create_single_vcpu_info(line))
+        
+
+
 print(shared_data)
 exit()
 
@@ -33,6 +58,7 @@ c = heartbeat.Dom0(["heart_rate"])
 
 threadLock = threading.Lock()
 threads = []
+shared_data = {}
 
 out =  subprocess.check_output(['xl', 'sched-rtds']).decode().split('\n')
 for lines in out:
