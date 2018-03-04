@@ -36,6 +36,10 @@ for lines in out:
     else:
         shared_data[line[1]].append(create_single_vcpu_info(line))
 
+out =  subprocess.check_output(['xl', 'sched-credit2']).decode().split('\n')
+print(out)
+
+
 for domuid in shared_data:
     out =  subprocess.check_output(['xl', 'sched-rtds','-d',domuid]).decode().split('\n')
     out.pop(0)
@@ -45,6 +49,7 @@ for domuid in shared_data:
             continue
         shared_data[line[1]][int(line[2])]['p']=line[3]
         shared_data[line[1]][int(line[2])]['b']=line[4]
+
 
 pp = pprint.PrettyPrinter(indent=2)
 pp.pprint(shared_data)
