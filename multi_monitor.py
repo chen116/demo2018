@@ -38,7 +38,7 @@ for lines in out:
         shared_data[line[1]]['vcpus'].append(create_single_vcpu_info(line))
 
 
-pp = pprint.PrettyPrinter(indent=4)
+pp = pprint.PrettyPrinter(indent=2)
 pp.pprint(shared_data)
 exit()
 
