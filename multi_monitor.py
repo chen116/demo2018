@@ -41,6 +41,7 @@ if out[0]!='':
         line = lines.split()
         for vcpus in shared_data[line[1]]:
             for vcpu in vcpus:
+                print(vcpu)
                 vcpu['w']=line[2]
                 vcpu['c']=line[3]
 
