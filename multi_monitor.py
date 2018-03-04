@@ -23,7 +23,6 @@ def create_single_vcpu_info(line):
 shared_data = {}
 
 out =  subprocess.check_output(['xl', 'vcpu-list']).decode().split('\n')
-# out =  subprocess.check_output(['xl', 'sched-rtds','-v','all']).decode().split('\n')
 out.pop(0)
 for lines in out:
     line = lines.split()
@@ -37,6 +36,15 @@ for lines in out:
     else:
         shared_data[line[1]]['vcpus'].append(create_single_vcpu_info(line))
 
+for domuid in shared_data:
+    out =  subprocess.check_output(['xl', 'sched-rtds','-d',domuid]).decode().split('\n')
+    out.pop(0)
+    for lines in out:
+        line = lines.split()
+        if line==[]:
+            continue
+        shared_data[line[1]]['vcpus'][int(line[2])]['p']=line[3]
+        shared_data[line[1]]['vcpus'][int(line[2])]['b']=line[4]
 
 pp = pprint.PrettyPrinter(indent=2)
 pp.pprint(shared_data)
