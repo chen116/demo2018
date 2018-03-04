@@ -19,7 +19,7 @@ import numpy.fft as fft
 # w2.pack()
 
 hb = heartbeat.Heartbeat(1024,10,1000,"vic.log",10,100)
-monitoring_items = ["heart_rate","meow"]
+monitoring_items = ["heart_rate","app_mode"]
 
 comm = heartbeat.DomU(monitoring_items)
 
@@ -47,7 +47,7 @@ while(True):
 	window_hr = hb.get_window_heartrate()
 	if (hb.cnt%10==1):
 		comm.write("heart_rate",window_hr)
-		comm.write("meow","cat"+str(hb.cnt))
+		comm.write("app_mode","cat"+str(hb.cnt))
 
 
 

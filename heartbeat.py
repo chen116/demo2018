@@ -148,16 +148,10 @@ class MonitorThread(threading.Thread):
 				msg=c.read(path).decode()
 				self.threadLock.acquire()
 
-
-
-
 				try :
 					self.res_allo(float(msg),self.shared_data,self.domuid)
 				except:
 					print(self.domuid,token.decode(),msg)
-
-
-
 
 				self.threadLock.release()
 

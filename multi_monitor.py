@@ -7,7 +7,7 @@ from threading import Thread
 import threading
 import time
 
-monitoring_items = ["heart_rate","meow"]
+monitoring_items = ["heart_rate","app_mode"]
 c = heartbeat.Dom0(monitoring_items,['1','2'])
 # c = heartbeat.Dom0(["heart_rate"])
 
@@ -61,4 +61,4 @@ cntt=0
 for t in threads:
     t.join()
     cntt+=1
-print("Exiting the Monitor, total",cntt,"threads")
+print("Exiting the Monitor, total",cntt,"monitoring threads")
