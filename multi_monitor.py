@@ -43,6 +43,8 @@ def create_single_vcpu_info(line):
 
 
 shared_data = {}
+shared_data['rtxen']=set()
+shared_data['xen']=set()
 
 out =  subprocess.check_output(['xl', 'vcpu-list']).decode().split('\n')
 out=out[1:-1]
@@ -61,6 +63,7 @@ if out[0]!='':
     out=out[2:-1]
     for lines in out:
         line = lines.split()
+        shared_data['xen'].add(line[1])
         for vcpu in shared_data[line[1]]:
             vcpu['w']=int(line[2])
             vcpu['c']=int(line[3])
@@ -70,6 +73,7 @@ if out[0]!='':
     out=out[2:-1]
     for lines in out:
         line = lines.split()
+        shared_data['rtxen'].add(line[1])
         shared_data[line[1]][int(line[2])]['p']=int(line[3])
         shared_data[line[1]][int(line[2])]['b']=int(line[4])
 
