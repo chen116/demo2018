@@ -7,7 +7,7 @@ from threading import Thread
 import threading
 import time
 
-monitoring_items = ["heart_rate"]
+monitoring_items = ["heart_rate","meow"]
 c = heartbeat.Dom0(monitoring_items,['1','2'])
 # c = heartbeat.Dom0(["heart_rate"])
 

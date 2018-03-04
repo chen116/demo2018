@@ -19,7 +19,9 @@ import numpy.fft as fft
 # w2.pack()
 
 hb = heartbeat.Heartbeat(1024,10,1000,"vic.log",10,100)
-comm = heartbeat.DomU(["heart_rate"])
+monitoring_items = ["heart_rate","meow"]
+
+comm = heartbeat.DomU(monitoring_items)
 
 
 cap = cv2.VideoCapture('/root/jellyfish-25-mbps-hd-hevc.avi')
@@ -45,6 +47,7 @@ while(True):
 	window_hr = hb.get_window_heartrate()
 	if (hb.cnt%10==1):
 		comm.write("heart_rate",window_hr)
+		comm.write("meow","cat"+str(hb.cnt))
 
 
 
