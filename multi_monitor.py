@@ -31,10 +31,10 @@ for lines in out:
 
     if line[1] not in shared_data:
         shared_data[line[1]]={}
-        shared_data[line[1]]['vcpus']=[]
-        shared_data[line[1]]['vcpus'].append(create_single_vcpu_info(line))
+        shared_data[line[1]]=[]
+        shared_data[line[1]].append(create_single_vcpu_info(line))
     else:
-        shared_data[line[1]]['vcpus'].append(create_single_vcpu_info(line))
+        shared_data[line[1]].append(create_single_vcpu_info(line))
 
 for domuid in shared_data:
     out =  subprocess.check_output(['xl', 'sched-rtds','-d',domuid]).decode().split('\n')
@@ -43,8 +43,8 @@ for domuid in shared_data:
         line = lines.split()
         if line==[]:
             continue
-        shared_data[line[1]]['vcpus'][int(line[2])]['p']=line[3]
-        shared_data[line[1]]['vcpus'][int(line[2])]['b']=line[4]
+        shared_data[line[1]][int(line[2])]['p']=line[3]
+        shared_data[line[1]][int(line[2])]['b']=line[4]
 
 pp = pprint.PrettyPrinter(indent=2)
 pp.pprint(shared_data)
