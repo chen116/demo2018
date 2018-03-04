@@ -21,8 +21,7 @@ shared_data = xen_interface.get_global_info()
 
 def res_allo(mode,heart_rate,thread_shared_data,domuid):
 
-    thread_shared_data["0"][0]['pcpu']+=1
-    print(thread_shared_data["0"][0]['pcpu'])
+    return
     # https://xenbits.xen.org/docs/unstable/man/xl.1.html#SCHEDULER-SUBCOMMANDS
     # cpupool, vcpupin, rtds-budget,period, extratime, vcpu-list
     # https://wiki.xenproject.org/wiki/Tuning_Xen_for_Performance
