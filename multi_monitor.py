@@ -3,6 +3,7 @@
 
 
 import subprocess
+shared_data = {}
 
 out =  subprocess.check_output(['xl', 'sched-rtds']).decode().split('\n')
 for lines in out:
@@ -32,7 +33,6 @@ c = heartbeat.Dom0(["heart_rate"])
 
 threadLock = threading.Lock()
 threads = []
-shared_data = {}
 
 out =  subprocess.check_output(['xl', 'sched-rtds']).decode().split('\n')
 for lines in out:
