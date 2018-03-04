@@ -139,7 +139,7 @@ class MonitorThread(threading.Thread):
 			m = c.monitor()
 			for key in self.keys:
 				tmp_key_path = (self.base_path+'/'+self.domuid+'/'+key).encode()
-				token = (key+' '+self.domuid).encode()
+				token = (key).encode()
 				m.watch(tmp_key_path,token)
 
 			msg=""
