@@ -149,7 +149,9 @@ class MonitorThread(threading.Thread):
 				self.threadLock.acquire()
 
 				try :
-					self.res_allo(float(msg),self.shared_data,self.domuid)
+					self.res_allo(token.decode(),float(msg),self.shared_data,self.domuid)
+					print(self.domuid,token.decode(),msg)
+					
 				except:
 					print(self.domuid,token.decode(),msg)
 
