@@ -1,3 +1,14 @@
+out =  subprocess.check_output(['xl', 'sched-rtds']).decode().split('\n')
+for lines in out:
+    line = lines.split()
+    if line and 'ID' not in line[1] and len(line)==4:
+        shared_data[line[1]]={}
+        shared_data[line[1]]['bud']=int(line[3])
+print(shared_data)
+exit()
+
+
+
 
 import subprocess
 import heartbeat
