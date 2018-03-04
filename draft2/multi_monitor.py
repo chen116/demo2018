@@ -1,14 +1,13 @@
 
 import subprocess
-import heartbeat
-
+import xencomm
 
 from threading import Thread
 import threading
 import time
 
 
-c = heartbeat.Dom0(["heart_rate"])
+c = xencomm.Dom0(["heart_rate"])
 
 
 
@@ -60,7 +59,7 @@ def res_allo(heart_rate,thread_shared_data,domuid):
 
 
 for domuid in c.domu_ids:
-    tmp_thread = heartbeat.MonitorThread(threadLock,shared_data,res_allo,domuid,["heart_rate"])
+    tmp_thread = xencomm.MonitorThread(threadLock,shared_data,res_allo,domuid,["heart_rate"])
     tmp_thread.start()
     threads.append(tmp_thread)
 

@@ -1,6 +1,6 @@
 
 import heartbeat
-
+import xencomm
 
 # for obj track
 import numpy as np
@@ -19,7 +19,7 @@ import numpy.fft as fft
 # w2.pack()
 
 hb = heartbeat.Heartbeat(1024,10,1000,"vic.log",10,100)
-comm = heartbeat.DomU(["heart_rate"])
+comm = xencomm.DomU(["heart_rate"])
 
 
 cap = cv2.VideoCapture('/root/jellyfish-25-mbps-hd-hevc.avi')

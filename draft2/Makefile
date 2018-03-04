@@ -9,8 +9,8 @@
 # for running python
 # clilib: 
 # 	gcc -shared -Wl,-soname,clilib -o clilib.so -fPIC clilib.c
-heartbeat_python_lib: 
-	gcc -shared -Wl,-soname,heartbeat_python_lib -o heartbeat_python_lib.so -fPIC heartbeat_python_lib.c
+shmlib: 
+	gcc -shared -Wl,-soname,shmlib -o shmlib.so -fPIC shmlib.c
 
 clean:
 	-rm -f *lib.so
