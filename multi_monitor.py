@@ -111,7 +111,7 @@ pp.pprint(shared_data)
 
 
 def res_allo(heart_rate,thread_shared_data,domuid):
-    print('meow')
+    print('meow',heart_rate)
     # https://xenbits.xen.org/docs/unstable/man/xl.1.html#SCHEDULER-SUBCOMMANDS
     # cpupool, vcpupin, rtds-budget,period, extratime, vcpu-list
     # https://wiki.xenproject.org/wiki/Tuning_Xen_for_Performance
