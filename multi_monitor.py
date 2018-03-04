@@ -39,7 +39,7 @@ for lines in out:
 
 
 pp = pprint.PrettyPrinter(indent=4)
-pp.prettyprint(shared_data)
+pp.pprint(shared_data)
 exit()
 
 
