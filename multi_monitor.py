@@ -23,12 +23,9 @@ def create_single_vcpu_info(line):
 shared_data = {}
 
 out =  subprocess.check_output(['xl', 'vcpu-list']).decode().split('\n')
-out.pop(0)
+out=out[1:-1]
 for lines in out:
     line = lines.split()
-    if line==[]:
-        continue
-
     if line[1] not in shared_data:
         shared_data[line[1]]={}
         shared_data[line[1]]=[]
@@ -36,20 +33,38 @@ for lines in out:
     else:
         shared_data[line[1]].append(create_single_vcpu_info(line))
 
-out =  subprocess.check_output(['xl', 'sched-credit2']).decode().split('\n')
-if out[0]=='':
-    print('yay')
 
-
-for domuid in shared_data:
-    out =  subprocess.check_output(['xl', 'sched-rtds','-d',domuid]).decode().split('\n')
-    out.pop(0)
+out =  subprocess.check_output(['xl', 'sched-credit']).decode().split('\n')
+if out[0]!='':
+    out=out[1:-1]
     for lines in out:
         line = lines.split()
-        if line==[]:
-            continue
+        for vcpus in shared_data[line[1]]:
+            for vcpu in vcpus:
+                vcpu['w']=line[2]
+                vcpu['c']=line[3]
+
+out =  subprocess.check_output(['xl', 'sched-rtds','-v','all']).decode().split('\n')
+if out[0]!='':
+    out=out[1:-1]
+    for lines in out:
+        line = lines.split()
         shared_data[line[1]][int(line[2])]['p']=line[3]
         shared_data[line[1]][int(line[2])]['b']=line[4]
+
+
+
+
+
+
+
+# for domuid in shared_data:
+#     out =  subprocess.check_output(['xl', 'sched-rtds','-d',domuid]).decode().split('\n')
+#     out=out[1:-1]
+#     for lines in out:
+#         line = lines.split()
+#         shared_data[line[1]][int(line[2])]['p']=line[3]
+#         shared_data[line[1]][int(line[2])]['b']=line[4]
 
 
 pp = pprint.PrettyPrinter(indent=2)
