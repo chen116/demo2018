@@ -135,6 +135,8 @@ def res_allo(heart_rate,thread_shared_data,domuid):
             # except TimeoutExpired:
             #     proc.kill()
             #     outs, errs = proc.communicate()
+        else:
+            print('hey')
     print('bud',domuid,time.time(),thread_shared_data[domuid]['bud'],heart_rate)
 
 
