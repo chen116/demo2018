@@ -51,7 +51,7 @@ class Heartbeat:
 
 
 class Dom0:
-	def __init__(self,keys=['test'],base_path='/local/domain',domu_ids=[]):
+	def __init__(self,keys=['heart_rate'],base_path='/local/domain',domu_ids=[]):
 		self.domu_ids = domu_ids
 		self.keys=keys
 		self.base_path=base_path
