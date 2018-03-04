@@ -40,16 +40,16 @@ if out[0]!='':
     for lines in out:
         line = lines.split()
         for vcpu in shared_data[line[1]]:
-            vcpu['w']=line[2]
-            vcpu['c']=line[3]
+            vcpu['w']=int(line[2])
+            vcpu['c']=int(line[3])
 
 out =  subprocess.check_output(['xl', 'sched-rtds','-v','all']).decode().split('\n')
 if out[0]!='':
     out=out[2:-1]
     for lines in out:
         line = lines.split()
-        shared_data[line[1]][int(line[2])]['p']=line[3]
-        shared_data[line[1]][int(line[2])]['b']=line[4]
+        shared_data[line[1]][int(line[2])]['p']=int(line[3])
+        shared_data[line[1]][int(line[2])]['b']=int(line[4])
 
 
 
