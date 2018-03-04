@@ -1,9 +1,68 @@
 
 
+import pprint
 
 
 import subprocess
+def get_global_info():
+    def create_single_vcpu_info(line):
+        single_cpu_info={}
+        pcpu = line[3]
+        if pcpu.isdigit():
+            single_cpu_info['pcpu']=int(pcpu)
+        else:
+            single_cpu_info['pcpu']=-1
+        pcpu_pin = line[6]
+        if pcpu_pin.isdigit():
+            single_cpu_info['pcpu_pin']=int(pcpu_pin)
+        else:
+            single_cpu_info['pcpu_pin']=-1    
+        return single_cpu_info
 
+
+    shared_data = {}
+    shared_data['rtxen']=set()
+    shared_data['xen']=set()
+
+    out =  subprocess.check_output(['xl', 'vcpu-list']).decode().split('\n')
+    out=out[1:-1]
+    for lines in out:
+        line = lines.split()
+        if line[1] not in shared_data:
+            shared_data[line[1]]={}
+            shared_data[line[1]]=[]
+            shared_data[line[1]].append(create_single_vcpu_info(line))
+        else:
+            shared_data[line[1]].append(create_single_vcpu_info(line))
+
+
+    out =  subprocess.check_output(['xl', 'sched-credit']).decode().split('\n')
+    if out[0]!='':
+        out=out[2:-1]
+        for lines in out:
+            line = lines.split()
+            shared_data['xen'].add(line[1])
+            for vcpu in shared_data[line[1]]:
+                vcpu['w']=int(line[2])
+                vcpu['c']=int(line[3])
+
+    out =  subprocess.check_output(['xl', 'sched-rtds','-v','all']).decode().split('\n')
+    if out[0]!='':
+        out=out[2:-1]
+        for lines in out:
+            line = lines.split()
+            if line[1]!='0':
+                shared_data['rtxen'].add(line[1])
+            shared_data[line[1]][int(line[2])]['p']=int(line[3])
+            shared_data[line[1]][int(line[2])]['b']=int(line[4])
+
+
+
+
+
+    pp = pprint.PrettyPrinter(indent=2)
+    pp.pprint(shared_data)
+    return shared_data
 
 def set_vcpu(domuid,num_vcpus):
     proc = subprocess.Popen(['xl','vcpu-set',str(domuid),str(num_vcpus)])
