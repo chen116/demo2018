@@ -1,3 +1,9 @@
+
+
+
+
+import subprocess
+
 out =  subprocess.check_output(['xl', 'sched-rtds']).decode().split('\n')
 for lines in out:
     line = lines.split()
@@ -8,9 +14,6 @@ print(shared_data)
 exit()
 
 
-
-
-import subprocess
 import heartbeat
 
 
