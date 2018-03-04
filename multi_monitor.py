@@ -1,5 +1,5 @@
 
-
+import pprint
 
 
 import subprocess
@@ -38,8 +38,8 @@ for lines in out:
         shared_data[line[1]]['vcpus'].append(create_single_vcpu_info(line))
 
 
-
-print(shared_data)
+pp = pprint.PrettyPrinter(indent=4)
+pp.prettyprint(shared_data)
 exit()
 
 
