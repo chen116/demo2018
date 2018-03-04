@@ -154,7 +154,7 @@ class MonitorThread(threading.Thread):
 				try :
 					self.res_allo(float(msg),self.shared_data,self.domuid)
 				except:
-					print(self.domuid,msg)
+					print(self.domuid,token,msg)
 
 
 
