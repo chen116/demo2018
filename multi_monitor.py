@@ -27,7 +27,8 @@ out =  subprocess.check_output(['xl', 'vcpu-list']).decode().split('\n')
 out.pop(0)
 for lines in out:
     line = lines.split()
-    print(line)
+    if line=[]:
+        continue
 
     if line[1] not in shared_data:
         shared_data[line[1]]={}
