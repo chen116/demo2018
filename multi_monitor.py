@@ -40,4 +40,5 @@ threads_cnt=0
 for t in threads:
     t.join()
     threads_cnt+=1
+print(shared_data)
 print("Exiting the Monitor, total",threads_cnt,"monitoring threads")
