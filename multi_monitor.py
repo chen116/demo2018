@@ -36,7 +36,7 @@ for lines in out:
 
 out =  subprocess.check_output(['xl', 'sched-credit']).decode().split('\n')
 if out[0]!='':
-    out=out[1:-1]
+    out=out[2:-1]
     for lines in out:
         line = lines.split()
         for vcpus in shared_data[line[1]]:
@@ -46,7 +46,7 @@ if out[0]!='':
 
 out =  subprocess.check_output(['xl', 'sched-rtds','-v','all']).decode().split('\n')
 if out[0]!='':
-    out=out[1:-1]
+    out=out[2:-1]
     for lines in out:
         line = lines.split()
         shared_data[line[1]][int(line[2])]['p']=line[3]
