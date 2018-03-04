@@ -4,6 +4,8 @@ import pprint
 
 
 import subprocess
+
+
 def get_global_info():
     def create_single_vcpu_info(line):
         single_cpu_info={}

@@ -8,7 +8,7 @@ import threading
 import time
 
 monitoring_items = ["heart_rate"]
-c = heartbeat.Dom0(monitoring_items,['1'])
+c = heartbeat.Dom0(monitoring_items,['1','2'])
 # c = heartbeat.Dom0(["heart_rate"])
 
 
@@ -34,10 +34,6 @@ def res_allo(heart_rate,thread_shared_data,domuid):
             #     proc.kill()
             #     outs, errs = proc.communicate()
     if heart_rate>25:
-        try:
-            print(thread_shared_data[domuid]['bud'],'sdf')
-        except:
-            print('no good')
         if thread_shared_data[domuid]['bud'] < 10000:
             thread_shared_data[domuid]['bud']-=100
             # print('bud',time.time(),domuid,thread_shared_data[domuid]['bud'])
