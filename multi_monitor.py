@@ -15,7 +15,7 @@ import time
 
 
 c = heartbeat.Dom0(["heart_rate"],['1'])
-c = heartbeat.Dom0(["heart_rate"])
+# c = heartbeat.Dom0(["heart_rate"])
 
 
 
