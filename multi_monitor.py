@@ -39,12 +39,9 @@ if out[0]!='':
     out=out[2:-1]
     for lines in out:
         line = lines.split()
-        for vcpus in shared_data[line[1]]:
-            print(vcpus)
-            for vcpu in vcpus:
-                # print(vcpu)
-                vcpu['w']=line[2]
-                vcpu['c']=line[3]
+        for vcpu in shared_data[line[1]]:
+            vcpu['w']=line[2]
+            vcpu['c']=line[3]
 
 out =  subprocess.check_output(['xl', 'sched-rtds','-v','all']).decode().split('\n')
 if out[0]!='':
