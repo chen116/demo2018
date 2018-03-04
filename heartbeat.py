@@ -2,6 +2,8 @@ from ctypes import cdll
 import ctypes
 import sysv_ipc
 import sys
+from pyxs import Client
+import threading
 
 
 class Heartbeat:
@@ -46,19 +48,18 @@ class Heartbeat:
 			print("clean up",self.shm_key)
 
 
-# from pyxs import Router
-# from pyxs.connection import XenBusConnection
-from pyxs import Client
-import threading
+
+
 class Dom0:
-	def __init__(self,keys=['test'],base_path='/local/domain'):
-		self.domu_ids = []
+	def __init__(self,keys=['test'],base_path='/local/domain',domu_ids=[]):
+		self.domu_ids = domu_ids
 		self.keys=keys
 		self.base_path=base_path
 		with Client(xen_bus_path="/dev/xen/xenbus") as c:
-			for x in c.list(base_path.encode()):
-				self.domu_ids.append(x.decode())
-			self.domu_ids.pop(0)
+			if domu_ids==[]
+				for x in c.list(base_path.encode()):
+					self.domu_ids.append(x.decode())
+				self.domu_ids.pop(0)
 			for domuid in self.domu_ids:
 				permissions = []
 				permissions.append(('b'+'0').encode())

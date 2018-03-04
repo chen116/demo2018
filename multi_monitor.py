@@ -5,6 +5,28 @@ import pprint
 import subprocess
 
 
+
+import heartbeat
+
+
+from threading import Thread
+import threading
+import time
+
+
+c = heartbeat.Dom0(["heart_rate"])
+
+
+
+
+
+
+
+threadLock = threading.Lock()
+threads = []
+
+
+
 def create_single_vcpu_info(line):
     single_cpu_info={}
     pcpu = line[3]
@@ -68,36 +90,17 @@ if out[0]!='':
 
 pp = pprint.PrettyPrinter(indent=2)
 pp.pprint(shared_data)
-exit()
 
 
-import heartbeat
+# shared_data = {}
 
-
-from threading import Thread
-import threading
-import time
-
-
-c = heartbeat.Dom0(["heart_rate"])
-
-
-
-
-
-
-
-threadLock = threading.Lock()
-threads = []
-shared_data = {}
-
-out =  subprocess.check_output(['xl', 'sched-rtds']).decode().split('\n')
-for lines in out:
-    line = lines.split()
-    if line and 'ID' not in line[1] and len(line)==4:
-        shared_data[line[1]]={}
-        shared_data[line[1]]['bud']=int(line[3])
-print(shared_data)
+# out =  subprocess.check_output(['xl', 'sched-rtds']).decode().split('\n')
+# for lines in out:
+#     line = lines.split()
+#     if line and 'ID' not in line[1] and len(line)==4:
+#         shared_data[line[1]]={}
+#         shared_data[line[1]]['bud']=int(line[3])
+# print(shared_data)
 
 
 
