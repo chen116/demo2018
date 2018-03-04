@@ -25,6 +25,7 @@ shared_data = {}
 out =  subprocess.check_output(['xl', 'vcpu-list']).decode().split('\n')
 # out =  subprocess.check_output(['xl', 'sched-rtds','-v','all']).decode().split('\n')
 out.pop(0)
+print(out)
 for lines in out:
     line = lines.split()
     if line[1] not in shared_data:
@@ -33,7 +34,7 @@ for lines in out:
         shared_data[line[1]]['vcpus'].append(create_single_vcpu_info(line))
     else:
         shared_data[line[1]]['vcpus'].append(create_single_vcpu_info(line))
-        
+
 
 
 print(shared_data)
