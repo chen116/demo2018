@@ -57,6 +57,8 @@ for domuid in c.domu_ids:
 
 
 # Wait for all MonitorThreads to complete
+cntt=0
 for t in threads:
     t.join()
-print("Exiting the Monitor")
+    cntt+=1
+print("Exiting the Monitor, total",cntt,"threads")
