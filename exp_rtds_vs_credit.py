@@ -45,7 +45,7 @@ class vicThread(threading.Thread):
 	def vicrun(self):  # one monitor observe one domU at a time
 		for it in range(self.trials):
 			hb = heartbeat.Heartbeat((it+1)*1024,(it+1)*100,1000,"../logs_demo2018/"+rtds_or_credit+"_"+busy_or_idle+"_"+single_or_multi+"_"+self.th_id+"_"+str(it)+".log",10,100)
-			cap = cv2.VideoCapture('/root/bird+'self.th_id+'.avi')
+			cap = cv2.VideoCapture('/root/bird'+self.th_id+'.avi')
 			ret,frame = cap.read()
 			frame2 = np.zeros((frame.shape),dtype=frame.dtype)
 
