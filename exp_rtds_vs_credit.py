@@ -83,7 +83,7 @@ if 's' not in single_or_multi:
 	threads = []
 	monitoring_items = ["heart_rate","app_mode"]
 	comm = heartbeat.DomU(monitoring_items)
-	for th_id in range(1):
+	for th_id in range(2):
 	    tmp_thread = VicThread(threadLock,trials,th_id,comm)
 	    tmp_thread.start()
 	    threads.append(tmp_thread)
