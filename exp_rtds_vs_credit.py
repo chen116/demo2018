@@ -70,9 +70,9 @@ class VicThread(threading.Thread):
 					comm.write("heart_rate",window_hr)
 					comm.write("app_mode","cat"+str(hb.cnt))
 					self.threadLock.release()
-		cap.release()
-		cv2.destroyAllWindows()
-		hb.heartbeat_finish()
+			cap.release()
+			cv2.destroyAllWindows()
+			hb.heartbeat_finish()
 
 
 if 's' not in single_or_multi:
