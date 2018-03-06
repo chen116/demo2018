@@ -14,6 +14,7 @@ script, first, second, third= argv
 trials = int(first)
 rtds_or_credit = second
 busy_or_idle = third
+print(trials,rtds_or_credit,busy_or_idle)
 # master = Tk()
 # w1 = Scale(master,from_=0,to=400)
 # w1.set(100)
