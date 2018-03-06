@@ -9,12 +9,13 @@ from tkinter import *
 import numpy.fft as fft
 from sys import argv
 
-script, first, second, third= argv
+script, first, second, third, fourth= argv
 
 trials = int(first)
 rtds_or_credit = second
 busy_or_idle = third
-print(trials,rtds_or_credit,busy_or_idle)
+single_or_multi = fourth
+print(trials,rtds_or_credit,busy_or_idle,single_or_multi)
 # master = Tk()
 # w1 = Scale(master,from_=0,to=400)
 # w1.set(100)
@@ -28,7 +29,7 @@ for it in range(trials):
 
 
 
-	hb = heartbeat.Heartbeat(1024,10,1000,"./logs/"+rtds_or_credit+busy_or_idle+str(it)+".log",10,100)
+	hb = heartbeat.Heartbeat(1024,10,1000,"../logs_demo2018/"+rtds_or_credit+busy_or_idle+str(it)+".log",10,100)
 	monitoring_items = ["heart_rate","app_mode"]
 
 	comm = heartbeat.DomU(monitoring_items)
