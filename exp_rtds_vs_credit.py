@@ -16,7 +16,7 @@ script, first, second, third, fourth= argv
 
 trials = int(first)
 rtds_or_credit = second
-busy_or_idle = third
+busy_or_idle = "cap100"
 single_or_multi = fourth
 print(trials,rtds_or_credit,busy_or_idle,single_or_multi)
 # master = Tk()
