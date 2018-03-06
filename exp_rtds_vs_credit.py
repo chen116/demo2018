@@ -89,7 +89,7 @@ if 's' not in single_or_multi:
 	for t in threads:
 	    t.join()
 	    threads_cnt+=1
-	comm.write("heart_rate","done")
+	# comm.write("heart_rate","done")
 	print("Exiting the experi, total",threads_cnt,"threads")
 
 else:
