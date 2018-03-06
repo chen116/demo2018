@@ -29,7 +29,7 @@ for it in range(trials):
 
 
 
-	hb = heartbeat.Heartbeat(1024,10,1000,"../logs_demo2018/"+rtds_or_credit+busy_or_idle+str(it)+".log",10,100)
+	hb = heartbeat.Heartbeat(1024,10,1000,"../logs_demo2018/"+rtds_or_credit+"_"+busy_or_idle+"_"+single_or_multi+"_"+str(it)+".log",10,100)
 	monitoring_items = ["heart_rate","app_mode"]
 
 	comm = heartbeat.DomU(monitoring_items)
