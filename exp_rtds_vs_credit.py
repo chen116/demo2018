@@ -29,11 +29,12 @@ print(trials,rtds_or_credit,busy_or_idle,single_or_multi)
 
 
 class VicThread(threading.Thread):
-	def __init__(self, threadLock,trials,th_id):
+	def __init__(self, threadLock,trials,th_id,comm):
 		threading.Thread.__init__(self)
 		self.trials=trials
 		self.th_id=str(th_id)
 		self.threadLock=threadLock
+		self.comm=comm
 
 	def run(self):
 		# Acquire lock to synchronize thread
@@ -67,8 +68,8 @@ class VicThread(threading.Thread):
 				window_hr = hb.get_window_heartrate()
 				if (hb.cnt%10==1):
 					self.threadLock.acquire()
-					comm.write("heart_rate",window_hr)
-					comm.write("app_mode","cat"+str(hb.cnt))
+					self.comm.write("heart_rate",window_hr)
+					self.comm.write("app_mode","cat"+str(hb.cnt))
 					self.threadLock.release()
 			cap.release()
 			cv2.destroyAllWindows()
@@ -81,7 +82,7 @@ if 's' not in single_or_multi:
 	monitoring_items = ["heart_rate","app_mode"]
 	comm = heartbeat.DomU(monitoring_items)
 	for th_id in range(4):
-	    tmp_thread = VicThread(threadLock,trials,th_id)
+	    tmp_thread = VicThread(threadLock,trials,th_id,comm)
 	    tmp_thread.start()
 	    threads.append(tmp_thread)
 	# Wait for all VicThreads to complete
