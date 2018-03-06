@@ -28,8 +28,8 @@ print(trials,rtds_or_credit,busy_or_idle,single_or_multi)
 # w2.pack()
 
 
-class vicThread(threading.Thread):
-	def __init__(self, threadLock,trials=10,th_id):
+class VicThread(threading.Thread):
+	def __init__(self, threadLock,trials,th_id):
 		threading.Thread.__init__(self)
 		self.trials=trials
 		self.th_id=str(th_id)
@@ -81,10 +81,10 @@ if 's' not in single_or_multi:
 	monitoring_items = ["heart_rate","app_mode"]
 	comm = heartbeat.DomU(monitoring_items)
 	for th_id in range(4):
-	    tmp_thread = vicThread(threadLock,trials,th_id)
+	    tmp_thread = VicThread(threadLock,trials,th_id)
 	    tmp_thread.start()
 	    threads.append(tmp_thread)
-	# Wait for all vicThreads to complete
+	# Wait for all VicThreads to complete
 	threads_cnt=0
 	for t in threads:
 	    t.join()
