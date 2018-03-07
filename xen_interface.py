@@ -6,6 +6,43 @@ import pprint
 import subprocess
 
 
+def update_domu_info(shared_data, domuid):
+    def update_single_vcpu_info(line):
+        single_cpu_info={}
+        pcpu = line[3]
+        if pcpu.isdigit():
+            single_cpu_info['pcpu']=int(pcpu)
+        else:
+            single_cpu_info['pcpu']=-1
+        pcpu_pin = line[6]
+        single_cpu_info['pcpu_pin']=pcpu_pin   
+        return single_cpu_info
+
+    out =  subprocess.check_output(['xl', 'vcpu-list','-d',domuid]).decode().split('\n')
+    out=out[1:-1]
+    cnt=0
+    for lines in out:
+        line = lines.split()
+        shared_data[domuid][cnt]=update_single_vcpu_info(line)
+        cnt+=1
+
+    if domuid in shared_data['xen']:
+        out =  subprocess.check_output(['xl', 'sched-credit','-d',domuid]).decode().split('\n')
+        out=out[2:-1]
+        for lines in out:
+            line = lines.split()
+            for vcpu in shared_data[domuid]:
+                vcpu['w']=int(line[2])
+                vcpu['c']=int(line[3])
+
+    out =  subprocess.check_output(['xl', 'sched-rtds','-d',domuid,'all']).decode().split('\n')
+    out=out[2:-1]
+    for lines in out:
+        line = lines.split()
+        shared_data[domuid][int(line[2])]['p']=int(line[3])
+        shared_data[domuid][int(line[2])]['b']=int(line[4])   
+
+
 def get_global_info():
     def create_single_vcpu_info(line):
         single_cpu_info={}
