@@ -35,7 +35,7 @@ MODES = [
 
 w1 = IntVar()
 w1.set(500) # initialize
-
+previous_f_size = w1.get()
 for text, mode in MODES:
     b = Radiobutton(master, text=text,variable=w1, value=mode)
     b.pack(anchor=W)
@@ -83,9 +83,10 @@ while True:
 	# grab the frame from the threaded video stream and resize it
 	# to have a maximum width of 400 pixels
 	frame = vs.read()
-	if w1.get() == 0:
+	current_f_size=w1.get()
+	if current_f_size == 0:
 		break
-	frame = imutils.resize(frame, width=w1.get())
+	frame = imutils.resize(frame, width=current_f_size)
 
 	# grab the frame dimensions and convert it to a blob
 #	(h, w) = frame.shape[:2]
@@ -126,9 +127,11 @@ while True:
 	cv2.imshow("Frame", frame)
 	hb.heartbeat_beat()
 	window_hr = hb.get_window_heartrate()
-	if (hb.cnt%10==1):
+	if (hb.cnt>10):
 		comm.write("heart_rate",window_hr)
-		comm.write("app_mode","cat"+str(hb.cnt))
+	if (current_f_size!=previous_f_size):
+		comm.write("app_mode",int(current_f_size/500))
+		previous_f_size=current_f_size
 	key = cv2.waitKey(1) & 0xFF
 
 	# if the `q` key was pressed, break from the loop
