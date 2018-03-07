@@ -26,11 +26,11 @@ def res_allo(mode,heart_rate,thread_shared_data,domuid):
 		if vcpu['pcpu']!=-1:
 			cur_b=int(vcpu['b'])
 
-	if(heart_rate<=24):
+	if(heart_rate<25):
 		if cur_b<=9900:
 			cur_b+=100
 			xen_interface.sched_rtds(domuid,10000,cur_b,[])
-	if(heart_rate>=26):
+	if(heart_rate>30):
 		if cur_b>=200:
 			cur_b-=100
 			xen_interface.sched_rtds(domuid,10000,cur_b,[])
