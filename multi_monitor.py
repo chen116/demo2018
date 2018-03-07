@@ -29,7 +29,7 @@ def res_allo(mode,heart_rate,thread_shared_data,domuid):
 	if(heart_rate<10):
 		cur_b+=100
 		xen_interface.sched_rtds(domuid,10000,cur_b,[])
-	if(heart_rate>15):
+	if(heart_rate>12):
 		cur_b-=100
 		xen_interface.sched_rtds(domuid,10000,cur_b,[])
 	myinfo = thread_shared_data[domuid]
