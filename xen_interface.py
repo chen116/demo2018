@@ -34,13 +34,13 @@ def update_domu_info(shared_data, domuid):
             for vcpu in shared_data[domuid]:
                 vcpu['w']=int(line[2])
                 vcpu['c']=int(line[3])
-
-    out =  subprocess.check_output(['xl', 'sched-rtds','-d',domuid,'all']).decode().split('\n')
-    out=out[2:-1]
-    for lines in out:
-        line = lines.split()
-        shared_data[domuid][int(line[2])]['p']=int(line[3])
-        shared_data[domuid][int(line[2])]['b']=int(line[4])   
+    else:
+        out =  subprocess.check_output(['xl', 'sched-rtds','-d',domuid,'all']).decode().split('\n')
+        out=out[2:-1]
+        for lines in out:
+            line = lines.split()
+            shared_data[domuid][int(line[2])]['p']=int(line[3])
+            shared_data[domuid][int(line[2])]['b']=int(line[4])   
 
 
 def get_global_info():
