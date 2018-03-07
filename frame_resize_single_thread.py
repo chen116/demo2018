@@ -4,6 +4,13 @@
 # import the necessary packages
 #from imutils.video import VideoStream
 #from imutils.video import FPS
+
+import heartbeat
+hb = heartbeat.Heartbeat(1024,10,1000,"vic.log",10,100)
+monitoring_items = ["heart_rate","app_mode"]
+comm = heartbeat.DomU(monitoring_items)
+
+
 import numpy as np
 import argparse
 import imutils
@@ -45,8 +52,8 @@ print("[INFO] starting video stream...")
 #time.sleep(2.0)
 #fps = FPS().start()
 # cap = cv2.VideoCapture('rtsp://arittenbach:8mmhamcgt16!@192.168.1.3:88/videoMain')
-# cap = cv2.VideoCapture('/root/bird.avi')
-cap = cv2.VideoCapture('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain')
+cap = cv2.VideoCapture('/root/bird.avi')
+# cap = cv2.VideoCapture('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain')
 
 # loop over the frames from the video stream
 while True:
@@ -93,7 +100,11 @@ while True:
 	# show the output frame
 	cv2.imshow("Frame", frame)
 	key = cv2.waitKey(1) & 0xFF
-
+	hb.heartbeat_beat()
+	window_hr = hb.get_window_heartrate()
+	if (hb.cnt%10==1):
+		comm.write("heart_rate",window_hr)
+		comm.write("app_mode","cat"+str(hb.cnt))
 	# if the `q` key was pressed, break from the loop
 	if key == ord("q"):
 		break
@@ -112,3 +123,6 @@ while True:
 # do a bit of cleanup
 cv2.destroyAllWindows()
 #vs.stop()
+
+hb.heartbeat_finish()
+comm.write("heart_rate","done")

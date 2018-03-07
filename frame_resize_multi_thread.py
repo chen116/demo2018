@@ -41,7 +41,9 @@ print("[INFO] loading model...")
 # initialize the video stream, allow the cammera sensor to warmup,
 # and initialize the FPS counter
 print("[INFO] starting video stream...")
-cap = cv2.VideoCapture('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain')
+# cap = cv2.VideoCapture('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain')
+cap = cv2.VideoCapture('/root/bird.avi')
+
 time.sleep(2.0)
 fps = FPS().start()
 
