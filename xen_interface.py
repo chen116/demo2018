@@ -41,7 +41,7 @@ def update_domu_info(shared_data, domuid):
             line = lines.split()
             shared_data[domuid][int(line[2])]['p']=int(line[3])
             shared_data[domuid][int(line[2])]['b']=int(line[4])   
-            print(shared_data[domuid])
+            print(shared_data[domuid][int(line[2])]['b'])
 
 
 def get_global_info():
