@@ -128,7 +128,7 @@ class MonitorThread(threading.Thread):
 		self.threadLock=threadLock
 		self.shared_data=shared_data
 		self.res_allo=res_allo
-		self.anchors = 0
+		self.anchors = 1
 	def run(self):
 		# Acquire lock to synchronize thread
 		# self.threadLock.acquire()
@@ -149,7 +149,8 @@ class MonitorThread(threading.Thread):
 				path,token=next(m.wait())
 				msg=c.read(path).decode()
 				if self.keys[1] in path.decode():
-					self.anchors = msg
+					if msg.isdigit():
+						self.anchors = msg
 				self.threadLock.acquire()
 
 				try :

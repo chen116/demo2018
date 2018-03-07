@@ -26,7 +26,7 @@ from tkinter import *
 master = Tk()
 
 
-checked = IntVar()
+checked = IntVar(value=1)
 previous_checked = checked.get()
 
 
