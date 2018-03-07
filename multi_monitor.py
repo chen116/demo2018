@@ -44,12 +44,12 @@ def res_allo(anchors,heart_rate,thread_shared_data,domuid):
 				print('vcpu:',cnt,'b:',vcpu['b'])
 				cnt+=1
 	else:
-		print('anchors INACTIVE:')
+		print('-------------anchors INACTIVE:')
 		myinfo = thread_shared_data[domuid]
 		cnt=0
 		for vcpu in myinfo:
 			if vcpu['pcpu']!=-1:
-				print('vcpu:',cnt,'b:',vcpu['b'])	
+				print('-------------vcpu:',cnt,'b:',vcpu['b'])	
 				cnt+=1
 
 
