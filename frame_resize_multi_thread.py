@@ -39,7 +39,7 @@ for text, mode in MODES:
     b = Radiobutton(master, text=text,
                     variable=v, value=mode)
     b.pack(anchor=W)
-while b.get()!=2000:
+while b.value()!=2000:
 	x=input('->')
 	print(b.get())
 	master.update_idletasks()
