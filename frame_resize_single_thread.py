@@ -52,8 +52,8 @@ print("[INFO] starting video stream...")
 #time.sleep(2.0)
 #fps = FPS().start()
 # cap = cv2.VideoCapture('rtsp://arittenbach:8mmhamcgt16!@192.168.1.3:88/videoMain')
-cap = cv2.VideoCapture('/root/bird.avi')
-# cap = cv2.VideoCapture('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain')
+#cap = cv2.VideoCapture('/root/bird.avi')
+cap = cv2.VideoCapture('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain')
 
 # loop over the frames from the video stream
 while True:
