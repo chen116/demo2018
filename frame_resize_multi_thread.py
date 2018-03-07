@@ -41,12 +41,15 @@ print("[INFO] loading model...")
 # initialize the video stream, allow the cammera sensor to warmup,
 # and initialize the FPS counter
 print("[INFO] starting video stream...")
-vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@192.168.1.3:88/videoMain').start()
+cap = cv2.VideoCapture('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain')
 time.sleep(2.0)
 fps = FPS().start()
 
+
+cnt=1
 # loop over the frames from the video stream
-while True:
+while cnt<3e10:
+	cnt+=1
 	# grab the frame from the threaded video stream and resize it
 	# to have a maximum width of 400 pixels
 	frame = vs.read()
