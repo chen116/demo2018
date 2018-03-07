@@ -30,6 +30,7 @@ MODES = [
     ("1000", 1000),
     ("1500", 1500),
     ("2000", 2000),
+    ("done",0)
 ]
 
 w1 = IntVar()
@@ -82,6 +83,8 @@ while True:
 	# grab the frame from the threaded video stream and resize it
 	# to have a maximum width of 400 pixels
 	frame = vs.read()
+	if w1.get() == 0:
+		break
 	frame = imutils.resize(frame, width=w1.get())
 
 	# grab the frame dimensions and convert it to a blob
