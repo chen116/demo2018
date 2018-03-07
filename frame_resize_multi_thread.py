@@ -1,6 +1,13 @@
 # USAGE
 # python real_time_object_detection.py --prototxt MobileNetSSD_deploy.prototxt.txt --model MobileNetSSD_deploy.caffemodel
 
+
+import heartbeat
+hb = heartbeat.Heartbeat(1024,10,1000,"vic.log",10,100)
+monitoring_items = ["heart_rate","app_mode"]
+comm = heartbeat.DomU(monitoring_items)
+
+
 # import the necessary packages
 from imutils.video import VideoStream
 from imutils.video import FPS
@@ -41,8 +48,8 @@ print("[INFO] loading model...")
 # initialize the video stream, allow the cammera sensor to warmup,
 # and initialize the FPS counter
 print("[INFO] starting video stream...")
-# cap = cv2.VideoCapture('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain')
-cap = cv2.VideoCapture('/root/bird.avi')
+cap = cv2.VideoCapture('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain')
+#cap = cv2.VideoCapture('/root/bird.avi')
 
 time.sleep(2.0)
 fps = FPS().start()
@@ -94,6 +101,12 @@ while cnt<3e10:
 
 	# show the output frame
 	cv2.imshow("Frame", frame)
+	hb.heartbeat_beat()
+	window_hr = hb.get_window_heartrate()
+	if (hb.cnt%10==1):
+		comm.write("heart_rate",window_hr)
+		comm.write("app_mode","cat"+str(hb.cnt))
+
 	key = cv2.waitKey(1) & 0xFF
 
 	# if the `q` key was pressed, break from the loop
@@ -113,3 +126,7 @@ print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 # do a bit of cleanup
 cv2.destroyAllWindows()
 vs.stop()
+
+
+hb.heartbeat_finish()
+comm.write("heart_rate","done")
