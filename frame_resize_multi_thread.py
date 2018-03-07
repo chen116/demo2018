@@ -32,21 +32,20 @@ MODES = [
     ("2000", 2000),
 ]
 
-v = IntVar()
-v.set(500) # initialize
+w1 = IntVar()
+w1.set(500) # initialize
 
 for text, mode in MODES:
-    b = Radiobutton(master, text=text,
-                    variable=v, value=mode)
+    b = Radiobutton(master, text=text,variable=w1, value=mode)
     b.pack(anchor=W)
-while v.get()!=2000:
-	x=input('->')
-	print(v.get())
-	master.update_idletasks()
-	master.update()
+# while v.get()!=2000:
+# 	x=input('->')
+# 	print(v.get())
+# 	master.update_idletasks()
+# 	master.update()
 
 
-exit()
+# exit()
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
 #ap.add_argument("-p", "--prototxt", required=True,
