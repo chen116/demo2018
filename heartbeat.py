@@ -35,6 +35,7 @@ class Heartbeat:
 			print("hb_init!")	
 	def heartbeat_beat(self):
 		self.cnt+=1
+		self.cnt=self.cnt%self.buf_depth
 		self.heartbeat_python_lib.anchors_heartbeat.restype = ctypes.c_int64
 		hbtime = self.heartbeat_python_lib.anchors_heartbeat(self.shm_key,self.cnt) # hbtime/1e9 = seconds
 	def get_instant_heartrate(self):

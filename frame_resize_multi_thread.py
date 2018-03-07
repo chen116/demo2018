@@ -2,7 +2,7 @@
 # python real_time_object_detection.py --prototxt MobileNetSSD_deploy.prototxt.txt --model MobileNetSSD_deploy.caffemodel
 
 import heartbeat
-hb = heartbeat.Heartbeat(1024,10,1000,"vic.log",10,100)
+hb = heartbeat.Heartbeat(1024,10,100,"vic.log",10,100)
 monitoring_items = ["heart_rate","app_mode"]
 comm = heartbeat.DomU(monitoring_items)
 
