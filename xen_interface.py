@@ -109,7 +109,7 @@ def get_global_info():
 def set_vcpu(domuid,num_vcpus):
     proc = subprocess.Popen(['xl','vcpu-set',str(domuid),str(num_vcpus)])
 
-def sched_rtds(domuid,p,b,vcpus=[]):
+def sched_rtds(domuid,p,b,vcpus):
     if vcpus==[]:
         proc = subprocess.Popen(['xl','sched-rtds','-d',str(domuid),'-p',str(p),'-b',str(b)])
     else:

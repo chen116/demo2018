@@ -20,6 +20,15 @@ shared_data = xen_interface.get_global_info()
 
 
 def res_allo(mode,heart_rate,thread_shared_data,domuid):
+	cur_b = 0
+	myinfo = thread_shared_data[domuid]
+	for vcpu in myinfo:
+		if vcpu['pcpu']!=-1:
+			cur_b=int(vcpu['b'])
+	if(heart_rate<10):
+		xen_interface.sched_rtds(domuid,10000,cur_b+100,[])
+	if(heart_rate>15):
+		xen_interface.sched_rtds(domuid,10000,cur_b-100,[])
 	xen_interface.update_domu_info(thread_shared_data,domuid)
 	myinfo = thread_shared_data[domuid]
 	for vcpu in myinfo:
