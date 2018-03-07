@@ -18,7 +18,7 @@ def update_domu_info(shared_data, domuid):
         single_cpu_info['pcpu_pin']=pcpu_pin   
         return single_cpu_info
 
-    out =  subprocess.check_output(['xl', 'vcpu-list','-d',domuid]).decode().split('\n')
+    out =  subprocess.check_output(['xl', 'vcpu-list',domuid]).decode().split('\n')
     out=out[1:-1]
     cnt=0
     for lines in out:
