@@ -17,10 +17,34 @@ import imutils
 import time
 import cv2
 from tkinter import *
+# master = Tk()
+# w1 = Scale(master,from_=400,to=2000,orient=HORIZONTAL)
+# w1.set(400)
+# w1.pack()
+
+
 master = Tk()
-w1 = Scale(master,from_=400,to=2000,orient=HORIZONTAL)
-w1.set(400)
-w1.pack()
+
+MODES = [
+    ("500", 500),
+    ("1000", 1000),
+    ("1500", 1500),
+    ("2000", 2000),
+]
+
+v = IntVar()
+v.set(500) # initialize
+
+for text, mode in MODES:
+    b = Radiobutton(master, text=text,
+                    variable=v, value=mode)
+    b.pack(anchor=W)
+
+while v.get()!=2000:
+	continue
+
+
+exit()
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
 #ap.add_argument("-p", "--prototxt", required=True,
