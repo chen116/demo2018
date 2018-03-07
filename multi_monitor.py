@@ -39,7 +39,7 @@ def res_allo(mode,heart_rate,thread_shared_data,domuid):
 		cnt=0
 		if vcpu['pcpu']!=-1:
 			vcpu['b']=cur_b
-			print('vcpu:'cnt,'b:',vcpu['b'])
+			print('vcpu:',cnt,'b:',vcpu['b'])
 			cnt+=1
 
 
