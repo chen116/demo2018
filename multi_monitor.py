@@ -20,6 +20,11 @@ shared_data = xen_interface.get_global_info()
 
 
 def res_allo(mode,heart_rate,thread_shared_data,domuid):
+	myinfo = thread_shared_data[domuid]
+	for vcpu in myinfo:
+		if vcpu['pcpu']!=-1:
+			print(vcpu)
+
 
     return
     # https://xenbits.xen.org/docs/unstable/man/xl.1.html#SCHEDULER-SUBCOMMANDS
