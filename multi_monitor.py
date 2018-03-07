@@ -43,7 +43,7 @@ def res_allo(anchors,heart_rate,thread_shared_data,domuid):
 				print('vcpu:',cnt,'b:',vcpu['b'])
 				cnt+=1
 	else:
-		print('anchors not applied, heart_rate=',heart_rate,)
+		print('anchors not applied, heart_rate=',heart_rate)
 	# xen_interface.update_domu_info(thread_shared_data,domuid)
 
 
