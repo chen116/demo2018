@@ -48,7 +48,7 @@ print("[INFO] loading model...")
 # initialize the video stream, allow the cammera sensor to warmup,
 # and initialize the FPS counter
 print("[INFO] starting video stream...")
-vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@5.114.169.154:88/videoMain').start()
+vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
 time.sleep(2.0)
 fps = FPS().start()
 
