@@ -128,6 +128,7 @@ class MonitorThread(threading.Thread):
 		self.threadLock=threadLock
 		self.shared_data=shared_data
 		self.res_allo=res_allo
+		self.anchors = 0
 	def run(self):
 		# Acquire lock to synchronize thread
 		# self.threadLock.acquire()
@@ -147,11 +148,14 @@ class MonitorThread(threading.Thread):
 			while msg!='done':
 				path,token=next(m.wait())
 				msg=c.read(path).decode()
+				if self.keys[1] in path.decode():
+					self.anchors = int(msg)
 				self.threadLock.acquire()
 
 				try :
-					self.res_allo(token.decode(),float(msg),self.shared_data,self.domuid)
-					print(self.domuid,token.decode(),msg)
+					if self.keys[1] not in path.decode():
+						self.res_allo(self.anchors,float(msg),self.shared_data,self.domuid)
+						print(self.domuid,token.decode(),msg)
 					
 				except:
 					print(self.domuid,token.decode(),msg)

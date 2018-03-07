@@ -25,6 +25,14 @@ from tkinter import *
 
 master = Tk()
 
+
+checked = IntVar()
+previous_checked = checked.get()
+
+
+c = Checkbutton(master, text="anchors", variable=checked)
+c.pack()
+
 MODES = [
     ("200", 200),
     ("850", 850),
@@ -127,9 +135,16 @@ while True:
 	hb.heartbeat_beat()
 	window_hr = hb.get_window_heartrate()
 	comm.write("heart_rate",window_hr)
-	if (current_f_size!=previous_f_size):
-		comm.write("app_mode",int(current_f_size/500))
-		previous_f_size=current_f_size
+
+	current_checked = checked.get()
+	if previous_checked!=current_checked:
+		comm.write("app_mode",current_checked)
+		previous_checked=current_checked
+
+
+	# if (current_f_size!=previous_f_size):
+	# 	comm.write("app_mode",int(current_f_size/500))
+	# 	previous_f_size=current_f_size
 	key = cv2.waitKey(1) & 0xFF
 
 	# if the `q` key was pressed, break from the loop
