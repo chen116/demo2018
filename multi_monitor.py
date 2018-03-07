@@ -36,15 +36,15 @@ def res_allo(mode,heart_rate,thread_shared_data,domuid):
 
 
 for domuid in c.domu_ids:
-    tmp_thread = heartbeat.MonitorThread(threadLock,shared_data,res_allo,domuid,monitoring_items)
-    tmp_thread.start()
-    threads.append(tmp_thread)
+	tmp_thread = heartbeat.MonitorThread(threadLock,shared_data,res_allo,domuid,monitoring_items)
+	tmp_thread.start()
+	threads.append(tmp_thread)
 
 
 # Wait for all MonitorThreads to complete
 threads_cnt=0
 for t in threads:
-    t.join()
-    threads_cnt+=1
+	t.join()
+	threads_cnt+=1
 print(shared_data)
 print("Exiting the Monitor, total",threads_cnt,"monitoring threads")
