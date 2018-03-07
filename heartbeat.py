@@ -150,7 +150,7 @@ class MonitorThread(threading.Thread):
 				msg=c.read(path).decode()
 				if self.keys[1] in path.decode():
 					if msg.isdigit():
-						self.anchors = msg
+						self.anchors = int(msg)
 				self.threadLock.acquire()
 
 				try :
