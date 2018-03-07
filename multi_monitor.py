@@ -20,7 +20,7 @@ shared_data = xen_interface.get_global_info()
 
 
 def res_allo(anchors,heart_rate,thread_shared_data,domuid):
-	if anchors:
+	if anchors==1:
 		cur_b = 0
 		myinfo = thread_shared_data[domuid]
 		for vcpu in myinfo:

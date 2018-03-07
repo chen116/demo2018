@@ -149,7 +149,7 @@ class MonitorThread(threading.Thread):
 				path,token=next(m.wait())
 				msg=c.read(path).decode()
 				if self.keys[1] in path.decode():
-					self.anchors = int(msg)
+					self.anchors = msg
 				self.threadLock.acquire()
 
 				try :
