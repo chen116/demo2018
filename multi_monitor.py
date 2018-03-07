@@ -38,7 +38,7 @@ def res_allo(mode,heart_rate,thread_shared_data,domuid):
 	for vcpu in myinfo:
 		if vcpu['pcpu']!=-1:
 			vcpu['b']=cur_b
-			print(vcpu)
+			print(vcpu['b'])
 
 
 	# xen_interface.update_domu_info(thread_shared_data,domuid)
