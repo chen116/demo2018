@@ -159,7 +159,7 @@ class MonitorThread(threading.Thread):
 						print(self.domuid,token.decode(),msg)
 					
 				except:
-					print(self.domuid,token.decode(),msg)
+					print("meow",self.domuid,token.decode(),msg)
 
 				self.threadLock.release()
 
