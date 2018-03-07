@@ -22,7 +22,10 @@ w1 = Scale(master,from_=400,to=2000,orient=HORIZONTAL)
 w1.set(400)
 w1.pack()
 while w1.get()!=2000:
+	x=input('->')
 	print(w1.get())
+	master.update_idletasks()
+	master.update()
 
 
 exit()
