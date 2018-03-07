@@ -2,9 +2,9 @@
 # python real_time_object_detection.py --prototxt MobileNetSSD_deploy.prototxt.txt --model MobileNetSSD_deploy.caffemodel
 
 import heartbeat
-hb = heartbeat.Heartbeat(1024,10,1000,"vic.log",10,100)
-monitoring_items = ["heart_rate","app_mode"]
-comm = heartbeat.DomU(monitoring_items)
+# hb = heartbeat.Heartbeat(1024,10,1000,"vic.log",10,100)
+# monitoring_items = ["heart_rate","app_mode"]
+# comm = heartbeat.DomU(monitoring_items)
 
 
 
@@ -21,7 +21,11 @@ master = Tk()
 w1 = Scale(master,from_=400,to=2000,orient=HORIZONTAL)
 w1.set(400)
 w1.pack()
+while w1.get()!=2000:
+	print(w1.get())
 
+
+exit()
 
 # master = Tk()
 
