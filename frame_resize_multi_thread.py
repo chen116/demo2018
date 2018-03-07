@@ -127,8 +127,7 @@ while True:
 	cv2.imshow("Frame", frame)
 	hb.heartbeat_beat()
 	window_hr = hb.get_window_heartrate()
-	if (hb.cnt>10):
-		comm.write("heart_rate",str(window_hr)+"_cnt:"+str(hb.cnt)+"_real_cnt:"+str(hb.realcnt))
+	comm.write("heart_rate",window_hr)
 	if (current_f_size!=previous_f_size):
 		comm.write("app_mode",int(current_f_size/500))
 		previous_f_size=current_f_size

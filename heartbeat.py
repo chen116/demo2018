@@ -16,7 +16,7 @@ class Heartbeat:
 		self.shm_key = shm_key
 		self.heartbeat_python_lib = cdll.LoadLibrary('./heartbeat_python_lib.so')
 		self.cnt = -1
-		self.realcnt = -1
+		
 		# conversion is from hearbeat code
 		log_shm_key = self.shm_key*2
 		state_shm_eky = self.shm_key*2+1
@@ -35,9 +35,7 @@ class Heartbeat:
 		if suc:
 			print("hb_init!")	
 	def heartbeat_beat(self):
-		self.cnt+=1
-		self.cnt=self.cnt%self.buf_depth
-		self.realcnt+=1
+		self.cnt=(self.cnt+1)%self.buf_depth
 		self.heartbeat_python_lib.anchors_heartbeat.restype = ctypes.c_int64
 		hbtime = self.heartbeat_python_lib.anchors_heartbeat(self.shm_key,self.cnt) # hbtime/1e9 = seconds
 	def get_instant_heartrate(self):
