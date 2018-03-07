@@ -32,11 +32,11 @@ def res_allo(mode,heart_rate,thread_shared_data,domuid):
 	# if(heart_rate>10):
 	# 	cur_b-=100
 	# 	xen_interface.sched_rtds(domuid,10000,cur_b,[])
-	myinfo = thread_shared_data[domuid]
-	for vcpu in myinfo:
-		if vcpu['pcpu']!=-1:
-			vcpu['b']=cur_b
-			print(vcpu)
+	# myinfo = thread_shared_data[domuid]
+	# for vcpu in myinfo:
+	# 	if vcpu['pcpu']!=-1:
+	# 		vcpu['b']=cur_b
+	# 		print(vcpu)
 
 
 	# xen_interface.update_domu_info(thread_shared_data,domuid)
