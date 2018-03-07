@@ -41,7 +41,7 @@ for text, mode in MODES:
     b.pack(anchor=W)
 while b.value()!=2000:
 	x=input('->')
-	print(b.get())
+	print(b.value())
 	master.update_idletasks()
 	master.update()
 
