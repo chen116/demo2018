@@ -15,10 +15,11 @@ def get_global_info():
         else:
             single_cpu_info['pcpu']=-1
         pcpu_pin = line[6]
-        if pcpu_pin.isdigit():
-            single_cpu_info['pcpu_pin']=int(pcpu_pin)
-        else:
-            single_cpu_info['pcpu_pin']=-1    
+        single_cpu_info['pcpu_pin']=pcpu_pin
+        # if pcpu_pin.isdigit():
+        #     single_cpu_info['pcpu_pin']=int(pcpu_pin)
+        # else:
+        #     single_cpu_info['pcpu_pin']=-1    
         return single_cpu_info
 
 
