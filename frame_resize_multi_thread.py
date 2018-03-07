@@ -29,12 +29,11 @@ MODES = [
     ("200", 200),
     ("600", 600),
     ("1000", 1000),
-    ("1400", 1400),
     ("done",0)
 ]
 
 w1 = IntVar()
-w1.set(500) # initialize
+w1.set(200) # initialize
 previous_f_size = w1.get()
 for text, mode in MODES:
     b = Radiobutton(master, text=text,variable=w1, value=mode)
