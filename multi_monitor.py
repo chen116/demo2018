@@ -25,15 +25,22 @@ def res_allo(mode,heart_rate,thread_shared_data,domuid):
 	for vcpu in myinfo:
 		if vcpu['pcpu']!=-1:
 			cur_b=int(vcpu['b'])
+
 	if(heart_rate<10):
-		xen_interface.sched_rtds(domuid,10000,cur_b+100,[])
+		cur_b+=100
+		xen_interface.sched_rtds(domuid,10000,cur_b,[])
 	if(heart_rate>15):
-		xen_interface.sched_rtds(domuid,10000,cur_b-100,[])
-	xen_interface.update_domu_info(thread_shared_data,domuid)
+		cur_b-=100
+		xen_interface.sched_rtds(domuid,10000,cur_b,[])
 	myinfo = thread_shared_data[domuid]
 	for vcpu in myinfo:
 		if vcpu['pcpu']!=-1:
+			vcpu['b']=cur_b
 			print(vcpu)
+
+
+	# xen_interface.update_domu_info(thread_shared_data,domuid)
+
 
 
 	return
@@ -57,5 +64,7 @@ for t in threads:
 	t.join()
 	threads_cnt+=1
 pp = pprint.PrettyPrinter(indent=2)
+shared_data = xen_interface.get_global_info()
+
 pp.pprint(shared_data)
 print("Exiting the Monitor, total",threads_cnt,"monitoring threads")
