@@ -30,14 +30,14 @@ c = Checkbutton(master, text="anchors", variable=checked)
 c.pack()
 
 MODES = [
-    ("200", 200),
     ("400", 400),
+    ("800", 800),
     ("1000", 1000),
     ("done",0)
 ]
 
 w1 = IntVar()
-w1.set(200) # initialize
+w1.set(400) # initialize
 previous_f_size = w1.get()
 for text, mode in MODES:
     b = Radiobutton(master, text=text,variable=w1, value=mode)
