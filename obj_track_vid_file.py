@@ -107,7 +107,13 @@ while vs.more():
 	# grab the frame from the threaded video stream and resize it
 	# to have a maximum width of 400 pixels
 	frame = vs.read()
-	frame = imutils.resize(frame, width=w1.get())
+
+	current_f_size=w1.get()
+	if current_f_size == 0:
+		break
+	frame = imutils.resize(frame, width=current_f_size)
+
+
 
 	# # for vid file
 	# frame = np.dstack([frame, frame, frame])
