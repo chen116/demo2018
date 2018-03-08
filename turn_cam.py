@@ -105,6 +105,7 @@ while True:
 		break
 	frame = imutils.resize(frame, width=current_f_size)
 
+
 	# grab the frame dimensions and convert it to a blob
 	(h, w) = frame.shape[:2]
 	blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)),
