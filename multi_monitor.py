@@ -8,7 +8,7 @@ import threading
 import time
 import pprint
 monitoring_items = ["heart_rate","app_mode"]
-c = heartbeat.Dom0(monitoring_items,['5'])#,'7'])
+c = heartbeat.Dom0(monitoring_items,['2'])#,'7'])
 # c = heartbeat.Dom0(["heart_rate"])
 
 
@@ -79,6 +79,4 @@ for t in threads:
 	threads_cnt+=1
 pp = pprint.PrettyPrinter(indent=2)
 shared_data = xen_interface.get_global_info()
-
-pp.pprint(shared_data)
 print("Exiting the Monitor, total",threads_cnt,"monitoring threads")
