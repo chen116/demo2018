@@ -42,7 +42,7 @@ def move_right(mycam):
 	print("moving righttt")
 
 
-ml = Button(master, text="left", fg="red",command= lambda: move_left(mycam))
+ml = Button(master, text="left",command= lambda: move_left(mycam))
 ml.pack()
 mr = tk.Button(master,text="right",command= lambda: move_right(mycam))
 mr.pack()
