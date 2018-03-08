@@ -40,7 +40,7 @@ while fvs.more():
 	frame = fvs.read()
 	frame = imutils.resize(frame, width=450)
 	frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-	frame = np.dstack([frame, frame, frame])
+	# frame = np.dstack([frame, frame, frame])
 	if w1.get()==0:
 		break
 	# display the size of the queue on the frame

@@ -81,7 +81,7 @@ while vs.more():
 	# pass the blob through the network and obtain the detections and
 	# predictions
 	net.setInput(blob)
-	detections = net.forward()
+	# detections = net.forward()
 	#print(frame.dtype)
 	# loop over the detections
 	for i in np.arange(0, detections.shape[2]):
