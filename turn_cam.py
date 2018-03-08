@@ -36,9 +36,11 @@ for text, mode in MODES:
     b.pack(anchor=W)
 def move_left(mycam):
 	mycam.ptz_move_left()
+	mycam.ptz_stop_run()	
 	print("moving lefttt")
 def move_right(mycam):
 	mycam.ptz_move_right()
+	mycam.ptz_stop_run()	
 	print("moving righttt")
 
 
