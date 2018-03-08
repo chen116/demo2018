@@ -57,7 +57,7 @@ mr = Button(master,text="right",command= lambda: move_right(mycam))
 mr.pack()
 
 
-mycam = FoscamCamera('65.114.169.154',88,'arittenbach','8mmhamcgt16!',daemon=False)
+#mycam = FoscamCamera('65.114.169.154',88,'arittenbach','8mmhamcgt16!',daemon=False)
 moveright = 0
 moveleft = 0
 # construct the argument parse and parse the arguments
@@ -70,7 +70,7 @@ ap.add_argument("-c", "--confidence", type=float, default=0.2,
 	help="minimum probability to filter weak detections")
 args = vars(ap.parse_args())
 #os.system('python reset_cam.py') 
-mycam.ptz_reset()
+#mycam.ptz_reset()
 # initialize the list of class labels MobileNet SSD was trained to
 # detect, then generate a set of bounding box colors for each class
 CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
@@ -140,20 +140,20 @@ while vs.more():
 		#	print('startX=',startX)
 		#	print('endX=',endX)
 			if(((startX+endX)/2<(L*w)) and (moveleft==0)):
-				mycam.ptz_move_left()
+				# mycam.ptz_move_left()
 				moveleft = 1
 				moveright = 0
 			#	canpoint = 0
 			#	pointat = time.time()+0.3 
 			elif(((startX+endX)/2>(R*w)) and (moveright==0)):
-				mycam.ptz_move_right()
+				# mycam.ptz_move_right()
 				moveright = 1
 				moveleft = 0
 			#	canpoint = 0
 			#	pointat = time.time()+0.3
 			# draw the prediction on the frame
 			elif((((startX+endX)/2>(L*w)) and (((startX+endX)/2)<(R*w))))and((moveright==1)or(moveleft==1)):
-				mycam.ptz_stop_run()
+				# mycam.ptz_stop_run()
 				moveright = 0
 				moveleft = 0
 			label = "{}: {:.2f}%".format(CLASSES[idx],
