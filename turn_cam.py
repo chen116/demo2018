@@ -154,6 +154,12 @@ while True:
 	# if the `q` key was pressed, break from the loop
 	if key == ord("q"):
 		break
+	if key == ord("l"):
+		move_left(mycam)
+	if key ==ord("r"):
+		move_right(mycam)
+
+
 
 	# update the FPS counter
 	fps.update()
