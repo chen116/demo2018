@@ -1,6 +1,11 @@
 
 # USAGE
 # python real_time_object_detection.py --prototxt MobileNetSSD_deploy.prototxt.txt --model MobileNetSSD_deploy.caffemodel
+# hb init
+import heartbeat
+hb = heartbeat.Heartbeat(1024,10,100,"vic.log",10,100)
+monitoring_items = ["heart_rate","app_mode"]
+comm = heartbeat.DomU(monitoring_items)
 
 # import the necessary packages
 from imutils.video import FileVideoStream
@@ -14,10 +19,44 @@ import time
 import cv2
 import os
 from tkinter import *
+
+
 master = Tk()
-w1 = Scale(master,from_=100,to=2000,orient=HORIZONTAL)
-w1.set(400)
-w1.pack()
+
+checked = IntVar(value=0)
+previous_checked = checked.get()
+c = Checkbutton(master, text="anchors", variable=checked)
+c.pack()
+
+MODES = [
+    ("400", 400),
+    ("800", 800),
+    ("1000", 1000),
+    ("done",0)
+]
+
+w1 = IntVar()
+w1.set(400) # initialize
+previous_f_size = w1.get()
+for text, mode in MODES:
+    b = Radiobutton(master, text=text,variable=w1, value=mode)
+    b.pack(anchor=W)
+def move_left(mycam):
+	mycam.ptz_move_left()
+	mycam.ptz_stop_run()	
+	print("moving lefttt")
+def move_right(mycam):
+	mycam.ptz_move_right()
+	mycam.ptz_stop_run()	
+	print("moving righttt")
+
+
+ml = Button(master, text="left",command= lambda: move_left(mycam))
+ml.pack()
+mr = Button(master,text="right",command= lambda: move_right(mycam))
+mr.pack()
+
+
 mycam = FoscamCamera('65.114.169.154',88,'arittenbach','8mmhamcgt16!',daemon=False)
 moveright = 0
 moveleft = 0
@@ -128,7 +167,14 @@ while vs.more():
 	# show the output frame
 	cv2.imshow("Frame", frame)
 	key = cv2.waitKey(1) & 0xFF
-
+	# hb stuff
+	hb.heartbeat_beat()
+	window_hr = hb.get_window_heartrate()
+	comm.write("heart_rate",window_hr)
+	current_checked = checked.get()
+	if previous_checked!=current_checked:
+		comm.write("app_mode",current_checked)
+		previous_checked=current_checked
 	# if the `q` key was pressed, break from the loop
 	if key == ord("q"):
 		break
@@ -148,3 +194,6 @@ print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 # do a bit of cleanup
 cv2.destroyAllWindows()
 vs.stop()
+# hb clean up
+hb.heartbeat_finish()
+comm.write("heart_rate","done")
