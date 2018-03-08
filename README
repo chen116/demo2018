@@ -6,7 +6,7 @@ python3 multi_monitor.py
 
 at domU 
 
-python3 test_xencomm_wtih_obj_track.py
+python3 turn_cam.py -p MobileNetSSD_deploy.prototxt.txt -m MobileNetSSD_deploy.caffemodel
 
 
 
