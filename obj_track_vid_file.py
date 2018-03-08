@@ -54,8 +54,9 @@ while fvs.more():
 	master.update_idletasks()
 	master.update()
 
-	if not fvs.more():
-		fvs = FileVideoStream("walkcat.mp4").start()
+	# if fvs.more():
+	# 	fvs = FileVideoStream("walkcat.mp4").start()
+		
 
 
 # stop the timer and display FPS information
