@@ -7,7 +7,22 @@ import imutils
 import time
 import cv2
 # construct the argument parse and parse the arguments
+from tkinter import *
 
+master = Tk()
+MODES = [
+    ("400", 400),
+    ("800", 800),
+    ("1000", 1000),
+    ("done",0)
+]
+
+w1 = IntVar()
+w1.set(400) # initialize
+previous_f_size = w1.get()
+for text, mode in MODES:
+    b = Radiobutton(master, text=text,variable=w1, value=mode)
+    b.pack(anchor=W)
 # start the file video stream thread and allow the buffer to
 # start to fill
 print("[INFO] starting video file thread...")
@@ -26,7 +41,8 @@ while fvs.more():
 	frame = imutils.resize(frame, width=450)
 	frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 	frame = np.dstack([frame, frame, frame])
- 
+ 	if w1.get()==0:
+ 		break
 	# display the size of the queue on the frame
 	cv2.putText(frame, "Queue Size: {}".format(fvs.Q.qsize()),
 		(10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)	
@@ -35,6 +51,13 @@ while fvs.more():
 	cv2.imshow("Frame", frame)
 	cv2.waitKey(1)
 	fps.update()
+	master.update_idletasks()
+	master.update()
+
+	if not fvs.more():
+		fvs = FileVideoStream("walkcat.mp4").start()
+
+
 # stop the timer and display FPS information
 fps.stop()
 print("[INFO] elasped time: {:.2f}".format(fps.elapsed()))
