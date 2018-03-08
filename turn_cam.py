@@ -23,7 +23,7 @@ c.pack()
 
 MODES = [
     ("200", 200),
-    ("850", 850),
+    ("400", 400),
     ("1000", 1000),
     ("done",0)
 ]
@@ -44,7 +44,7 @@ def move_right(mycam):
 
 ml = Button(master, text="left",command= lambda: move_left(mycam))
 ml.pack()
-mr = tk.Button(master,text="right",command= lambda: move_right(mycam))
+mr = Button(master,text="right",command= lambda: move_right(mycam))
 mr.pack()
 
 
@@ -90,7 +90,10 @@ while True:
 	# grab the frame from the threaded video stream and resize it
 	# to have a maximum width of 400 pixels
 	frame = vs.read()
-	frame = imutils.resize(frame, width=w1.get())
+	current_f_size=w1.get()
+	if current_f_size == 0:
+		break
+	frame = imutils.resize(frame, width=current_f_size)
 
 	# grab the frame dimensions and convert it to a blob
 	(h, w) = frame.shape[:2]
