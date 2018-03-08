@@ -41,8 +41,8 @@ while fvs.more():
 	frame = imutils.resize(frame, width=450)
 	frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 	frame = np.dstack([frame, frame, frame])
- 	if w1.get()==0:
- 		break
+	if w1.get()==0:
+		break
 	# display the size of the queue on the frame
 	cv2.putText(frame, "Queue Size: {}".format(fvs.Q.qsize()),
 		(10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)	
