@@ -2,6 +2,7 @@
 # python real_time_object_detection.py --prototxt MobileNetSSD_deploy.prototxt.txt --model MobileNetSSD_deploy.caffemodel
 
 # import the necessary packages
+from imutils.video import FileVideoStream
 from imutils.video import VideoStream
 from imutils.video import FPS
 from foscam import FoscamCamera
