@@ -12,10 +12,43 @@ import time
 import cv2
 import os
 from tkinter import *
+
+
 master = Tk()
-w1 = Scale(master,from_=100,to=2000,orient=HORIZONTAL)
-w1.set(400)
-w1.pack()
+checked = IntVar(value=1)
+previous_checked = checked.get()
+
+c = Checkbutton(master, text="anchors", variable=checked)
+c.pack()
+
+MODES = [
+    ("200", 200),
+    ("850", 850),
+    ("1000", 1000),
+    ("done",0)
+]
+
+w1 = IntVar()
+w1.set(200) # initialize
+previous_f_size = w1.get()
+for text, mode in MODES:
+    b = Radiobutton(master, text=text,variable=w1, value=mode)
+    b.pack(anchor=W)
+def move_left(mycam):
+	mycam.ptz_move_left()
+	print("moving lefttt")
+def move_right(mycam):
+	mycam.ptz_move_right()
+	print("moving righttt")
+
+
+ml = Button(master, text="left", fg="red",command= lambda: move_left(mycam))
+ml.pack()
+mr = tk.Button(master,text="right",command= lambda: move_right(mycam))
+mr.pack()
+
+
+
 mycam = FoscamCamera('65.114.169.154',88,'arittenbach','8mmhamcgt16!',daemon=False)
 moveright = 0
 moveleft = 0
