@@ -128,7 +128,7 @@ class MonitorThread(threading.Thread):
 		self.threadLock=threadLock
 		self.shared_data=shared_data
 		self.res_allo=res_allo
-		self.anchors = 1
+		self.anchors = 0
 	def run(self):
 		# Acquire lock to synchronize thread
 		# self.threadLock.acquire()
