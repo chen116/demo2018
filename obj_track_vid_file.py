@@ -62,7 +62,7 @@ time.sleep(2.0)
 fps = FPS().start()
 pointat = 0
 # loop over the frames from the video stream
-while fvs.more():
+while vs.more():
 
 
 	# grab the frame from the threaded video stream and resize it
