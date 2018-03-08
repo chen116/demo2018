@@ -1,6 +1,13 @@
 # USAGE
 # python real_time_object_detection.py --prototxt MobileNetSSD_deploy.prototxt.txt --model MobileNetSSD_deploy.caffemodel
 
+# hb init
+import heartbeat
+hb = heartbeat.Heartbeat(1024,10,100,"vic.log",10,100)
+monitoring_items = ["heart_rate","app_mode"]
+comm = heartbeat.DomU(monitoring_items)
+
+
 # import the necessary packages
 from imutils.video import VideoStream
 from imutils.video import FPS
@@ -14,10 +21,11 @@ import os
 from tkinter import *
 
 
+
 master = Tk()
+
 checked = IntVar(value=1)
 previous_checked = checked.get()
-
 c = Checkbutton(master, text="anchors", variable=checked)
 c.pack()
 
@@ -153,6 +161,15 @@ while True:
 	cv2.imshow("Frame", frame)
 	key = cv2.waitKey(1) & 0xFF
 
+	# hb stuff
+	hb.heartbeat_beat()
+	window_hr = hb.get_window_heartrate()
+	comm.write("heart_rate",window_hr)
+	current_checked = checked.get()
+	if previous_checked!=current_checked:
+		comm.write("app_mode",current_checked)
+		previous_checked=current_checked
+
 	# if the `q` key was pressed, break from the loop
 	if key == ord("q"):
 		break
@@ -178,3 +195,7 @@ print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 # do a bit of cleanup
 cv2.destroyAllWindows()
 vs.stop()
+
+# hb clean up
+hb.heartbeat_finish()
+comm.write("heart_rate","done")
