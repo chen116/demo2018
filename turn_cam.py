@@ -24,7 +24,7 @@ from tkinter import *
 
 master = Tk()
 
-checked = IntVar(value=0)
+checked = IntVar()
 previous_checked = checked.get()
 c = Checkbutton(master, text="anchors", variable=checked)
 c.pack()
