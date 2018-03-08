@@ -170,6 +170,7 @@ while vs.more():
 	# hb stuff
 	hb.heartbeat_beat()
 	window_hr = hb.get_window_heartrate()
+	print('------------------------------',window_hr)
 	comm.write("heart_rate",window_hr)
 	current_checked = checked.get()
 	if previous_checked!=current_checked:
