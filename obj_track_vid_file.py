@@ -29,14 +29,14 @@ c = Checkbutton(master, text="anchors", variable=checked)
 c.pack()
 
 MODES = [
+    ("200", 200),
     ("400", 400),
-    ("800", 800),
-    ("1000", 1000),
+    ("600", 600),
     ("done",0)
 ]
 
 w1 = IntVar()
-w1.set(400) # initialize
+w1.set(200) # initialize
 previous_f_size = w1.get()
 for text, mode in MODES:
     b = Radiobutton(master, text=text,variable=w1, value=mode)
@@ -105,7 +105,7 @@ while vs.more():
 
 
 	# grab the frame from the threaded video stream and resize it
-	# to have a maximum width of 400 pixels
+	# to have a maximum width of 200 pixels
 	frame = vs.read()
 
 	current_f_size=w1.get()
@@ -177,6 +177,7 @@ while vs.more():
 	hb.heartbeat_beat()
 	window_hr = hb.get_window_heartrate()
 	comm.write("heart_rate",window_hr)
+	print('----------',window_hr)
 	current_checked = checked.get()
 	if previous_checked!=current_checked:
 		comm.write("app_mode",current_checked)
