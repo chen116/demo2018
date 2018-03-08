@@ -154,7 +154,7 @@ class MonitorThread(threading.Thread):
 				self.threadLock.acquire()
 
 				try :
-					if self.keys[1] not in path.decode():
+					if self.keys[0] in path.decode():
 						self.res_allo(self.anchors,float(msg),self.shared_data,self.domuid)
 						print(self.domuid,token.decode(),msg)
 					
