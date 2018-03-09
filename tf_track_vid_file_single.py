@@ -151,7 +151,7 @@ if __name__ == '__main__':
         master.update_idletasks()
         master.update()
 
-        print('[INFO] elapsed time: {:.2f}'.format(time.time() - t))
+        print('[INFO] elapsed time: {:.2f}'.format(1/(time.time() - t)))
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
