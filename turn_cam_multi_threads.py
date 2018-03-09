@@ -130,7 +130,7 @@ time.sleep(2.0)
 input_q = Queue()  # fps is better if queue is higher but then more lags
 output_q = Queue()
 threads = []
-for i in range(5):
+for i in range(7):
 	tmp_thread = Workers(i,input_q,output_q)
 	tmp_thread.start()
 	threads.append(tmp_thread)
@@ -207,6 +207,8 @@ while True:
 
 		# show the output frame
 		cv2.imshow("Frame", frame)
+		fps.update()
+
 		key = cv2.waitKey(1) & 0xFF
 
 		# hb stuff
@@ -219,6 +221,7 @@ while True:
 			comm.write("app_mode",current_checked)
 			previous_checked=current_checked
 
+
 	# if the `q` key was pressed, break from the loop
 		if key == ord("q"):
 			break
@@ -230,7 +233,6 @@ while True:
 
 
 	# update the FPS counter
-	fps.update()
 	master.update_idletasks()
 	master.update()
 	#if(time.time()>pointat):
