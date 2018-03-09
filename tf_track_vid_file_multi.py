@@ -10,7 +10,26 @@ from queue import Queue
 from threading import Thread
 from utils.app_utils import FPS, WebcamVideoStream, draw_boxes_and_labels
 from object_detection.utils import label_map_util
+from tkinter import *
+master = Tk()
+checked = IntVar(value=0)
+previous_checked = checked.get()
+c = Checkbutton(master, text="anchors", variable=checked)
+c.pack()
 
+MODES = [
+    ("200", 200),
+    ("400", 400),
+    ("600", 600),
+    ("done",0)
+]
+
+w1 = IntVar()
+w1.set(200) # initialize
+previous_f_size = w1.get()
+for text, mode in MODES:
+    b = Radiobutton(master, text=text,variable=w1, value=mode)
+    b.pack(anchor=W)
 CWD_PATH = os.getcwd()
 
 # Path to frozen detection graph. This is the actual model that is used for the object detection.
@@ -97,17 +116,18 @@ if __name__ == '__main__':
     #                                   width=args.width,
     #                                   height=args.height).start()
     time.sleep(2.0)
-    input_q = Queue(25)  # fps is better if queue is higher but then more lags
+    input_q = Queue(5)  # fps is better if queue is higher but then more lags
     output_q = Queue()
-    for i in range(5):
+    for i in range(1):
         t = Thread(target=worker, args=(input_q, output_q))
         t.daemon = True
         t.start()
 
 
     fps = FPS().start()
-
+    shithappened=0
     while video_capture.more():
+
         frame = video_capture.read()
         input_q.put(frame)
 
@@ -116,6 +136,7 @@ if __name__ == '__main__':
         if output_q.empty():
             pass  # fill up queue
         else:
+            shithappened=1
             font = cv2.FONT_HERSHEY_SIMPLEX
             data = output_q.get()
             rec_points = data['rect_points']
@@ -136,6 +157,9 @@ if __name__ == '__main__':
         print('[INFO] elapsed time: {:.2f}'.format(time.time() - t))
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+        current_f_size=w1.get()
+        if current_f_size == 0:
             break
 
     fps.stop()

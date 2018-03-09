@@ -23,7 +23,6 @@ from tkinter import *
 
 
 master = Tk()
-
 checked = IntVar(value=0)
 previous_checked = checked.get()
 c = Checkbutton(master, text="anchors", variable=checked)
@@ -42,6 +41,13 @@ previous_f_size = w1.get()
 for text, mode in MODES:
     b = Radiobutton(master, text=text,variable=w1, value=mode)
     b.pack(anchor=W)
+ml = Button(master, text="left",command= lambda: move_left(mycam))
+ml.pack()
+mr = Button(master,text="right",command= lambda: move_right(mycam))
+mr.pack()
+
+
+
 def move_left(mycam):
 	mycam.ptz_move_left()
 	mycam.ptz_stop_run()	
@@ -51,11 +57,6 @@ def move_right(mycam):
 	mycam.ptz_stop_run()	
 	print("moving righttt")
 
-
-ml = Button(master, text="left",command= lambda: move_left(mycam))
-ml.pack()
-mr = Button(master,text="right",command= lambda: move_right(mycam))
-mr.pack()
 
 
 
