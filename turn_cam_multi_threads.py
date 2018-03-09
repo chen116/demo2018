@@ -240,7 +240,7 @@ while True:
 					prev_box['endX']=endX
 					prev_box['endY']=endY
 					prev_box['idx']=idx
-					prev_box['label']= "recalculating"
+					prev_box['label']= "recalculating..."
 
 		# show the output frame
 		cv2.imshow("Frame", frame)
@@ -251,8 +251,10 @@ while True:
 		# hb stuff
 		hb.heartbeat_beat()
 		window_hr = hb.get_window_heartrate()
+		instant_hr = hb.get_instant_heartrate()
 		comm.write("heart_rate",window_hr)
-		print('--------------------',window_hr)
+		print('window_hr-------------------',window_hr)
+		print('instant_hr---------',instant_hr)
 		current_checked = checked.get()
 		if previous_checked!=current_checked:
 			comm.write("app_mode",current_checked)
