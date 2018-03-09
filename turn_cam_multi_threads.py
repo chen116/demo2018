@@ -253,8 +253,8 @@ while True:
 		window_hr = hb.get_window_heartrate()
 		instant_hr = hb.get_instant_heartrate()
 		comm.write("heart_rate",window_hr)
-		print('window_hr-------------------',window_hr)
-		print('instant_hr---------',instant_hr)
+		print('------------------window_hr:',window_hr)
+		print('instant_hr:',instant_hr)
 		current_checked = checked.get()
 		if previous_checked!=current_checked:
 			comm.write("app_mode",current_checked)
@@ -268,7 +268,8 @@ while True:
 			move_left(mycam)
 		if key ==ord("r"):
 			move_right(mycam)
-
+		master.update_idletasks()
+		master.update()
 
 
 	# update the FPS counter
