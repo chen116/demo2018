@@ -61,14 +61,14 @@ mr.pack()
 moveright = 0
 moveleft = 0
 # construct the argument parse and parse the arguments
-ap = argparse.ArgumentParser()
-ap.add_argument("-p", "--prototxt", required=True,
-	help="path to Caffe 'deploy' prototxt file")
-ap.add_argument("-m", "--model", required=True,
-	help="path to Caffe pre-trained model")
-ap.add_argument("-c", "--confidence", type=float, default=0.2,
-	help="minimum probability to filter weak detections")
-args = vars(ap.parse_args())
+# ap = argparse.ArgumentParser()
+# ap.add_argument("-p", "--prototxt", required=True,
+# 	help="path to Caffe 'deploy' prototxt file")
+# ap.add_argument("-m", "--model", required=True,
+# 	help="path to Caffe pre-trained model")
+# ap.add_argument("-c", "--confidence", type=float, default=0.2,
+# 	help="minimum probability to filter weak detections")
+# args = vars(ap.parse_args())
 #os.system('python reset_cam.py') 
 #mycam.ptz_reset()
 # initialize the list of class labels MobileNet SSD was trained to
@@ -84,7 +84,8 @@ COLORS = np.random.uniform(0, 255, size=(len(CLASSES), 3))
 canpoint = 1
 # load our serialized model from disk
 print("[INFO] loading model...")
-net = cv2.dnn.readNetFromCaffe(args["prototxt"], args["model"])
+# net = cv2.dnn.readNetFromCaffe(args["prototxt"], args["model"])
+net = cv2.dnn.readNetFromCaffe("MobileNetSSD_deploy.prototxt.txt", "MobileNetSSD_deploy.caffemodel")
 
 # initialize the video stream, allow the cammera sensor to warmup,
 # and initialize the FPS counter
