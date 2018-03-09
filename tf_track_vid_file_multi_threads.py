@@ -119,10 +119,10 @@ if __name__ == '__main__':
     #                                   height=args.height).start()
     while video_capture.more() is False:
         continue
-    input_q = Queue(1)  # fps is better if queue is higher but then more lags
+    input_q = Queue(50)  # fps is better if queue is higher but then more lags
     output_q = Queue()
     thread_id=0
-    for i in range(1):
+    for i in range(5):
         t = Thread(target=worker, args=(thread_id,input_q, output_q))
         thread_id+=1
         t.daemon = True
