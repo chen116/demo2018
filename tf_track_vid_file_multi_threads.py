@@ -156,6 +156,8 @@ if __name__ == '__main__':
                 cv2.putText(frame, name[0], (int(point['xmin'] * args.width), int(point['ymin'] * args.height)), font,
                             0.3, (0, 0, 0), 1)
             cv2.imshow('Frame', frame)
+            print('[INFO] elapsed time: {:.2f}'.format(       1/(time.time() - t))  )
+
             master.update_idletasks()
             master.update()
 
@@ -163,7 +165,6 @@ if __name__ == '__main__':
         master.update_idletasks()
         master.update()
 
-        print('[INFO] elapsed time: {:.2f}'.format(time.time() - t))
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
