@@ -113,6 +113,8 @@ if __name__ == '__main__':
     print('heyyyy whatttt the fuck')
 
     video_capture = FileVideoStream("walkcat.mp4").start()
+    time.sleep(2.0)
+
     print('heyyyy whatttt the ass fuck')
 
     fps = FPS().start()
@@ -121,6 +123,7 @@ if __name__ == '__main__':
     print('heyyyy whatttt penis the ass fuck ass')
 
     while video_capture.more():  # fps._numFrames < 120
+    # while video_capture.more():  # fps._numFrames < 120
         print('heyyyy whatttt')
 
         frame = video_capture.read()
