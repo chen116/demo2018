@@ -29,7 +29,7 @@ from imutils.video import FileVideoStream
 import threading
 from queue import Queue
 class Workers(threading.Thread):
-	def __init__(self,thread_id,input_q,output_q):
+	def __init__(self,threadLock,every_n_frame,thread_id,input_q,output_q):
 		threading.Thread.__init__(self)
 		self.net = cv2.dnn.readNetFromCaffe("MobileNetSSD_deploy.prototxt.txt", "MobileNetSSD_deploy.caffemodel")
 		self.thread_id=thread_id
