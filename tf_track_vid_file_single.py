@@ -107,7 +107,7 @@ if __name__ == '__main__':
 
     input_q = Queue(maxsize=args.queue_size)
     output_q = Queue(maxsize=args.queue_size)
-    # pool = Pool(args.num_workers, worker, (input_q, output_q))
+    pool = Pool(args.num_workers, worker, (input_q, output_q))
 
     # video_capture = WebcamVideoStream(src=args.video_source,width=args.width,height=args.height).start()
     print('heyyyy whatttt the fuck')
@@ -127,14 +127,14 @@ if __name__ == '__main__':
         print('heyyyy whatttt')
 
         frame = video_capture.read()
-        # input_q.put(frame)
+        input_q.put(frame)
 
-        cv2.imshow("Frame", frame)
+        # cv2.imshow("Frame", frame)
 
         t = time.time()
 
-        # output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
-        # cv2.imshow('Video', output_rgb)
+        output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
+        cv2.imshow('Video', output_rgb)
         fps.update()
 
         print('[INFO] elapsed time: {:.2f}'.format(time.time() - t))
