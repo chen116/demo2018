@@ -116,7 +116,7 @@ if __name__ == '__main__':
     while video_capture.more():  # fps._numFrames < 120
         frame = video_capture.read()
         # input_q.put(frame)
-		cv2.imshow("Frame", frame)
+        cv2.imshow("Frame", frame)
 
         t = time.time()
 
