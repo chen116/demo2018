@@ -182,10 +182,8 @@ if __name__ == '__main__':
             output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
             cv2.imshow('Frame',output_rgb )
             fps.update()
-            master.update_idletasks()
-            master.update()
-
-
+        master.update_idletasks()
+        master.update()
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
         if w1.get()==0:
