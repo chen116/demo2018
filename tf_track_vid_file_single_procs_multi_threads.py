@@ -58,45 +58,15 @@ categories = label_map_util.convert_label_map_to_categories(label_map, max_num_c
 category_index = label_map_util.create_category_index(categories)
 
 
-def detect_objects(image_np, sess, detection_graph):
-    # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
-    image_np_expanded = np.expand_dims(image_np, axis=0)
-    image_tensor = detection_graph.get_tensor_by_name('image_tensor:0')
-
-    # Each box represents a part of the image where a particular object was detected.
-    boxes = detection_graph.get_tensor_by_name('detection_boxes:0')
-
-    # Each score represent how level of confidence for each of the objects.
-    # Score is shown on the result image, together with the class label.
-    scores = detection_graph.get_tensor_by_name('detection_scores:0')
-    classes = detection_graph.get_tensor_by_name('detection_classes:0')
-    num_detections = detection_graph.get_tensor_by_name('num_detections:0')
-
-    # Actual detection.
-    (boxes, scores, classes, num_detections) = sess.run(
-        [boxes, scores, classes, num_detections],
-        feed_dict={image_tensor: image_np_expanded})
-
-    # Visualization of the results of a detection.
-    vis_util.visualize_boxes_and_labels_on_image_array(
-        image_np,
-        np.squeeze(boxes),
-        np.squeeze(classes).astype(np.int32),
-        np.squeeze(scores),
-        category_index,
-        use_normalized_coordinates=True,
-        line_thickness=1)
-    return image_np
 
 
-
-
-
-
-
-class Worker:
-    def __init__(self,PATH_TO_CKPT):
+class Workers(threading.Thread):
+    def __init__(self,PATH_TO_CKPT,thread_id,input_q,output_q):
+        threading.Thread.__init__(self)
         self.detection_graph = tf.Graph()
+        self.thread_id=thread_id
+        self.input_q=input_q
+        self.output_q=output_q
         with self.detection_graph.as_default():
             od_graph_def = tf.GraphDef()
             with tf.gfile.GFile(PATH_TO_CKPT, 'rb') as fid:
@@ -105,7 +75,14 @@ class Worker:
                 tf.import_graph_def(od_graph_def, name='')
 
             self.sess = tf.Session(graph=self.detection_graph)
-    def work(self, frame):
+    def run(self):
+        # Acquire lock to synchronize thread
+        # self.threadLock.acquire()
+        self.work()
+        # Release lock for the next thread
+        # self.threadLock.release()
+        print("Exiting thread" , self.thread_id)
+    def work(self):
         def work_detect_objects(image_np, sess, detection_graph):
             # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
             image_np_expanded = np.expand_dims(image_np, axis=0)
@@ -135,10 +112,18 @@ class Worker:
                 use_normalized_coordinates=True,
                 line_thickness=1)
             return image_np
-        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        return detect_objects(frame_rgb, self.sess, self.detection_graph)
-    def cleanup_worker(self):
+        while True:
+            frame = self.input_q.get()
+            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            t = time.time()
+            self.output_q.put(work_detect_objects(frame_rgb, self.sess, self.detection_graph))
+            print('[INFO] elapsed time: {:.2f}'.format(1/(time.time() - t)))
+
+
         self.sess.close()
+
+
+
 
 
 
@@ -163,9 +148,16 @@ if __name__ == '__main__':
 
 
     # pool = Pool(args.num_workers, worker, (input_q, output_q))
-    worker=Worker(PATH_TO_CKPT)
 
-
+    input_q = Queue(50)  # fps is better if queue is higher but then more lags
+    output_q = Queue()
+    thread_id=0
+    threads = []
+    for domuid in c.domu_ids:
+        tmp_thread = Workers(PATH_TO_CKPT,thread_id,input_q,output_q)
+        tmp_thread.start()
+        threads.append(tmp_thread)
+        thread_id+=1
     # video_capture = WebcamVideoStream(src=args.video_source,width=args.width,height=args.height).start()
     # video_capture = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
 
@@ -183,20 +175,16 @@ if __name__ == '__main__':
         frame = video_capture.read()
         frame = imutils.resize(frame, width=current_f_size)
 
+        input_q.put(frame)
+        if output_q.empty():
+            print('empty ouput queue...')
+        else:
+            output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
+            cv2.imshow('Frame',output_rgb )
+            fps.update()
+            master.update_idletasks()
+            master.update()
 
-
-        # cv2.imshow("Frame", frame)
-
-        t = time.time()
-
-        # output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
-        output_rgb = cv2.cvtColor(worker.work(frame), cv2.COLOR_RGB2BGR)
-        cv2.imshow('Frame',output_rgb )
-        fps.update()
-        master.update_idletasks()
-        master.update()
-
-        print('[INFO] elapsed time: {:.2f}'.format(1/(time.time() - t)))
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
@@ -206,8 +194,8 @@ if __name__ == '__main__':
     fps.stop()
     print('[INFO] elapsed time (total): {:.2f}'.format(fps.elapsed()))
     print('[INFO] approx. FPS: {:.2f}'.format(fps.fps()))
-
     # pool.terminate()
-    worker.cleanup_worker()
     video_capture.stop()
     cv2.destroyAllWindows()
+    for t in threads:
+        t.join()

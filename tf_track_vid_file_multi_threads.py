@@ -118,8 +118,7 @@ if __name__ == '__main__':
     # video_capture = WebcamVideoStream(src=args.video_source,
     #                                   width=args.width,
     #                                   height=args.height).start()
-    while video_capture.more() is False:
-        continue
+    sleep(2.0)
     input_q = Queue(50)  # fps is better if queue is higher but then more lags
     output_q = Queue()
     thread_id=0
