@@ -245,6 +245,8 @@ while True:
 		# show the output frame
 		cv2.imshow("Frame", frame)
 		fps.update()
+		master.update_idletasks()
+		master.update()
 
 		key = cv2.waitKey(1) & 0xFF
 
@@ -268,13 +270,10 @@ while True:
 			move_left(mycam)
 		if key ==ord("r"):
 			move_right(mycam)
-		master.update_idletasks()
-		master.update()
 
 
 	# update the FPS counter
-	master.update_idletasks()
-	master.update()
+
 	#if(time.time()>pointat):
 	#	canpoint = 1
 
