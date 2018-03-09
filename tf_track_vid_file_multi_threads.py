@@ -26,7 +26,7 @@ MODES = [
 ]
 
 w1 = IntVar()
-w1.set(200) # initialize
+w1.set(400) # initialize
 previous_f_size = w1.get()
 for text, mode in MODES:
     b = Radiobutton(master, text=text,variable=w1, value=mode)
