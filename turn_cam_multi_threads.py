@@ -3,7 +3,7 @@
 
 # hb init
 import heartbeat
-hb = heartbeat.Heartbeat(1024,10,100,"vic.log",10,100)
+hb = heartbeat.Heartbeat(1024,5,100,"vic.log",10,100)
 monitoring_items = ["heart_rate","app_mode"]
 comm = heartbeat.DomU(monitoring_items)
 
@@ -35,13 +35,24 @@ class Workers(threading.Thread):
 		self.thread_id=thread_id
 		self.input_q=input_q
 		self.output_q=output_q
+		self.every_n_frame=every_n_frame
+		self.threadLock=threadLock
+		self.obj_track=0
 	def run(self):
 		# Acquire lock to synchronize thread
 		# self.threadLock.acquire()
 		while True:
+			self.threadLock.acquire()
+			self.every_n_frame['cnt']=(self.every_n_frame['cnt']+1)%5
+			self.obj_track = self.every_n_frame['cnt']
+			self.threadLock.release()
+
 			blob = self.input_q.get()
-			self.net.setInput(blob)
-			self.output_q.put(self.net.forward())
+			if self.obj_track%5==0:
+				self.net.setInput(blob)
+				self.output_q.put(self.net.forward())
+			else:
+
 
 		# Release lock for the next thread
 		# self.threadLock.release()
@@ -130,14 +141,14 @@ time.sleep(2.0)
 input_q = Queue()  # fps is better if queue is higher but then more lags
 output_q = Queue()
 threads = []
+every_n_frame = {'cnt':-1}
 for i in range(3):
-	tmp_thread = Workers(i,input_q,output_q)
+	tmp_thread = Workers(threadLock,every_n_frame,i,input_q,output_q)
 	tmp_thread.start()
 	threads.append(tmp_thread)
 fps = FPS().start()
 pointat = 0
 # loop over the frames from the video stream
-every_n_frame = -1
 # while True:
 while vs.more():
 	# grab the frame from the threaded video stream and resize it
@@ -159,6 +170,7 @@ while vs.more():
 		print('empty ouput queue...')
 	else:
 		detections = output_q.get()
+		print(de.dtype)
 #	print(w)
 # pass the blob through the network and obtain the detections and
 # predictions
