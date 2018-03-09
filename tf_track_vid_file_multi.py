@@ -97,7 +97,7 @@ if __name__ == '__main__':
     #                                   width=args.width,
     #                                   height=args.height).start()
     time.sleep(2.0)
-    input_q = Queue(50)  # fps is better if queue is higher but then more lags
+    input_q = Queue(25)  # fps is better if queue is higher but then more lags
     output_q = Queue()
     for i in range(5):
         t = Thread(target=worker, args=(input_q, output_q))
