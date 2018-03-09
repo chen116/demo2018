@@ -26,7 +26,7 @@ if __name__ == '__main__' :
     #         tracker = cv2.TrackerMedianFlow_create()
     #     if tracker_type == 'GOTURN':
     #         tracker = cv2.TrackerGOTURN_create()
-    tracker = cv2.TrackerKCF_create()
+    tracker = cv2.TrackerBoosting_create()
 
     # Read video
     video = cv2.VideoCapture("walkcat.mp4")
