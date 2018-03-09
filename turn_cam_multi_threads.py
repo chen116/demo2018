@@ -59,7 +59,7 @@ c = Checkbutton(master, text="anchors", variable=checked)
 c.pack()
 
 MODES = [
-    ("200", 200),
+    ("600", 600),
     ("400", 400),
     ("600", 600),
     ("done",0)
