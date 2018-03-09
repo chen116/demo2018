@@ -50,6 +50,7 @@ class Workers(threading.Thread):
 			blob = self.input_q.get()
 			if self.obj_track%5==0:
 				self.net.setInput(blob)
+				print("thread:",self.thread_id," gonna dnn")
 				self.output_q.put(self.net.forward())
 			else:
 				self.output_q.put(np.ndarray([0]))
