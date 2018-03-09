@@ -115,7 +115,8 @@ if __name__ == '__main__':
     # video_capture = WebcamVideoStream(src=args.video_source,
     #                                   width=args.width,
     #                                   height=args.height).start()
-    time.sleep(2.0)
+    while video_capture.more() is False:
+        continue
     input_q = Queue(5)  # fps is better if queue is higher but then more lags
     output_q = Queue()
     for i in range(1):
@@ -153,6 +154,8 @@ if __name__ == '__main__':
             cv2.imshow('Frame', frame)
 
         fps.update()
+        master.update_idletasks()
+        master.update()
 
         print('[INFO] elapsed time: {:.2f}'.format(time.time() - t))
 
