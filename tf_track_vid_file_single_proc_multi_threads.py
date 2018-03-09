@@ -165,8 +165,8 @@ if __name__ == '__main__':
         tmp_thread.start()
         threads.append(tmp_thread)
     # video_capture = WebcamVideoStream(src=args.video_source,width=args.width,height=args.height).start()
-    # video_capture = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
-    video_capture = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
+    video_capture = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
+    # video_capture = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
 
     # video_capture = FileVideoStream("walkcat.mp4").start()
     time.sleep(2.0)
