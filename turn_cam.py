@@ -124,7 +124,7 @@ while vs.more():
 		# predictions
 		net.setInput(blob)
 		detections = net.forward()
-		print(len(detections))
+		print(detections.shape[0])
 		# loop over the detections
 		for i in np.arange(0, detections.shape[2]):
 			# extract the confidence (i.e., probability) associated with
