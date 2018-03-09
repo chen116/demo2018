@@ -107,6 +107,7 @@ while vs.more():
 	# grab the frame from the threaded video stream and resize it
 	# to have a maximum width of 400 pixels
 	every_n_frame+=1
+	every_n_frame=every_n_frame%5
 	frame = vs.read()
 	current_f_size=w1.get()
 	if current_f_size == 0:
