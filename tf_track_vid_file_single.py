@@ -112,7 +112,7 @@ if __name__ == '__main__':
     # video_capture = WebcamVideoStream(src=args.video_source,width=args.width,height=args.height).start()
     print('heyyyy whatttt the fuck')
 
-    video_capture = FileVideoStream("/root/demo2018/walkcat.mp4").start()
+    video_capture = FileVideoStream("walkcat.mp4").start()
     print('heyyyy whatttt the ass fuck')
 
     fps = FPS().start()
