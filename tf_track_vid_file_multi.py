@@ -38,10 +38,10 @@ PATH_TO_CKPT = os.path.join(CWD_PATH, 'object_detection', MODEL_NAME, 'frozen_in
 
 # List of the strings that is used to add correct label for each box.
 PATH_TO_LABELS = os.path.join(CWD_PATH, 'object_detection', 'data', 'mscoco_label_map.pbtxt')
-PATH_TO_LABELS = os.path.join(CWD_PATH, 'object_detection', 'data', 'pascal_label_map.pbtxt')
+# PATH_TO_LABELS = os.path.join(CWD_PATH, 'object_detection', 'data', 'pascal_label_map.pbtxt')
 
 NUM_CLASSES = 90
-NUM_CLASSES = 20
+
 
 # Loading label map
 label_map = label_map_util.load_labelmap(PATH_TO_LABELS)
@@ -121,8 +121,10 @@ if __name__ == '__main__':
         continue
     input_q = Queue(1)  # fps is better if queue is higher but then more lags
     output_q = Queue()
+    thread_id=0
     for i in range(1):
-        t = Thread(target=worker, args=(input_q, output_q))
+        t = Thread(target=worker, args=(thread_id,input_q, output_q))
+        thread_id+=1
         t.daemon = True
         t.start()
 
