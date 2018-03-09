@@ -99,15 +99,18 @@ if __name__ == '__main__':
     parser.add_argument('-q-size', '--queue-size', dest='queue_size', type=int,
                         default=5, help='Size of the queue.')
     args = parser.parse_args()
+    print('heyyyy whatttt the dfdfdfuck is going on')
 
     logger = multiprocessing.log_to_stderr()
     logger.setLevel(multiprocessing.SUBDEBUG)
+    print('heyyyy whatttt the fuck is going on')
 
     input_q = Queue(maxsize=args.queue_size)
     output_q = Queue(maxsize=args.queue_size)
     # pool = Pool(args.num_workers, worker, (input_q, output_q))
 
     # video_capture = WebcamVideoStream(src=args.video_source,width=args.width,height=args.height).start()
+    print('heyyyy whatttt the fuck')
 
     video_capture = FileVideoStream("/root/demo2018/walkcat.mp4").start()
 
