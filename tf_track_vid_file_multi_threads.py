@@ -81,7 +81,7 @@ def detect_objects(image_np, sess, detection_graph):
     return dict(rect_points=rect_points, class_names=class_names, class_colors=class_colors)
 
 
-def worker(input_q, output_q):
+def worker(thread_id,input_q, output_q):
     # Load a (frozen) Tensorflow model into memory.
     detection_graph = tf.Graph()
     with detection_graph.as_default():
