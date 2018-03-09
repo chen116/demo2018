@@ -121,9 +121,9 @@ print("[INFO] loading model...")
 # initialize the video stream, allow the cammera sensor to warmup,
 # and initialize the FPS counter
 print("[INFO] starting video stream...")
-# vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
+vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
 # vs = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
-vs= FileVideoStream("walkcat.mp4").start()
+# vs= FileVideoStream("walkcat.mp4").start()
 
 time.sleep(2.0)
 
@@ -137,8 +137,8 @@ for i in range(5):
 fps = FPS().start()
 pointat = 0
 # loop over the frames from the video stream
-# while True:
-while vs.more():
+while True:
+# while vs.more():
 	# grab the frame from the threaded video stream and resize it
 	# to have a maximum width of 400 pixels
 	frame = vs.read()
