@@ -191,12 +191,13 @@ if __name__ == '__main__':
 
         # output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
         output_rgb = cv2.cvtColor(worker.work(frame), cv2.COLOR_RGB2BGR)
+        print('[INFO] elapsed time: {:.2f}'.format(1/(time.time() - t)))
+
         cv2.imshow('Frame',output_rgb )
         fps.update()
         master.update_idletasks()
         master.update()
 
-        print('[INFO] elapsed time: {:.2f}'.format(1/(time.time() - t)))
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
