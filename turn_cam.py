@@ -3,7 +3,7 @@
 
 # hb init
 import heartbeat
-hb = heartbeat.Heartbeat(1024,10,100,"vic.log",10,100)
+hb = heartbeat.Heartbeat(1024,5,100,"vic.log",10,100)
 monitoring_items = ["heart_rate","app_mode"]
 comm = heartbeat.DomU(monitoring_items)
 
@@ -101,7 +101,7 @@ time.sleep(2.0)
 fps = FPS().start()
 pointat = 0
 # loop over the frames from the video stream
-every_n_frame = 0
+every_n_frame = -1
 while True:
 # while vs.more():
 	# grab the frame from the threaded video stream and resize it
