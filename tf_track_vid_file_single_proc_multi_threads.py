@@ -160,7 +160,7 @@ if __name__ == '__main__':
     input_q = Queue()  # fps is better if queue is higher but then more lags
     output_q = Queue()
     threads = []
-    for i in range(3):
+    for i in range(5):
         tmp_thread = Workers(PATH_TO_CKPT,i,input_q,output_q)
         tmp_thread.start()
         threads.append(tmp_thread)
