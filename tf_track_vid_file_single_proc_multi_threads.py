@@ -118,7 +118,7 @@ class Workers(threading.Thread):
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             t = time.time()
             self.output_q.put(work_detect_objects(frame_rgb, self.sess, self.detection_graph))
-            print('[INFO] elapsed time: {:.2f}'.format(1/(time.time() - t)))
+            print('thread:',self.thread_id,'[INFO] elapsed time: {:.2f}'.format(1/(time.time() - t)))
 
 
         self.sess.close()
