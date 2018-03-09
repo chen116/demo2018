@@ -111,13 +111,13 @@ if __name__ == '__main__':
     parser.add_argument('-src', '--source', dest='video_source', type=int,
                         default=0, help='Device index of the camera.')
     parser.add_argument('-wd', '--width', dest='width', type=int,
-                        default=480, help='Width of the frames in the video stream.')
+                        default=200, help='Width of the frames in the video stream.')
     parser.add_argument('-ht', '--height', dest='height', type=int,
-                        default=360, help='Height of the frames in the video stream.')
+                        default=200, help='Height of the frames in the video stream.')
     parser.add_argument('-num-w', '--num-workers', dest='num_workers', type=int,
                         default=5, help='Number of workers.')
     parser.add_argument('-q-size', '--queue-size', dest='queue_size', type=int,
-                        default=5, help='Size of the queue.')
+                        default=15, help='Size of the queue.')
     args = parser.parse_args()
 
     # logger = multiprocessing.log_to_stderr()
@@ -128,17 +128,22 @@ if __name__ == '__main__':
     pool = Pool(args.num_workers, worker, (input_q, output_q))
 
     # video_capture = WebcamVideoStream(src=args.video_source,width=args.width,height=args.height).start()
+    # video_capture = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
 
     video_capture = FileVideoStream("walkcat.mp4").start()
     time.sleep(2.0)
 
     fps = FPS().start()
-    print(video_capture.more())
+
 
     while video_capture.more():  # fps._numFrames < 120
-    # while video_capture.more():  # fps._numFrames < 120
-
+    # while True:  # fps._numFrames < 120
+        current_f_size=w1.get()
+        if current_f_size == 0:
+            break
         frame = video_capture.read()
+        # frame = imutils.resize(frame, width=current_f_size)
+
         input_q.put(frame)
 
         # cv2.imshow("Frame", frame)
