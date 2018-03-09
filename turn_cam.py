@@ -167,6 +167,7 @@ while True:
 	hb.heartbeat_beat()
 	window_hr = hb.get_window_heartrate()
 	comm.write("heart_rate",window_hr)
+	print('--------------------',window_hr)
 	current_checked = checked.get()
 	if previous_checked!=current_checked:
 		comm.write("app_mode",current_checked)
