@@ -117,6 +117,8 @@ if __name__ == '__main__':
 
     fps = FPS().start()
     print('heyyyy whatttt penis the ass fuck')
+    print(video_capture.more())
+    print('heyyyy whatttt penis the ass fuck ass')
 
     while video_capture.more():  # fps._numFrames < 120
         print('heyyyy whatttt')
