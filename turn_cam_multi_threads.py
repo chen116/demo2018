@@ -144,6 +144,8 @@ input_q = Queue()  # fps is better if queue is higher but then more lags
 output_q = Queue()
 threads = []
 every_n_frame = {'cnt':-1}
+threadLock = threading.Lock()
+
 for i in range(3):
 	tmp_thread = Workers(threadLock,every_n_frame,i,input_q,output_q)
 	tmp_thread.start()
