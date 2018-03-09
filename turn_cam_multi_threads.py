@@ -154,70 +154,70 @@ while vs.more():
 		0.007843, (300, 300), 127.5)
 
 	input_q.put(blob)
-		if output_q.empty():
-			print('empty ouput queue...')
-		else:
-			detections = output_q.get()
+	if output_q.empty():
+		print('empty ouput queue...')
+	else:
+		detections = output_q.get()
 #	print(w)
-	# pass the blob through the network and obtain the detections and
-	# predictions
+# pass the blob through the network and obtain the detections and
+# predictions
 
-	#print(frame.dtype)
-	# loop over the detections
-			for i in np.arange(0, detections.shape[2]):
-				# extract the confidence (i.e., probability) associated with
-				# the prediction
-				confidence = detections[0, 0, i, 2]
-				idx2 = int(detections[0,0,i,1])
-				# filter out weak detections by ensuring the `confidence` is
-				# greater than the minimum confidence
-				if ((confidence > args["confidence"]) and (CLASSES[idx2]=='cat')):
-					# extract the index of the class label from the
-					# `detections`, then compute the (x, y)-coordinates of
-					# the bounding box for the object
-					idx = int(detections[0, 0, i, 1])
-					box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
-					(startX, startY, endX, endY) = box.astype("int")
-				#	print('startX=',startX)
-				#	print('endX=',endX)
-					if(((startX+endX)/2<(L*w)) and (moveleft==0)):
-						mycam.ptz_move_left()
-						moveleft = 1
-						moveright = 0
-					#	canpoint = 0
-					#	pointat = time.time()+0.3 
-					elif(((startX+endX)/2>(R*w)) and (moveright==0)):
-						mycam.ptz_move_right()
-						moveright = 1
-						moveleft = 0
-					#	canpoint = 0
-					#	pointat = time.time()+0.3
-					# draw the prediction on the frame
-					elif((((startX+endX)/2>(L*w)) and (((startX+endX)/2)<(R*w))))and((moveright==1)or(moveleft==1)):
-						mycam.ptz_stop_run()
-						moveright = 0
-						moveleft = 0
-					label = "{}: {:.2f}%".format(CLASSES[idx],
-						confidence * 100)
-					cv2.rectangle(frame, (startX, startY), (endX, endY),
-						COLORS[idx], 2)
-					y = startY - 15 if startY - 15 > 15 else startY + 15
-					cv2.putText(frame, label, (startX, y),
-						cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)
+#print(frame.dtype)
+# loop over the detections
+		for i in np.arange(0, detections.shape[2]):
+			# extract the confidence (i.e., probability) associated with
+			# the prediction
+			confidence = detections[0, 0, i, 2]
+			idx2 = int(detections[0,0,i,1])
+			# filter out weak detections by ensuring the `confidence` is
+			# greater than the minimum confidence
+			if ((confidence > args["confidence"]) and (CLASSES[idx2]=='cat')):
+				# extract the index of the class label from the
+				# `detections`, then compute the (x, y)-coordinates of
+				# the bounding box for the object
+				idx = int(detections[0, 0, i, 1])
+				box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
+				(startX, startY, endX, endY) = box.astype("int")
+			#	print('startX=',startX)
+			#	print('endX=',endX)
+				if(((startX+endX)/2<(L*w)) and (moveleft==0)):
+					mycam.ptz_move_left()
+					moveleft = 1
+					moveright = 0
+				#	canpoint = 0
+				#	pointat = time.time()+0.3 
+				elif(((startX+endX)/2>(R*w)) and (moveright==0)):
+					mycam.ptz_move_right()
+					moveright = 1
+					moveleft = 0
+				#	canpoint = 0
+				#	pointat = time.time()+0.3
+				# draw the prediction on the frame
+				elif((((startX+endX)/2>(L*w)) and (((startX+endX)/2)<(R*w))))and((moveright==1)or(moveleft==1)):
+					mycam.ptz_stop_run()
+					moveright = 0
+					moveleft = 0
+				label = "{}: {:.2f}%".format(CLASSES[idx],
+					confidence * 100)
+				cv2.rectangle(frame, (startX, startY), (endX, endY),
+					COLORS[idx], 2)
+				y = startY - 15 if startY - 15 > 15 else startY + 15
+				cv2.putText(frame, label, (startX, y),
+					cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)
 
-			# show the output frame
-			cv2.imshow("Frame", frame)
-			key = cv2.waitKey(1) & 0xFF
+		# show the output frame
+		cv2.imshow("Frame", frame)
+		key = cv2.waitKey(1) & 0xFF
 
-			# hb stuff
-			hb.heartbeat_beat()
-			window_hr = hb.get_window_heartrate()
-			comm.write("heart_rate",window_hr)
-			print('--------------------',window_hr)
-			current_checked = checked.get()
-			if previous_checked!=current_checked:
-				comm.write("app_mode",current_checked)
-				previous_checked=current_checked
+		# hb stuff
+		hb.heartbeat_beat()
+		window_hr = hb.get_window_heartrate()
+		comm.write("heart_rate",window_hr)
+		print('--------------------',window_hr)
+		current_checked = checked.get()
+		if previous_checked!=current_checked:
+			comm.write("app_mode",current_checked)
+			previous_checked=current_checked
 
 	# if the `q` key was pressed, break from the loop
 	if key == ord("q"):
