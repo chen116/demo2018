@@ -7,7 +7,7 @@ import numpy as np
 import tensorflow as tf
 import imutils
 from imutils.video import VideoStream
-import threading
+
 
 from imutils.video import FileVideoStream
 from utils.app_utils import FPS, WebcamVideoStream
@@ -15,6 +15,7 @@ from multiprocessing import Queue, Pool
 from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils as vis_util
 
+import threading
 from queue import Queue
 
 from tkinter import *
