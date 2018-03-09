@@ -94,16 +94,16 @@ net = cv2.dnn.readNetFromCaffe("MobileNetSSD_deploy.prototxt.txt", "MobileNetSSD
 # and initialize the FPS counter
 print("[INFO] starting video stream...")
 # vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
-vs = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
-# vs= FileVideoStream("walkcat.mp4").start()
+# vs = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
+vs= FileVideoStream("walkcat.mp4").start()
 
 time.sleep(2.0)
 fps = FPS().start()
 pointat = 0
 # loop over the frames from the video stream
 every_n_frame = -1
-while True:
-# while vs.more():
+# while True:
+while vs.more():
 	# grab the frame from the threaded video stream and resize it
 	# to have a maximum width of 400 pixels
 	every_n_frame+=1
@@ -132,7 +132,7 @@ while True:
 			idx2 = int(detections[0,0,i,1])
 			# filter out weak detections by ensuring the `confidence` is
 			# greater than the minimum confidence
-			if ((confidence > args["confidence"]) and (CLASSES[idx2]=='person')):
+			if ((confidence > args["confidence"]) and (CLASSES[idx2]=='cat')):
 				# extract the index of the class label from the
 				# `detections`, then compute the (x, y)-coordinates of
 				# the bounding box for the object
