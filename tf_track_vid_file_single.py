@@ -120,7 +120,7 @@ if __name__ == '__main__':
 
         t = time.time()
 
-        output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
+        # output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
         # cv2.imshow('Video', output_rgb)
         fps.update()
 
