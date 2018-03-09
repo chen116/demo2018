@@ -69,7 +69,7 @@ master = Tk()
 checked = IntVar(value=0)
 previous_checked = checked.get()
 c = Checkbutton(master, text="anchors", variable=checked)
-c.pack()
+c.pack(fill=X)
 
 MODES = [
     ("600", 600),
@@ -83,11 +83,11 @@ w1.set(600) # initialize
 previous_f_size = w1.get()
 for text, mode in MODES:
     b = Radiobutton(master, text=text,variable=w1, value=mode)
-    b.pack(anchor=W)
+    b.pack(fill=X)
 ml = Button(master, text="left",command= lambda: move_left(mycam))
-ml.pack()
+ml.pack(fill=X)
 mr = Button(master,text="right",command= lambda: move_right(mycam))
-mr.pack()
+mr.pack(fill=X)
 
 
 
