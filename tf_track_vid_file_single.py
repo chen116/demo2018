@@ -145,7 +145,7 @@ if __name__ == '__main__':
         if current_f_size == 0:
             break
         frame = video_capture.read()
-        frame = imutils.resize(frame, width=200)
+        frame = imutils.resize(frame, width=current_f_size)
 
         input_q.put(frame)
 
