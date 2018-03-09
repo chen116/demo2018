@@ -7,6 +7,12 @@ import numpy as np
 import tensorflow as tf
 import imutils
 from imutils.video import VideoStream
+import heartbeat
+hb = heartbeat.Heartbeat(1024,10,100,"vic.log",10,100)
+monitoring_items = ["heart_rate","app_mode"]
+comm = heartbeat.DomU(monitoring_items)
+
+
 
 
 from imutils.video import FileVideoStream
@@ -182,6 +188,10 @@ if __name__ == '__main__':
         else:
             output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
             cv2.imshow('Frame',output_rgb )
+            hb.heartbeat_beat()
+            window_hr = hb.get_window_heartrate()
+            comm.write("heart_rate",window_hr)
+            print('--------------------',window_hr)
             fps.update()
         master.update_idletasks()
         master.update()
@@ -196,5 +206,7 @@ if __name__ == '__main__':
     # pool.terminate()
     video_capture.stop()
     cv2.destroyAllWindows()
+    hb.heartbeat_finish()
+    comm.write("heart_rate","done")
     for t in threads:
         t.join()
