@@ -240,7 +240,7 @@ while True:
 					prev_box['endX']=endX
 					prev_box['endY']=endY
 					prev_box['idx']=idx
-					prev_box['label']=label
+					prev_box['label']= "recalculating"
 
 		# show the output frame
 		cv2.imshow("Frame", frame)
