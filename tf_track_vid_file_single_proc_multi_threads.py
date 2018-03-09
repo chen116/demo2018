@@ -149,7 +149,7 @@ if __name__ == '__main__':
 
     # pool = Pool(args.num_workers, worker, (input_q, output_q))
 
-    input_q = Queue(50)  # fps is better if queue is higher but then more lags
+    input_q = Queue(5)  # fps is better if queue is higher but then more lags
     output_q = Queue()
     threads = []
     for i in range(5):
