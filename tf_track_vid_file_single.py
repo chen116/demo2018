@@ -11,7 +11,26 @@ from utils.app_utils import FPS, WebcamVideoStream
 from multiprocessing import Queue, Pool
 from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils as vis_util
+from tkinter import *
+master = Tk()
+checked = IntVar(value=0)
+previous_checked = checked.get()
+c = Checkbutton(master, text="anchors", variable=checked)
+c.pack()
 
+MODES = [
+    ("200", 200),
+    ("400", 400),
+    ("600", 600),
+    ("done",0)
+]
+
+w1 = IntVar()
+w1.set(200) # initialize
+previous_f_size = w1.get()
+for text, mode in MODES:
+    b = Radiobutton(master, text=text,variable=w1, value=mode)
+    b.pack(anchor=W)
 
 
 CWD_PATH = os.getcwd()
@@ -99,32 +118,24 @@ if __name__ == '__main__':
     parser.add_argument('-q-size', '--queue-size', dest='queue_size', type=int,
                         default=5, help='Size of the queue.')
     args = parser.parse_args()
-    print('heyyyy whatttt the dfdfdfuck is going on')
 
-    logger = multiprocessing.log_to_stderr()
-    logger.setLevel(multiprocessing.SUBDEBUG)
-    print('heyyyy whatttt the fuck is going on')
+    # logger = multiprocessing.log_to_stderr()
+    # logger.setLevel(multiprocessing.SUBDEBUG)
 
     input_q = Queue(maxsize=args.queue_size)
     output_q = Queue(maxsize=args.queue_size)
     pool = Pool(args.num_workers, worker, (input_q, output_q))
 
     # video_capture = WebcamVideoStream(src=args.video_source,width=args.width,height=args.height).start()
-    print('heyyyy whatttt the fuck')
 
     video_capture = FileVideoStream("walkcat.mp4").start()
     time.sleep(2.0)
 
-    print('heyyyy whatttt the ass fuck')
-
     fps = FPS().start()
-    print('heyyyy whatttt penis the ass fuck')
     print(video_capture.more())
-    print('heyyyy whatttt penis the ass fuck ass')
 
     while video_capture.more():  # fps._numFrames < 120
     # while video_capture.more():  # fps._numFrames < 120
-        print('heyyyy whatttt')
 
         frame = video_capture.read()
         input_q.put(frame)
@@ -136,12 +147,14 @@ if __name__ == '__main__':
         output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
         cv2.imshow('Frame', output_rgb)
         fps.update()
+        master.update_idletasks()
+        master.update()
 
         print('[INFO] elapsed time: {:.2f}'.format(time.time() - t))
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
-            print('whatttt')
-
+            break
+        if w1.get()==0:
             break
 
     fps.stop()
