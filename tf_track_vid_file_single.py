@@ -1,9 +1,9 @@
 import os
-# import cv2
-# import time
-# import argparse
-# import multiprocessing
-# import numpy as np
+import cv2
+import time
+import argparse
+import multiprocessing
+import numpy as np
 # import tensorflow as tf
 exit()
 # from imutils.video import FileVideoStream
