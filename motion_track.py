@@ -27,6 +27,9 @@ pts = deque(maxlen=args["buffer"])
 
 camera = cv2.VideoCapture("walkcat.mp4")
 
+for x in range(100):
+    f=camera.read()
+
 # keep looping
 while True:
     # grab the current frame
