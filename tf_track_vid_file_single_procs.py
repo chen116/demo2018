@@ -84,30 +84,77 @@ def detect_objects(image_np, sess, detection_graph):
         use_normalized_coordinates=True,
         line_thickness=1)
     return image_np
+class Worker:
+    def __init__(self,PATH_TO_CKPT):
+        self.detection_graph = tf.Graph()
+        with self.detection_graph.as_default():
+            od_graph_def = tf.GraphDef()
+            with tf.gfile.GFile(PATH_TO_CKPT, 'rb') as fid:
+                serialized_graph = fid.read()
+                od_graph_def.ParseFromString(serialized_graph)
+                tf.import_graph_def(od_graph_def, name='')
 
+            self.sess = tf.Session(graph=detection_graph)
+    def work(self, frame):
+        def work_detect_objects(image_np, sess, detection_graph):
+            # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
+            image_np_expanded = np.expand_dims(image_np, axis=0)
+            image_tensor = detection_graph.get_tensor_by_name('image_tensor:0')
 
-def worker(input_q, output_q):
-    # Load a (frozen) Tensorflow model into memory.
-    detection_graph = tf.Graph()
-    with detection_graph.as_default():
-        od_graph_def = tf.GraphDef()
-        with tf.gfile.GFile(PATH_TO_CKPT, 'rb') as fid:
-            serialized_graph = fid.read()
-            od_graph_def.ParseFromString(serialized_graph)
-            tf.import_graph_def(od_graph_def, name='')
+            # Each box represents a part of the image where a particular object was detected.
+            boxes = detection_graph.get_tensor_by_name('detection_boxes:0')
 
-        sess = tf.Session(graph=detection_graph)
+            # Each score represent how level of confidence for each of the objects.
+            # Score is shown on the result image, together with the class label.
+            scores = detection_graph.get_tensor_by_name('detection_scores:0')
+            classes = detection_graph.get_tensor_by_name('detection_classes:0')
+            num_detections = detection_graph.get_tensor_by_name('num_detections:0')
 
-    fps = FPS().start()
-    while True:
-        fps.update()
-        frame = input_q.get()
+            # Actual detection.
+            (boxes, scores, classes, num_detections) = sess.run(
+                [boxes, scores, classes, num_detections],
+                feed_dict={image_tensor: image_np_expanded})
+
+            # Visualization of the results of a detection.
+            vis_util.visualize_boxes_and_labels_on_image_array(
+                image_np,
+                np.squeeze(boxes),
+                np.squeeze(classes).astype(np.int32),
+                np.squeeze(scores),
+                category_index,
+                use_normalized_coordinates=True,
+                line_thickness=1)
+            return image_np
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        output_q.put(detect_objects(frame_rgb, sess, detection_graph))
+        return detect_objects(frame_rgb, self.sess, self.detection_graph)
+    def cleanup_worker(self):
+        self.sess.close()
 
 
-    fps.stop()
-    sess.close()
+
+
+# def worker(input_q, output_q):
+#     # Load a (frozen) Tensorflow model into memory.
+#     detection_graph = tf.Graph()
+#     with detection_graph.as_default():
+#         od_graph_def = tf.GraphDef()
+#         with tf.gfile.GFile(PATH_TO_CKPT, 'rb') as fid:
+#             serialized_graph = fid.read()
+#             od_graph_def.ParseFromString(serialized_graph)
+#             tf.import_graph_def(od_graph_def, name='')
+
+#         sess = tf.Session(graph=detection_graph)
+
+#     fps = FPS().start()
+#     while True:
+#         fps.update()
+#         frame = input_q.get()
+#         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+#         output_q.put(detect_objects(frame_rgb, sess, detection_graph))
+
+
+#     fps.stop()
+#     sess.close()
 
 
 if __name__ == '__main__':
@@ -129,7 +176,8 @@ if __name__ == '__main__':
 
     input_q = Queue(maxsize=args.queue_size)
     output_q = Queue(maxsize=args.queue_size)
-    pool = Pool(args.num_workers, worker, (input_q, output_q))
+    # pool = Pool(args.num_workers, worker, (input_q, output_q))
+    worker=Worker(PATH_TO_CKPT)
 
     # video_capture = WebcamVideoStream(src=args.video_source,width=args.width,height=args.height).start()
     video_capture = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
@@ -154,7 +202,8 @@ if __name__ == '__main__':
 
         t = time.time()
 
-        output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
+        # output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
+
         cv2.imshow('Frame', output_rgb)
         fps.update()
         master.update_idletasks()
