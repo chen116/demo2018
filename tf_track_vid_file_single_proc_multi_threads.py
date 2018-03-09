@@ -39,7 +39,7 @@ MODES = [
 ]
 
 w1 = IntVar()
-w1.set(200) # initialize
+w1.set(400) # initialize
 previous_f_size = w1.get()
 for text, mode in MODES:
     b = Radiobutton(master, text=text,variable=w1, value=mode)
@@ -160,7 +160,7 @@ if __name__ == '__main__':
     input_q = Queue()  # fps is better if queue is higher but then more lags
     output_q = Queue()
     threads = []
-    for i in range(1):
+    for i in range(2):
         tmp_thread = Workers(PATH_TO_CKPT,i,input_q,output_q)
         tmp_thread.start()
         threads.append(tmp_thread)
