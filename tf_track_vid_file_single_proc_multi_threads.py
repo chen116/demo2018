@@ -116,9 +116,9 @@ class Workers(threading.Thread):
         while True:
             frame = self.input_q.get()
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            t = time.time()
+
             self.output_q.put(work_detect_objects(frame_rgb, self.sess, self.detection_graph))
-            print('thread:',self.thread_id,'[INFO] elapsed time: {:.2f}'.format(1/(time.time() - t)))
+
 
 
         self.sess.close()
@@ -175,11 +175,15 @@ if __name__ == '__main__':
         frame = imutils.resize(frame, width=current_f_size)
 
         input_q.put(frame)
+        t = time.time()
+
         if output_q.empty():
             print('empty ouput queue...')
         else:
             output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
             cv2.imshow('Frame',output_rgb )
+            print('thread:',self.thread_id,'[INFO] elapsed time: {:.2f}'.format(1/(time.time() - t)))
+
             fps.update()
         master.update_idletasks()
         master.update()
