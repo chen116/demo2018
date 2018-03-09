@@ -221,5 +221,6 @@ if __name__ == '__main__':
     print('[INFO] approx. FPS: {:.2f}'.format(fps.fps()))
 
     # pool.terminate()
+    worker.cleanup_worker()
     video_capture.stop()
     cv2.destroyAllWindows()
