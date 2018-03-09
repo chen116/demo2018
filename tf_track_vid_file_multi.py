@@ -91,19 +91,19 @@ if __name__ == '__main__':
     parser.add_argument('-ht', '--height', dest='height', type=int,
                         default=360, help='Height of the frames in the video stream.')
     args = parser.parse_args()
-
-    input_q = Queue(50)  # fps is better if queue is higher but then more lags
-    output_q = Queue()
-    for i in range(5):
-        t = Thread(target=worker, args=(input_q, output_q))
-        t.daemon = True
-        t.start()
     video_capture = FileVideoStream("walkcat.mp4").start()
 
     # video_capture = WebcamVideoStream(src=args.video_source,
     #                                   width=args.width,
     #                                   height=args.height).start()
     time.sleep(2.0)
+    input_q = Queue(50)  # fps is better if queue is higher but then more lags
+    output_q = Queue()
+    for i in range(5):
+        t = Thread(target=worker, args=(input_q, output_q))
+        t.daemon = True
+        t.start()
+
 
     fps = FPS().start()
 
