@@ -151,13 +151,11 @@ if __name__ == '__main__':
 
     input_q = Queue(50)  # fps is better if queue is higher but then more lags
     output_q = Queue()
-    thread_id=0
     threads = []
-    for domuid in c.domu_ids:
-        tmp_thread = Workers(PATH_TO_CKPT,thread_id,input_q,output_q)
+    for i in range(5):
+        tmp_thread = Workers(PATH_TO_CKPT,i,input_q,output_q)
         tmp_thread.start()
         threads.append(tmp_thread)
-        thread_id+=1
     # video_capture = WebcamVideoStream(src=args.video_source,width=args.width,height=args.height).start()
     # video_capture = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
 
