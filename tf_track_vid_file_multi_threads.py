@@ -5,6 +5,7 @@ import argparse
 import numpy as np
 import tensorflow as tf
 from imutils.video import FileVideoStream
+import imutils
 
 from queue import Queue
 from threading import Thread
@@ -132,8 +133,12 @@ if __name__ == '__main__':
     fps = FPS().start()
     shithappened=0
     while video_capture.more():
-
+        current_f_size=w1.get()
+        if current_f_size == 0:
+            break
         frame = video_capture.read()
+        frame = imutils.resize(frame, width=current_f_size)
+
         input_q.put(frame)
 
         t = time.time()
