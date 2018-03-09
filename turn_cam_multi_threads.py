@@ -146,7 +146,7 @@ threads = []
 every_n_frame = {'cnt':-1}
 threadLock = threading.Lock()
 
-for i in range(6):
+for i in range(5):
 	tmp_thread = Workers(threadLock,every_n_frame,i,input_q,output_q)
 	tmp_thread.start()
 	threads.append(tmp_thread)
