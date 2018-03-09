@@ -173,7 +173,7 @@ if __name__ == '__main__':
     threads = []
     every_n_frame = {'cnt':-1}
     threadLock = threading.Lock()
-    for i in range(7):
+    for i in range(3):
         tmp_thread = Workers(threadLock,every_n_frame,PATH_TO_CKPT,i,input_q,output_q)
         tmp_thread.start()
         threads.append(tmp_thread)
