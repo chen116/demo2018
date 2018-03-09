@@ -29,23 +29,23 @@ from imutils.video import FileVideoStream
 import threading
 from queue import Queue
 class Workers(threading.Thread):
-    def __init__(self,thread_id,input_q,output_q):
-        threading.Thread.__init__(self)
-        self.net = cv2.dnn.readNetFromCaffe("MobileNetSSD_deploy.prototxt.txt", "MobileNetSSD_deploy.caffemodel")
-        self.thread_id=thread_id
-        self.input_q=input_q
-        self.output_q=output_q
-    def run(self):
-        # Acquire lock to synchronize thread
-        # self.threadLock.acquire()
-        while True:
-            blob = self.input_q.get()
-	        self.net.setInput(blob)
-	        self.output_q.put(net.forward())
+	def __init__(self,thread_id,input_q,output_q):
+		threading.Thread.__init__(self)
+		self.net = cv2.dnn.readNetFromCaffe("MobileNetSSD_deploy.prototxt.txt", "MobileNetSSD_deploy.caffemodel")
+		self.thread_id=thread_id
+		self.input_q=input_q
+		self.output_q=output_q
+	def run(self):
+		# Acquire lock to synchronize thread
+		# self.threadLock.acquire()
+		while True:
+			blob = self.input_q.get()
+			self.net.setInput(blob)
+			self.output_q.put(net.forward())
 
-        # Release lock for the next thread
-        # self.threadLock.release()
-        print("Exiting thread" , self.thread_id)
+		# Release lock for the next thread
+		# self.threadLock.release()
+		print("Exiting thread" , self.thread_id)
 
 
 
