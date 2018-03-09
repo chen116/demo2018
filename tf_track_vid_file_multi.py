@@ -154,6 +154,8 @@ if __name__ == '__main__':
                 cv2.putText(frame, name[0], (int(point['xmin'] * args.width), int(point['ymin'] * args.height)), font,
                             0.3, (0, 0, 0), 1)
             cv2.imshow('Video', frame)
+            master.update_idletasks()
+            master.update()
 
         fps.update()
         master.update_idletasks()
