@@ -121,8 +121,8 @@ print("[INFO] loading model...")
 # initialize the video stream, allow the cammera sensor to warmup,
 # and initialize the FPS counter
 print("[INFO] starting video stream...")
-vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
-# vs = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
+#vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
+vs = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
 # vs= FileVideoStream("walkcat.mp4").start()
 
 time.sleep(2.0)
@@ -130,7 +130,7 @@ time.sleep(2.0)
 input_q = Queue()  # fps is better if queue is higher but then more lags
 output_q = Queue()
 threads = []
-for i in range(1):
+for i in range(5):
 	tmp_thread = Workers(i,input_q,output_q)
 	tmp_thread.start()
 	threads.append(tmp_thread)
