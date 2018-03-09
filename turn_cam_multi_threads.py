@@ -152,6 +152,21 @@ for i in range(3):
 	threads.append(tmp_thread)
 fps = FPS().start()
 pointat = 0
+
+
+
+prev_box = {}
+startX
+startY
+idx
+label
+
+					cv2.rectangle(frame, (startX, startY), (endX, endY),
+						COLORS[idx], 2)
+					y = startY - 15 if startY - 15 > 15 else startY + 15
+					cv2.putText(frame, label, (startX, y),
+						cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)
+
 # loop over the frames from the video stream
 while True:
 # while vs.more():
@@ -174,13 +189,22 @@ while True:
 		print('empty ouput queue...')
 	else:
 		detections = output_q.get()
-		if detections.shape[0] > 0:
-#	print(w)
-# pass the blob through the network and obtain the detections and
-# predictions
+		if detections.shape[0] == 0:
+			if len(prev_box)>0:
+				startX=prev_box['startX']
+				startY=prev_box['startY']
+				endX=prev_box['endX']
+				endY=prev_box['endY']
+				idx=prev_box['idx']
+				label=prev_box['label']
+				cv2.rectangle(frame, (startX, startY), (endX, endY),
+					COLORS[idx], 2)
+				y = startY - 15 if startY - 15 > 15 else startY + 15
+				cv2.putText(frame, label, (startX, y),
+					cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)				
 
-#print(frame.dtype)
-# loop over the detections
+
+		else:
 			for i in np.arange(0, detections.shape[2]):
 				# extract the confidence (i.e., probability) associated with
 				# the prediction
@@ -222,6 +246,12 @@ while True:
 					y = startY - 15 if startY - 15 > 15 else startY + 15
 					cv2.putText(frame, label, (startX, y),
 						cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)
+					prev_box['startX']=startX
+					prev_box['startY']=startY
+					prev_box['endX']=endX
+					prev_box['endY']=endY
+					prev_box['idx']=idx
+					prev_box['label']=label
 
 		# show the output frame
 		cv2.imshow("Frame", frame)
