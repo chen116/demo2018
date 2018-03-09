@@ -94,7 +94,7 @@ class Worker:
                 od_graph_def.ParseFromString(serialized_graph)
                 tf.import_graph_def(od_graph_def, name='')
 
-            self.sess = tf.Session(graph=detection_graph)
+            self.sess = tf.Session(graph=self.detection_graph)
     def work(self, frame):
         def work_detect_objects(image_np, sess, detection_graph):
             # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
@@ -196,7 +196,7 @@ if __name__ == '__main__':
         frame = video_capture.read()
         frame = imutils.resize(frame, width=current_f_size)
 
-        input_q.put(frame)
+
 
         # cv2.imshow("Frame", frame)
 
@@ -204,7 +204,7 @@ if __name__ == '__main__':
 
         # output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
 
-        cv2.imshow('Frame', output_rgb)
+        cv2.imshow('Frame', worker.work(frame))
         fps.update()
         master.update_idletasks()
         master.update()
