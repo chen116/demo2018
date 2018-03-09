@@ -8,7 +8,7 @@ import tensorflow as tf
 import imutils
 from imutils.video import VideoStream
 import heartbeat
-hb = heartbeat.Heartbeat(1024,10,100,"vic.log",10,100)
+hb = heartbeat.Heartbeat(1024,5,100,"vic.log",10,100)
 monitoring_items = ["heart_rate","app_mode"]
 comm = heartbeat.DomU(monitoring_items)
 
@@ -32,14 +32,14 @@ c = Checkbutton(master, text="anchors", variable=checked)
 c.pack()
 
 MODES = [
-    ("200", 200),
+    ("600", 600),
     ("400", 400),
     ("600", 600),
     ("done",0)
 ]
 
 w1 = IntVar()
-w1.set(400) # initialize
+w1.set(600) # initialize
 previous_f_size = w1.get()
 for text, mode in MODES:
     b = Radiobutton(master, text=text,variable=w1, value=mode)
@@ -69,12 +69,15 @@ category_index = label_map_util.create_category_index(categories)
 
 
 class Workers(threading.Thread):
-    def __init__(self,PATH_TO_CKPT,thread_id,input_q,output_q):
+    def __init__(self,threadLock,every_n_frame,PATH_TO_CKPT,thread_id,input_q,output_q):
         threading.Thread.__init__(self)
         self.detection_graph = tf.Graph()
         self.thread_id=thread_id
         self.input_q=input_q
         self.output_q=output_q
+        self.every_n_frame=every_n_frame
+        self.threadLock=threadLock
+        self.obj_track=0
         with self.detection_graph.as_default():
             od_graph_def = tf.GraphDef()
             with tf.gfile.GFile(PATH_TO_CKPT, 'rb') as fid:
@@ -121,10 +124,18 @@ class Workers(threading.Thread):
                 line_thickness=1)
             return image_np
         while True:
+            self.threadLock.acquire()
+            self.every_n_frame['cnt']=(self.every_n_frame['cnt']+1)%5
+            self.obj_track = self.every_n_frame['cnt']
+            self.threadLock.release()
+
             frame = self.input_q.get()
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             t = time.time()
-            self.output_q.put(work_detect_objects(frame_rgb, self.sess, self.detection_graph))
+            if self.obj_track%5==0:
+                self.output_q.put(work_detect_objects(frame_rgb, self.sess, self.detection_graph))
+            else:
+                self.output_q.put(frame_rgb)
             print('thread:',self.thread_id,'[INFO] elapsed time: {:.2f}'.format(1/(time.time() - t)))
 
 
@@ -160,8 +171,10 @@ if __name__ == '__main__':
     input_q = Queue()  # fps is better if queue is higher but then more lags
     output_q = Queue()
     threads = []
+    every_n_frame = {'cnt':-1}
+    threadLock = threading.Lock()
     for i in range(7):
-        tmp_thread = Workers(PATH_TO_CKPT,i,input_q,output_q)
+        tmp_thread = Workers(threadLock,every_n_frame,PATH_TO_CKPT,i,input_q,output_q)
         tmp_thread.start()
         threads.append(tmp_thread)
     # video_capture = WebcamVideoStream(src=args.video_source,width=args.width,height=args.height).start()
