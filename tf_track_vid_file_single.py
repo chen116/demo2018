@@ -125,6 +125,7 @@ if __name__ == '__main__':
         fps.update()
 
         print('[INFO] elapsed time: {:.2f}'.format(time.time() - t))
+        print('heyyyy whatttt')
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             print('whatttt')
