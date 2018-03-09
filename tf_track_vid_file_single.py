@@ -98,9 +98,9 @@ def worker(input_q, output_q):
     while True:
         fps.update()
         frame = input_q.get()
-        # frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        # output_q.put(detect_objects(frame_rgb, sess, detection_graph))
-        output_q.put(frame)
+        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        output_q.put(detect_objects(frame_rgb, sess, detection_graph))
+
 
     fps.stop()
     sess.close()
