@@ -6,11 +6,11 @@ import multiprocessing
 import numpy as np
 import tensorflow as tf
 exit()
-from imutils.video import FileVideoStream
-from utils.app_utils import FPS, WebcamVideoStream
-from multiprocessing import Queue, Pool
-from object_detection.utils import label_map_util
-from object_detection.utils import visualization_utils as vis_util
+# from imutils.video import FileVideoStream
+# from utils.app_utils import FPS, WebcamVideoStream
+# from multiprocessing import Queue, Pool
+# from object_detection.utils import label_map_util
+# from object_detection.utils import visualization_utils as vis_util
 
 
 
