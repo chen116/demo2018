@@ -133,6 +133,6 @@ if __name__ == '__main__':
     print('[INFO] elapsed time (total): {:.2f}'.format(fps.elapsed()))
     print('[INFO] approx. FPS: {:.2f}'.format(fps.fps()))
 
-    pool.terminate()
+    # pool.terminate()
     video_capture.stop()
     cv2.destroyAllWindows()
