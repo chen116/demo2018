@@ -171,8 +171,8 @@ while True:
 
 	# grab the frame dimensions and convert it to a blob
 	(h, w) = frame.shape[:2]
-	blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)),
-		0.007843, (300, 300), 127.5)
+	blob = cv2.dnn.blobFromImage(cv2.resize(frame, (200, 200)),
+		0.007843, (200, 200), 127.5)
 
 	input_q.put(blob)
 	if output_q.empty():
