@@ -160,15 +160,16 @@ if __name__ == '__main__':
         threads.append(tmp_thread)
     # video_capture = WebcamVideoStream(src=args.video_source,width=args.width,height=args.height).start()
     # video_capture = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
+    video_capture = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
 
-    video_capture = FileVideoStream("walkcat.mp4").start()
+    # video_capture = FileVideoStream("walkcat.mp4").start()
     time.sleep(2.0)
 
     fps = FPS().start()
 
 
-    while video_capture.more():  # fps._numFrames < 120
-    # while True:  # fps._numFrames < 120
+    #while video_capture.more():  # fps._numFrames < 120
+    while True:  # fps._numFrames < 120
         current_f_size=w1.get()
         if current_f_size == 0:
             break
