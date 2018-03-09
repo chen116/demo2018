@@ -41,7 +41,7 @@ class Workers(threading.Thread):
 		while True:
 			blob = self.input_q.get()
 			self.net.setInput(blob)
-			self.output_q.put(net.forward())
+			self.output_q.put(self.net.forward())
 
 		# Release lock for the next thread
 		# self.threadLock.release()
@@ -220,12 +220,12 @@ while vs.more():
 			previous_checked=current_checked
 
 	# if the `q` key was pressed, break from the loop
-	if key == ord("q"):
-		break
-	if key == ord("l"):
-		move_left(mycam)
-	if key ==ord("r"):
-		move_right(mycam)
+		if key == ord("q"):
+			break
+		if key == ord("l"):
+			move_left(mycam)
+		if key ==ord("r"):
+			move_right(mycam)
 
 
 
