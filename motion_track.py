@@ -1,91 +1,104 @@
+# import the necessary packages
+from collections import deque
+import numpy as np
+import argparse
+import imutils
 import cv2
-import sys
  
-# (major_ver, minor_ver, subminor_ver) = (cv2.__version__).split('.')￼
- 
-if __name__ == '__main__' :
- 
-    # Set up tracker.
-    # Instead of MIL, you can also use
- 
-    # tracker_types = ['BOOSTING', 'MIL','KCF', 'TLD', 'MEDIANFLOW', 'GOTURN']
-    # tracker_type = tracker_types[2]
- 
-    # if int(minor_ver) < 3:
-    #     tracker = cv2.Tracker_create(tracker_type)
-    # else:
-    #     if tracker_type == 'BOOSTING':
-    #         tracker = cv2.TrackerBoosting_create()
-    #     if tracker_type == 'MIL':
-    #         tracker = cv2.TrackerMIL_create()
-    #     if tracker_type == 'KCF':
-    #         tracker = cv2.TrackerKCF_create()
-    #     if tracker_type == 'TLD':
-    #         tracker = cv2.TrackerTLD_create()
-    #     if tracker_type == 'MEDIANFLOW':
-    #         tracker = cv2.TrackerMedianFlow_create()
-    #     if tracker_type == 'GOTURN':
-    #         tracker = cv2.TrackerGOTURN_create()
-    tracker_type='KCF'
-    tracker = cv2.TrackerKCF_create()
+# construct the argument parse and parse the arguments
+ap = argparse.ArgumentParser()
+# ap.add_argument("-v", "--video",
+#     help="path to the (optional) video file")
+ap.add_argument("-b", "--buffer", type=int, default=64,
+    help="max buffer size")
+args = vars(ap.parse_args())
 
-    # Read video
-    video = cv2.VideoCapture("walkcat.mp4")
+# define the lower and upper boundaries of the "green"
+# ball in the HSV color space, then initialize the
+# list of tracked points
+
+
+greenLower = (0, 0, 0)
+greenUpper = (180, 150, 50)
+pts = deque(maxlen=args["buffer"])
  
-    # Exit if video not opened.
-    if not video.isOpened():
-        print("Could not open video")
-        sys.exit()
+# if a video path was not supplied, grab the reference
+# to the webcam
+if not args.get("video", False):
+    camera = cv2.VideoCapture(0)
  
-    # Read first frame.
-    ok, frame = video.read()
-    if not ok:
-        print('Cannot read video file')
-        sys.exit()
-     
-    # Define an initial bounding box
-    bbox = (287, 23, 86, 320)
+# otherwise, grab a reference to the video file
+else:
+    camera = cv2.VideoCapture("walkcat.mp4")
+
+# keep looping
+while True:
+    # grab the current frame
+    (grabbed, frame) = camera.read()
  
-    # Uncomment the line below to select a different bounding box
-    bbox = cv2.selectROI(frame, False)
+    # if we are viewing a video and we did not grab a frame,
+    # then we have reached the end of the video
+    if args.get("video") and not grabbed:
+        break
  
-    # Initialize tracker with first frame and bounding box
-    ok = tracker.init(frame, bbox)
+    # resize the frame, blur it, and convert it to the HSV
+    # color space
+    frame = imutils.resize(frame, width=600)
+    # blurred = cv2.GaussianBlur(frame, (11, 11), 0)
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
  
-    while True:
-        # Read a new frame
-        ok, frame = video.read()
-        if not ok:
-            break
-         
-        # Start timer
-        timer = cv2.getTickCount()
+    # construct a mask for the color "green", then perform
+    # a series of dilations and erosions to remove any small
+    # blobs left in the mask
+    mask = cv2.inRange(hsv, greenLower, greenUpper)
+    mask = cv2.erode(mask, None, iterations=2)
+    mask = cv2.dilate(mask, None, iterations=2)
+    # find contours in the mask and initialize the current
+    # (x, y) center of the ball
+    cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
+        cv2.CHAIN_APPROX_SIMPLE)[-2]
+    center = None
  
-        # Update tracker
-        ok, bbox = tracker.update(frame)
+    # only proceed if at least one contour was found
+    if len(cnts) > 0:
+        # find the largest contour in the mask, then use
+        # it to compute the minimum enclosing circle and
+        # centroid
+        c = max(cnts, key=cv2.contourArea)
+        ((x, y), radius) = cv2.minEnclosingCircle(c)
+        M = cv2.moments(c)
+        center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
  
-        # Calculate Frames per second (FPS)
-        fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer);
+        # only proceed if the radius meets a minimum size
+        if radius > 10:
+            # draw the circle and centroid on the frame,
+            # then update the list of tracked points
+            cv2.circle(frame, (int(x), int(y)), int(radius),
+                (0, 255, 255), 2)
+            cv2.circle(frame, center, 5, (0, 0, 255), -1)
  
-        # Draw bounding box
-        if ok:
-            # Tracking success
-            p1 = (int(bbox[0]), int(bbox[1]))
-            p2 = (int(bbox[0] + bbox[2]), int(bbox[1] + bbox[3]))
-            cv2.rectangle(frame, p1, p2, (255,0,0), 2, 1)
-        else :
-            # Tracking failure
-            cv2.putText(frame, "Tracking failure detected", (100,80), cv2.FONT_HERSHEY_SIMPLEX, 0.75,(0,0,255),2)
+    # update the points queue
+    pts.appendleft(center)
+    # loop over the set of tracked points
+    for i in xrange(1, len(pts)):
+        # if either of the tracked points are None, ignore
+        # them
+        if pts[i - 1] is None or pts[i] is None:
+            continue
  
-        # Display tracker type on frame
-        cv2.putText(frame, tracker_type + " Tracker", (100,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50),2);
-     
-        # Display FPS on frame
-        cv2.putText(frame, "FPS : " + str(int(fps)), (100,50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50), 2);
+        # otherwise, compute the thickness of the line and
+        # draw the connecting lines
+        thickness = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
+        cv2.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)
  
-        # Display result
-        cv2.imshow("Tracking", frame)
+    # show the frame to our screen
+    cv2.imshow("Frame", frame)
+    key = cv2.waitKey(1) & 0xFF
  
-        # Exit if ESC pressed
-        k = cv2.waitKey(1) & 0xff
-        if k == 27 : break
+    # if the 'q' key is pressed, stop the loop
+    if key == ord("q"):
+        break
+ 
+# cleanup the camera and close any open windows
+camera.release()
+cv2.destroyAllWindows()
