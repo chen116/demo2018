@@ -188,9 +188,10 @@ while vs.more():
 		print('empty ouput queue...')
 	else:
 		stuff = output_q.get()
-		detections=stuff['blob']
-		order=stuff['cnt']
+		detections = stuff['blob']
+		order = stuff['cnt']
 		if order!=pre_cnt:
+			print('output cnt:',order,'global cnt:',pre_cnt)
 			print('bad order')
 			break
 		pre_cnt=order+1
