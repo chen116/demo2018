@@ -206,13 +206,18 @@ if __name__ == '__main__':
 
             output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
             cv2.imshow('Frame',output_rgb )
+            fps.update()
+
+            master.update_idletasks()
+            master.update()
+            # hb stuff
             hb.heartbeat_beat()
             window_hr = hb.get_window_heartrate()
+            instant_hr = hb.get_instant_heartrate()
             comm.write("heart_rate",window_hr)
-            print('--------------------',window_hr)
-            fps.update()
-        master.update_idletasks()
-        master.update()
+            print('------------------window_hr:',window_hr)
+            print('instant_hr:',instant_hr)
+
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
         if w1.get()==0:
