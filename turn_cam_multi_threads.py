@@ -163,7 +163,7 @@ pointat = 0
 prev_box = {}
 # loop over the frames from the video stream
 cnt=0
-pre_cnt=0
+global_cnt=0
 # while True:
 while vs.more():
 	# grab the frame from the threaded video stream and resize it
@@ -190,11 +190,10 @@ while vs.more():
 		stuff = output_q.get()
 		detections = stuff['blob']
 		order = stuff['cnt']
-		if order!=pre_cnt:
-			print('output cnt:',order,'global cnt:',pre_cnt)
-			print('bad order')
-			break
-		pre_cnt=order+1
+
+		print('output cnt:',order,'global cnt:',global_cnt)
+		print('bad order')
+		global_cnt+=1
 
 		# detections = output_q.get()
 		if detections.shape[0] == 0:
