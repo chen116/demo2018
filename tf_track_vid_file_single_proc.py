@@ -106,8 +106,8 @@ class Worker:
             config = tf.ConfigProto(device_count={"CPU": 5},
                         inter_op_parallelism_threads=5,
                         intra_op_parallelism_threads=5)
-            config = tf.ConfigProto(intra_op_parallelism_threads=1, inter_op_parallelism_threads=1, 
-                        allow_soft_placement=True, device_count = {'CPU': 6})
+            config = tf.ConfigProto(intra_op_parallelism_threads=2, inter_op_parallelism_threads=2, 
+                        allow_soft_placement=True, device_count = {'CPU': 1})
             self.sess = tf.Session(graph=self.detection_graph,config=config)
     def work(self, frame):
         def work_detect_objects(image_np, sess, detection_graph):
