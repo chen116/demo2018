@@ -50,6 +50,7 @@ class Workers(threading.Thread):
 			# blob = self.input_q.get()
 			stuff = self.input_q.get()
 			if stuff['cnt']==-1:
+				self.output_q.put({'cnt':-1})
 				break
 			blob = stuff['blob']
 			if self.obj_track%5==0:
