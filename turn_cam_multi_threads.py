@@ -71,15 +71,6 @@ class Workers(threading.Thread):
 
 
 
-from tensorflow.python.client import device_lib
-
-def get_available_gpus():
-    local_device_protos = device_lib.list_local_devices()
-    return [x.name for x in local_device_protos if x.device_type == 'CPU']
-
-
-get_available_gpus()
-
 
 
 from tkinter import *
@@ -95,7 +86,6 @@ MODES = [
     ("1000", 1000),
     ("done",0)
 ]
-
 w1 = IntVar()
 w1.set(600) # initialize
 previous_f_size = w1.get()
@@ -189,17 +179,17 @@ while vs.more():
 	current_f_size=w1.get()
 	if current_f_size == 0:
 		input_q.put({'cnt':-1})
-		
-	frame = imutils.resize(frame, width=current_f_size)
+	else:
+		frame = imutils.resize(frame, width=current_f_size)
 
 
-	# grab the frame dimensions and convert it to a blob
-	(h, w) = frame.shape[:2]
-	blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)),
-		0.007843, (300, 300), 127.5)
-	stuff={'blob':blob,'cnt':cnt}
-	cnt+=1
-	input_q.put(stuff)
+		# grab the frame dimensions and convert it to a blob
+		(h, w) = frame.shape[:2]
+		blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)),
+			0.007843, (300, 300), 127.5)
+		stuff={'blob':blob,'cnt':cnt}
+		cnt+=1
+		input_q.put(stuff)
 	# input_q.put(blob)
 
 	if output_q.empty():
