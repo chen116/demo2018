@@ -143,8 +143,8 @@ print("[INFO] loading model...")
 # and initialize the FPS counter
 print("[INFO] starting video stream...")
 #vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
-vs = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
-# vs= FileVideoStream("walkcat.mp4").start()
+# vs = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
+vs= FileVideoStream("walkcat.mp4").start()
 
 time.sleep(2.0)
 
@@ -170,8 +170,8 @@ prev_box = {}
 cnt=0
 global_cnt=0
 outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (w1.get(),w1.get()))
-while True:
-# while vs.more():
+# while True:
+while vs.more():
 	# grab the frame from the threaded video stream and resize it
 	# to have a maximum width of 400 pixels
 	frame = vs.read()
@@ -277,7 +277,8 @@ while True:
 
 		# show the output frame
 		cv2.imshow("Frame", frame)
-		outvid.write(frame)
+		if global_cnt>400:
+			outvid.write(frame)
 
 		fps.update()
 		master.update_idletasks()
