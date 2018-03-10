@@ -103,12 +103,13 @@ class Worker:
                 serialized_graph = fid.read()
                 od_graph_def.ParseFromString(serialized_graph)
                 tf.import_graph_def(od_graph_def, name='')
-            config = tf.ConfigProto(device_count={"CPU": 5},
-                        inter_op_parallelism_threads=5,
-                        intra_op_parallelism_threads=5)
-            config = tf.ConfigProto(intra_op_parallelism_threads=6, inter_op_parallelism_threads=6, 
-                        allow_soft_placement=True, device_count = {'CPU': 5})
-            self.sess = tf.Session(graph=self.detection_graph,config=config)
+            # config = tf.ConfigProto(device_count={"CPU": 5},
+            #             inter_op_parallelism_threads=5,
+            #             intra_op_parallelism_threads=5)
+            # config = tf.ConfigProto(intra_op_parallelism_threads=6, inter_op_parallelism_threads=6, 
+            #             allow_soft_placement=True, device_count = {'CPU': 1})
+            # self.sess = tf.Session(graph=self.detection_graph,config=config)
+            self.sess = tf.Session(graph=self.detection_graph)
     def work(self, frame):
         def work_detect_objects(image_np, sess, detection_graph):
             # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
