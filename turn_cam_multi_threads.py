@@ -47,13 +47,17 @@ class Workers(threading.Thread):
 			self.obj_track = self.every_n_frame['cnt']
 			self.threadLock.release()
 
-			blob = self.input_q.get()
+			# blob = self.input_q.get()
+			stuff = self.input_q.get()
+			blob = stuff['blob']
 			if self.obj_track%5==0:
 				self.net.setInput(blob)
 				print("thread:",self.thread_id," gonna dnn")
-				self.output_q.put(self.net.forward())
+				# self.output_q.put(self.net.forward())
+				self.output_q.put({'blob':self.net.forward(),'cnt':stuff['cnt']})
 			else:
-				self.output_q.put(np.ndarray([0]))
+				self.output_q.put({'blob':np.ndarray([0]),'cnt':stuff['cnt']})
+				# self.output_q.put(np.ndarray([0]))
 
 
 
@@ -158,6 +162,8 @@ pointat = 0
 
 prev_box = {}
 # loop over the frames from the video stream
+cnt=0
+pre_cnt=0
 while True:
 # while vs.more():
 	# grab the frame from the threaded video stream and resize it
@@ -173,12 +179,22 @@ while True:
 	(h, w) = frame.shape[:2]
 	blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)),
 		0.007843, (300, 300), 127.5)
-
+	stuff={'blob':blob,'cnt':cnt}
+	cnt+=1
 	input_q.put(blob)
+
 	if output_q.empty():
 		print('empty ouput queue...')
 	else:
-		detections = output_q.get()
+		stuff = output_q.get()
+		detections=stuff['blob']
+		order=stuff['cnt']
+		if order!=pre_cnt:
+			print('bad order')
+			break
+		pre_cnt=order+1
+
+		# detections = output_q.get()
 		if detections.shape[0] == 0:
 			if len(prev_box)>0:
 				startX=prev_box['startX']
