@@ -169,7 +169,7 @@ prev_box = {}
 # loop over the frames from the video stream
 cnt=0
 global_cnt=0
-outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (337,600))
+outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (600,337))
 # while True:
 while vs.more():
 	# grab the frame from the threaded video stream and resize it
