@@ -277,7 +277,10 @@ while vs.more():
 
 		# show the output frame
 		cv2.imshow("Frame", frame)
-		if global_cnt>10:
+		print(frame.size[0],frame.size[1])
+		if global_cnt>5:
+			# frameW = img_02.size[0]
+			# frameH = img_02.size[1]
 			outvid.write(frame)
 
 		fps.update()
