@@ -277,7 +277,7 @@ while vs.more():
 
 		# show the output frame
 		cv2.imshow("Frame", frame)
-		if global_cnt>400:
+		if global_cnt>10:
 			outvid.write(frame)
 
 		fps.update()
