@@ -277,7 +277,7 @@ while vs.more():
 
 		# show the output frame
 		cv2.imshow("Frame", frame)
-		print(frame.size[0],frame.size[1])
+		print(frame.size,frame)
 		if global_cnt>5:
 			# frameW = img_02.size[0]
 			# frameH = img_02.size[1]
