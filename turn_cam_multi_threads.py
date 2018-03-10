@@ -164,8 +164,8 @@ prev_box = {}
 # loop over the frames from the video stream
 cnt=0
 pre_cnt=0
-while True:
-# while vs.more():
+# while True:
+while vs.more():
 	# grab the frame from the threaded video stream and resize it
 	# to have a maximum width of 400 pixels
 	frame = vs.read()
