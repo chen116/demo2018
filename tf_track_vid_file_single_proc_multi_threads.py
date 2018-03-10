@@ -140,7 +140,7 @@ class Workers(threading.Thread):
                 self.output_q.put(work_detect_objects(frame_rgb, self.sess, self.detection_graph))
             else:
                 self.output_q.put(frame_rgb)
-            print('thread:',self.thread_id,'[INFO] elapsed time: {:.2f}'.format(1/(time.time() - t)))
+            print('thread:',self.thread_id,'[INFO] rate: {:.2f}'.format(1/(time.time() - t)))
 
 
         self.sess.close()
