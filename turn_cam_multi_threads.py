@@ -181,7 +181,8 @@ while vs.more():
 		0.007843, (300, 300), 127.5)
 	stuff={'blob':blob,'cnt':cnt}
 	cnt+=1
-	input_q.put(blob)
+	input_q.put(stuff)
+	# input_q.put(blob)
 
 	if output_q.empty():
 		print('empty ouput queue...')
