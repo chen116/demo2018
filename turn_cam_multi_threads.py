@@ -201,6 +201,7 @@ while vs.more():
 			print('output cnt:',order,'global cnt:',global_cnt,'num_threads_exiting',num_threads_exiting)
 			if num_threads_exiting==total_num_threads:
 				break
+			continue
 
 
 
