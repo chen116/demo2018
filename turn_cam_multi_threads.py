@@ -184,6 +184,7 @@ while vs.more():
 
 		# grab the frame dimensions and convert it to a blob
 		(h, w) = frame.shape[:2]
+		print(h,w)
 		blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)),
 			0.007843, (300, 300), 127.5)
 		stuff={'blob':blob,'cnt':cnt}
@@ -277,7 +278,6 @@ while vs.more():
 
 		# show the output frame
 		cv2.imshow("Frame", frame)
-		print(len(frame[0]),len(frame[1]))
 		if global_cnt>5:
 			# frameW = img_02.size[0]
 			# frameH = img_02.size[1]
