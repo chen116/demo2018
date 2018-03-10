@@ -187,7 +187,8 @@ if __name__ == '__main__':
 
     video_capture = FileVideoStream("walkcat.mp4").start()
     time.sleep(2.0)
-
+    global_cnt=0
+    outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (600,337))
     fps = FPS().start()
 
 
@@ -206,6 +207,10 @@ if __name__ == '__main__':
 
             output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
             cv2.imshow('Frame',output_rgb )
+            global_cnt+=1:
+            if global_cnt>50:
+                outvid.write(frame)
+
             fps.update()
 
             master.update_idletasks()
@@ -228,6 +233,8 @@ if __name__ == '__main__':
     print('[INFO] approx. FPS: {:.2f}'.format(fps.fps()))
     # pool.terminate()
     video_capture.stop()
+    outvid.release()
+
     cv2.destroyAllWindows()
     hb.heartbeat_finish()
     comm.write("heart_rate","done")

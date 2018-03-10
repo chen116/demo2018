@@ -315,6 +315,8 @@ while vs.more():
 
 	#if(time.time()>pointat):
 	#	canpoint = 1
+for i in range(total_num_threads):
+	input_q.put({'cnt':-1})
 outvid.release()
 # stop the timer and display FPS information
 fps.stop()
