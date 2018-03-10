@@ -162,8 +162,10 @@ output_q = Queue()
 threads = []
 every_n_frame = {'cnt':-1}
 threadLock = threading.Lock()
+total_num_threads=5
+num_threads_exiting=0
 
-for i in range(4):
+for i in range(total_num_threads):
 	tmp_thread = Workers(threadLock,every_n_frame,i,input_q,output_q)
 	tmp_thread.start()
 	threads.append(tmp_thread)
@@ -177,7 +179,7 @@ prev_box = {}
 cnt=0
 global_cnt=0
 
-out = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (400,400))
+# outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (400,400))
 # while True:
 while vs.more():
 	# grab the frame from the threaded video stream and resize it
@@ -203,6 +205,14 @@ while vs.more():
 		global_cnt=global_cnt
 	else:
 		stuff = output_q.get()
+		if stuff['cnt']==-1:
+			num_threads_exiting+=1
+			print('output cnt:',order,'global cnt:',global_cnt,'num_threads_exiting',num_threads_exiting)
+			if num_threads_exiting==total_num_threads:
+				break
+
+
+
 		detections = stuff['blob']
 		order = stuff['cnt']
 
@@ -276,7 +286,7 @@ while vs.more():
 
 		# show the output frame
 		cv2.imshow("Frame", frame)
-		out.write(frame)
+		# outvid.write(frame)
 
 		fps.update()
 		master.update_idletasks()
