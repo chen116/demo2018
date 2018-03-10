@@ -29,22 +29,24 @@ master = Tk()
 checked = IntVar(value=0)
 previous_checked = checked.get()
 c = Checkbutton(master, text="anchors", variable=checked)
-c.pack()
+c.pack(side=LEFT)
 
 MODES = [
     ("600", 600),
-    ("400", 400),
-    ("600", 600),
+    ("800", 800),
+    ("1000", 1000),
     ("done",0)
 ]
-
 w1 = IntVar()
 w1.set(600) # initialize
 previous_f_size = w1.get()
 for text, mode in MODES:
     b = Radiobutton(master, text=text,variable=w1, value=mode)
-    b.pack(anchor=W)
-
+    b.pack(side=LEFT)
+ml = Button(master, text="left",command= lambda: move_left(mycam))
+ml.pack(side=LEFT)
+mr = Button(master,text="right",command= lambda: move_right(mycam))
+mr.pack(side=LEFT)
 
 CWD_PATH = os.getcwd()
 
@@ -84,8 +86,10 @@ class Workers(threading.Thread):
                 serialized_graph = fid.read()
                 od_graph_def.ParseFromString(serialized_graph)
                 tf.import_graph_def(od_graph_def, name='')
-
-            self.sess = tf.Session(graph=self.detection_graph)
+            config = tf.ConfigProto(intra_op_parallelism_threads=5, inter_op_parallelism_threads=5, 
+                        allow_soft_placement=True, device_count = {'CPU': 1})
+            self.sess = tf.Session(graph=self.detection_graph,config=config)
+            # self.sess = tf.Session(graph=self.detection_graph)
     def run(self):
         # Acquire lock to synchronize thread
         # self.threadLock.acquire()
@@ -173,7 +177,7 @@ if __name__ == '__main__':
     threads = []
     every_n_frame = {'cnt':-1}
     threadLock = threading.Lock()
-    for i in range(3):
+    for i in range(4):
         tmp_thread = Workers(threadLock,every_n_frame,PATH_TO_CKPT,i,input_q,output_q)
         tmp_thread.start()
         threads.append(tmp_thread)
@@ -199,6 +203,7 @@ if __name__ == '__main__':
         if output_q.empty():
             print('empty ouput queue...')
         else:
+
             output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
             cv2.imshow('Frame',output_rgb )
             hb.heartbeat_beat()
