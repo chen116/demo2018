@@ -169,7 +169,7 @@ prev_box = {}
 # loop over the frames from the video stream
 cnt=0
 global_cnt=0
-outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (w1.get(),w1.get()))
+outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (337,600))
 # while True:
 while vs.more():
 	# grab the frame from the threaded video stream and resize it
@@ -278,10 +278,10 @@ while vs.more():
 
 		# show the output frame
 		cv2.imshow("Frame", frame)
-		if global_cnt>500:
+
 			# frameW = img_02.size[0]
 			# frameH = img_02.size[1]
-			outvid.write(frame)
+		outvid.write(frame)
 
 		fps.update()
 		master.update_idletasks()
