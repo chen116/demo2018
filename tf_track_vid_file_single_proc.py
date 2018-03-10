@@ -1,3 +1,7 @@
+import heartbeat
+hb = heartbeat.Heartbeat(1024,5,100,"vic.log",10,100)
+monitoring_items = ["heart_rate","app_mode"]
+comm = heartbeat.DomU(monitoring_items)
 import os
 import cv2
 import time
@@ -21,21 +25,24 @@ master = Tk()
 checked = IntVar(value=0)
 previous_checked = checked.get()
 c = Checkbutton(master, text="anchors", variable=checked)
-c.pack()
+c.pack(side=LEFT)
 
 MODES = [
-    ("200", 200),
-    ("400", 400),
     ("600", 600),
+    ("800", 800),
+    ("1000", 1000),
     ("done",0)
 ]
-
 w1 = IntVar()
-w1.set(200) # initialize
+w1.set(600) # initialize
 previous_f_size = w1.get()
 for text, mode in MODES:
     b = Radiobutton(master, text=text,variable=w1, value=mode)
-    b.pack(anchor=W)
+    b.pack(side=LEFT)
+ml = Button(master, text="left",command= lambda: move_left(mycam))
+ml.pack(side=LEFT)
+mr = Button(master,text="right",command= lambda: move_right(mycam))
+mr.pack(side=LEFT)
 
 
 CWD_PATH = os.getcwd()
@@ -106,7 +113,7 @@ class Worker:
             # config = tf.ConfigProto(device_count={"CPU": 5},
             #             inter_op_parallelism_threads=5,
             #             intra_op_parallelism_threads=5)
-            config = tf.ConfigProto(intra_op_parallelism_threads=2, inter_op_parallelism_threads=2, 
+            config = tf.ConfigProto(intra_op_parallelism_threads=5, inter_op_parallelism_threads=5, 
                         allow_soft_placement=True, device_count = {'CPU': 1})
             self.sess = tf.Session(graph=self.detection_graph,config=config)
             # self.sess = tf.Session(graph=self.detection_graph)
@@ -172,16 +179,17 @@ if __name__ == '__main__':
 
 
     # video_capture = WebcamVideoStream(src=args.video_source,width=args.width,height=args.height).start()
-    # video_capture = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
+    video_capture = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
 
-    video_capture = FileVideoStream("walkcat.mp4").start()
+    # video_capture = FileVideoStream("walkcat.mp4").start()
+
     time.sleep(2.0)
 
     fps = FPS().start()
 
 
-    while video_capture.more():  # fps._numFrames < 120
-    # while True:  # fps._numFrames < 120
+    # while video_capture.more():  # fps._numFrames < 120
+    while True:  # fps._numFrames < 120
         current_f_size=w1.get()
         if current_f_size == 0:
             break
@@ -199,6 +207,14 @@ if __name__ == '__main__':
         print('[INFO] elapsed time: {:.2f}'.format(1/(time.time() - t)))
 
         cv2.imshow('Frame',output_rgb )
+        # hb stuff
+        hb.heartbeat_beat()
+        window_hr = hb.get_window_heartrate()
+        instant_hr = hb.get_instant_heartrate()
+        comm.write("heart_rate",window_hr)
+        print('------------------window_hr:',window_hr)
+        print('instant_hr:',instant_hr)
+
         fps.update()
         master.update_idletasks()
         master.update()
@@ -217,3 +233,6 @@ if __name__ == '__main__':
     worker.cleanup_worker()
     video_capture.stop()
     cv2.destroyAllWindows()
+    # hb clean up
+    hb.heartbeat_finish()
+    comm.write("heart_rate","done")
