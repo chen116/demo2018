@@ -52,7 +52,7 @@ class Workers(threading.Thread):
 			blob = stuff['blob']
 			if self.obj_track%5==0:
 				self.net.setInput(blob)
-				print("thread:",self.thread_id," gonna dnn")
+				print("thread:",self.thread_id," gonna dnn", "cnt:",stuff['cnt'])
 				# self.output_q.put(self.net.forward())
 				self.output_q.put({'blob':self.net.forward(),'cnt':stuff['cnt']})
 			else:
@@ -185,14 +185,13 @@ while vs.more():
 	# input_q.put(blob)
 
 	if output_q.empty():
-		print('empty ouput queue...')
+		global_cnt=global_cnt
 	else:
 		stuff = output_q.get()
 		detections = stuff['blob']
 		order = stuff['cnt']
 
 		print('output cnt:',order,'global cnt:',global_cnt)
-		print('bad order')
 		global_cnt+=1
 
 		# detections = output_q.get()
@@ -223,7 +222,7 @@ while vs.more():
 					# extract the index of the class label from the
 					# `detections`, then compute the (x, y)-coordinates of
 					# the bounding box for the object
-					print('catttttttttttttttttt')
+					# print('catttttttttttttttttt')
 					idx = int(detections[0, 0, i, 1])
 					box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
 					(startX, startY, endX, endY) = box.astype("int")
