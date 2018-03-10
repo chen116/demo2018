@@ -49,6 +49,8 @@ class Workers(threading.Thread):
 
 			# blob = self.input_q.get()
 			stuff = self.input_q.get()
+			if stuff['cnt']==-1:
+				break
 			blob = stuff['blob']
 			if self.obj_track%5==0:
 				self.net.setInput(blob)
@@ -174,6 +176,8 @@ prev_box = {}
 # loop over the frames from the video stream
 cnt=0
 global_cnt=0
+
+out = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (400,400))
 # while True:
 while vs.more():
 	# grab the frame from the threaded video stream and resize it
@@ -181,7 +185,8 @@ while vs.more():
 	frame = vs.read()
 	current_f_size=w1.get()
 	if current_f_size == 0:
-		break
+		input_q.put({'cnt':-1})
+		
 	frame = imutils.resize(frame, width=current_f_size)
 
 
@@ -271,6 +276,8 @@ while vs.more():
 
 		# show the output frame
 		cv2.imshow("Frame", frame)
+		out.write(frame)
+
 		fps.update()
 		master.update_idletasks()
 		master.update()
