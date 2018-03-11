@@ -119,7 +119,7 @@ mr.pack(side=LEFT)
 #     b.pack(side=LEFT)
 m1 = Scale(master,from_=1,to=20,orient=HORIZONTAL)
 m1.set(5)
-m1.pack(side=LEFT,fill=x)
+m1.pack(side=LEFT,fill=X)
 
 
 
