@@ -212,7 +212,7 @@ while True:
 		threadLock.release()
 		while not input_q.empty():
 			x=input_q.get()		
-		for i in range(total_num_threads)
+		for i in range(total_num_threads):
 			input_q.put({'cnt':-1})
 
 		break
