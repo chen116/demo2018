@@ -193,6 +193,7 @@ class Workers(threading.Thread):
                 break
             self.n = stuff['n']
             self.obj_track = stuff['cnt']
+            print(self.obj_track,self.n,self.obj_track%self.n)
 
             frame = stuff['blob']
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
