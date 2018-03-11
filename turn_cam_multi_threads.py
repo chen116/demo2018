@@ -61,7 +61,7 @@ class Workers(threading.Thread):
 			blob = stuff['blob']
 			if self.my_every_n_frame_cnt%self.n==0:
 				self.net.setInput(blob)
-				print("--------------------thread:",self.thread_id," gonna dnn", "cnt:",self.my_every_n_frame_cnt,'n:'self.n)
+				print("--------------------thread:",self.thread_id," gonna dnn", "cnt:",self.my_every_n_frame_cnt,'n:',self.n)
 				# self.output_q.put(self.net.forward())
 				self.output_q.put({'blob':self.net.forward(),'cnt':stuff['cnt']})
 			else:
