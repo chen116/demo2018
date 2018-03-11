@@ -229,7 +229,7 @@ class Workers(threading.Thread):
 input_q = Queue()  # fps is better if queue is higher but then more lags
 output_q = Queue()
 threads = []
-every_n_frame = {'cnt':-1,'n':5}
+every_n_frame = {'cnt':-1,'n':m1.get()}
 boxes={}
 total_num_threads=1
 threadLock = threading.Lock()
