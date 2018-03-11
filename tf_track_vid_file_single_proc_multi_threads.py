@@ -46,12 +46,12 @@ for text, mode in FSIZEs:
 
 
 MODE = [
-    ("10000", 10000),
-    ("4", 4),
+    ("1", 1),
+    ("2", 2),
     ("5", 5)
 ]
 m1 = IntVar()
-m1.set(10000) # initialize
+m1.set(1) # initialize
 previous_mode = m1.get()
 for text, mode in MODE:
     b = Radiobutton(master, text=text,variable=m1, value=mode)
@@ -199,10 +199,8 @@ class Workers(threading.Thread):
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             t = time.time()
             if self.obj_track%self.n==0:
-                print('going to dnn')
-                self.output_q.put({'blob':use_prev_boxes(frame_rgb),'cnt':stuff['cnt']})                
-                
-                # self.output_q.put({'blob':work_detect_objects(frame_rgb, self.sess, self.detection_graph),'cnt':stuff['cnt']})
+                # self.output_q.put({'blob':use_prev_boxes(frame_rgb),'cnt':stuff['cnt']})                
+                self.output_q.put({'blob':work_detect_objects(frame_rgb, self.sess, self.detection_graph),'cnt':stuff['cnt']})
             else:
                 self.output_q.put({'blob':use_prev_boxes(frame_rgb),'cnt':stuff['cnt']})                
 
