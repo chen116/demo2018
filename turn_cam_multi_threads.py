@@ -197,8 +197,9 @@ cnt=0
 global_cnt=0
 
 # outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10,  (300,168))#(600,337))
+
 while True:
-# while vs.more():
+# while vs.more(): # outvid
 	# grab the frame from the threaded video stream and resize it
 	# to have a maximum width of 300 pixels
 	frame = vs.read()
@@ -318,7 +319,7 @@ while True:
 
 		# show the output frame
 		cv2.imshow("Frame", frame)
-		# if global_cnt>50 and current_f_size>0:
+		# if global_cnt>50 and current_f_size>0: #outvid
 			# outvid.write(frame)
 
 		fps.update()
@@ -356,9 +357,9 @@ while True:
 # for i in range(total_num_threads):
 # 	input_q.put({'cnt':-1})
 # outvid.release()
-# threadLock.acquire()
-# every_n_frame['n']=-1
-# threadLock.release()
+# threadLock.acquire() # outvid
+# every_n_frame['n']=-1 # outvid
+# threadLock.release() # outvid
 # stop the timer and display FPS information
 fps.stop()
 print("[INFO] elapsed time: {:.2f}".format(fps.elapsed()))
