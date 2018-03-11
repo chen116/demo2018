@@ -49,9 +49,9 @@ class Workers(threading.Thread):
 			# self.every_n_frame['cnt']=(self.every_n_frame['cnt']+1)%self.n
 			# self.my_every_n_frame_cnt = self.every_n_frame['cnt']
 			self.threadLock.release()
-			# if self.n==-1:
-			# 	self.output_q.put({'cnt':-1})
-			# 	break
+			if self.n==-1:
+				self.output_q.put({'cnt':-1})
+				break
 			# blob = self.input_q.get()
 			stuff = self.input_q.get()
 			if stuff['cnt']==-1:
@@ -195,6 +195,7 @@ prev_box = {}
 # loop over the frames from the video stream
 cnt=0
 global_cnt=0
+
 # outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10,  (300,168))#(600,337))
 while True:
 # while vs.more():
@@ -202,14 +203,15 @@ while True:
 	# to have a maximum width of 300 pixels
 	frame = vs.read()
 	current_f_size=w1.get()
-	if current_f_size == 0:
-		# threadLock.acquire()
-		# every_n_frame['n']=-1
-		# threadLock.release()
+	if current_f_size == 0 and previous_f_size!=0:
+		previous_f_size = 0
+		threadLock.acquire()
+		every_n_frame['n']=-1
+		threadLock.release()
 
-		while not input_q.empty():
-			x=input_q.get()
-		input_q.put({'cnt':-1})
+		# while not input_q.empty():
+		# 	x=input_q.get()
+		# input_q.put({'cnt':-1})
 	else:
 		frame = imutils.resize(frame, width=current_f_size)
 
