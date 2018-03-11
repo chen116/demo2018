@@ -36,6 +36,7 @@ class Workers(threading.Thread):
 		self.input_q=input_q
 		self.output_q=output_q
 		self.every_n_frame=every_n_frame
+		self.n=every_n_frame['n']
 		self.threadLock=threadLock
 		self.obj_track=0
 	def run(self):
@@ -43,7 +44,7 @@ class Workers(threading.Thread):
 		# self.threadLock.acquire()
 		while True:
 			self.threadLock.acquire()
-			self.every_n_frame['cnt']=(self.every_n_frame['cnt']+1)%5
+			self.every_n_frame['cnt']=(self.every_n_frame['cnt']+1)%self.n
 			self.obj_track = self.every_n_frame['cnt']
 			self.threadLock.release()
 
@@ -53,7 +54,7 @@ class Workers(threading.Thread):
 				self.output_q.put({'cnt':-1})
 				break
 			blob = stuff['blob']
-			if self.obj_track%5==0:
+			if self.obj_track%self.n==0:
 				self.net.setInput(blob)
 				print("thread:",self.thread_id," gonna dnn", "cnt:",stuff['cnt'])
 				# self.output_q.put(self.net.forward())
@@ -151,7 +152,7 @@ time.sleep(2.0)
 input_q = Queue()  # fps is better if queue is higher but then more lags
 output_q = Queue()
 threads = []
-every_n_frame = {'cnt':-1}
+every_n_frame = {'cnt':-1,'n':5}
 threadLock = threading.Lock()
 total_num_threads=5
 num_threads_exiting=0
@@ -198,7 +199,7 @@ while vs.more():
 		stuff = output_q.get()
 		if stuff['cnt']==-1:
 			num_threads_exiting+=1
-			print('output cnt:',order,'global cnt:',global_cnt,'num_threads_exiting',num_threads_exiting)
+			print('------------global cnt:',global_cnt,'num_threads_exiting',num_threads_exiting)
 			if num_threads_exiting==total_num_threads:
 				break
 			continue

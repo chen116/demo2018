@@ -78,6 +78,7 @@ class Workers(threading.Thread):
         self.input_q=input_q
         self.output_q=output_q
         self.every_n_frame=every_n_frame
+        self.n = every_n_frame['n']
         self.threadLock=threadLock
         self.obj_track=0
         with self.detection_graph.as_default():
@@ -129,113 +130,117 @@ class Workers(threading.Thread):
             return image_np
         while True:
             self.threadLock.acquire()
-            self.every_n_frame['cnt']=(self.every_n_frame['cnt']+1)%5
+            self.every_n_frame['cnt']=(self.every_n_frame['cnt']+1)%self.n
             self.obj_track = self.every_n_frame['cnt']
             self.threadLock.release()
 
-            frame = self.input_q.get()
-            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            t = time.time()
-            if self.obj_track%5==0:
-                self.output_q.put(work_detect_objects(frame_rgb, self.sess, self.detection_graph))
+            stuff=self.input_q.get()
+            if stuff['cnt']==-1:
+                self.output_q.put({'cnt':-1})
+                break
             else:
-                self.output_q.put(frame_rgb)
-            print('thread:',self.thread_id,'[INFO] rate: {:.2f}'.format(1/(time.time() - t)))
+                frame = stuff['blob']
+                frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                t = time.time()
+                if self.obj_track%self.n==0:
+                    self.output_q.put({'blob':work_detect_objects(frame_rgb, self.sess, self.detection_graph),'cnt':stuff['cnt']})
+                else:
+                    self.output_q.put({'blob':frame_rgb,'cnt':stuff['cnt']})                
 
 
+            # frame = self.input_q.get()
+            # frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            # t = time.time()
+            # if self.obj_track%5==0:
+            #     self.output_q.put(work_detect_objects(frame_rgb, self.sess, self.detection_graph))
+            # else:
+            #     self.output_q.put(frame_rgb)
+            # print('thread:',self.thread_id,'[INFO] rate: {:.2f}'.format(1/(time.time() - t)))
+
+        print("Exiting thread" , self.thread_id)
         self.sess.close()
 
 
+# logger = multiprocessing.log_to_stderr()
+# logger.setLevel(multiprocessing.SUBDEBUG)
 
 
+# pool = Pool(args.num_workers, worker, (input_q, output_q))
 
+input_q = Queue()  # fps is better if queue is higher but then more lags
+output_q = Queue()
+threads = []
+every_n_frame = {'cnt':-1,'n':5}
+threadLock = threading.Lock()
+for i in range(5):
+    tmp_thread = Workers(threadLock,every_n_frame,PATH_TO_CKPT,i,input_q,output_q)
+    tmp_thread.start()
+    threads.append(tmp_thread)
+# video_capture = WebcamVideoStream(src=args.video_source,width=args.width,height=args.height).start()
+# video_capture = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
+# video_capture = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
 
+video_capture = FileVideoStream("walkcat.mp4").start()
+time.sleep(2.0)
+outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (600,337))
+fps = FPS().start()
+global_cnt=0
+num_threads_exiting=0
+cnt=0
 
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-src', '--source', dest='video_source', type=int,
-                        default=0, help='Device index of the camera.')
-    parser.add_argument('-wd', '--width', dest='width', type=int,
-                        default=200, help='Width of the frames in the video stream.')
-    parser.add_argument('-ht', '--height', dest='height', type=int,
-                        default=200, help='Height of the frames in the video stream.')
-    parser.add_argument('-num-w', '--num-workers', dest='num_workers', type=int,
-                        default=1, help='Number of workers.')
-    parser.add_argument('-q-size', '--queue-size', dest='queue_size', type=int,
-                        default=15, help='Size of the queue.')
-    args = parser.parse_args()
-
-    # logger = multiprocessing.log_to_stderr()
-    # logger.setLevel(multiprocessing.SUBDEBUG)
-
-
-    # pool = Pool(args.num_workers, worker, (input_q, output_q))
-
-    input_q = Queue()  # fps is better if queue is higher but then more lags
-    output_q = Queue()
-    threads = []
-    every_n_frame = {'cnt':-1}
-    threadLock = threading.Lock()
-    for i in range(5):
-        tmp_thread = Workers(threadLock,every_n_frame,PATH_TO_CKPT,i,input_q,output_q)
-        tmp_thread.start()
-        threads.append(tmp_thread)
-    # video_capture = WebcamVideoStream(src=args.video_source,width=args.width,height=args.height).start()
-    video_capture = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
-    # video_capture = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
-
-    video_capture = FileVideoStream("walkcat.mp4").start()
-    time.sleep(2.0)
-    global_cnt=0
-    outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (600,337))
-    fps = FPS().start()
-
-
-    while video_capture.more():  # fps._numFrames < 120
-    # while True:  # fps._numFrames < 120
-        current_f_size=w1.get()
-        if current_f_size == 0:
-            break
+while video_capture.more():  # fps._numFrames < 120
+# while True:  # fps._numFrames < 120
+    current_f_size=w1.get()
+    if current_f_size == 0:
+        input_q.put({'cnt':-1})
+    else:
         frame = video_capture.read()
         frame = imutils.resize(frame, width=current_f_size)
-
         input_q.put(frame)
-        if output_q.empty():
-            print('empty ouput queue...')
-        else:
+    if output_q.empty():
+        print('empty ouput queue...')
+    else:
+        stuff = output_q.get()
+        if stuff['cnt']==-1:
+            num_threads_exiting+=1
+            print('------------global cnt:',global_cnt,'num_threads_exiting',num_threads_exiting)
+            if num_threads_exiting==total_num_threads:
+                break
+            continue
+        output_rgb = cv2.cvtColor(stuff['blob'], cv2.COLOR_RGB2BGR)
+        # output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
+        cv2.imshow('Frame',output_rgb )
+        global_cnt+=1:
+        if global_cnt>50:
+            outvid.write(frame)
 
-            output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
-            cv2.imshow('Frame',output_rgb )
-            global_cnt+=1:
-            if global_cnt>50:
-                outvid.write(frame)
+        fps.update()
 
-            fps.update()
+        master.update_idletasks()
+        master.update()
+        # hb stuff
+        hb.heartbeat_beat()
+        window_hr = hb.get_window_heartrate()
+        instant_hr = hb.get_instant_heartrate()
+        comm.write("heart_rate",window_hr)
+        print('------------------window_hr:',window_hr)
+        print('instant_hr:',instant_hr)
 
-            master.update_idletasks()
-            master.update()
-            # hb stuff
-            hb.heartbeat_beat()
-            window_hr = hb.get_window_heartrate()
-            instant_hr = hb.get_instant_heartrate()
-            comm.write("heart_rate",window_hr)
-            print('------------------window_hr:',window_hr)
-            print('instant_hr:',instant_hr)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+    if w1.get()==0:
+        break
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-        if w1.get()==0:
-            break
-
-    fps.stop()
-    print('[INFO] elapsed time (total): {:.2f}'.format(fps.elapsed()))
-    print('[INFO] approx. FPS: {:.2f}'.format(fps.fps()))
-    # pool.terminate()
-    video_capture.stop()
-    outvid.write(release)
-    cv2.destroyAllWindows()
-    hb.heartbeat_finish()
-    comm.write("heart_rate","done")
-    for t in threads:
-        t.join()
+fps.stop()
+print('[INFO] elapsed time (total): {:.2f}'.format(fps.elapsed()))
+print('[INFO] approx. FPS: {:.2f}'.format(fps.fps()))
+# pool.terminate()
+video_capture.stop()
+for i in range(total_num_threads):
+    input_q.put({'cnt':-1})
+outvid.write(release)
+cv2.destroyAllWindows()
+hb.heartbeat_finish()
+comm.write("heart_rate","done")
+for t in threads:
+    t.join()
