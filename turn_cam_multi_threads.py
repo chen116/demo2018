@@ -203,11 +203,13 @@ while True:
 	# to have a maximum width of 300 pixels
 	frame = vs.read()
 	current_f_size=w1.get()
-	if current_f_size == 0 and previous_f_size!=0:
+
+	if current_f_size == 0:
 		previous_f_size = 0
 		threadLock.acquire()
 		every_n_frame['n']=-1
 		threadLock.release()
+		break
 
 		# while not input_q.empty():
 		# 	x=input_q.get()
