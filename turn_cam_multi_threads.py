@@ -87,8 +87,8 @@ c = Checkbutton(master, text="anchors", variable=checked)
 c.pack(side=LEFT)
 FSIZE = [
     ("300", 300),
+    ("600", 600),
     ("800", 800),
-    ("1000", 1000),
     ("done",0)
 ]
 w1 = IntVar()
