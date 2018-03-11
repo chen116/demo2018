@@ -278,7 +278,7 @@ while vs.more():
 
 		# show the output frame
 		cv2.imshow("Frame", frame)
-		if global_cnt>50:
+		if global_cnt>50 and current_f_size>0:
 			# frameW = img_02.size[0]
 			# frameH = img_02.size[1]
 			outvid.write(frame)
