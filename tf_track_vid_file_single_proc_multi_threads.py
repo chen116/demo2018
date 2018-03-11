@@ -45,17 +45,10 @@ for text, mode in FSIZEs:
     b.pack(side=LEFT)
 
 
-
-ml = Button(master, text="left",command= lambda: move_left(mycam))
-ml.pack(side=LEFT)
-mr = Button(master,text="right",command= lambda: move_right(mycam))
-mr.pack(side=LEFT)
-
-
 MODE = [
     ("1", 1),
-    ("3", 3),
-    ("5", 5)
+    ("2", 2),
+    ("3", 3)
 ]
 m1 = IntVar()
 m1.set(1) # initialize
@@ -63,6 +56,13 @@ previous_mode = m1.get()
 for text, mode in MODE:
     b = Radiobutton(master, text=text,variable=m1, value=mode)
     b.pack(side=LEFT)
+
+ml = Button(master, text="left",command= lambda: move_left(mycam))
+ml.pack(side=LEFT)
+mr = Button(master,text="right",command= lambda: move_right(mycam))
+mr.pack(side=LEFT)
+
+
 
 
 CWD_PATH = os.getcwd()
@@ -182,23 +182,25 @@ class Workers(threading.Thread):
             return image_np
 
         while True:
-            self.threadLock.acquire()
-            self.every_n_frame['cnt']=(self.every_n_frame['cnt']+1)%self.n
-            self.obj_track = self.every_n_frame['cnt']
-            self.threadLock.release()
+            # self.threadLock.acquire()
+            # self.every_n_frame['cnt']=(self.every_n_frame['cnt']+1)%self.n
+            # self.obj_track = self.every_n_frame['cnt']
+            # self.threadLock.release()
 
             stuff=self.input_q.get()
             if stuff['cnt']==-1:
                 self.output_q.put({'cnt':-1})
                 break
+            self.n = stuff['n']
+            self.obj_track = stuff['cnt']
+
+            frame = stuff['blob']
+            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            t = time.time()
+            if self.obj_track%self.n==0:
+                self.output_q.put({'blob':work_detect_objects(frame_rgb, self.sess, self.detection_graph),'cnt':stuff['cnt']})
             else:
-                frame = stuff['blob']
-                frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                t = time.time()
-                if self.obj_track%self.n==0:
-                    self.output_q.put({'blob':work_detect_objects(frame_rgb, self.sess, self.detection_graph),'cnt':stuff['cnt']})
-                else:
-                    self.output_q.put({'blob':use_prev_boxes(frame_rgb),'cnt':stuff['cnt']})                
+                self.output_q.put({'blob':use_prev_boxes(frame_rgb),'cnt':stuff['cnt']})                
 
 
             # frame = self.input_q.get()
@@ -252,7 +254,7 @@ while True:  # fps._numFrames < 120
         frame = imutils.resize(frame, width=current_f_size)
         # input_q.put(frame)
 
-        stuff={'blob':frame,'cnt':cnt}
+        stuff={'blob':frame,'cnt':cnt,'n':m1.get()*5}
         cnt+=1
         input_q.put(stuff)
     if output_q.empty():
