@@ -81,6 +81,7 @@ class Workers(threading.Thread):
         self.n = every_n_frame['n']
         self.threadLock=threadLock
         self.obj_track=0
+        self.boxes={}
         with self.detection_graph.as_default():
             od_graph_def = tf.GraphDef()
             with tf.gfile.GFile(PATH_TO_CKPT, 'rb') as fid:
@@ -99,6 +100,20 @@ class Workers(threading.Thread):
         # self.threadLock.release()
         print("Exiting thread" , self.thread_id)
     def work(self):
+        def use_prev_boxes(image_np):
+            if len(self.boxes)>0:
+                vis_util.visualize_boxes_and_labels_on_image_array(
+                    image_np,
+                    np.squeeze(self.boxes['boxes']),
+                    np.squeeze(self.boxes['classes']).astype(np.int32),
+                    np.squeeze(self.boxes['scores']),
+                    category_index,
+                    use_normalized_coordinates=True,
+                    line_thickness=1)
+                return image_np
+            else:
+                return image_np
+
         def work_detect_objects(image_np, sess, detection_graph):
             # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
             image_np_expanded = np.expand_dims(image_np, axis=0)
@@ -127,7 +142,12 @@ class Workers(threading.Thread):
                 category_index,
                 use_normalized_coordinates=True,
                 line_thickness=1)
+            self.boxes['boxes']=boxes
+            self.boxes['scores']='recalculating...'
+            self.boxes['classes']=classes
+
             return image_np
+
         while True:
             self.threadLock.acquire()
             self.every_n_frame['cnt']=(self.every_n_frame['cnt']+1)%self.n
@@ -145,7 +165,7 @@ class Workers(threading.Thread):
                 if self.obj_track%self.n==0:
                     self.output_q.put({'blob':work_detect_objects(frame_rgb, self.sess, self.detection_graph),'cnt':stuff['cnt']})
                 else:
-                    self.output_q.put({'blob':frame_rgb,'cnt':stuff['cnt']})                
+                    self.output_q.put({'blob':use_prev_boxes(frame_rgb),'cnt':stuff['cnt']})                
 
 
             # frame = self.input_q.get()
@@ -157,7 +177,6 @@ class Workers(threading.Thread):
             #     self.output_q.put(frame_rgb)
             # print('thread:',self.thread_id,'[INFO] rate: {:.2f}'.format(1/(time.time() - t)))
 
-        print("Exiting thread" , self.thread_id)
         self.sess.close()
 
 
@@ -243,7 +262,7 @@ print('[INFO] approx. FPS: {:.2f}'.format(fps.fps()))
 video_capture.stop()
 for i in range(total_num_threads):
     input_q.put({'cnt':-1})
-outvid.write(release)
+outvid.release()
 cv2.destroyAllWindows()
 hb.heartbeat_finish()
 comm.write("heart_rate","done")
