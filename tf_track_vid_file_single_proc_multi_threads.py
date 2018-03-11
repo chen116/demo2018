@@ -171,8 +171,9 @@ input_q = Queue()  # fps is better if queue is higher but then more lags
 output_q = Queue()
 threads = []
 every_n_frame = {'cnt':-1,'n':5}
+total_num_threads=5
 threadLock = threading.Lock()
-for i in range(5):
+for i in range(total_num_threads):
     tmp_thread = Workers(threadLock,every_n_frame,PATH_TO_CKPT,i,input_q,output_q)
     tmp_thread.start()
     threads.append(tmp_thread)
