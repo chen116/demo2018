@@ -210,7 +210,7 @@ while video_capture.more():  # fps._numFrames < 120
         output_rgb = cv2.cvtColor(stuff['blob'], cv2.COLOR_RGB2BGR)
         # output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
         cv2.imshow('Frame',output_rgb )
-        global_cnt+=1:
+        global_cnt+=1
         if global_cnt>50:
             outvid.write(frame)
 
