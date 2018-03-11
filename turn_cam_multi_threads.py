@@ -52,11 +52,7 @@ class Workers(threading.Thread):
 
 			# blob = self.input_q.get()
 			stuff = self.input_q.get()
-			self.n = stuff['every_n_frame']
-			self.threadLock.acquire()
-			self.every_n_frame['cnt']=(self.every_n_frame['cnt']+1)%self.n
-			self.my_every_n_frame_cnt = self.every_n_frame['cnt']
-			self.threadLock.release()
+			self.n = stuff['n']
 			if stuff['cnt']==-1:
 				self.output_q.put({'cnt':-1})
 				break
@@ -164,8 +160,8 @@ print("[INFO] loading model...")
 # and initialize the FPS counter
 print("[INFO] starting video stream...")
 #vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
-vs = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
-# vs= FileVideoStream("walkcat.mp4").start()
+# vs = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
+vs= FileVideoStream("walkcat.mp4").start()
 
 time.sleep(2.0)
 
@@ -191,9 +187,9 @@ prev_box = {}
 # loop over the frames from the video stream
 cnt=0
 global_cnt=0
-# outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (600,337)) #(300,168))
-while True:
-#while vs.more():
+outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (600,337)) #(300,168))
+# while True:
+while vs.more():
 	# grab the frame from the threaded video stream and resize it
 	# to have a maximum width of 300 pixels
 	frame = vs.read()
@@ -208,7 +204,7 @@ while True:
 		(h, w) = frame.shape[:2]
 		blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)),
 			0.007843, (300, 300), 127.5)
-		stuff={'blob':blob,'cnt':cnt,'every_n_frame',:m1.get()}
+		stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
 		cnt+=1
 		input_q.put(stuff)
 
@@ -300,10 +296,8 @@ while True:
 
 		# show the output frame
 		cv2.imshow("Frame", frame)
-		# if global_cnt>50 and current_f_size>0:
-			# frameW = img_02.size[0]
-			# frameH = img_02.size[1]
-			# outvid.write(frame)
+		if global_cnt>50 and current_f_size>0:
+			outvid.write(frame)
 
 		fps.update()
 		master.update_idletasks()
@@ -339,7 +333,7 @@ while True:
 	#	canpoint = 1
 for i in range(total_num_threads):
 	input_q.put({'cnt':-1})
-# outvid.release()
+outvid.release()
 # stop the timer and display FPS information
 fps.stop()
 print("[INFO] elapsed time: {:.2f}".format(fps.elapsed()))
