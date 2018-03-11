@@ -236,12 +236,12 @@ while True:
 		global_cnt=global_cnt
 	else:
 		stuff = output_q.get()
-		if stuff['cnt']==-1:
-			num_threads_exiting+=1
-			print('------------global cnt:',global_cnt,'num_threads_exiting',num_threads_exiting)
-			if num_threads_exiting==total_num_threads:
-				break
-			continue
+		# if stuff['cnt']==-1:
+		# 	num_threads_exiting+=1
+		# 	print('------------global cnt:',global_cnt,'num_threads_exiting',num_threads_exiting)
+		# 	if num_threads_exiting==total_num_threads:
+		# 		break
+		# 	continue
 
 
 
