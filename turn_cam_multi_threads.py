@@ -99,6 +99,11 @@ for text, mode in FSIZE:
     b.pack(side=LEFT)
 
 
+ml = Button(master, text="left",command= lambda: move_left(mycam))
+ml.pack(side=LEFT)
+mr = Button(master,text="right",command= lambda: move_right(mycam))
+mr.pack(side=LEFT)
+
 MODE = [
     ("1", 1),
     ("2", 2),
@@ -111,10 +116,6 @@ for text, mode in MODE:
     b = Radiobutton(master, text=text,variable=m1, value=mode)
     b.pack(side=LEFT)
 
-ml = Button(master, text="left",command= lambda: move_left(mycam))
-ml.pack(side=LEFT)
-mr = Button(master,text="right",command= lambda: move_right(mycam))
-mr.pack(side=LEFT)
 
 
 
