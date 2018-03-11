@@ -32,13 +32,13 @@ c = Checkbutton(master, text="anchors", variable=checked)
 c.pack(side=LEFT)
 
 FSIZEs = [
+    ("300", 300),
     ("600", 600),
     ("800", 800),
-    ("1000", 1000),
     ("done",0)
 ]
 w1 = IntVar()
-w1.set(600) # initialize
+w1.set(300) # initialize
 previous_f_size = w1.get()
 for text, mode in FSIZEs:
     b = Radiobutton(master, text=text,variable=w1, value=mode)
@@ -181,7 +181,7 @@ class Workers(threading.Thread):
             if self.n==-1:
                 self.output_q.put({'cnt':-1})
                 break
-                
+
 
 
 
