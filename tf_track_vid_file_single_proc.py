@@ -184,12 +184,13 @@ if __name__ == '__main__':
     # video_capture = FileVideoStream("walkcat.mp4").start()
 
     time.sleep(2.0)
+    outvid = cv2.VideoWriter('outpy_tf.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (600,337))
 
     fps = FPS().start()
 
-
-    # while video_capture.more():  # fps._numFrames < 120
-    while True:  # fps._numFrames < 120
+    global_cnt=-1
+    while video_capture.more():  # fps._numFrames < 120
+    #while True:  # fps._numFrames < 120
         current_f_size=w1.get()
         if current_f_size == 0:
             break
@@ -201,12 +202,18 @@ if __name__ == '__main__':
         # cv2.imshow("Frame", frame)
 
         t = time.time()
+        global_cnt+=1
+        if global_cnt%5==0:
+            # output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
+            output_rgb = cv2.cvtColor(worker.work(frame), cv2.COLOR_RGB2BGR)
+        else:
+            output_rgb = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
-        # output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
-        output_rgb = cv2.cvtColor(worker.work(frame), cv2.COLOR_RGB2BGR)
         print('[INFO] elapsed time: {:.2f}'.format(1/(time.time() - t)))
 
         cv2.imshow('Frame',output_rgb )
+        if global_cnt>50:
+            outvid.write(output_rgb)
         # hb stuff
         hb.heartbeat_beat()
         window_hr = hb.get_window_heartrate()
@@ -228,6 +235,7 @@ if __name__ == '__main__':
     fps.stop()
     print('[INFO] elapsed time (total): {:.2f}'.format(fps.elapsed()))
     print('[INFO] approx. FPS: {:.2f}'.format(fps.fps()))
+    outvid.release()
 
     # pool.terminate()
     worker.cleanup_worker()
