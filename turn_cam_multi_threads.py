@@ -86,13 +86,13 @@ previous_checked = checked.get()
 c = Checkbutton(master, text="anchors", variable=checked)
 c.pack(side=LEFT)
 FSIZE = [
-    ("600", 600),
+    ("300", 300),
     ("800", 800),
     ("1000", 1000),
     ("done",0)
 ]
 w1 = IntVar()
-w1.set(600) # initialize
+w1.set(300) # initialize
 previous_f_size = w1.get()
 for text, mode in FSIZE:
     b = Radiobutton(master, text=text,variable=w1, value=mode)
@@ -189,9 +189,9 @@ prev_box = {}
 # loop over the frames from the video stream
 cnt=0
 global_cnt=0
-outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (600,337)) #(300,168))
-# while True:
-while vs.more():
+outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10,  (300,300))#(600,337))
+while True:
+# while vs.more():
 	# grab the frame from the threaded video stream and resize it
 	# to have a maximum width of 300 pixels
 	frame = vs.read()
@@ -204,6 +204,7 @@ while vs.more():
 
 		# grab the frame dimensions and convert it to a blob
 		(h, w) = frame.shape[:2]
+		print(h,w)
 		blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)),
 			0.007843, (300, 300), 127.5)
 		stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
