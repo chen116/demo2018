@@ -82,13 +82,13 @@ c = Checkbutton(master, text="anchors", variable=checked)
 c.pack(side=LEFT)
 
 MODES = [
-    ("600", 600),
+    ("200", 200),
     ("800", 800),
     ("1000", 1000),
     ("done",0)
 ]
 w1 = IntVar()
-w1.set(600) # initialize
+w1.set(200) # initialize
 previous_f_size = w1.get()
 for text, mode in MODES:
     b = Radiobutton(master, text=text,variable=w1, value=mode)
@@ -170,7 +170,7 @@ prev_box = {}
 # loop over the frames from the video stream
 cnt=0
 global_cnt=0
-outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (600,337))
+outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (200,337))
 # while True:
 while vs.more():
 	# grab the frame from the threaded video stream and resize it
