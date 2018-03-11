@@ -117,8 +117,8 @@ mr.pack(side=LEFT)
 # for text, mode in MODE:
 #     b = Radiobutton(master, text=text,variable=m1, value=mode)
 #     b.pack(side=LEFT)
-m1 = Scale(master,from_=1,to=20000,orient=HORIZONTAL)
-m1.set(20000)
+m1 = Scale(master,from_=1,to=15,orient=HORIZONTAL)
+m1.set(15)
 m1.pack(side=LEFT,fill=X)
 
 
