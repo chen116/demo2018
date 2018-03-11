@@ -71,7 +71,7 @@ category_index = label_map_util.create_category_index(categories)
 
 
 class Workers(threading.Thread):
-    def __init__(self,threadLock,every_n_frame,PATH_TO_CKPT,thread_id,input_q,output_q):
+    def __init__(self,threadLock,every_n_frame,boxes,PATH_TO_CKPT,thread_id,input_q,output_q):
         threading.Thread.__init__(self)
         self.detection_graph = tf.Graph()
         self.thread_id=thread_id
@@ -81,7 +81,7 @@ class Workers(threading.Thread):
         self.n = every_n_frame['n']
         self.threadLock=threadLock
         self.obj_track=0
-        self.boxes={}
+        self.boxes=boxes
         with self.detection_graph.as_default():
             od_graph_def = tf.GraphDef()
             with tf.gfile.GFile(PATH_TO_CKPT, 'rb') as fid:
@@ -101,7 +101,10 @@ class Workers(threading.Thread):
         print("Exiting thread" , self.thread_id)
     def work(self):
         def use_prev_boxes(image_np):
+            self.threadLock.acquire()
+
             if len(self.boxes)>0:
+
                 vis_util.visualize_boxes_and_labels_on_image_array(
                     image_np,
                     np.squeeze(self.boxes['boxes']),
@@ -110,9 +113,9 @@ class Workers(threading.Thread):
                     category_index,
                     use_normalized_coordinates=True,
                     line_thickness=1)
-                return image_np
-            else:
-                return image_np
+            self.threadLock.release()
+
+            return image_np
 
         def work_detect_objects(image_np, sess, detection_graph):
             # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
@@ -142,9 +145,12 @@ class Workers(threading.Thread):
                 category_index,
                 use_normalized_coordinates=True,
                 line_thickness=1)
+            self.threadLock.acquire()
+
             self.boxes['boxes']=boxes
             self.boxes['scores']='recalculating...'
             self.boxes['classes']=classes
+            self.threadLock.release()
 
             return image_np
 
@@ -190,10 +196,11 @@ input_q = Queue()  # fps is better if queue is higher but then more lags
 output_q = Queue()
 threads = []
 every_n_frame = {'cnt':-1,'n':5}
+boxes={}
 total_num_threads=5
 threadLock = threading.Lock()
 for i in range(total_num_threads):
-    tmp_thread = Workers(threadLock,every_n_frame,PATH_TO_CKPT,i,input_q,output_q)
+    tmp_thread = Workers(threadLock,every_n_frame,boxes,PATH_TO_CKPT,i,input_q,output_q)
     tmp_thread.start()
     threads.append(tmp_thread)
 # video_capture = WebcamVideoStream(src=args.video_source,width=args.width,height=args.height).start()
