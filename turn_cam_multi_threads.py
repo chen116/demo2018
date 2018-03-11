@@ -152,9 +152,9 @@ time.sleep(2.0)
 input_q = Queue()  # fps is better if queue is higher but then more lags
 output_q = Queue()
 threads = []
-every_n_frame = {'cnt':-1,'n':3}
+every_n_frame = {'cnt':-1,'n':5}
 threadLock = threading.Lock()
-total_num_threads=6
+total_num_threads=1
 num_threads_exiting=0
 
 for i in range(total_num_threads):
@@ -170,7 +170,7 @@ prev_box = {}
 # loop over the frames from the video stream
 cnt=0
 global_cnt=0
-outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 15, (600,337)) #(300,168))
+outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (600,337)) #(300,168))
 # while True:
 while vs.more():
 	# grab the frame from the threaded video stream and resize it
