@@ -104,6 +104,8 @@ def detect_objects(image_np, sess, detection_graph):
 class Worker:
     def __init__(self,PATH_TO_CKPT):
         self.detection_graph = tf.Graph()
+        self.boxes={}
+
         with self.detection_graph.as_default():
             od_graph_def = tf.GraphDef()
             with tf.gfile.GFile(PATH_TO_CKPT, 'rb') as fid:
@@ -117,6 +119,22 @@ class Worker:
                         allow_soft_placement=True, device_count = {'CPU': 1})
             self.sess = tf.Session(graph=self.detection_graph,config=config)
             # self.sess = tf.Session(graph=self.detection_graph)
+    def use_prev_boxes(self,image_np):
+
+
+        if len(self.boxes)>0:
+
+            vis_util.visualize_boxes_and_labels_on_image_array(
+                image_np,
+                np.squeeze(self.boxes['boxes']),
+                np.squeeze(self.boxes['classes']).astype(np.int32),
+                np.squeeze(self.boxes['scores']),
+                category_index,
+                use_normalized_coordinates=True,
+                line_thickness=1)
+
+
+        return image_np
     def work(self, frame):
         def work_detect_objects(image_np, sess, detection_graph):
             # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
@@ -146,6 +164,9 @@ class Worker:
                 category_index,
                 use_normalized_coordinates=True,
                 line_thickness=1)
+            self.boxes['boxes']=boxes
+            self.boxes['classes']=classes
+            self.boxes['scores']=scores
             return image_np
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         return detect_objects(frame_rgb, self.sess, self.detection_graph)
@@ -207,7 +228,7 @@ if __name__ == '__main__':
             # output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
             output_rgb = cv2.cvtColor(worker.work(frame), cv2.COLOR_RGB2BGR)
         else:
-            output_rgb = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+            output_rgb = cv2.cvtColor(worker.use_prev_boxes(frame), cv2.COLOR_RGB2BGR)
 
         print('[INFO] elapsed time: {:.2f}'.format(1/(time.time() - t)))
 
