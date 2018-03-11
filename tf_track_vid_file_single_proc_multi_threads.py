@@ -207,18 +207,18 @@ for i in range(total_num_threads):
     threads.append(tmp_thread)
 # video_capture = WebcamVideoStream(src=args.video_source,width=args.width,height=args.height).start()
 # video_capture = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
-# video_capture = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
+video_capture = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
 
-video_capture = FileVideoStream("walkcat.mp4").start()
+#video_capture = FileVideoStream("walkcat.mp4").start()
 time.sleep(2.0)
-outvid = cv2.VideoWriter('outpy_tf.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (600,337))
+#outvid = cv2.VideoWriter('outpy_tf.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (600,337))
 fps = FPS().start()
 global_cnt=0
 num_threads_exiting=0
 cnt=0
 
-while video_capture.more():  # fps._numFrames < 120
-# while True:  # fps._numFrames < 120
+#while video_capture.more():  # fps._numFrames < 120
+while True:  # fps._numFrames < 120
     current_f_size=w1.get()
     if current_f_size == 0:
         input_q.put({'cnt':-1})
@@ -244,8 +244,8 @@ while video_capture.more():  # fps._numFrames < 120
         # output_rgb = cv2.cvtColor(output_q.get(), cv2.COLOR_RGB2BGR)
         cv2.imshow('Frame',output_rgb )
         global_cnt+=1
-        if global_cnt>50:
-            outvid.write(output_rgb)
+        #if global_cnt>50:
+            #outvid.write(output_rgb)
 
         fps.update()
 
@@ -271,7 +271,7 @@ print('[INFO] approx. FPS: {:.2f}'.format(fps.fps()))
 video_capture.stop()
 for i in range(total_num_threads):
     input_q.put({'cnt':-1})
-outvid.release()
+#outvid.release()
 cv2.destroyAllWindows()
 hb.heartbeat_finish()
 comm.write("heart_rate","done")
