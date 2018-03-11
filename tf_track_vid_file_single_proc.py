@@ -205,7 +205,7 @@ if __name__ == '__main__':
     # video_capture = FileVideoStream("walkcat.mp4").start()
 
     time.sleep(2.0)
-    outvid = cv2.VideoWriter('outpy_tf.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (600,337))
+    outvid = cv2.VideoWriter('outpy_tf_single.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (600,337))
 
     fps = FPS().start()
 
