@@ -50,13 +50,13 @@ class Workers(threading.Thread):
 			# self.my_every_n_frame_cnt = self.every_n_frame['cnt']
 			self.threadLock.release()
 			if self.n==-1:
-				self.output_q.put({'cnt':-1})
+				# self.output_q.put({'cnt':-1})
 				break
 			# blob = self.input_q.get()
 			stuff = self.input_q.get()
-			if stuff['cnt']==-1:
-				self.output_q.put({'cnt':-1})
-				break
+			# if stuff['cnt']==-1:
+			# 	self.output_q.put({'cnt':-1})
+			# 	break
 			# self.n = stuff['n']
 			self.my_every_n_frame_cnt = stuff['cnt']
 
@@ -353,8 +353,8 @@ while True:
 
 	#if(time.time()>pointat):
 	#	canpoint = 1
-for i in range(total_num_threads):
-	input_q.put({'cnt':-1})
+# for i in range(total_num_threads):
+# 	input_q.put({'cnt':-1})
 # outvid.release()
 # stop the timer and display FPS information
 fps.stop()
