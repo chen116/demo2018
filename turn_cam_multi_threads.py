@@ -198,6 +198,8 @@ while True:
 	frame = vs.read()
 	current_f_size=w1.get()
 	if current_f_size == 0:
+		while not input_q.empty():
+			x=input_q.get()
 		input_q.put({'cnt':-1})
 	else:
 		frame = imutils.resize(frame, width=current_f_size)
