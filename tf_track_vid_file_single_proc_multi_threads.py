@@ -82,6 +82,7 @@ class Workers(threading.Thread):
         self.threadLock=threadLock
         self.obj_track=0
         self.boxes=boxes
+        t=time.time()
         with self.detection_graph.as_default():
             od_graph_def = tf.GraphDef()
             with tf.gfile.GFile(PATH_TO_CKPT, 'rb') as fid:
@@ -91,6 +92,8 @@ class Workers(threading.Thread):
             config = tf.ConfigProto(intra_op_parallelism_threads=5, inter_op_parallelism_threads=5, 
                         allow_soft_placement=True, device_count = {'CPU': 1})
             self.sess = tf.Session(graph=self.detection_graph,config=config)
+        print('thread:',self.thread_id,'[INFO] rate: {:.2f}'.format(1/(time.time() - t)))
+
             # self.sess = tf.Session(graph=self.detection_graph)
     def run(self):
         # Acquire lock to synchronize thread

@@ -105,7 +105,8 @@ class Worker:
     def __init__(self,PATH_TO_CKPT):
         self.detection_graph = tf.Graph()
         self.boxes={}
-
+        self.st=0
+        t=time.time()
         with self.detection_graph.as_default():
             od_graph_def = tf.GraphDef()
             with tf.gfile.GFile(PATH_TO_CKPT, 'rb') as fid:
@@ -118,7 +119,12 @@ class Worker:
             config = tf.ConfigProto(intra_op_parallelism_threads=5, inter_op_parallelism_threads=5, 
                         allow_soft_placement=True, device_count = {'CPU': 1})
             self.sess = tf.Session(graph=self.detection_graph,config=config)
+        print('time to create session: [INFO] rate: {:.2f}'.format(1/(time.time() - t)))
+        self.st=1/(time.time() - t)
+
             # self.sess = tf.Session(graph=self.detection_graph)
+    def pst(self):
+        print('time to create session:',self.st)
     def use_prev_boxes(self,image_np):
 
 
@@ -200,9 +206,9 @@ if __name__ == '__main__':
 
 
     # video_capture = WebcamVideoStream(src=args.video_source,width=args.width,height=args.height).start()
-    video_capture = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
+    # video_capture = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
 
-    # video_capture = FileVideoStream("walkcat.mp4").start()
+    video_capture = FileVideoStream("walkcat.mp4").start()
 
     time.sleep(2.0)
     outvid = cv2.VideoWriter('outpy_tf_single.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (600,337))
@@ -259,6 +265,7 @@ if __name__ == '__main__':
     outvid.release()
 
     # pool.terminate()
+    worker.pst()
     worker.cleanup_worker()
     video_capture.stop()
     cv2.destroyAllWindows()
