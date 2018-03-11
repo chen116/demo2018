@@ -31,7 +31,7 @@ previous_checked = checked.get()
 c = Checkbutton(master, text="anchors", variable=checked)
 c.pack(side=LEFT)
 
-MODES = [
+FSIZEs = [
     ("600", 600),
     ("800", 800),
     ("1000", 1000),
@@ -40,13 +40,30 @@ MODES = [
 w1 = IntVar()
 w1.set(600) # initialize
 previous_f_size = w1.get()
-for text, mode in MODES:
+for text, mode in FSIZEs:
     b = Radiobutton(master, text=text,variable=w1, value=mode)
     b.pack(side=LEFT)
+
+
+
 ml = Button(master, text="left",command= lambda: move_left(mycam))
 ml.pack(side=LEFT)
 mr = Button(master,text="right",command= lambda: move_right(mycam))
 mr.pack(side=LEFT)
+
+
+MODE = [
+    ("1", 1),
+    ("3", 3),
+    ("5", 5)
+]
+m1 = IntVar()
+m1.set(1) # initialize
+previous_mode = m1.get()
+for text, mode in MODE:
+    b = Radiobutton(master, text=text,variable=m1, value=mode)
+    b.pack(side=LEFT)
+
 
 CWD_PATH = os.getcwd()
 
@@ -92,7 +109,12 @@ class Workers(threading.Thread):
             config = tf.ConfigProto(intra_op_parallelism_threads=5, inter_op_parallelism_threads=5, 
                         allow_soft_placement=True, device_count = {'CPU': 1})
             self.sess = tf.Session(graph=self.detection_graph,config=config)
-        print('thread:',self.thread_id,'[INFO] rate: {:.2f}'.format(1/(time.time() - t)))
+        print('thread create session:',self.thread_id,'[INFO] rate: {:.2f}'.format((time.time() - t)))
+    def change_mode(self,num):
+        t=time.time()
+        config = tf.ConfigProto(intra_op_parallelism_threads=num, inter_op_parallelism_threads=num,allow_soft_placement=True, device_count = {'CPU': 1})
+        self.sess = tf.Session(graph=self.detection_graph,config=config)
+        print('thread: change session',self.thread_id,'[INFO] rate: {:.2f}'.format((time.time() - t)))
 
             # self.sess = tf.Session(graph=self.detection_graph)
     def run(self):

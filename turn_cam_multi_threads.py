@@ -38,23 +38,30 @@ class Workers(threading.Thread):
 		self.every_n_frame=every_n_frame
 		self.n=every_n_frame['n']
 		self.threadLock=threadLock
-		self.obj_track=0
+		self.my_every_n_frame_cnt=0
 	def run(self):
 		# Acquire lock to synchronize thread
 		# self.threadLock.acquire()
 		while True:
-			self.threadLock.acquire()
-			self.every_n_frame['cnt']=(self.every_n_frame['cnt']+1)%self.n
-			self.obj_track = self.every_n_frame['cnt']
-			self.threadLock.release()
+
+			# self.threadLock.acquire()
+			# self.n = self.every_n_frame['n']
+			# self.every_n_frame['cnt']=(self.every_n_frame['cnt']+1)%self.n
+			# self.my_every_n_frame_cnt = self.every_n_frame['cnt']
+			# self.threadLock.release()
 
 			# blob = self.input_q.get()
 			stuff = self.input_q.get()
+			self.n = stuff['every_n_frame']
+			self.threadLock.acquire()
+			self.every_n_frame['cnt']=(self.every_n_frame['cnt']+1)%self.n
+			self.my_every_n_frame_cnt = self.every_n_frame['cnt']
+			self.threadLock.release()
 			if stuff['cnt']==-1:
 				self.output_q.put({'cnt':-1})
 				break
 			blob = stuff['blob']
-			if self.obj_track%self.n==0:
+			if self.my_every_n_frame_cnt%self.n==0:
 				self.net.setInput(blob)
 				print("thread:",self.thread_id," gonna dnn", "cnt:",stuff['cnt'])
 				# self.output_q.put(self.net.forward())
@@ -80,8 +87,7 @@ checked = IntVar(value=0)
 previous_checked = checked.get()
 c = Checkbutton(master, text="anchors", variable=checked)
 c.pack(side=LEFT)
-
-MODES = [
+FSIZE = [
     ("600", 600),
     ("800", 800),
     ("1000", 1000),
@@ -90,9 +96,23 @@ MODES = [
 w1 = IntVar()
 w1.set(600) # initialize
 previous_f_size = w1.get()
-for text, mode in MODES:
+for text, mode in FSIZE:
     b = Radiobutton(master, text=text,variable=w1, value=mode)
     b.pack(side=LEFT)
+
+
+MODE = [
+    ("5", 5),
+    ("10", 10),
+    ("15",15)
+]
+m1 = IntVar()
+m1.set(5) # initialize
+previous_mode = m1.get()
+for text, mode in MODE:
+    b = Radiobutton(master, text=text,variable=m1, value=mode)
+    b.pack(side=LEFT)
+
 ml = Button(master, text="left",command= lambda: move_left(mycam))
 ml.pack(side=LEFT)
 mr = Button(master,text="right",command= lambda: move_right(mycam))
@@ -144,13 +164,14 @@ print("[INFO] loading model...")
 # and initialize the FPS counter
 print("[INFO] starting video stream...")
 #vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
-# vs = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
-vs= FileVideoStream("walkcat.mp4").start()
+vs = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
+# vs= FileVideoStream("walkcat.mp4").start()
 
 time.sleep(2.0)
 
 input_q = Queue()  # fps is better if queue is higher but then more lags
 output_q = Queue()
+input_q_every_n_frame=Queue()
 threads = []
 every_n_frame = {'cnt':-1,'n':5}
 threadLock = threading.Lock()
@@ -170,9 +191,9 @@ prev_box = {}
 # loop over the frames from the video stream
 cnt=0
 global_cnt=0
-outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (600,337)) #(300,168))
-# while True:
-while vs.more():
+# outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (600,337)) #(300,168))
+while True:
+#while vs.more():
 	# grab the frame from the threaded video stream and resize it
 	# to have a maximum width of 300 pixels
 	frame = vs.read()
@@ -185,12 +206,12 @@ while vs.more():
 
 		# grab the frame dimensions and convert it to a blob
 		(h, w) = frame.shape[:2]
-		print(h,w)
 		blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)),
 			0.007843, (300, 300), 127.5)
-		stuff={'blob':blob,'cnt':cnt}
+		stuff={'blob':blob,'cnt':cnt,'every_n_frame',:m1.get()}
 		cnt+=1
 		input_q.put(stuff)
+
 	# input_q.put(blob)
 
 	if output_q.empty():
@@ -279,10 +300,10 @@ while vs.more():
 
 		# show the output frame
 		cv2.imshow("Frame", frame)
-		if global_cnt>50 and current_f_size>0:
+		# if global_cnt>50 and current_f_size>0:
 			# frameW = img_02.size[0]
 			# frameH = img_02.size[1]
-			outvid.write(frame)
+			# outvid.write(frame)
 
 		fps.update()
 		master.update_idletasks()
@@ -318,7 +339,7 @@ while vs.more():
 	#	canpoint = 1
 for i in range(total_num_threads):
 	input_q.put({'cnt':-1})
-outvid.release()
+# outvid.release()
 # stop the timer and display FPS information
 fps.stop()
 print("[INFO] elapsed time: {:.2f}".format(fps.elapsed()))
