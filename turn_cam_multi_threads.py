@@ -49,9 +49,9 @@ class Workers(threading.Thread):
 			# self.every_n_frame['cnt']=(self.every_n_frame['cnt']+1)%self.n
 			# self.my_every_n_frame_cnt = self.every_n_frame['cnt']
 			self.threadLock.release()
-			if self.n==-1:
-				self.output_q.put({'cnt':-1})
-				break
+			# if self.n==-1:
+			# 	self.output_q.put({'cnt':-1})
+			# 	break
 			# blob = self.input_q.get()
 			stuff = self.input_q.get()
 			if stuff['cnt']==-1:
@@ -203,13 +203,13 @@ while True:
 	frame = vs.read()
 	current_f_size=w1.get()
 	if current_f_size == 0:
-		threadLock.acquire()
-		every_n_frame['n']=-1
-		threadLock.release()
+		# threadLock.acquire()
+		# every_n_frame['n']=-1
+		# threadLock.release()
 
-		# while not input_q.empty():
-		# 	x=input_q.get()
-		# input_q.put({'cnt':-1})
+		while not input_q.empty():
+			x=input_q.get()
+		input_q.put({'cnt':-1})
 	else:
 		frame = imutils.resize(frame, width=current_f_size)
 
