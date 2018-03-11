@@ -172,7 +172,7 @@ cnt=0
 global_cnt=0
 outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (200,337))
 # while True:
-while vs.more():
+while cnt<100#vs.more():
 	# grab the frame from the threaded video stream and resize it
 	# to have a maximum width of 400 pixels
 	frame = vs.read()
