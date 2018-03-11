@@ -45,17 +45,6 @@ for text, mode in FSIZEs:
     b.pack(side=LEFT)
 
 
-MODE = [
-    ("1", 1),
-    ("2", 2),
-    ("5", 5)
-]
-m1 = IntVar()
-m1.set(5) # initialize
-previous_mode = m1.get()
-for text, mode in MODE:
-    b = Radiobutton(master, text=text,variable=m1, value=mode)
-    b.pack(side=LEFT)
 
 ml = Button(master, text="left",command= lambda: move_left(mycam))
 ml.pack(side=LEFT)
@@ -63,7 +52,9 @@ mr = Button(master,text="right",command= lambda: move_right(mycam))
 mr.pack(side=LEFT)
 
 
-
+m1 = Scale(master,from_=1,to=20,orient=HORIZONTAL)
+m1.set(5)
+m1.pack(side=LEFT)
 
 CWD_PATH = os.getcwd()
 
