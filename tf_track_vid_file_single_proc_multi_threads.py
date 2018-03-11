@@ -201,6 +201,8 @@ class Workers(threading.Thread):
             if self.obj_track%self.n==0:
                 # self.output_q.put({'blob':use_prev_boxes(frame_rgb),'cnt':stuff['cnt']})                
                 self.output_q.put({'blob':work_detect_objects(frame_rgb, self.sess, self.detection_graph),'cnt':stuff['cnt']})
+                print("--------------------thread:",self.thread_id," gonna dnn", "cnt:",self.obj_track,'n:',self.n)
+                
             else:
                 self.output_q.put({'blob':use_prev_boxes(frame_rgb),'cnt':stuff['cnt']})                
 
