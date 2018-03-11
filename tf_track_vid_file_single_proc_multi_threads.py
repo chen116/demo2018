@@ -245,7 +245,7 @@ while video_capture.more():  # fps._numFrames < 120
         cv2.imshow('Frame',output_rgb )
         global_cnt+=1
         if global_cnt>50:
-            outvid.write(frame)
+            outvid.write(output_rgb)
 
         fps.update()
 
