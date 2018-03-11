@@ -101,19 +101,19 @@ class Workers(threading.Thread):
         print("Exiting thread" , self.thread_id)
     def work(self):
         def use_prev_boxes(image_np):
-            self.threadLock.acquire()
+            # self.threadLock.acquire()
 
-            if len(self.boxes)>0:
+            # if len(self.boxes)>0:
 
-                vis_util.visualize_boxes_and_labels_on_image_array(
-                    image_np,
-                    np.squeeze(self.boxes['boxes']),
-                    np.squeeze(self.boxes['classes']).astype(np.int32),
-                    np.squeeze('recalculating...'),
-                    category_index,
-                    use_normalized_coordinates=True,
-                    line_thickness=1)
-            self.threadLock.release()
+            #     vis_util.visualize_boxes_and_labels_on_image_array(
+            #         image_np,
+            #         np.squeeze(self.boxes['boxes']),
+            #         np.squeeze(self.boxes['classes']).astype(np.int32),
+            #         np.squeeze('recalculating...'),
+            #         category_index,
+            #         use_normalized_coordinates=True,
+            #         line_thickness=1)
+            # self.threadLock.release()
 
             return image_np
 
