@@ -178,6 +178,12 @@ class Workers(threading.Thread):
             # self.obj_track = self.every_n_frame['cnt']
             self.n=self.every_n_frame['n']
             self.threadLock.release()
+            if self.n==-1:
+                self.output_q.put({'cnt':-1})
+                break
+                
+
+
 
             stuff=self.input_q.get()
             if stuff['cnt']==-1:
@@ -244,9 +250,12 @@ cnt=0
 while True:  # fps._numFrames < 120
     current_f_size=w1.get()
     if current_f_size == 0:
-        while not input_q.empty():
-            x=input_q.get()
-        input_q.put({'cnt':-1})
+        threadLock.acquire()
+        every_n_frame['n']=-1
+        threadLock.release()
+        # while not input_q.empty():
+        #     x=input_q.get()
+        # input_q.put({'cnt':-1})
     else:
         frame = video_capture.read()
         frame = imutils.resize(frame, width=current_f_size)

@@ -49,7 +49,9 @@ class Workers(threading.Thread):
 			# self.every_n_frame['cnt']=(self.every_n_frame['cnt']+1)%self.n
 			# self.my_every_n_frame_cnt = self.every_n_frame['cnt']
 			self.threadLock.release()
-
+			if self.n==-1:
+				self.output_q.put({'cnt':-1})
+				break
 			# blob = self.input_q.get()
 			stuff = self.input_q.get()
 			if stuff['cnt']==-1:
@@ -200,9 +202,13 @@ while True:
 	frame = vs.read()
 	current_f_size=w1.get()
 	if current_f_size == 0:
-		while not input_q.empty():
-			x=input_q.get()
-		input_q.put({'cnt':-1})
+		threadLock.acquire()
+		every_n_frame['n']=-1
+		threadLock.release()
+
+		# while not input_q.empty():
+		# 	x=input_q.get()
+		# input_q.put({'cnt':-1})
 	else:
 		frame = imutils.resize(frame, width=current_f_size)
 
@@ -349,12 +355,12 @@ for i in range(total_num_threads):
 fps.stop()
 print("[INFO] elapsed time: {:.2f}".format(fps.elapsed()))
 print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
-
+# hb clean up
+hb.heartbeat_finish()
+comm.write("heart_rate","done")
 # do a bit of cleanup
 cv2.destroyAllWindows()
 vs.stop()
 for t in threads:
 	t.join()
-# hb clean up
-hb.heartbeat_finish()
-comm.write("heart_rate","done")
+
