@@ -168,8 +168,8 @@ print("[INFO] loading model...")
 # and initialize the FPS counter
 print("[INFO] starting video stream...")
 #vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
-# vs = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
-vs= FileVideoStream("walkcat.mp4").start()
+vs = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
+# vs= FileVideoStream("walkcat.mp4").start()
 
 time.sleep(2.0)
 
@@ -196,9 +196,9 @@ prev_box = {}
 cnt=0
 global_cnt=0
 
-outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10,  (300,168))#(600,337))
-# while True:
-while vs.more():
+# outvid = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10,  (300,168))#(600,337))
+while True:
+# while vs.more():
 	# grab the frame from the threaded video stream and resize it
 	# to have a maximum width of 300 pixels
 	frame = vs.read()
@@ -275,7 +275,7 @@ while vs.more():
 				idx2 = int(detections[0,0,i,1])
 				# filter out weak detections by ensuring the `confidence` is
 				# greater than the minimum confidence
-				if ((confidence > args["confidence"]) and (CLASSES[idx2]=='cat')):
+				if ((confidence > args["confidence"]) and (CLASSES[idx2]=='background')):
 					# extract the index of the class label from the
 					# `detections`, then compute the (x, y)-coordinates of
 					# the bounding box for the object
@@ -318,8 +318,8 @@ while vs.more():
 
 		# show the output frame
 		cv2.imshow("Frame", frame)
-		if global_cnt>50 and current_f_size>0:
-			outvid.write(frame)
+		# if global_cnt>50 and current_f_size>0:
+			# outvid.write(frame)
 
 		fps.update()
 		master.update_idletasks()
@@ -355,7 +355,7 @@ while vs.more():
 	#	canpoint = 1
 # for i in range(total_num_threads):
 # 	input_q.put({'cnt':-1})
-outvid.release()
+# outvid.release()
 threadLock.acquire()
 every_n_frame['n']=-1
 threadLock.release()
