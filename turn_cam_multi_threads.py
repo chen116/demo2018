@@ -52,10 +52,12 @@ class Workers(threading.Thread):
 
 			# blob = self.input_q.get()
 			stuff = self.input_q.get()
-			self.n = stuff['n']
 			if stuff['cnt']==-1:
 				self.output_q.put({'cnt':-1})
 				break
+			self.n = stuff['n']
+			self.my_every_n_frame_cnt = stuff['cnt']
+
 			blob = stuff['blob']
 			if self.my_every_n_frame_cnt%self.n==0:
 				self.net.setInput(blob)
