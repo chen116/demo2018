@@ -150,6 +150,8 @@ class Workers(threading.Thread):
             self.boxes['boxes']=boxes
             self.boxes['classes']=classes
             self.boxes['scores']=scores
+            for i in range(len(self.boxes['scores'])):
+                self.boxes['scores'][i]='recalculating..'
             self.threadLock.release()
 
             return image_np
