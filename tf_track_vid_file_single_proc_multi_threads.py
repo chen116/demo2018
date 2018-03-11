@@ -150,7 +150,6 @@ class Workers(threading.Thread):
             self.boxes['boxes']=boxes
             self.boxes['classes']=classes
             self.boxes['scores']=scores
-            print(scores)
             # for i in range(len(self.boxes['scores'])):
                 # self.boxes['scores'][i]=0
             self.threadLock.release()
