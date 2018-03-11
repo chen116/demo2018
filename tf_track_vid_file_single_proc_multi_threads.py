@@ -170,7 +170,22 @@ class Workers(threading.Thread):
                 if self.obj_track%self.n==0:
                     self.output_q.put({'blob':work_detect_objects(frame_rgb, self.sess, self.detection_graph),'cnt':stuff['cnt']})
                 else:
-                    self.output_q.put({'blob':use_prev_boxes(frame_rgb),'cnt':stuff['cnt']})                
+
+                    self.threadLock.acquire()
+
+                    if len(self.boxes)>0:
+
+                        vis_util.visualize_boxes_and_labels_on_image_array(
+                            frame_rgb,
+                            np.squeeze(self.boxes['boxes']),
+                            np.squeeze(self.boxes['classes']).astype(np.int32),
+                            np.squeeze('recalculating...'),
+                            category_index,
+                            use_normalized_coordinates=True,
+                            line_thickness=1)
+                    self.threadLock.release()
+                    self.output_q.put({'blob':frame_rgb,'cnt':stuff['cnt']})                
+                    # self.output_q.put({'blob':use_prev_boxes(frame_rgb),'cnt':stuff['cnt']})                
 
 
             # frame = self.input_q.get()
