@@ -256,7 +256,7 @@ while video_capture.more():  # fps._numFrames < 120
         frame = imutils.resize(frame, width=current_f_size)
         # input_q.put(frame)
 
-        stuff={'blob':frame,'cnt':cnt,'n':m1.get()*5}
+        stuff={'blob':frame,'cnt':cnt,'n':m1.get()}
         cnt+=1
         input_q.put(stuff)
     if output_q.empty():
