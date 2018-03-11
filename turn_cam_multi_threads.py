@@ -210,7 +210,10 @@ while True:
 		threadLock.acquire()
 		every_n_frame['n']=-1
 		threadLock.release()
-		input_q.put({'cnt':-1})
+		while not input_q.empty():
+			x=input_q.get()		
+		for i in range(total_num_threads)
+			input_q.put({'cnt':-1})
 
 		break
 
