@@ -100,12 +100,12 @@ for text, mode in FSIZE:
 
 
 MODE = [
-    ("5", 5),
-    ("10", 10),
-    ("15",15)
+    ("1", 1),
+    ("2", 2),
+    ("5", 5)
 ]
 m1 = IntVar()
-m1.set(5) # initialize
+m1.set(1) # initialize
 previous_mode = m1.get()
 for text, mode in MODE:
     b = Radiobutton(master, text=text,variable=m1, value=mode)
