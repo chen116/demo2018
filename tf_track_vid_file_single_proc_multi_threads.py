@@ -51,7 +51,7 @@ MODE = [
     ("5", 5)
 ]
 m1 = IntVar()
-m1.set(1) # initialize
+m1.set(5) # initialize
 previous_mode = m1.get()
 for text, mode in MODE:
     b = Radiobutton(master, text=text,variable=m1, value=mode)
@@ -182,18 +182,19 @@ class Workers(threading.Thread):
             return image_np
 
         while True:
-            # self.threadLock.acquire()
+            self.threadLock.acquire()
             # self.every_n_frame['cnt']=(self.every_n_frame['cnt']+1)%self.n
             # self.obj_track = self.every_n_frame['cnt']
-            # self.threadLock.release()
+            self.n=self.every_n_frame['n']
+            self.threadLock.release()
 
             stuff=self.input_q.get()
             if stuff['cnt']==-1:
                 self.output_q.put({'cnt':-1})
                 break
-            self.n = stuff['n']
+            # self.n = stuff['n']
             self.obj_track = stuff['cnt']
-            print(self.obj_track,self.n,self.obj_track%self.n)
+            # print(self.obj_track,self.n,self.obj_track%self.n)
 
             frame = stuff['blob']
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -259,8 +260,10 @@ while True:  # fps._numFrames < 120
         frame = video_capture.read()
         frame = imutils.resize(frame, width=current_f_size)
         # input_q.put(frame)
-
-        stuff={'blob':frame,'cnt':cnt,'n':m1.get()}
+        threadLock.acquire()
+        every_n_frame['n']=m1.get()
+        threadLock.release()
+        stuff={'blob':frame,'cnt':cnt,'n':999}
         cnt+=1
         input_q.put(stuff)
     if output_q.empty():

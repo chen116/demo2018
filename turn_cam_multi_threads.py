@@ -44,18 +44,18 @@ class Workers(threading.Thread):
 		# self.threadLock.acquire()
 		while True:
 
-			# self.threadLock.acquire()
-			# self.n = self.every_n_frame['n']
+			self.threadLock.acquire()
+			self.n = self.every_n_frame['n']
 			# self.every_n_frame['cnt']=(self.every_n_frame['cnt']+1)%self.n
 			# self.my_every_n_frame_cnt = self.every_n_frame['cnt']
-			# self.threadLock.release()
+			self.threadLock.release()
 
 			# blob = self.input_q.get()
 			stuff = self.input_q.get()
 			if stuff['cnt']==-1:
 				self.output_q.put({'cnt':-1})
 				break
-			self.n = stuff['n']
+			# self.n = stuff['n']
 			self.my_every_n_frame_cnt = stuff['cnt']
 
 			blob = stuff['blob']
@@ -172,9 +172,9 @@ time.sleep(2.0)
 
 input_q = Queue()  # fps is better if queue is higher but then more lags
 output_q = Queue()
-input_q_every_n_frame=Queue()
+
 threads = []
-every_n_frame = {'cnt':-1,'n':5}
+every_n_frame = {'cnt':-1,'n':m1.get()}
 threadLock = threading.Lock()
 total_num_threads=5
 num_threads_exiting=0
@@ -212,6 +212,9 @@ while True:
 		print(h,w)
 		blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)),
 			0.007843, (300, 300), 127.5)
+		threadLock.acquire()
+		every_n_frame['n']=m1.get()
+		threadLock.release()
 		stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
 		cnt+=1
 		input_q.put(stuff)
