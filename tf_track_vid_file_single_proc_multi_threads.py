@@ -200,7 +200,9 @@ class Workers(threading.Thread):
             t = time.time()
             if self.obj_track%self.n==0:
                 print('going to dnn')
-                self.output_q.put({'blob':work_detect_objects(frame_rgb, self.sess, self.detection_graph),'cnt':stuff['cnt']})
+                self.output_q.put({'blob':use_prev_boxes(frame_rgb),'cnt':stuff['cnt']})                
+                
+                # self.output_q.put({'blob':work_detect_objects(frame_rgb, self.sess, self.detection_graph),'cnt':stuff['cnt']})
             else:
                 self.output_q.put({'blob':use_prev_boxes(frame_rgb),'cnt':stuff['cnt']})                
 
