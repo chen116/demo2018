@@ -109,7 +109,7 @@ class Workers(threading.Thread):
                     image_np,
                     np.squeeze(self.boxes['boxes']),
                     np.squeeze(self.boxes['classes']).astype(np.int32),
-                    np.squeeze(self.boxes['scores']),
+                    np.squeeze('recalculating...'),
                     category_index,
                     use_normalized_coordinates=True,
                     line_thickness=1)
@@ -148,7 +148,6 @@ class Workers(threading.Thread):
             self.threadLock.acquire()
 
             self.boxes['boxes']=boxes
-            self.boxes['scores']='recalculating...'
             self.boxes['classes']=classes
             self.threadLock.release()
 
