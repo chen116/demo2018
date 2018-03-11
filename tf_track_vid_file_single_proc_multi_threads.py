@@ -233,8 +233,7 @@ if __name__ == '__main__':
     print('[INFO] approx. FPS: {:.2f}'.format(fps.fps()))
     # pool.terminate()
     video_capture.stop()
-    outvid.release()
-
+    outvid.write(release)
     cv2.destroyAllWindows()
     hb.heartbeat_finish()
     comm.write("heart_rate","done")
