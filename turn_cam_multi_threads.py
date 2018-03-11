@@ -356,9 +356,9 @@ while True:
 # for i in range(total_num_threads):
 # 	input_q.put({'cnt':-1})
 # outvid.release()
-threadLock.acquire()
-every_n_frame['n']=-1
-threadLock.release()
+# threadLock.acquire()
+# every_n_frame['n']=-1
+# threadLock.release()
 # stop the timer and display FPS information
 fps.stop()
 print("[INFO] elapsed time: {:.2f}".format(fps.elapsed()))
