@@ -360,13 +360,14 @@ while vs.more(): # outvid
 	#if(time.time()>pointat):
 	#	canpoint = 1
 outvid.release()
+threadLock.acquire() # outvid
+every_n_frame['n']=-1 # outvid
+threadLock.release() # outvid
 while not input_q.empty(): # outvid
 	x=input_q.get()	 # outvid
 for i in range(total_num_threads): # outvid
 	input_q.put({'cnt':-1}) # outvid
-threadLock.acquire() # outvid
-every_n_frame['n']=-1 # outvid
-threadLock.release() # outvid
+
 # stop the timer and display FPS information
 fps.stop()
 print("[INFO] elapsed time: {:.2f}".format(fps.elapsed()))
