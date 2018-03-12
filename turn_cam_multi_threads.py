@@ -281,7 +281,7 @@ while True:
 				idx2 = int(detections[0,0,i,1])
 				# filter out weak detections by ensuring the `confidence` is
 				# greater than the minimum confidence
-				if ((confidence > args["confidence"]) and (CLASSES[idx2]=='background')):
+				if ((confidence > args["confidence"]) and (CLASSES[idx2]=='person')):
 					# extract the index of the class label from the
 					# `detections`, then compute the (x, y)-coordinates of
 					# the bounding box for the object
