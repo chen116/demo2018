@@ -359,9 +359,11 @@ while vs.more(): # outvid
 
 	#if(time.time()>pointat):
 	#	canpoint = 1
-# for i in range(total_num_threads):
-# 	input_q.put({'cnt':-1})
 outvid.release()
+while not input_q.empty(): # outvid
+	x=input_q.get()	 # outvid
+for i in range(total_num_threads): # outvid
+	input_q.put({'cnt':-1}) # outvid
 threadLock.acquire() # outvid
 every_n_frame['n']=-1 # outvid
 threadLock.release() # outvid
