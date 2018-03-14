@@ -208,8 +208,8 @@ personincam = 0
 # and initialize the FPS counter
 print("[INFO] starting video stream...")
 #vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
-vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
-# vs= FileVideoStream("walkcat.mp4").start() # outvid
+# vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
+vs= FileVideoStream("walkcat.mp4").start() # outvid
 
 
 
@@ -238,8 +238,8 @@ pointat = 0
 # loop over the frames from the video stream
 
 real_not_found = 0
-# while vs.more(): # outvid
-while True: # realvid
+while vs.more(): # outvid
+# while True: # realvid
 
 	frame = vs.read()
 	current_f_size=w1.get()
