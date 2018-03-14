@@ -140,13 +140,13 @@ def start_server():
 			if not data:
 				break
 			connection.sendall(data)
-		threadLock.acquire()
-		every_n_frame['n']=-1
-		threadLock.release()
-		while not input_q.empty():
-			x=input_q.get()		
-		for i in range(total_num_threads):
-			input_q.put({'cnt':-1})
+		# threadLock.acquire()
+		# every_n_frame['n']=-1
+		# threadLock.release()
+		# while not input_q.empty():
+		# 	x=input_q.get()		
+		# for i in range(total_num_threads):
+		# 	input_q.put({'cnt':-1})
 		connection.close()
 
 
