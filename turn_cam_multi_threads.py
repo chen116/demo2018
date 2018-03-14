@@ -85,6 +85,8 @@ from tkinter import *
 master = Tk()
 win = tk.Toplevel(master)
 
+
+
 checked = IntVar(value=0)
 previous_checked = checked.get()
 c = Checkbutton(master, text="anchors", variable=checked)
