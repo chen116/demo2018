@@ -324,6 +324,7 @@ while True:
 					localsearch = 0
 					sentlostmessage = 0
 					centered = 0
+		print(detections[0])
 		myvec = detections[0,0,:,1]	
 		
 		if 15 in myvec:
