@@ -432,4 +432,5 @@ comm.write("heart_rate","done")
 for t in threads:
 	t.join()
 print("worker threads cleaned up")
-sock_client.send(bytes('clean_up','UTF-8'))
+if remotetrack!=-1:
+	sock_client.send(bytes('clean_up','UTF-8'))
