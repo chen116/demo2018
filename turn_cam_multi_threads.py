@@ -83,7 +83,7 @@ class Workers(threading.Thread):
 
 from tkinter import *
 master = Tk()
-win = tk.Toplevel(master)
+win = Tk.Toplevel(master)
 
 
 
