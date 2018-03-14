@@ -137,9 +137,9 @@ def start_server():
 				elif (msg=='lost_object'):
 					print('remote node lost object')
 					remotetrack = 0
-				# elif (msg=='clean_up'):
-				# 	print('cleanup from other node')
-				# 	remotetrack = -1
+				elif (msg=='clean_up'):
+					print('cleanup from other node')
+					remotetrack = -1
 			if not data:
 				break
 			connection.sendall(data)
@@ -446,4 +446,4 @@ comm.write("heart_rate","done")
 for t in threads:
 	t.join()
 print("worker threads cleaned up")
-# sock_client.send(bytes('clean_up','UTF-8'))
+sock_client.send(bytes('clean_up','UTF-8'))
