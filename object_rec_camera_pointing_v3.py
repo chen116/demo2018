@@ -15,7 +15,6 @@ import socket
 import sys
 import threading
 
-from tkinter import *
 def start_server():
 	global remotetrack
 	remotetrack = 0
@@ -41,8 +40,9 @@ def start_server():
 			connection.sendall(data)
 		connection.close()
 
-
+from tkinter import *
 master = Tk()
+master.Toplevel(root)
 checked = IntVar(value=0)
 previous_checked = checked.get()
 c = Checkbutton(master, text="anchors", variable=checked)
