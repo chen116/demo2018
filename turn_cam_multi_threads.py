@@ -89,7 +89,7 @@ master = Tk()
 # root = tk.Tk() # create a Tk root window
 
 w = 800 # width for the Tk root
-h = 650 # height for the Tk root
+h = 150 # height for the Tk root
 
 # get screen width and height
 ws = master.winfo_screenwidth() # width of the screen
