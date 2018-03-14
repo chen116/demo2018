@@ -324,81 +324,81 @@ while True:
 					localsearch = 0
 					sentlostmessage = 0
 					centered = 0
-	myvec = detections[0,0,:,1]	
-	
-	if 15 in myvec:
-		personincam = 1
-	else:
-		print('about to send lost message')
-		personincam = 0
-		localtrack = 0
-		sock_client.send(bytes('lost_object','UTF-8'))
-		sentlostmessage = 1
-
-	if ((localsearch == 0) and (localtrack == 0) and (remotetrack == 1) and (personincam==0)):
-			print('about to start cruise')
-			mycam.start_horizontal_cruise()
-			localsearch = 1
+		myvec = detections[0,0,:,1]	
+		
+		if 15 in myvec:
+			personincam = 1
+		else:
+			print('about to send lost message')
+			personincam = 0
 			localtrack = 0
-			centered = 0
+			sock_client.send(bytes('lost_object','UTF-8'))
+			sentlostmessage = 1
 
-	if ((localtrack == 0) and (remotetrack ==0) and (centered == 0) and (personincam==0)):
-			print('about to reset cam')
-			mycam.ptz_reset()
-			centered = 1
-			localsearch = 0
-			localtrack = 0
-			sentfoundmessage = 0
-		#elif ((confidence < 0.2) and (CLASSES[idx2]=='person') and (localsearch==0) and (remotetrack == 1) and (localtrack == 0)):
-		#	print('about to start cruise')
-		#	mycam.start_horizontal_cruise()
-		#	localsearch = 1
-		#	localtrack = 0
-		#elif ((confidence < 0.2) and (CLASSES[idx2]=='person') and (localsearch==0) and (remotetrack == 0) and (centered==0)):
-		#	print('about tor reset cam')
-		#	mycam.ptz_reset()
-		#	centered = 1
-		#	localsearch = 0
-		#	localtrack = 0	
-		#	sock_client.send(bytes('lost_object','UTF-8'))
-	# show the output frame
-	cv2.imshow("Frame", frame)
-	# hb stuff
-	hb.heartbeat_beat()
-	window_hr = hb.get_window_heartrate()
-	instant_hr = hb.get_instant_heartrate()
-	comm.write("heart_rate",window_hr)
-	print('------------------window_hr:',window_hr)
-	print('instant_hr:',instant_hr)
-	current_checked = checked.get()
-	if previous_checked!=current_checked:
-		comm.write("app_mode",current_checked)
-		previous_checked=current_checked
-	fps.update()
-	master.update_idletasks()
-	master.update()
-	key = cv2.waitKey(1) & 0xFF
-	# if the `q` key was pressed, break from the loop
-	if key == ord("q"):
-		break
+		if ((localsearch == 0) and (localtrack == 0) and (remotetrack == 1) and (personincam==0)):
+				print('about to start cruise')
+				mycam.start_horizontal_cruise()
+				localsearch = 1
+				localtrack = 0
+				centered = 0
 
-	# # update the FPS counter
-	# fps.update()
-	# master.update_idletasks()
-	# master.update()
-	#if(time.time()>pointat):
-	#	canpoint = 1
-	print('localsearch = ',localsearch)
-	print('remotetrack = ',remotetrack)
-	print('localtrack = ',localtrack)
-	print('personincam =',personincam)
-	print('sentfoundmessage = ',sentfoundmessage)
-	print('sentlostmessage = ',sentlostmessage)
-	sentfoundmessage = 0
-	if ((personincam==1) and (sentfoundmessage==0)):
-		print('about to send found message')
-		sock_client.send(bytes('found_object','UTF-8'))
-		sentfoundmessage = 1
+		if ((localtrack == 0) and (remotetrack ==0) and (centered == 0) and (personincam==0)):
+				print('about to reset cam')
+				mycam.ptz_reset()
+				centered = 1
+				localsearch = 0
+				localtrack = 0
+				sentfoundmessage = 0
+			#elif ((confidence < 0.2) and (CLASSES[idx2]=='person') and (localsearch==0) and (remotetrack == 1) and (localtrack == 0)):
+			#	print('about to start cruise')
+			#	mycam.start_horizontal_cruise()
+			#	localsearch = 1
+			#	localtrack = 0
+			#elif ((confidence < 0.2) and (CLASSES[idx2]=='person') and (localsearch==0) and (remotetrack == 0) and (centered==0)):
+			#	print('about tor reset cam')
+			#	mycam.ptz_reset()
+			#	centered = 1
+			#	localsearch = 0
+			#	localtrack = 0	
+			#	sock_client.send(bytes('lost_object','UTF-8'))
+		# show the output frame
+		cv2.imshow("Frame", frame)
+		# hb stuff
+		hb.heartbeat_beat()
+		window_hr = hb.get_window_heartrate()
+		instant_hr = hb.get_instant_heartrate()
+		comm.write("heart_rate",window_hr)
+		print('------------------window_hr:',window_hr)
+		print('instant_hr:',instant_hr)
+		current_checked = checked.get()
+		if previous_checked!=current_checked:
+			comm.write("app_mode",current_checked)
+			previous_checked=current_checked
+		fps.update()
+		master.update_idletasks()
+		master.update()
+		key = cv2.waitKey(1) & 0xFF
+		# if the `q` key was pressed, break from the loop
+		if key == ord("q"):
+			break
+
+		# # update the FPS counter
+		# fps.update()
+		# master.update_idletasks()
+		# master.update()
+		#if(time.time()>pointat):
+		#	canpoint = 1
+		print('localsearch = ',localsearch)
+		print('remotetrack = ',remotetrack)
+		print('localtrack = ',localtrack)
+		print('personincam =',personincam)
+		print('sentfoundmessage = ',sentfoundmessage)
+		print('sentlostmessage = ',sentlostmessage)
+		sentfoundmessage = 0
+		if ((personincam==1) and (sentfoundmessage==0)):
+			print('about to send found message')
+			sock_client.send(bytes('found_object','UTF-8'))
+			sentfoundmessage = 1
 
 		
 # stop the timer and display FPS information
