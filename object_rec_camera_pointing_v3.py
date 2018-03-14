@@ -235,7 +235,7 @@ while True:
 
 	frame = vs.read()
 	current_f_size=w1.get()
-	if remotetrack == -1:
+	if remotetrack == -1 or current_f_size == 0:
 		threadLock.acquire()
 		every_n_frame['n']=-1
 		threadLock.release()
@@ -245,21 +245,7 @@ while True:
 			input_q.put({'cnt':-1})
 		break		
 
-	if current_f_size == 0:
-		previous_f_size = 0
-		threadLock.acquire()
-		every_n_frame['n']=-1
-		threadLock.release()
-		while not input_q.empty():
-			x=input_q.get()		
-		for i in range(total_num_threads):
-			input_q.put({'cnt':-1})
-		break
-
-		# while not input_q.empty():
-		# 	x=input_q.get()
-		# input_q.put({'cnt':-1})
-	else:
+	if current_f_size > 0:
 		frame = imutils.resize(frame, width=current_f_size)
 		# grab the frame dimensions and convert it to a blob
 		(h, w) = frame.shape[:2]
