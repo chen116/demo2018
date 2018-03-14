@@ -227,15 +227,18 @@ while True:
 		#	sock_client.send(bytes('lost_object','UTF-8'))
 	# show the output frame
 	cv2.imshow("Frame", frame)
+	fps.update()
+	master.update_idletasks()
+	master.update()
 	key = cv2.waitKey(1) & 0xFF
 	# if the `q` key was pressed, break from the loop
 	if key == ord("q"):
 		break
 
-	# update the FPS counter
-	fps.update()
-	master.update_idletasks()
-	master.update()
+	# # update the FPS counter
+	# fps.update()
+	# master.update_idletasks()
+	# master.update()
 	#if(time.time()>pointat):
 	#	canpoint = 1
 	print('localsearch = ',localsearch)
