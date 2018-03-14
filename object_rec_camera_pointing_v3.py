@@ -236,22 +236,22 @@ while True:
 
 	frame = vs.read()
 	current_f_size=w1.get()
-	if current_f_size == 0:
-		previous_f_size = 0
-		threadLock.acquire()
-		every_n_frame['n']=-1
-		threadLock.release()
-		while not input_q.empty():
-			x=input_q.get()		
-		for i in range(total_num_threads):
-			input_q.put({'cnt':-1})
+	if current_f_size != 0:
+		# previous_f_size = 0
+		# threadLock.acquire()
+		# every_n_frame['n']=-1
+		# threadLock.release()
+		# while not input_q.empty():
+		# 	x=input_q.get()		
+		# for i in range(total_num_threads):
+		# 	input_q.put({'cnt':-1})
 
-		break
+		# break
 
 		# while not input_q.empty():
 		# 	x=input_q.get()
 		# input_q.put({'cnt':-1})
-	else:
+	# else:
 		frame = imutils.resize(frame, width=current_f_size)
 		# grab the frame dimensions and convert it to a blob
 		(h, w) = frame.shape[:2]
@@ -394,6 +394,17 @@ while True:
 		# if the `q` key was pressed, break from the loop
 		if key == ord("q"):
 			break
+		if current_f_size==0:
+			previous_f_size = 0
+			threadLock.acquire()
+			every_n_frame['n']=-1
+			threadLock.release()
+			while not input_q.empty():
+				x=input_q.get()		
+			for i in range(total_num_threads):
+				input_q.put({'cnt':-1})
+
+			break
 
 		# # update the FPS counter
 		# fps.update()
@@ -426,6 +437,15 @@ vs.stop()
 # hb clean up
 hb.heartbeat_finish()
 comm.write("heart_rate","done")
+
+
+threadLock.acquire() # outvid
+every_n_frame['n']=-1 # outvid
+threadLock.release() # outvid
+while not input_q.empty(): # outvid
+	x=input_q.get()	 # outvid
+for i in range(total_num_threads): # outvid
+	input_q.put({'cnt':-1}) # outvid
 for t in threads:
 	t.join()
 print("worker threads cleaned up")
