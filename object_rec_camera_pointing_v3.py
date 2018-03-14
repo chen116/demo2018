@@ -295,7 +295,6 @@ while vs.more(): # outvid
 				# filter out weak detections by ensuring the `confidence` is
 				# greater than the minimum confidence
 				if ((confidence > 0.2) and (CLASSES[idx2]=='cat')):
-					prev_box = {}
 					# extract the index of the class label from the
 					# `detections`, then compute the (x, y)-coordinates of
 					# the bounding box for the object
@@ -329,6 +328,7 @@ while vs.more(): # outvid
 					y = startY - 15 if startY - 15 > 15 else startY + 15
 					cv2.putText(frame, label, (startX, y),
 						cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)
+					prev_box = {}
 					prev_box['startX']=startX
 					prev_box['startY']=startY
 					prev_box['endX']=endX
