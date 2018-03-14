@@ -143,8 +143,9 @@ def start_server():
 			if not data:
 				break
 			connection.sendall(data)
-
+		remotetrack = -1
 		connection.close()
+	remotetrack = -1
 
 
 
