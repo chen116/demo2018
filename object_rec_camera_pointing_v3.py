@@ -353,7 +353,7 @@ while True: # realvid
 		
 
 		if myvec[0]!=-1:
-			if 15 in myvec:
+			if 8 in myvec:
 				personincam = 1
 				prev_personincam=1
 			else:
