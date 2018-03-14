@@ -83,6 +83,8 @@ class Workers(threading.Thread):
 
 from tkinter import *
 master = Tk()
+master.Toplevel(root)
+
 checked = IntVar(value=0)
 previous_checked = checked.get()
 c = Checkbutton(master, text="anchors", variable=checked)
@@ -99,12 +101,16 @@ previous_f_size = w1.get()
 for text, mode in FSIZE:
     b = Radiobutton(master, text=text,variable=w1, value=mode)
     b.pack(side=LEFT)
-
+m1 = Scale(master,from_=1,to=15,orient=HORIZONTAL)
+m1.set(5)
+m1.pack(side=LEFT,fill=X)
 
 ml = Button(master, text="left",command= lambda: move_left(mycam))
 ml.pack(side=LEFT)
 mr = Button(master,text="right",command= lambda: move_right(mycam))
 mr.pack(side=LEFT)
+
+
 
 # MODE = [
 #     ("1", 1),
@@ -117,9 +123,6 @@ mr.pack(side=LEFT)
 # for text, mode in MODE:
 #     b = Radiobutton(master, text=text,variable=m1, value=mode)
 #     b.pack(side=LEFT)
-m1 = Scale(master,from_=1,to=15,orient=HORIZONTAL)
-m1.set(5)
-m1.pack(side=LEFT,fill=X)
 
 
 
