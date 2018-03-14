@@ -176,8 +176,8 @@ print("[INFO] loading model...")
 # and initialize the FPS counter
 print("[INFO] starting video stream...")
 #vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
-# vs = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
-vs= FileVideoStream("walkcat.mp4").start()
+vs = VideoStream('rtsp://admin:admin@65.114.169.108:88/videoMain').start()
+# vs= FileVideoStream("walkcat.mp4").start()
 
 time.sleep(2.0)
 
@@ -204,10 +204,10 @@ prev_box = {}
 cnt=0
 global_cnt=0
 
-outvid = cv2.VideoWriter('outpy_credit.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10,  (300,168))#(600,337))
+# outvid = cv2.VideoWriter('outpy_credit.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10,  (300,168))#(600,337))
 
-# while True:
-while vs.more(): # outvid
+while True:
+# while vs.more(): # outvid
 	# grab the frame from the threaded video stream and resize it
 	# to have a maximum width of 300 pixels
 	frame = vs.read()
@@ -332,8 +332,8 @@ while vs.more(): # outvid
 
 		# show the output frame
 		cv2.imshow("Frame", frame)
-		if global_cnt>50 and current_f_size>0: #outvid
-			outvid.write(frame)
+		# if global_cnt>50 and current_f_size>0: #outvid
+			# outvid.write(frame)
 
 		fps.update()
 		master.update_idletasks()
@@ -367,14 +367,14 @@ while vs.more(): # outvid
 
 	#if(time.time()>pointat):
 	#	canpoint = 1
-outvid.release()
-threadLock.acquire() # outvid
-every_n_frame['n']=-1 # outvid
-threadLock.release() # outvid
-while not input_q.empty(): # outvid
-	x=input_q.get()	 # outvid
-for i in range(total_num_threads): # outvid
-	input_q.put({'cnt':-1}) # outvid
+# outvid.release()
+# threadLock.acquire() # outvid
+# every_n_frame['n']=-1 # outvid
+# threadLock.release() # outvid
+# while not input_q.empty(): # outvid
+	# x=input_q.get()	 # outvid
+# for i in range(total_num_threads): # outvid
+	# input_q.put({'cnt':-1}) # outvid
 
 # stop the timer and display FPS information
 fps.stop()
