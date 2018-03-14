@@ -275,7 +275,6 @@ while True:
 
 		detections = stuff['blob']
 		order = stuff['cnt']
-
 		print('output cnt:',order,'global cnt:',global_cnt)
 		global_cnt+=1
 
@@ -343,6 +342,7 @@ while True:
 					prev_box['endY']=endY
 					prev_box['idx']=idx
 					prev_box['label']= "recalculating..."
+
 
 		# show the output frame
 		cv2.imshow("Frame", frame)
