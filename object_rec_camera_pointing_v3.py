@@ -237,7 +237,7 @@ fps = FPS().start()
 pointat = 0
 # loop over the frames from the video stream
 
-real_found = 0
+prev_personincam = personincam
 while vs.more(): # outvid
 # while True: # realvid
 
