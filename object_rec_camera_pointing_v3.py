@@ -62,7 +62,7 @@ class Workers(threading.Thread):
 				# self.output_q.put(self.net.forward())
 				self.output_q.put({'blob':self.net.forward(),'cnt':stuff['cnt']})
 			else:
-				self.output_q.put({'blob':-1*np.ones((1,1,1,1)),'cnt':stuff['cnt']})
+				self.output_q.put({'blob':-1*np.ones((1,1,1,2)),'cnt':stuff['cnt']})
 				# self.output_q.put(np.ndarray([0]))
 
 
@@ -324,7 +324,7 @@ while True:
 					localsearch = 0
 					sentlostmessage = 0
 					centered = 0
-		print(detections[0])
+
 		myvec = detections[0,0,:,1]	
 		
 		if 15 in myvec:
