@@ -236,6 +236,8 @@ comm = heartbeat.DomU(monitoring_items)
 fps = FPS().start()
 pointat = 0
 # loop over the frames from the video stream
+
+real_not_found = 0
 while vs.more(): # outvid
 # while True:
 
