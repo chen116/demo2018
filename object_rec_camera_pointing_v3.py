@@ -208,13 +208,19 @@ personincam = 0
 # and initialize the FPS counter
 print("[INFO] starting video stream...")
 #vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
-vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
-# vs= FileVideoStream("walkcat.mp4").start() # outvid
+# vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
+vs= FileVideoStream("walkcat.mp4").start() # outvid
+
+
 
 
 
 time.sleep(2.0)
 
+cat_frame = vs.read()
+
+for x in range(50):
+	cat_frame = vs.read()
 
 
 # setup mulithreads
@@ -242,6 +248,7 @@ prev_personincam = personincam
 while True: # realvid
 
 	frame = vs.read()
+	frame = cat_frame
 	current_f_size=w1.get()
 	if remotetrack == -1 or current_f_size == 0:
 		threadLock.acquire()
