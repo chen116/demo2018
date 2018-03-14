@@ -219,7 +219,7 @@ time.sleep(2.0)
 
 cat_frame = vs.read()
 
-for x in range(50):
+for x in range(25):
 	cat_frame = vs.read()
 
 
