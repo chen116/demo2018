@@ -137,16 +137,13 @@ def start_server():
 				elif (msg=='lost_object'):
 					print('remote node lost object')
 					remotetrack = 0
+				elif (msg=='clean up workers'):
+					print('cleanup from other node')
+					remotetrack = -1
 			if not data:
 				break
 			connection.sendall(data)
-		# threadLock.acquire()
-		# every_n_frame['n']=-1
-		# threadLock.release()
-		# while not input_q.empty():
-		# 	x=input_q.get()		
-		# for i in range(total_num_threads):
-		# 	input_q.put({'cnt':-1})
+
 		connection.close()
 
 
@@ -236,6 +233,16 @@ while True:
 
 	frame = vs.read()
 	current_f_size=w1.get()
+	if remotetrack == -1:
+		threadLock.acquire()
+		every_n_frame['n']=-1
+		threadLock.release()
+		while not input_q.empty():
+			x=input_q.get()		
+		for i in range(total_num_threads):
+			input_q.put({'cnt':-1})
+		break		
+
 	if current_f_size == 0:
 		previous_f_size = 0
 		threadLock.acquire()
@@ -427,13 +434,13 @@ hb.heartbeat_finish()
 comm.write("heart_rate","done")
 
 
-threadLock.acquire() # outvid
-every_n_frame['n']=-1 # outvid
-threadLock.release() # outvid
-while not input_q.empty(): # outvid
-	x=input_q.get()	 # outvid
-for i in range(total_num_threads): # outvid
-	input_q.put({'cnt':-1}) # outvid
+# threadLock.acquire() # outvid
+# every_n_frame['n']=-1 # outvid
+# threadLock.release() # outvid
+# while not input_q.empty(): # outvid
+# 	x=input_q.get()	 # outvid
+# for i in range(total_num_threads): # outvid
+# 	input_q.put({'cnt':-1}) # outvid
 for t in threads:
 	t.join()
 print("worker threads cleaned up")
