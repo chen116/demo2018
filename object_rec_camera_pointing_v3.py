@@ -57,7 +57,7 @@ if True:
 	    b = Radiobutton(master, text=text,variable=w1, value=mode)
 	    b.pack(side=LEFT)
 	m1 = Scale(master,from_=1,to=15,orient=HORIZONTAL)
-	m1.set(5)
+	m1.set(1)
 	m1.pack(side=LEFT,fill=X)
 
 
