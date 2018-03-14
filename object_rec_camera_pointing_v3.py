@@ -70,6 +70,14 @@ class Workers(threading.Thread):
 		# Release lock for the next thread
 		# self.threadLock.release()
 		print("Exiting thread" , self.thread_id)
+input_q = Queue()  # fps is better if queue is higher but then more lags
+output_q = Queue()
+
+threads = []
+every_n_frame = {'cnt':-1,'n':m1.get()}
+threadLock = threading.Lock()
+total_num_threads = 5
+num_threads_exiting = 0
 
 def start_server():
 	global remotetrack
@@ -94,6 +102,13 @@ def start_server():
 			if not data:
 				break
 			connection.sendall(data)
+		threadLock.acquire()
+		every_n_frame['n']=-1
+		threadLock.release()
+		while not input_q.empty():
+			x=input_q.get()		
+		for i in range(total_num_threads):
+			input_q.put({'cnt':-1})
 		connection.close()
 
 # setup GUI
@@ -159,35 +174,34 @@ sock_client.connect((sys.argv[4],int(sys.argv[5])))
 
 
 #setup CAM
-if True:
-	# construct the argument parse and parse the arguments
-	#ap = argparse.ArgumentParser()
-	#ap.add_argument("-p", "--prototxt", required=True,
-	#	help="path to Caffe 'deploy' prototxt file")
-	#ap.add_argument("-m", "--model", required=True,
-	#	help="path to Caffe pre-trained model")
-	#ap.add_argument("-c", "--confidence", type=float, default=0.2,
-	#	help="minimum probability to filter weak detections")
-	#args = vars(ap.parse_args())
-	#os.system('python reset_cam.py') 
-	mycam.ptz_reset()
-	# initialize the list of class labels MobileNet SSD was trained to
-	# detect, then generate a set of bounding box colors for each class
-	CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
-		"bottle", "bus", "car", "cat", "chair", "cow", "diningtable",
-		"dog", "horse", "motorbike", "person", "pottedplant", "sheep",
-		"sofa", "train", "tvmonitor"]
-	#CLASSES = ["person"]
-	L=0.3
-	R=0.7
-	COLORS = np.random.uniform(0, 255, size=(len(CLASSES), 3))
-	canpoint = 1
-	# load our serialized model from disk
-	print("[INFO] loading model...")
-	prototxt = 'MobileNetSSD_deploy.prototxt.txt'
-	model = 'MobileNetSSD_deploy.caffemodel'
-	net = cv2.dnn.readNetFromCaffe(prototxt, model)
-	personincam = 0
+# construct the argument parse and parse the arguments
+#ap = argparse.ArgumentParser()
+#ap.add_argument("-p", "--prototxt", required=True,
+#	help="path to Caffe 'deploy' prototxt file")
+#ap.add_argument("-m", "--model", required=True,
+#	help="path to Caffe pre-trained model")
+#ap.add_argument("-c", "--confidence", type=float, default=0.2,
+#	help="minimum probability to filter weak detections")
+#args = vars(ap.parse_args())
+#os.system('python reset_cam.py') 
+mycam.ptz_reset()
+# initialize the list of class labels MobileNet SSD was trained to
+# detect, then generate a set of bounding box colors for each class
+CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
+	"bottle", "bus", "car", "cat", "chair", "cow", "diningtable",
+	"dog", "horse", "motorbike", "person", "pottedplant", "sheep",
+	"sofa", "train", "tvmonitor"]
+#CLASSES = ["person"]
+L=0.3
+R=0.7
+COLORS = np.random.uniform(0, 255, size=(len(CLASSES), 3))
+canpoint = 1
+# load our serialized model from disk
+print("[INFO] loading model...")
+prototxt = 'MobileNetSSD_deploy.prototxt.txt'
+model = 'MobileNetSSD_deploy.caffemodel'
+net = cv2.dnn.readNetFromCaffe(prototxt, model)
+personincam = 0
 # initialize the video stream, allow the cammera sensor to warmup,
 # and initialize the FPS counter
 print("[INFO] starting video stream...")
@@ -198,14 +212,7 @@ time.sleep(2.0)
 
 
 
-input_q = Queue()  # fps is better if queue is higher but then more lags
-output_q = Queue()
-
-threads = []
-every_n_frame = {'cnt':-1,'n':m1.get()}
-threadLock = threading.Lock()
-total_num_threads = 5
-num_threads_exiting = 0
+# setup mulithreads
 
 for i in range(total_num_threads):
 	tmp_thread = Workers(threadLock,every_n_frame,i,input_q,output_q)
