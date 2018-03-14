@@ -83,7 +83,7 @@ class Workers(threading.Thread):
 
 from tkinter import *
 
-import tkinter as tk
+
 
 master = Tk()
 # root = tk.Tk() # create a Tk root window
