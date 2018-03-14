@@ -15,6 +15,7 @@ import socket
 import sys
 import threading
 
+from imutils.video import FileVideoStream
 
 
 
@@ -207,7 +208,10 @@ personincam = 0
 # and initialize the FPS counter
 print("[INFO] starting video stream...")
 #vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
-vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start()
+# vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start()
+vs= FileVideoStream("walkcat.mp4").start() # outvid
+
+
 
 time.sleep(2.0)
 
@@ -231,7 +235,8 @@ comm = heartbeat.DomU(monitoring_items)
 fps = FPS().start()
 pointat = 0
 # loop over the frames from the video stream
-while True:
+while vs.more(): # outvid
+# while True:
 
 	frame = vs.read()
 	current_f_size=w1.get()
@@ -422,13 +427,13 @@ hb.heartbeat_finish()
 comm.write("heart_rate","done")
 
 
-# threadLock.acquire() # outvid
-# every_n_frame['n']=-1 # outvid
-# threadLock.release() # outvid
-# while not input_q.empty(): # outvid
-# 	x=input_q.get()	 # outvid
-# for i in range(total_num_threads): # outvid
-# 	input_q.put({'cnt':-1}) # outvid
+threadLock.acquire() # outvid
+every_n_frame['n']=-1 # outvid
+threadLock.release() # outvid
+while not input_q.empty(): # outvid
+	x=input_q.get()	 # outvid
+for i in range(total_num_threads): # outvid
+	input_q.put({'cnt':-1}) # outvid
 for t in threads:
 	t.join()
 print("worker threads cleaned up")
