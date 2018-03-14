@@ -15,6 +15,14 @@ import socket
 import sys
 import threading
 
+import heartbeat
+hb = heartbeat.Heartbeat(1024,5,100,"vic.log",10,100)
+monitoring_items = ["heart_rate","app_mode"]
+comm = heartbeat.DomU(monitoring_items)
+
+
+
+
 def start_server():
 	global remotetrack
 	remotetrack = 0
@@ -42,19 +50,14 @@ def start_server():
 
 from tkinter import *
 master = Tk()
-# root = tk.Tk() # create a Tk root window
-
 w = 400 # width for the Tk root
 h = 50 # height for the Tk root
-
 # get screen width and height
 ws = master.winfo_screenwidth() # width of the screen
 hs = master.winfo_screenheight() # height of the screen
-
 # calculate x and y coordinates for the Tk root window
 x = (ws/2) - (w/2)
 y = (hs)-h
-
 # set the dimensions of the screen 
 # and where it is placed
 master.geometry('%dx%d+%d+%d' % (w, h, x, y))
@@ -243,6 +246,17 @@ while True:
 		#	sock_client.send(bytes('lost_object','UTF-8'))
 	# show the output frame
 	cv2.imshow("Frame", frame)
+	# hb stuff
+	hb.heartbeat_beat()
+	window_hr = hb.get_window_heartrate()
+	instant_hr = hb.get_instant_heartrate()
+	comm.write("heart_rate",window_hr)
+	print('------------------window_hr:',window_hr)
+	print('instant_hr:',instant_hr)
+	current_checked = checked.get()
+	if previous_checked!=current_checked:
+		comm.write("app_mode",current_checked)
+		previous_checked=current_checked
 	fps.update()
 	master.update_idletasks()
 	master.update()
@@ -278,3 +292,7 @@ print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 # do a bit of cleanup
 cv2.destroyAllWindows()
 vs.stop()
+
+# hb clean up
+hb.heartbeat_finish()
+comm.write("heart_rate","done")
