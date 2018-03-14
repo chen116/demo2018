@@ -217,9 +217,9 @@ vs= FileVideoStream("walkcat.mp4").start() # outvid
 
 time.sleep(2.0)
 
-# cat_frame = vs.read()  # outvid
-# for x in range(25):  # outvid
-# 	cat_frame = vs.read()  # outvid
+cat_frame = vs.read()  # outvid
+for x in range(10):  # outvid
+	cat_frame = vs.read()  # outvid
 
 
 # setup mulithreads
@@ -246,8 +246,8 @@ prev_personincam = personincam
 # while vs.more(): # outvid
 while True: # realvid
 
-	frame = vs.read()
-	# frame = cat_frame # outvid
+	# frame = vs.read()
+	frame = cat_frame # outvid
 	current_f_size=w1.get()
 	if remotetrack == -1 or current_f_size == 0:
 		threadLock.acquire()
