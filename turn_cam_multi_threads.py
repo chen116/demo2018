@@ -88,8 +88,8 @@ import tkinter as tk
 master = Tk()
 # root = tk.Tk() # create a Tk root window
 
-w = 800 # width for the Tk root
-h = 150 # height for the Tk root
+w = 400 # width for the Tk root
+h = 50 # height for the Tk root
 
 # get screen width and height
 ws = master.winfo_screenwidth() # width of the screen
@@ -124,10 +124,10 @@ m1 = Scale(master,from_=1,to=15,orient=HORIZONTAL)
 m1.set(5)
 m1.pack(side=LEFT,fill=X)
 
-ml = Button(master, text="left",command= lambda: move_left(mycam))
-ml.pack(side=LEFT)
-mr = Button(master,text="right",command= lambda: move_right(mycam))
-mr.pack(side=LEFT)
+# ml = Button(master, text="left",command= lambda: move_left(mycam))
+# ml.pack(side=LEFT)
+# mr = Button(master,text="right",command= lambda: move_right(mycam))
+# mr.pack(side=LEFT)
 
 
 
