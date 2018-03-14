@@ -97,7 +97,7 @@ hs = master.winfo_screenheight() # height of the screen
 
 # calculate x and y coordinates for the Tk root window
 x = (ws/2) - (w/2)
-y = (hs/2) - (h/2)
+y = (hs/2) - (h/4)
 
 # set the dimensions of the screen 
 # and where it is placed
