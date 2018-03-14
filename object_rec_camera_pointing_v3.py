@@ -195,9 +195,6 @@ CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
 	"sofa", "train", "tvmonitor"]
 #CLASSES = ["person"]
 
-tracking_target = "person" # realvid
-tracking_target = "cat"  # outvid
-
 L=0.3
 R=0.7
 COLORS = np.random.uniform(0, 255, size=(len(CLASSES), 3))
@@ -216,6 +213,9 @@ print("[INFO] starting video stream...")
 vs= FileVideoStream("walkcat.mp4").start() # outvid
 
 
+
+tracking_target = "person" # realvid
+tracking_target = "cat"  # outvid
 
 
 
