@@ -237,7 +237,7 @@ fps = FPS().start()
 pointat = 0
 # loop over the frames from the video stream
 
-real_not_found = 0
+real_found = 0
 while vs.more(): # outvid
 # while True: # realvid
 
@@ -345,14 +345,27 @@ while vs.more(): # outvid
 
 		myvec = detections[0,0,:,1]	
 		
-		if 15 in myvec:
-			personincam = 1
+
+		if myvec[0]!=-1:
+			if 15 in myvec:
+				personincam = 1
+				prev_personincam=1
+			else:
+				print('about to send lost message')
+				personincam = 0
+				prev_personincam = 0
+				localtrack = 0
+				sock_client.send(bytes('lost_object','UTF-8'))
+				sentlostmessage = 1
 		else:
-			print('about to send lost message')
-			personincam = 0
-			localtrack = 0
-			sock_client.send(bytes('lost_object','UTF-8'))
-			sentlostmessage = 1
+			personincam = prev_personincam
+			if personincam == 0:
+				print('about to send lost message')
+				personincam = 0
+				prev_personincam = 0
+				localtrack = 0
+				sock_client.send(bytes('lost_object','UTF-8'))
+				sentlostmessage = 1
 
 		if ((localsearch == 0) and (localtrack == 0) and (remotetrack == 1) and (personincam==0)):
 				print('about to start cruise')
