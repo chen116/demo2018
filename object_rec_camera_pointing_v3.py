@@ -56,8 +56,8 @@ if True:
 	for text, mode in FSIZE:
 	    b = Radiobutton(master, text=text,variable=w1, value=mode)
 	    b.pack(side=LEFT)
-	m1 = Scale(master,from_=1,to=15,orient=HORIZONTAL)
-	m1.set(1)
+	m1 = Scale(master,from_=1,to=10,orient=HORIZONTAL)
+	m1.set(3)
 	m1.pack(side=LEFT,fill=X)
 
 
@@ -433,7 +433,7 @@ vs.stop()
 hb.heartbeat_finish()
 comm.write("heart_rate","done")
 
-
+# worker threads clean up
 threadLock.acquire()
 every_n_frame['n']=-1 
 threadLock.release()
