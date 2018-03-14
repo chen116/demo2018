@@ -22,27 +22,27 @@ shared_data = xen_interface.get_global_info()
 def res_allo(anchors,heart_rate,thread_shared_data,domuid):
 	if anchors==1:
 		print('anchors ACTIVE:')
-		cur_b = 0
-		myinfo = thread_shared_data[domuid]
-		for vcpu in myinfo:
-			if vcpu['pcpu']!=-1:
-				cur_b=int(vcpu['b'])
+		# cur_b = 0
+		# myinfo = thread_shared_data[domuid]
+		# for vcpu in myinfo:
+		# 	if vcpu['pcpu']!=-1:
+		# 		cur_b=int(vcpu['b'])
 
-		if(heart_rate<30):
-			if cur_b<=9900:
-				cur_b+=100
-				xen_interface.sched_rtds(domuid,10000,cur_b,[])
-		if(heart_rate>35):
-			if cur_b>=200:
-				cur_b-=100
-				xen_interface.sched_rtds(domuid,10000,cur_b,[])
-		myinfo = thread_shared_data[domuid]
-		cnt=0
-		for vcpu in myinfo:
-			if vcpu['pcpu']!=-1:
-				vcpu['b']=cur_b
-				print('vcpu:',cnt,'b:',vcpu['b'])
-				cnt+=1
+		# if(heart_rate<30):
+		# 	if cur_b<=9900:
+		# 		cur_b+=100
+		# 		xen_interface.sched_rtds(domuid,10000,cur_b,[])
+		# if(heart_rate>35):
+		# 	if cur_b>=200:
+		# 		cur_b-=100
+		# 		xen_interface.sched_rtds(domuid,10000,cur_b,[])
+		# myinfo = thread_shared_data[domuid]
+		# cnt=0
+		# for vcpu in myinfo:
+		# 	if vcpu['pcpu']!=-1:
+		# 		vcpu['b']=cur_b
+		# 		print('vcpu:',cnt,'b:',vcpu['b'])
+		# 		cnt+=1
 	else:
 		print('-------------anchors INACTIVE:')
 		myinfo = thread_shared_data[domuid]
