@@ -88,20 +88,20 @@ from tkinter import *
 master = Tk()
 # root = tk.Tk() # create a Tk root window
 
-# w = 400 # width for the Tk root
-# h = 50 # height for the Tk root
+w = 400 # width for the Tk root
+h = 50 # height for the Tk root
 
-# # get screen width and height
-# ws = master.winfo_screenwidth() # width of the screen
-# hs = master.winfo_screenheight() # height of the screen
+# get screen width and height
+ws = master.winfo_screenwidth() # width of the screen
+hs = master.winfo_screenheight() # height of the screen
 
-# # calculate x and y coordinates for the Tk root window
-# x = (ws/2) - (w/2)
-# y = (hs)-h
+# calculate x and y coordinates for the Tk root window
+x = (ws/2) - (w/2)
+y = (hs)-h
 
-# # set the dimensions of the screen 
-# # and where it is placed
-# master.geometry('%dx%d+%d+%d' % (w, h, x, y))
+# set the dimensions of the screen 
+# and where it is placed
+master.geometry('%dx%d+%d+%d' % (w, h, x, y))
 
 
 checked = IntVar(value=0)
