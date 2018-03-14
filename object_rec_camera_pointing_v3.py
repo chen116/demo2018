@@ -194,6 +194,10 @@ CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
 	"dog", "horse", "motorbike", "person", "pottedplant", "sheep",
 	"sofa", "train", "tvmonitor"]
 #CLASSES = ["person"]
+
+tracking_target = "person" # realvid
+tracking_target = "cat"  # outvid
+
 L=0.3
 R=0.7
 COLORS = np.random.uniform(0, 255, size=(len(CLASSES), 3))
@@ -302,7 +306,7 @@ while True: # realvid
 				idx2 = int(detections[0,0,i,1])
 				# filter out weak detections by ensuring the `confidence` is
 				# greater than the minimum confidence
-				if ((confidence > 0.2) and (CLASSES[idx2]=='cat')):
+				if ((confidence > 0.2) and (CLASSES[idx2]==tracking_target)):
 					# extract the index of the class label from the
 					# `detections`, then compute the (x, y)-coordinates of
 					# the bounding box for the object
@@ -353,7 +357,7 @@ while True: # realvid
 		
 
 		if myvec[0]!=-1:
-			if 8 in myvec:
+			if CLASSES.index(tracking_target) in myvec:
 				personincam = 1
 				prev_personincam=1
 			else:
