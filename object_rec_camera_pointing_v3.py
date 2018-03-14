@@ -57,7 +57,7 @@ if True:
 	    b = Radiobutton(master, text=text,variable=w1, value=mode)
 	    b.pack(side=LEFT)
 	m1 = Scale(master,from_=1,to=10,orient=HORIZONTAL)
-	m1.set(3)
+	m1.set(5) # init speed
 	m1.pack(side=LEFT,fill=X)
 
 
@@ -286,7 +286,7 @@ while vs.more(): # outvid
 						COLORS[idx], 2)
 					y = startY - 15 if startY - 15 > 15 else startY + 15
 					cv2.putText(frame, label, (startX, y),
-						cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)				
+						cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)					
 		else:
 			prev_boxes=[]
 			for i in np.arange(0, detections.shape[2]):
