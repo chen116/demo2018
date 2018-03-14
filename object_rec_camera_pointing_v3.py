@@ -223,7 +223,8 @@ for i in range(total_num_threads):
 	tmp_thread = Workers(threadLock,every_n_frame,i,input_q,output_q)
 	tmp_thread.start()
 	threads.append(tmp_thread)
-prev_box = {}
+# prev_box = {}
+prev_boxes = []
 # loop over the frames from the video stream
 cnt=0
 global_cnt=0
@@ -271,19 +272,21 @@ while vs.more(): # outvid
 		global_cnt+=1
 
 		if detections[0][0][0][0] == -1:
-			if len(prev_box)>0:
-				startX=prev_box['startX']
-				startY=prev_box['startY']
-				endX=prev_box['endX']
-				endY=prev_box['endY']
-				idx=prev_box['idx']
-				label=prev_box['label']
-				cv2.rectangle(frame, (startX, startY), (endX, endY),
-					COLORS[idx], 2)
-				y = startY - 15 if startY - 15 > 15 else startY + 15
-				cv2.putText(frame, label, (startX, y),
-					cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)				
+			if len(prev_boxes)>0:
+				for prev_box in prev_boxes:
+					startX=prev_box['startX']
+					startY=prev_box['startY']
+					endX=prev_box['endX']
+					endY=prev_box['endY']
+					idx=prev_box['idx']
+					label=prev_box['label']
+					cv2.rectangle(frame, (startX, startY), (endX, endY),
+						COLORS[idx], 2)
+					y = startY - 15 if startY - 15 > 15 else startY + 15
+					cv2.putText(frame, label, (startX, y),
+						cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)				
 		else:
+			prev_boxes=[]
 			for i in np.arange(0, detections.shape[2]):
 				# extract the confidence (i.e., probability) associated with
 				# the prediction
@@ -292,6 +295,7 @@ while vs.more(): # outvid
 				# filter out weak detections by ensuring the `confidence` is
 				# greater than the minimum confidence
 				if ((confidence > 0.2) and (CLASSES[idx2]=='cat')):
+					prev_box = {}
 					# extract the index of the class label from the
 					# `detections`, then compute the (x, y)-coordinates of
 					# the bounding box for the object
@@ -331,6 +335,7 @@ while vs.more(): # outvid
 					prev_box['endY']=endY
 					prev_box['idx']=idx
 					prev_box['label']= "recalculating..."
+					prev_boxes.append(prev_box)
 					localtrack = 1
 					localsearch = 0
 					sentlostmessage = 0
