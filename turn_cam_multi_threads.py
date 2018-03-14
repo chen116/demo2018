@@ -85,7 +85,7 @@ from tkinter import *
 
 import tkinter as tk
 
-master = Tk()
+master = tk.Tk()
 toplevel = tk.Toplevel(master)
 toplevel.update_idletasks()
 w = toplevel.winfo_screenwidth()
