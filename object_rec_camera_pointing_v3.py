@@ -15,14 +15,52 @@ import socket
 import sys
 import threading
 
-import heartbeat
-hb = heartbeat.Heartbeat(1024,5,100,"vic.log",10,100)
-monitoring_items = ["heart_rate","app_mode"]
-comm = heartbeat.DomU(monitoring_items)
+
 
 
 import threading
 from queue import Queue
+
+
+
+# setup GUI
+if True:
+	from tkinter import *
+	master = Tk()
+	w = 400 # width for the Tk root
+	h = 50 # height for the Tk root
+	# get screen width and height
+	ws = master.winfo_screenwidth() # width of the screen
+	hs = master.winfo_screenheight() # height of the screen
+	# calculate x and y coordinates for the Tk root window
+	x = (ws/2) - (w/2)
+	y = (hs)-h
+	# set the dimensions of the screen 
+	# and where it is placed
+	master.geometry('%dx%d+%d+%d' % (w, h, x, y))
+
+	checked = IntVar(value=0)
+	previous_checked = checked.get()
+	c = Checkbutton(master, text="anchors", variable=checked)
+	c.pack(side=LEFT)
+	FSIZE = [
+	    ("300", 300),
+	    ("600", 600),
+	    ("800", 800),
+	    ("done",0)
+	]
+	w1 = IntVar()
+	w1.set(300) # initialize
+	previous_f_size = w1.get()
+	for text, mode in FSIZE:
+	    b = Radiobutton(master, text=text,variable=w1, value=mode)
+	    b.pack(side=LEFT)
+	m1 = Scale(master,from_=1,to=15,orient=HORIZONTAL)
+	m1.set(5)
+	m1.pack(side=LEFT,fill=X)
+
+
+
 class Workers(threading.Thread):
 	def __init__(self,threadLock,every_n_frame,thread_id,input_q,output_q):
 		threading.Thread.__init__(self)
@@ -111,42 +149,6 @@ def start_server():
 			input_q.put({'cnt':-1})
 		connection.close()
 
-# setup GUI
-if True:
-	from tkinter import *
-	master = Tk()
-	w = 400 # width for the Tk root
-	h = 50 # height for the Tk root
-	# get screen width and height
-	ws = master.winfo_screenwidth() # width of the screen
-	hs = master.winfo_screenheight() # height of the screen
-	# calculate x and y coordinates for the Tk root window
-	x = (ws/2) - (w/2)
-	y = (hs)-h
-	# set the dimensions of the screen 
-	# and where it is placed
-	master.geometry('%dx%d+%d+%d' % (w, h, x, y))
-
-	checked = IntVar(value=0)
-	previous_checked = checked.get()
-	c = Checkbutton(master, text="anchors", variable=checked)
-	c.pack(side=LEFT)
-	FSIZE = [
-	    ("300", 300),
-	    ("600", 600),
-	    ("800", 800),
-	    ("done",0)
-	]
-	w1 = IntVar()
-	w1.set(300) # initialize
-	previous_f_size = w1.get()
-	for text, mode in FSIZE:
-	    b = Radiobutton(master, text=text,variable=w1, value=mode)
-	    b.pack(side=LEFT)
-	m1 = Scale(master,from_=1,to=15,orient=HORIZONTAL)
-	m1.set(5)
-	m1.pack(side=LEFT,fill=X)
-
 
 
 mycam = FoscamCamera(sys.argv[1],88,sys.argv[2],sys.argv[3],daemon=False)
@@ -223,7 +225,10 @@ prev_box = {}
 cnt=0
 global_cnt=0
 
-
+import heartbeat
+hb = heartbeat.Heartbeat(1024,5,100,"vic.log",10,100)
+monitoring_items = ["heart_rate","app_mode"]
+comm = heartbeat.DomU(monitoring_items)
 fps = FPS().start()
 pointat = 0
 # loop over the frames from the video stream
