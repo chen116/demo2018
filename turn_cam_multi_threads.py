@@ -83,7 +83,7 @@ class Workers(threading.Thread):
 
 from tkinter import *
 master = Tk()
-master.Toplevel(root)
+win = tk.Toplevel(master)
 
 checked = IntVar(value=0)
 previous_checked = checked.get()
