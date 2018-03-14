@@ -26,45 +26,21 @@ def start_server():
 	print('server started')
 	while True:
 		connection, address = s.accept()
-		while True:
-			data = connection.recv(64)
-			if (len(data)>0):
-				msg = data.decode('utf-8')
-				if (msg == 'found_object'):
-					print('remote node found object')
-					remotetrack = 1
-				elif (msg=='lost_object'):
-					print('remote node lost object')
-					remotetrack = 0
-			if not data:
-				break
-			connection.sendall(data)
-		connection.close()
-
+		buf = connection.recv(64)
+		if (len(buf)>0):
+			msg = buf.decode('utf-8')
+			print(msg)
+			if (msg == 'found_object'):
+				remotetrack = 1
+				print('remote node has found object')
+			elif (msg =='lost_object'):
+				remotetrack = 0
+				print('remote node has lost object')
 
 master = Tk()
-checked = IntVar(value=0)
-previous_checked = checked.get()
-c = Checkbutton(master, text="anchors", variable=checked)
-c.pack(side=LEFT)
-FSIZE = [
-    ("300", 300),
-    ("600", 600),
-    ("800", 800),
-    ("done",0)
-]
-w1 = IntVar()
-w1.set(300) # initialize
-previous_f_size = w1.get()
-for text, mode in FSIZE:
-    b = Radiobutton(master, text=text,variable=w1, value=mode)
-    b.pack(side=LEFT)
-m1 = Scale(master,from_=1,to=15,orient=HORIZONTAL)
-m1.set(5)
-m1.pack(side=LEFT,fill=X)
-
-
-
+w1 = Scale(master,from_=100,to=2000,orient=HORIZONTAL)
+w1.set(400)
+w1.pack()
 mycam = FoscamCamera(sys.argv[1],88,sys.argv[2],sys.argv[3],daemon=False)
 moveright = 0
 moveleft = 0
@@ -73,8 +49,8 @@ global remotetrack
 localtrack = 0
 remotetrack = 0
 localsearch = 0
+remotesearch = 0
 sentfoundmessage = 0
-sentlostmessage = 0
 centered = 1
 
 #sock_client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -185,11 +161,7 @@ while True:
 				cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)
 			localtrack = 1
 			localsearch = 0
-			sentlostmessage = 0
-			centered = 0
-			#sock_client.send(bytes('found_object','UTF-8'))
 	myvec = detections[0,0,:,1]	
-	
 	if 15 in myvec:
 		personincam = 1
 	else:
@@ -197,21 +169,18 @@ while True:
 		personincam = 0
 		localtrack = 0
 		sock_client.send(bytes('lost_object','UTF-8'))
-		sentlostmessage = 1
-
-	if ((localsearch == 0) and (localtrack == 0) and (remotetrack == 1) and (personincam==0)):
+	if ((localsearch == 0) and (localtrack == 0) and (remotetrack == 1)):
 			print('about to start cruise')
 			mycam.start_horizontal_cruise()
 			localsearch = 1
 			localtrack = 0
-			centered = 0
-
-	if ((localtrack == 0) and (remotetrack ==0) and (centered == 0) and (personincam==0)):
+	if ((localsearch == 0) and (remotetrack ==0) and (centered == 0) and (personincam==0)):
 			print('about to reset cam')
 			mycam.ptz_reset()
 			centered = 1
 			localsearch = 0
 			localtrack = 0
+			sock_client.send(bytes('lost_object','UTF-8'))
 			sentfoundmessage = 0
 		#elif ((confidence < 0.2) and (CLASSES[idx2]=='person') and (localsearch==0) and (remotetrack == 1) and (localtrack == 0)):
 		#	print('about to start cruise')
@@ -242,10 +211,7 @@ while True:
 	print('remotetrack = ',remotetrack)
 	print('localtrack = ',localtrack)
 	print('personincam =',personincam)
-	print('sentfoundmessage = ',sentfoundmessage)
-	print('sentlostmessage = ',sentlostmessage)
-	sentfoundmessage = 0
-	if ((personincam==1) and (sentfoundmessage==0)):
+	if ((localtrack==1) and (sentfoundmessage==0)):
 		print('about to send found message')
 		sock_client.send(bytes('found_object','UTF-8'))
 		sentfoundmessage = 1
