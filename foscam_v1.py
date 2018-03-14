@@ -721,10 +721,7 @@ class FoscamCamera(object):
         '''
         params = {'Path': path}
         return self.execute_command('setRecordPath', params, callback=callback)
-    def get_cruise_list(self, callback=None):
-        return self.execute_command('ptzGetCruiseMapList',callback=callback)
-    def start_horizontal_cruise(self,callback=None):
-        return self.execute_command('ptzStartCruise',{'mapName':'Horizontal'},callback=None)
+
     # *************** SnapPicture Function *******************
 
     def snap_picture_2(self, callback=None):
