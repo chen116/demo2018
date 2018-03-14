@@ -20,8 +20,11 @@ shared_data = xen_interface.get_global_info()
 
 
 def res_allo(anchors,heart_rate,thread_shared_data,domuid):
+	tab='               '+domuid
+	if int(domuid)>2:
+		tab=domuid
 	if anchors==1:
-		print('anchors ACTIVE:')
+		print(tab,'anchors ACTIVE:')
 		# cur_b = 0
 		# myinfo = thread_shared_data[domuid]
 		# for vcpu in myinfo:
@@ -44,12 +47,12 @@ def res_allo(anchors,heart_rate,thread_shared_data,domuid):
 		# 		print('vcpu:',cnt,'b:',vcpu['b'])
 		# 		cnt+=1
 	else:
-		print('-------------anchors INACTIVE:')
+		print(tab,'-------------anchors INACTIVE:')
 		myinfo = thread_shared_data[domuid]
 		cnt=0
 		for vcpu in myinfo:
 			if vcpu['pcpu']!=-1:
-				print('-------------vcpu:',cnt,'b:',vcpu['b'])	
+				print(tab,'-------------vcpu:',cnt,'b:',vcpu['b'])	
 				cnt+=1
 
 
