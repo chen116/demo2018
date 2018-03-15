@@ -45,12 +45,12 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 				if cur_b<=9800:
 					cur_b+=100
 					xen_interface.sched_rtds(domuid,10000,cur_b,[])
-					xen_interface.sched_rtds("5",10000,10000-cur_b,[])
+					xen_interface.sched_rtds(str(int(domuid)+2),10000,10000-cur_b,[])
 			if(heart_rate>max_heart_rate):
 				if cur_b>=200:
 					cur_b-=100
 					xen_interface.sched_rtds(domuid,10000,cur_b,[])
-					xen_interface.sched_rtds("5",10000,10000-cur_b,[])
+					xen_interface.sched_rtds(str(int(domuid)+2),10000,10000-cur_b,[])
 			myinfo = thread_shared_data[domuid]
 			cnt=0
 			for vcpu in myinfo:
@@ -70,12 +70,12 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 				if cur_w<=9800:
 					cur_w+=100
 					xen_interface.sched_credit(domuid,cur_w)
-					xen_interface.sched_credit("6",10000-cur_w)
+					xen_interface.sched_credit(str(int(domuid)+2),10000-cur_w)
 			if(heart_rate>max_heart_rate):
 				if cur_w>=200:
 					cur_w-=100
 					xen_interface.sched_credit(domuid,cur_w)
-					xen_interface.sched_credit("6",10000-cur_w)
+					xen_interface.sched_credit(str(int(domuid)+2),10000-cur_w)
 			myinfo = thread_shared_data[domuid]
 			cnt=0
 			for vcpu in myinfo:
@@ -102,7 +102,7 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 					cnt+=1
 			if not_default_b:
 				xen_interface.sched_rtds(domuid,10000,default_b,[])
-				xen_interface.sched_rtds("5",10000,default_b,[])
+				xen_interface.sched_rtds(str(int(domuid)+2),10000,default_b,[])
 		else:
 			print(tab,'Credit anchors INACTIVE:')
 			default_w=5000
@@ -119,7 +119,7 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 					cnt+=1
 			if not_default_w:
 				xen_interface.sched_credit(domuid,default_w)
-				xen_interface.sched_credit("6",default_w)
+				xen_interface.sched_credit(str(int(domuid)+2),default_w)
 
 
 	# if sched==1 and int(domuid)==1:
