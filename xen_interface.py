@@ -211,5 +211,5 @@ def sched_rtds(domuid,p,b,vcpus):
             cmd.append(str(b[i]))
         proc = subprocess.Popen(cmd)
 
-def sched_credit(domuid,c,w):
-    proc = subprocess.Popen(['xl','sched-credit','-d',str(domuid),'-w',str(w),'-c',str(c)])
+def sched_credit(domuid,w):
+    proc = subprocess.Popen(['xl','sched-credit','-d',str(domuid),'-w',str(w)])

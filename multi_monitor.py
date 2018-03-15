@@ -38,13 +38,15 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 					cur_b=int(vcpu['b'])
 
 			if(heart_rate<7):
-				if cur_b<=9900:
+				if cur_b<=9800:
 					cur_b+=100
 					xen_interface.sched_rtds(domuid,10000,cur_b,[])
+					xen_interface.sched_rtds("5",10000,10000-cur_b,[])
 			if(heart_rate>15):
 				if cur_b>=200:
 					cur_b-=100
 					xen_interface.sched_rtds(domuid,10000,cur_b,[])
+					xen_interface.sched_rtds("5",10000,10000-cur_b,[])
 			myinfo = thread_shared_data[domuid]
 			cnt=0
 			for vcpu in myinfo:
@@ -54,12 +56,35 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 					cnt+=1
 		else:
 			print(tab,'Credit anchors ACTIVE:')
+			cur_w = 0
+			myinfo = thread_shared_data[domuid]
+			for vcpu in myinfo:
+				if vcpu['pcpu']!=-1:
+					cur_w=int(vcpu['w'])
+
+			if(heart_rate<7):
+				if cur_w<=9800:
+					cur_w+=100
+					xen_interface.sched_credit(domuid,cur_w)
+					xen_interface.sched_credit("5",10000-cur_w)
+			if(heart_rate>15):
+				if cur_w>=200:
+					cur_w-=100
+					xen_interface.sched_credit(domuid,cur_w)
+					xen_interface.sched_credit("5",10000-cur_w)
+			myinfo = thread_shared_data[domuid]
+			cnt=0
+			for vcpu in myinfo:
+				if vcpu['pcpu']!=-1:
+					vcpu['w']=cur_w
+					print(tab,'vcpu:',cnt,'w:',vcpu['w'])
+					cnt+=1
 
 
 	else:
 		if sched==1:
 			print(tab,'-------------RT-Xen anchors INACTIVE:')
-			default_b=4000
+			default_b=5000
 			myinfo = thread_shared_data[domuid]
 			cnt=0
 			not_default_b = 0
@@ -73,8 +98,24 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 					cnt+=1
 			if not_default_b:
 				xen_interface.sched_rtds(domuid,10000,default_b,[])
+				xen_interface.sched_rtds("5",10000,default_b,[])
 		else:
 			print(tab,'Credit anchors INACTIVE:')
+			default_w=5000
+			myinfo = thread_shared_data[domuid]
+			cnt=0
+			not_default_w = 0
+			for vcpu in myinfo:
+				if vcpu['pcpu']!=-1:
+					if vcpu['w']!=default_b:
+						not_default_w = 1
+						vcpu['w']=default_w
+
+					print(tab,'-------------vcpu:',cnt,'w:',vcpu['w'])	
+					cnt+=1
+			if not_default_w:
+				xen_interface.sched_credit(domuid,default_w)
+				xen_interface.sched_credit("6",default_w)
 
 
 	# if sched==1 and int(domuid)==1:
