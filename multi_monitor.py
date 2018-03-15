@@ -37,7 +37,7 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 				if vcpu['pcpu']!=-1:
 					cur_b=int(vcpu['b'])
 
-			if(heart_rate<7):
+			if(heart_rate<10):
 				if cur_b<=9800:
 					cur_b+=100
 					xen_interface.sched_rtds(domuid,10000,cur_b,[])
@@ -62,7 +62,7 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 				if vcpu['pcpu']!=-1:
 					cur_w=int(vcpu['w'])
 
-			if(heart_rate<7):
+			if(heart_rate<10):
 				if cur_w<=9800:
 					cur_w+=100
 					xen_interface.sched_credit(domuid,cur_w)
