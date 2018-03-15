@@ -129,6 +129,7 @@ class MonitorThread(threading.Thread):
 		self.shared_data=shared_data
 		self.res_allo=res_allo
 		self.anchors = 0
+		self.sched = 0
 	def run(self):
 		# Acquire lock to synchronize thread
 		# self.threadLock.acquire()
@@ -151,15 +152,16 @@ class MonitorThread(threading.Thread):
 				if self.keys[1] in path.decode():
 					if msg.isdigit():
 						self.anchors = int(msg)
-				self.threadLock.acquire()
+				if self.keys[2] in path.decode():
+					if msg.isdigit():
+						self.sched = int(msg)
 
+				self.threadLock.acquire()
 				try :
 					if self.keys[0] in path.decode():
-						self.res_allo(self.anchors,float(msg),self.shared_data,self.domuid)
-						print("dom",int(self.domuid)-3,token.decode(),msg)
-					
+						self.res_allo(self.anchors,self.sched,float(msg),self.shared_data,self.domuid)					
 				except:
-					print("meow",self.domuid,token.decode(),msg)
+					print("meow",int(self.domuid)-6,token.decode(),msg)
 
 				self.threadLock.release()
 

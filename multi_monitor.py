@@ -19,10 +19,18 @@ shared_data = xen_interface.get_global_info()
 
 
 
-def res_allo(anchors,heart_rate,thread_shared_data,domuid):
-	tab='               '+str(int(domuid)-1)
-	if int(domuid)>2:
-		tab=str(int(domuid)-1)
+def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
+	tab='               dom '+str(int(domuid)-6)
+	if int(domuid)>7:
+		tab='dom '+str(int(domuid)-6)
+	print(tab,'heart_rate',heart_rate)
+
+	if sched==1:
+		print(tab,"RTDS")
+	else:
+		print(tab,"CREDIT")
+
+
 	if anchors==1:
 		print(tab,'anchors ACTIVE:')
 		cur_b = 0
