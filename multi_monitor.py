@@ -38,7 +38,6 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 		print(tab,"CREDIT")
 		if len(thread_shared_data['xen'])==0:
 			print(tab,"switiching to CREDIT")
-			xen_interface.set_sched(0)
 			while len(thread_shared_data['rtxen'])>0:
 				thread_shared_data['xen'].add(thread_shared_data['rtxen'].pop())
 			domuids = thread_shared_data['xen']
