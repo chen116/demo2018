@@ -28,7 +28,7 @@ from queue import Queue
 if True:
 	from tkinter import *
 	master = Tk()
-	w = 400 # width for the Tk root
+	w = 500 # width for the Tk root
 	h = 50 # height for the Tk root
 	# get screen width and height
 	ws = master.winfo_screenwidth() # width of the screen
@@ -49,7 +49,7 @@ if True:
 	for text, mode in scheds:
 	    b = Radiobutton(master, text=text,variable=sched, value=mode)
 	    b.pack(side=LEFT)
-	    
+
 	checked = IntVar(value=0)
 	previous_checked = checked.get()
 	c = Checkbutton(master, text="anchors", variable=checked)
@@ -63,12 +63,13 @@ if True:
 	w1 = IntVar()
 	w1.set(300) # initialize
 	previous_f_size = w1.get()
-	for text, mode in FSIZE:
-	    b = Radiobutton(master, text=text,variable=w1, value=mode)
-	    b.pack(side=LEFT)
-	m1 = Scale(master,from_=1,to=10,orient=HORIZONTAL)
-	m1.set(5) # init speed
-	m1.pack(side=LEFT,fill=X)
+	
+	# for text, mode in FSIZE:
+	#     b = Radiobutton(master, text=text,variable=w1, value=mode)
+	#     b.pack(side=LEFT)
+	# m1 = Scale(master,from_=1,to=10,orient=HORIZONTAL)
+	# m1.set(5) # init speed
+	# m1.pack(side=LEFT,fill=X)
 
 
 
