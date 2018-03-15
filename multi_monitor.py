@@ -45,44 +45,54 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 
 
 	if anchors==1:
-		print(tab,'anchors ACTIVE:')
-		cur_b = 0
-		myinfo = thread_shared_data[domuid]
-		for vcpu in myinfo:
-			if vcpu['pcpu']!=-1:
-				cur_b=int(vcpu['b'])
+		if sched==1:
+			print(tab,'RT-Xen anchors ACTIVE:')
+			cur_b = 0
+			myinfo = thread_shared_data[domuid]
+			for vcpu in myinfo:
+				if vcpu['pcpu']!=-1:
+					cur_b=int(vcpu['b'])
 
-		if(heart_rate<7):
-			if cur_b<=9900:
-				cur_b+=100
-				xen_interface.sched_rtds(domuid,10000,cur_b,[])
-		if(heart_rate>15):
-			if cur_b>=200:
-				cur_b-=100
-				xen_interface.sched_rtds(domuid,10000,cur_b,[])
-		myinfo = thread_shared_data[domuid]
-		cnt=0
-		for vcpu in myinfo:
-			if vcpu['pcpu']!=-1:
-				vcpu['b']=cur_b
-				print('vcpu:',cnt,'b:',vcpu['b'])
-				cnt+=1
+			if(heart_rate<7):
+				if cur_b<=9900:
+					cur_b+=100
+					xen_interface.sched_rtds(domuid,10000,cur_b,[])
+			if(heart_rate>15):
+				if cur_b>=200:
+					cur_b-=100
+					xen_interface.sched_rtds(domuid,10000,cur_b,[])
+			myinfo = thread_shared_data[domuid]
+			cnt=0
+			for vcpu in myinfo:
+				if vcpu['pcpu']!=-1:
+					vcpu['b']=cur_b
+					print('vcpu:',cnt,'b:',vcpu['b'])
+					cnt+=1
+		else:
+			print(tab,'Credit anchors ACTIVE:')
+
+
 	else:
-		print(tab,'-------------anchors INACTIVE:')
-		default_b=4000
-		myinfo = thread_shared_data[domuid]
-		cnt=0
-		not_default_b = 0
-		for vcpu in myinfo:
-			if vcpu['pcpu']!=-1:
-				if vcpu['b']!=default_b:
-					not_default_b = 1
-					vcpu['b']=default_b
+		if sched==1:
+			print(tab,'-------------RT-Xen anchors INACTIVE:')
+			default_b=4000
+			myinfo = thread_shared_data[domuid]
+			cnt=0
+			not_default_b = 0
+			for vcpu in myinfo:
+				if vcpu['pcpu']!=-1:
+					if vcpu['b']!=default_b:
+						not_default_b = 1
+						vcpu['b']=default_b
 
-				print(tab,'-------------vcpu:',cnt,'b:',vcpu['b'])	
-				cnt+=1
-		if not_default_b:
-			xen_interface.sched_rtds(domuid,10000,default_b,[])
+					print(tab,'-------------vcpu:',cnt,'b:',vcpu['b'])	
+					cnt+=1
+			if not_default_b:
+				xen_interface.sched_rtds(domuid,10000,default_b,[])
+		else:
+			print(tab,'Credit anchors INACTIVE:')
+
+
 
 
 
