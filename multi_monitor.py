@@ -66,12 +66,12 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 				if cur_w<=9800:
 					cur_w+=100
 					xen_interface.sched_credit(domuid,cur_w)
-					xen_interface.sched_credit("5",10000-cur_w)
+					xen_interface.sched_credit("6",10000-cur_w)
 			if(heart_rate>15):
 				if cur_w>=200:
 					cur_w-=100
 					xen_interface.sched_credit(domuid,cur_w)
-					xen_interface.sched_credit("5",10000-cur_w)
+					xen_interface.sched_credit("6",10000-cur_w)
 			myinfo = thread_shared_data[domuid]
 			cnt=0
 			for vcpu in myinfo:
