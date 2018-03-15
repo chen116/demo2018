@@ -4,7 +4,7 @@ import time
 
 fig = plt.figure()
 ax1 = fig.add_subplot(1,1,1)
-
+buf = 1000
 def animate(i):
     pullData = open("info.txt","r").read()
     dataArray = pullData.split('\n')
@@ -15,7 +15,7 @@ def animate(i):
         x.append([])
         hrs.append([])
         cpus.append([])
-        for j in range(1000):
+        for j in range(buf):
             x[i].append(j)
             hrs[i].append(0)
             cpus[i].append(0)
@@ -27,6 +27,9 @@ def animate(i):
             index=int(line[0])-1
             hrs[index].append(float(line[1]))
             cpus[index].append(float(line[2])/10000)
+    for i in range(2):
+        hrs[index]=hrs[index][:buf]
+        cpus[index]=cpus[index][:buf]
 
     ax1.clear()
     opts=['r','b']
