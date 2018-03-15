@@ -154,6 +154,8 @@ def set_sched(domuids,sched):
             for tmp in tmp_cmd:
                 cmd.append(tmp)
         cmd=cmd[:-1]
+        print(cmd)
+        
         proc = subprocess.Popen(cmd)
 
 
