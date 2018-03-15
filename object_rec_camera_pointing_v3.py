@@ -39,7 +39,16 @@ if True:
 	# set the dimensions of the screen 
 	# and where it is placed
 	master.geometry('%dx%d+%d+%d' % (w, h, x, y))
-
+	scheds = [
+	    ("Credit", 0),
+	    ("RT-Xen", 1)
+	]
+	sched = IntVar()
+	sched.set(0) # initialize
+	previous_sched = sched.get()
+	for text, mode in scheds:
+	    b = Radiobutton(master, text=text,variable=sched, value=mode)
+	    b.pack(side=LEFT)
 	checked = IntVar(value=0)
 	previous_checked = checked.get()
 	c = Checkbutton(master, text="anchors", variable=checked)
