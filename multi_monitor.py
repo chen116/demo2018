@@ -8,7 +8,8 @@ import threading
 import time
 import pprint
 
-
+with open("info.txt", "w") as myfile:
+	myfile.write("")
 
 monitoring_items = ["heart_rate","app_mode"]
 c = heartbeat.Dom0(monitoring_items,['1','2'])
@@ -120,6 +121,24 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 			if not_default_w:
 				xen_interface.sched_credit(domuid,default_w)
 				xen_interface.sched_credit(str(int(domuid)+2),default_w)
+	buf=1000
+	thread_shared_data['cnt'] = (thread_shared_data['cnt']+1)%buf
+	info = domuid+" "+heart_rate+" "
+	if sched==1:
+		info += str(thread_shared_data[domuid][0]['w'])
+	else:
+		info += str(thread_shared_data[domuid][0]['b'])
+
+	if thread_shared_data['cnt']%buf!=0:
+		with open("info.txt", "a") as myfile:
+			myfile.write(info+"\n")
+	else:
+		with open("info.txt", "w") as myfile:
+			myfile.write(info+"\n")
+
+
+
+
 
 
 	# if sched==1 and int(domuid)==1:

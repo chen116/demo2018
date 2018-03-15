@@ -65,7 +65,8 @@ def get_global_info():
     shared_data = {}
     shared_data['rtxen']=set()
     shared_data['xen']=set()
-    shared_data['fps']=[]
+    shared_data['cnt']=0
+
 
     out =  subprocess.check_output(['xl', 'vcpu-list']).decode().split('\n')
     out=out[1:-1]
@@ -75,7 +76,7 @@ def get_global_info():
             shared_data[line[1]]={}
             shared_data[line[1]]=[]
             shared_data[line[1]].append(create_single_vcpu_info(line))
-            shared_data['fps'].append(0)
+
         else:
             shared_data[line[1]].append(create_single_vcpu_info(line))
 
