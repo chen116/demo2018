@@ -94,7 +94,7 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 						not_default_b = 1
 						vcpu['b']=default_b
 
-					print(tab,'-------------vcpu:',cnt,'b:',vcpu['b'])	
+					print(tab,'vcpu:',cnt,'b:',vcpu['b'])	
 					cnt+=1
 			if not_default_b:
 				xen_interface.sched_rtds(domuid,10000,default_b,[])
@@ -111,7 +111,7 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 						not_default_w = 1
 						vcpu['w']=default_w
 
-					print(tab,'-------------vcpu:',cnt,'w:',vcpu['w'])	
+					print(tab,'vcpu:',cnt,'w:',vcpu['w'])	
 					cnt+=1
 			if not_default_w:
 				xen_interface.sched_credit(domuid,default_w)
