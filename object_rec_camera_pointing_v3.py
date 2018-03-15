@@ -485,5 +485,11 @@ for i in range(total_num_threads):
 for t in threads:
 	t.join()
 print("worker threads cleaned up")
+mycam1 = FoscamCamera('65.114.169.154',88,'arittenbach','8mmhamcgt16!')
+mycam2 = FoscamCamera('65.114.169.108',88,'admin','admin')
+mycam1.ptz_reset()
+mycam2.ptz_reset()
+mycam1.set_ptz_speed(4)
+mycam2.set_ptz_speed(4)
 if remotetrack!=-1:
 	sock_client.send(bytes('clean_up','UTF-8'))

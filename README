@@ -5,10 +5,10 @@ python3 multi_monitor.py
 
 at dom1
 
-git pull && python3 object_rec_camera_pointing_v3.py 65.114.169.154 arittenbach 8mmhamcgt16! 10.1.9.9 8091 8092
+git pull && python3 object_rec_camera_pointing_v3.py 65.114.169.154 arittenbach 8mmhamcgt16! dom2 8091 8092
 
 at dom2
-git pull && python3 object_rec_camera_pointing_v3.py 65.114.169.108 admin admin 10.1.9.12 8092 8091
+git pull && python3 object_rec_camera_pointing_v3.py 65.114.169.108 admin admin dom1 8092 8091
 
 
 make sure bird.avi is at /root/
