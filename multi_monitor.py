@@ -48,12 +48,21 @@ def res_allo(anchors,heart_rate,thread_shared_data,domuid):
 				cnt+=1
 	else:
 		print(tab,'-------------anchors INACTIVE:')
+		default_b=4000
 		myinfo = thread_shared_data[domuid]
 		cnt=0
+		not_default_b = 0
 		for vcpu in myinfo:
 			if vcpu['pcpu']!=-1:
+				if vcpu['b']!=default_b:
+					not_default_b = 1
+					vcpu['b']=default_b
+
 				print(tab,'-------------vcpu:',cnt,'b:',vcpu['b'])	
 				cnt+=1
+		if not_default_b:
+			xen_interface.sched_rtds(domuid,10000,default_b,[])
+
 
 
 	# xen_interface.update_domu_info(thread_shared_data,domuid)
