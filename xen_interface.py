@@ -109,6 +109,62 @@ def get_global_info():
 def set_vcpu(domuid,num_vcpus):
     proc = subprocess.Popen(['xl','vcpu-set',str(domuid),str(num_vcpus)])
 
+def set_sched(domuids,sched):
+    if sched==0:
+        cmd=[]
+        for domuid in domuids:
+            tmp_cmd=['xl','vcpu-pin',domuid,'all','all','all','&&']
+            for tmp in tmp_cmd:
+                cmd.append(tmp)
+        tmp_cmd = ['xl', 'cpupool-cpu-remove', 'Pool-0', '6-15','&&']
+        for tmp in tmp_cmd:
+            cmd.append(tmp)
+        tmp_cmd = ['xl', 'cpupool-cpu-add', 'credit', '6-15','&&']
+        for tmp in tmp_cmd:
+            cmd.append(tmp)
+        for domuid in domuids:
+            tmp_cmd=['xl','cpupool-migrate',domuid,'credit','&&']
+            for tmp in tmp_cmd:
+                cmd.append(tmp)
+        for domuid in domuids:
+            tmp_cmd=['xl','vcpu-pin',domuid,'all','6-15','6-15','&&']
+            for tmp in tmp_cmd:
+                cmd.append(tmp)
+        cmd=cmd[:-1]
+        proc = subprocess.Popen(cmd)
+    else:
+        cmd=[]
+        for domuid in domuids:
+            tmp_cmd=['xl','vcpu-pin',domuid,'all','all','all','&&']
+            for tmp in tmp_cmd:
+                cmd.append(tmp)
+        tmp_cmd = ['xl', 'cpupool-cpu-remove', 'credit', '6-10','&&']
+        for tmp in tmp_cmd:
+            cmd.append(tmp)
+        tmp_cmd = ['xl', 'cpupool-cpu-add', 'Pool-0', '6-10','&&']
+        for tmp in tmp_cmd:
+            cmd.append(tmp)
+        for domuid in domuids:
+            tmp_cmd=['xl','cpupool-migrate',domuid,'Pool-0','&&']
+            for tmp in tmp_cmd:
+                cmd.append(tmp)
+        tmp_cmd = ['xl', 'cpupool-cpu-remove', 'credit', '11-15','&&']
+        for tmp in tmp_cmd:
+            cmd.append(tmp)
+        tmp_cmd = ['xl', 'cpupool-cpu-add', 'Pool-0', '11-15','&&']
+        for tmp in tmp_cmd:
+            cmd.append(tmp)
+        for domuid in domuids:
+            tmp_cmd=['xl','vcpu-pin',domuid,'all','6-15','6-15','&&']
+            for tmp in tmp_cmd:
+                cmd.append(tmp)
+        cmd=cmd[:-1]
+        proc = subprocess.Popen(cmd)
+
+
+
+
+
 def sched_rtds(domuid,p,b,vcpus):
     if vcpus==[]:
         proc = subprocess.Popen(['xl','sched-rtds','-d',str(domuid),'-p',str(p),'-b',str(b)])
