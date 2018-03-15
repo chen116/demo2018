@@ -132,7 +132,7 @@ def set_sched(domuids,sched):
                 cmd.append(tmp)
         cmd=cmd[:-1]
         print(cmd)
-        proc = subprocess.Popen(cmd)
+        proc = subprocess.Popen(cmd, shell=True)
     else:
         cmd=[]
         for domuid in domuids:
@@ -154,7 +154,7 @@ def set_sched(domuids,sched):
             for tmp in tmp_cmd:
                 cmd.append(tmp)
         cmd=cmd[:-1]
-        proc = subprocess.Popen(cmd)
+        proc = subprocess.Popen(cmd, shell=True)
 
 
 
