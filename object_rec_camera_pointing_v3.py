@@ -40,6 +40,12 @@ if True:
 	# and where it is placed
 	master.geometry('%dx%d+%d+%d' % (w, h, x, y))
 
+	sched_var = StringVar()
+	sched_label = Label(master, textvariable=sched_var )
+
+	sched_var.set(sys.argv[7])
+	sched_label.pack(side=LEFT)
+
 	# scheds = [
 	#     ("Credit", 0),
 	#     ("RT-Xen", 1)
@@ -71,6 +77,7 @@ if True:
 	m1 = Scale(master,from_=1,to=10,orient=HORIZONTAL)
 	m1.set(5) # init speed
 	# m1.pack(side=LEFT,fill=X)
+
 
 
 
