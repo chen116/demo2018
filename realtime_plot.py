@@ -24,7 +24,7 @@ def animate(i):
         cnt+=1
         if len(eachLine)>1:
             line = eachLine.split()
-            index=int(line[0])
+            index=int(line[0])-1
             hrs[index].append(float(line[1]))
             cpus[index].append(float(line[2])/10000)
 
