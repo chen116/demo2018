@@ -7,7 +7,7 @@ from threading import Thread
 import threading
 import time
 import pprint
-monitoring_items = ["heart_rate","app_mode","sched"]
+monitoring_items = ["heart_rate","app_mode"]
 c = heartbeat.Dom0(monitoring_items,['1','2'])
 # c = heartbeat.Dom0(["heart_rate"])
 
@@ -25,23 +25,23 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 		tab='dom '+str(int(domuid))
 	print(tab,'heart_rate',heart_rate)
 
-	if sched==1 and int(domuid)==1:
-		print(tab,"RTDS")
-		if len(thread_shared_data['rtxen'])==0:
-			print(tab,"switiching to RT-Xen")
-			while len(thread_shared_data['xen'])>0:
-				thread_shared_data['rtxen'].add(thread_shared_data['xen'].pop())
-			domuids = thread_shared_data['rtxen']
-			# xen_interface.set_sched(domuids,1)
+	# if sched==1 and int(domuid)==1:
+	# 	print(tab,"RTDS")
+	# 	if len(thread_shared_data['rtxen'])==0:
+	# 		print(tab,"switiching to RT-Xen")
+	# 		while len(thread_shared_data['xen'])>0:
+	# 			thread_shared_data['rtxen'].add(thread_shared_data['xen'].pop())
+	# 		domuids = thread_shared_data['rtxen']
+	# 		# xen_interface.set_sched(domuids,1)
 
-	elif sched==0 and int(domuid)==1:
-		print(tab,"CREDIT")
-		if len(thread_shared_data['xen'])==0:
-			print(tab,"switiching to CREDIT")
-			while len(thread_shared_data['rtxen'])>0:
-				thread_shared_data['xen'].add(thread_shared_data['rtxen'].pop())
-			domuids = thread_shared_data['xen']
-			# xen_interface.set_sched(domuids,0)
+	# elif sched==0 and int(domuid)==1:
+	# 	print(tab,"CREDIT")
+	# 	if len(thread_shared_data['xen'])==0:
+	# 		print(tab,"switiching to CREDIT")
+	# 		while len(thread_shared_data['rtxen'])>0:
+	# 			thread_shared_data['xen'].add(thread_shared_data['rtxen'].pop())
+	# 		domuids = thread_shared_data['xen']
+	# 		# xen_interface.set_sched(domuids,0)
 
 
 
@@ -111,7 +111,7 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 
 
 for domuid in c.domu_ids:
-	tmp_thread = heartbeat.MonitorThread(threadLock,shared_data,res_allo,domuid,monitoring_items)
+	tmp_thread = heartbeat.MonitorThread(threadLock,shared_data,res_allo,domuid,monitoring_items,int(domuid)%2)
 	tmp_thread.start()
 	threads.append(tmp_thread)
 

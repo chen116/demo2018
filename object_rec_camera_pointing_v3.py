@@ -39,19 +39,17 @@ if True:
 	# set the dimensions of the screen 
 	# and where it is placed
 	master.geometry('%dx%d+%d+%d' % (w, h, x, y))
-	scheds = [
-	    ("Credit", 0),
-	    ("RT-Xen", 1)
-	]
-	sched = IntVar()
-	sched.set(0) # initialize
-	previous_sched = sched.get()
 
-
-
-	for text, mode in scheds:
-	    b = Radiobutton(master, text=text,variable=sched, value=mode)
-	    b.pack(side=LEFT)
+	# scheds = [
+	#     ("Credit", 0),
+	#     ("RT-Xen", 1)
+	# ]
+	# sched = IntVar()
+	# sched.set(0) # initialize
+	# previous_sched = sched.get()
+	# for text, mode in scheds:
+	#     b = Radiobutton(master, text=text,variable=sched, value=mode)
+	#     b.pack(side=LEFT)
 
 	checked = IntVar(value=0)
 	previous_checked = checked.get()
@@ -254,7 +252,7 @@ global_cnt=0
 
 import heartbeat
 hb = heartbeat.Heartbeat(1024,5,100,"vic.log",10,100)
-monitoring_items = ["heart_rate","app_mode","sched"]
+monitoring_items = ["heart_rate","app_mode"]
 comm = heartbeat.DomU(monitoring_items)
 fps = FPS().start()
 pointat = 0
@@ -427,13 +425,13 @@ while True: # realvid
 		print('------------------window_hr:',window_hr)
 		print('instant_hr:',instant_hr)
 		current_checked = checked.get()
-		current_sched = sched.get()
 		if previous_checked!=current_checked:
 			comm.write("app_mode",current_checked)
 			previous_checked=current_checked
-		if previous_sched!=current_sched:
-			comm.write("sched",current_sched)
-			previous_sched=current_sched
+		# current_sched = sched.get()
+		# if previous_sched!=current_sched:
+		# 	comm.write("sched",current_sched)
+		# 	previous_sched=current_sched
 		fps.update()
 		master.update_idletasks()
 		master.update()

@@ -120,7 +120,7 @@ class DomU:
 
 
 class MonitorThread(threading.Thread):
-	def __init__(self, threadLock,shared_data,res_allo,domuid,keys=['test'],base_path='/local/domain'):
+	def __init__(self, threadLock,shared_data,res_allo,domuid,keys=['test'],base_path='/local/domain',sched):
 		threading.Thread.__init__(self)
 		self.domuid=(domuid)
 		self.keys=keys
@@ -129,7 +129,7 @@ class MonitorThread(threading.Thread):
 		self.shared_data=shared_data
 		self.res_allo=res_allo
 		self.anchors = 0
-		self.sched = 0
+		self.sched = sched
 	def run(self):
 		# Acquire lock to synchronize thread
 		# self.threadLock.acquire()
@@ -152,9 +152,6 @@ class MonitorThread(threading.Thread):
 				if self.keys[1] in path.decode():
 					if msg.isdigit():
 						self.anchors = int(msg)
-				if self.keys[2] in path.decode():
-					if msg.isdigit():
-						self.sched = int(msg)
 
 				self.threadLock.acquire()
 				try :
