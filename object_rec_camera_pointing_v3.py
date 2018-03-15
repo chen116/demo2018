@@ -49,6 +49,7 @@ if True:
 	for text, mode in scheds:
 	    b = Radiobutton(master, text=text,variable=sched, value=mode)
 	    b.pack(side=LEFT)
+	    
 	checked = IntVar(value=0)
 	previous_checked = checked.get()
 	c = Checkbutton(master, text="anchors", variable=checked)
