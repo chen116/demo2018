@@ -125,9 +125,9 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 	thread_shared_data['cnt'] = (thread_shared_data['cnt']+1)%buf
 	info = domuid+" "+heart_rate+" "
 	if sched==1:
-		info += str(thread_shared_data[domuid][0]['w'])
-	else:
 		info += str(thread_shared_data[domuid][0]['b'])
+	else:
+		info += str(thread_shared_data[domuid][0]['w'])
 
 	if thread_shared_data['cnt']%buf!=0:
 		with open("info.txt", "a") as myfile:
