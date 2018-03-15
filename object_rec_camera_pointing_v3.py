@@ -123,7 +123,7 @@ def start_server():
 	remotetrack = 0
 	s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 	host = socket.gethostname()
-	s.bind((host,sys.argv[6]))
+	s.bind((host,int(sys.argv[6])))
 	s.listen(5)
 	print('server started')
 	while True:
