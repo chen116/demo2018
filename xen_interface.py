@@ -138,20 +138,14 @@ def set_sched(domuids,sched):
             tmp_cmd=['xl','vcpu-pin',domuid,'all','all','all','&&']
             for tmp in tmp_cmd:
                 cmd.append(tmp)
-        tmp_cmd = ['xl', 'cpupool-cpu-remove', 'credit', '6-10','&&']
-        for tmp in tmp_cmd:
-            cmd.append(tmp)
-        tmp_cmd = ['xl', 'cpupool-cpu-add', 'Pool-0', '6-10','&&']
-        for tmp in tmp_cmd:
-            cmd.append(tmp)
         for domuid in domuids:
             tmp_cmd=['xl','cpupool-migrate',domuid,'Pool-0','&&']
             for tmp in tmp_cmd:
                 cmd.append(tmp)
-        tmp_cmd = ['xl', 'cpupool-cpu-remove', 'credit', '11-15','&&']
+        tmp_cmd = ['xl', 'cpupool-cpu-remove', 'credit', '6-15','&&']
         for tmp in tmp_cmd:
             cmd.append(tmp)
-        tmp_cmd = ['xl', 'cpupool-cpu-add', 'Pool-0', '11-15','&&']
+        tmp_cmd = ['xl', 'cpupool-cpu-add', 'Pool-0', '6-15','&&']
         for tmp in tmp_cmd:
             cmd.append(tmp)
         for domuid in domuids:
