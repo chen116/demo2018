@@ -11,6 +11,15 @@ at dom2
 git pull && python3 object_rec_camera_pointing_v3.py 65.114.169.108 admin admin dom1 8092 8091 Credit
 
 
+at dom1
+
+git pull && python3 object_rec_camera_pointing_v3.py 65.114.169.108 admin admin dom2 8091 8092 RT-Xen
+
+at dom2
+git pull && python3 object_rec_camera_pointing_v3.py 65.114.169.154 arittenbach 8mmhamcgt16! dom1 8092 8091 Credit
+
+
+
 make sure bird.avi is at /root/
 
 at dom0:
