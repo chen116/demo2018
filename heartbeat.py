@@ -161,7 +161,7 @@ class MonitorThread(threading.Thread):
 					if self.keys[0] in path.decode():
 						self.res_allo(self.anchors,self.sched,float(msg),self.shared_data,self.domuid)					
 				except:
-					print("meow",int(self.domuid)-6,token.decode(),msg)
+					print("meow",int(self.domuid),token.decode(),msg)
 
 				self.threadLock.release()
 
