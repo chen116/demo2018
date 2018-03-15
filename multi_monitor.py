@@ -111,7 +111,7 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 
 
 for domuid in c.domu_ids:
-	tmp_thread = heartbeat.MonitorThread(threadLock,shared_data,res_allo,domuid,monitoring_items,int(domuid)%2)
+	tmp_thread = heartbeat.MonitorThread(threadLock,shared_data,res_allo,domuid,int(domuid)%2,monitoring_items)
 	tmp_thread.start()
 	threads.append(tmp_thread)
 

@@ -120,7 +120,7 @@ class DomU:
 
 
 class MonitorThread(threading.Thread):
-	def __init__(self, threadLock,shared_data,res_allo,domuid,keys=['test'],base_path='/local/domain',sched):
+	def __init__(self, threadLock,shared_data,res_allo,domuid,sched,keys=['test'],base_path='/local/domain'):
 		threading.Thread.__init__(self)
 		self.domuid=(domuid)
 		self.keys=keys
