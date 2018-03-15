@@ -107,7 +107,7 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 			not_default_w = 0
 			for vcpu in myinfo:
 				if vcpu['pcpu']!=-1:
-					if vcpu['w']!=default_b:
+					if vcpu['w']!=default_w:
 						not_default_w = 1
 						vcpu['w']=default_w
 
