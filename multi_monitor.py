@@ -32,7 +32,7 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 			while len(thread_shared_data['xen'])>0:
 				thread_shared_data['rtxen'].add(thread_shared_data['xen'].pop())
 			domuids = thread_shared_data['rtxen']
-			# xen_interface.set_sched(domuids,1)
+			xen_interface.set_sched(domuids,1)
 
 	else:
 		print(tab,"CREDIT")
@@ -41,7 +41,7 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 			while len(thread_shared_data['rtxen'])>0:
 				thread_shared_data['xen'].add(thread_shared_data['rtxen'].pop())
 			domuids = thread_shared_data['xen']
-			# xen_interface.set_sched(domuids,0)
+			xen_interface.set_sched(domuids,0)
 
 
 
