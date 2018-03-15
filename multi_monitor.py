@@ -8,7 +8,7 @@ import threading
 import time
 import pprint
 monitoring_items = ["heart_rate","app_mode"]
-c = heartbeat.Dom0(monitoring_items,['2','3'])
+c = heartbeat.Dom0(monitoring_items,['4','5'])
 # c = heartbeat.Dom0(["heart_rate"])
 
 
