@@ -14,6 +14,7 @@ xl vcpu-pin 2 all 11-15 11-15
 xl vcpu-pin 4 all 11-15 11-15
 xl sched-rtds -d 1 -p 10000 -b 5000
 xl sched-rtds -d 3 -p 10000 -b 5000
+xl sched-rtds -d 0 -p 10000 -b 10000
 xl sched-credit -d 2 -w 5000 -c 500
 xl sched-credit -d 4 -w 5000 -c 500
 xl cpupool-list -c
