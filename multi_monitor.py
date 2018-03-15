@@ -28,6 +28,7 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 	if sched==1:
 		print(tab,"RTDS")
 		if len(thread_shared_data['rtxen'])==0:
+			print(tab,"switiching to RT-Xen")
 			while len(thread_shared_data['xen'])>0:
 				thread_shared_data['rtxen'].add(thread_shared_data['xen'].pop())
 			domuids = thread_shared_data['rtxen']
