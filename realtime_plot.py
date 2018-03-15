@@ -28,8 +28,8 @@ def animate(i):
             hrs[index].append(float(line[1]))
             cpus[index].append(float(line[2])/10000)
     for i in range(2):
-        hrs[index]=hrs[index][:buf]
-        cpus[index]=cpus[index][:buf]
+        hrs[i]=hrs[i][:buf]
+        cpus[i]=cpus[i][:buf]
 
     ax1.clear()
     opts=['r','b']
