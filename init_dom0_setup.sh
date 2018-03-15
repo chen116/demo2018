@@ -6,6 +6,7 @@
 # xl vcpu-pin 0 2 - 2
 # xl vcpu-pin 0 3 - 3
 # xl vcpu-pin 0 4 - 4
+xl vcpu-pin 0 5 - 5
 xl vcpu-pin 1 all 6-10 6-10
 xl vcpu-pin 3 all 6-10 6-10
 # xl cpupool-migrate 2 credit
