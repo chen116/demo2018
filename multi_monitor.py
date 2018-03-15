@@ -25,7 +25,8 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 		tab='dom '+str(int(domuid))
 	print(tab,'heart_rate',heart_rate)
 
-
+	min_heart_rate = 12
+	max_heart_rate = 30
 
 
 	if anchors==1:
@@ -37,12 +38,12 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 				if vcpu['pcpu']!=-1:
 					cur_b=int(vcpu['b'])
 
-			if(heart_rate<15):
+			if(heart_rate<min_heart_rate):
 				if cur_b<=9800:
 					cur_b+=100
 					xen_interface.sched_rtds(domuid,10000,cur_b,[])
 					xen_interface.sched_rtds("5",10000,10000-cur_b,[])
-			if(heart_rate>20):
+			if(heart_rate>max_heart_rate):
 				if cur_b>=200:
 					cur_b-=100
 					xen_interface.sched_rtds(domuid,10000,cur_b,[])
@@ -62,12 +63,12 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 				if vcpu['pcpu']!=-1:
 					cur_w=int(vcpu['w'])
 
-			if(heart_rate<10):
+			if(heart_rate<min_heart_rate):
 				if cur_w<=9800:
 					cur_w+=100
 					xen_interface.sched_credit(domuid,cur_w)
 					xen_interface.sched_credit("6",10000-cur_w)
-			if(heart_rate>15):
+			if(heart_rate>max_heart_rate):
 				if cur_w>=200:
 					cur_w-=100
 					xen_interface.sched_credit(domuid,cur_w)
