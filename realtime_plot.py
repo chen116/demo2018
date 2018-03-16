@@ -65,7 +65,7 @@ def animate(i):
     ax1.set_xlabel('Time')
     ax2.set_xlabel('Time')
     ax1.set_ylabel('Moving Average FPS(frames/sec) \n (Window Size = 5)')
-    ax2.set_ylabel('CPU Time Percentage')
+    ax2.set_ylabel('CPU Time Percentage (%)')
 
 ani = animation.FuncAnimation(fig, animate, interval=1000)
 plt.show()
