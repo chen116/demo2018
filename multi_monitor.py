@@ -7,6 +7,7 @@ from threading import Thread
 import threading
 import time
 import pprint
+import sys
 
 with open("info.txt", "w") as myfile:
 	myfile.write("")
