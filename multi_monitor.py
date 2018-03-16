@@ -203,6 +203,7 @@ for t in threads:
 	t.join()
 	threads_cnt+=1
 pp = pprint.PrettyPrinter(indent=2)
+print('Final domUs info:')
 shared_data = xen_interface.get_global_info()
 for domuid in shared_data['rtxen']:
 	xen_interface.sched_rtds(domuid,10000,default_bw,[])
