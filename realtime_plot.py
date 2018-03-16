@@ -42,9 +42,10 @@ def animate(i):
         ax2.scatter(x[i],cpus[i],s=  ((i+1)%2)*6+5,label= sched[i]   )
     ax1.legend()
     ax2.legend()
-    ax1.set_xlabel('time')
-    ax2.set_xlabel('time')
-    ax1.set_ylabel('Window FPS (Window Size = 5)')
+    ax1.set_title('RT-Xen vs Credit Performance')
+    ax1.set_xlabel('Time')
+    ax2.set_xlabel('Time')
+    ax1.set_ylabel('Moving Average FPS(frames/sec) \n (Window Size = 5)')
     ax2.set_ylabel('CPU Time Percentage')
 
 ani = animation.FuncAnimation(fig, animate, interval=1000)
