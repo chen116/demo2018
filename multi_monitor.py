@@ -24,6 +24,8 @@ for domuid in shared_data['rtxen']:
 	xen_interface.sched_rtds(domuid,10000,default_bw,[])
 for domuid in shared_data['xen']:
 	xen_interface.sched_credit(domuid,default_bw)
+shared_data = xen_interface.get_global_info()
+	
 
 
 
