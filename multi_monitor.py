@@ -30,7 +30,7 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 	print(tab,'heart_rate',heart_rate)
 
 	min_heart_rate = 12
-	max_heart_rate = 20
+	max_heart_rate = 24
 
 
 	if anchors==1:
