@@ -34,7 +34,7 @@ def animate(i):
             index=int(line[0])-1
             x[index].append(cnt)
             hrs[index].append(float(line[1]))
-            cpus[index].append(float(line[2])/10000)
+            cpus[index].append(float(line[2])/10000*100)
             cnt+=1
     min_max = []
     for eachLine in minmaxArray:
