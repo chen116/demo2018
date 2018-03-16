@@ -130,6 +130,7 @@ class MonitorThread(threading.Thread):
 		self.res_allo=res_allo
 		self.anchors = 0
 		self.sched = sched
+		self.static_bw = 5000
 	def run(self):
 		# Acquire lock to synchronize thread
 		# self.threadLock.acquire()

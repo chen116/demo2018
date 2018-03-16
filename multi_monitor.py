@@ -89,7 +89,7 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 	else:
 		if sched==1:
 			print(tab,'-------------RT-Xen anchors INACTIVE:')
-			default_b=5000
+			default_b=500
 			myinfo = thread_shared_data[domuid]
 			cnt=0
 			not_default_b = 0
@@ -106,7 +106,7 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 				xen_interface.sched_rtds(str(int(domuid)+2),10000,default_b,[])
 		else:
 			print(tab,'Credit anchors INACTIVE:')
-			default_w=5000
+			default_w=500
 			myinfo = thread_shared_data[domuid]
 			cnt=0
 			not_default_w = 0
