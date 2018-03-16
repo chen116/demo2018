@@ -120,7 +120,7 @@ class DomU:
 
 
 class MonitorThread(threading.Thread):
-	def __init__(self, threadLock,shared_data,res_allo,domuid,sched,keys=['test'],base_path='/local/domain'):
+	def __init__(self, threadLock,shared_data,res_allo,domuid,sched,min_heart_rate,max_heart_rate,keys=['test'],base_path='/local/domain'):
 		threading.Thread.__init__(self)
 		self.domuid=(domuid)
 		self.keys=keys
@@ -131,6 +131,8 @@ class MonitorThread(threading.Thread):
 		self.anchors = 0
 		self.sched = sched
 		self.static_bw = 5000
+		self.min_heart_rate = min_heart_rate
+		self.max_heart_rate = max_heart_rate
 	def run(self):
 		# Acquire lock to synchronize thread
 		# self.threadLock.acquire()
@@ -157,7 +159,7 @@ class MonitorThread(threading.Thread):
 				self.threadLock.acquire()
 				try :
 					if self.keys[0] in path.decode():
-						self.res_allo(self.anchors,self.sched,float(msg),self.shared_data,self.domuid)					
+						self.res_allo(self.anchors,self.sched,float(msg),self.shared_data,self.domuid,self.min_heart_rate ,self.max_heart_rate )					
 				except:
 					print("meow",int(self.domuid),token.decode(),msg)
 

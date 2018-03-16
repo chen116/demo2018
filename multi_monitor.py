@@ -30,18 +30,17 @@ shared_data = xen_interface.get_global_info()
 
 
 
+min_heart_rate = float(sys.argv[1])
+max_heart_rate = float(sys.argv[2])
 
 
 
-
-def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
+def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid,min_heart_rate,max_heart_rate):
 	tab='               dom '+str(int(domuid))
 	if int(domuid)<2:
 		tab='dom '+str(int(domuid))
 	print(tab,'heart_rate',heart_rate)
 
-	min_heart_rate = 8
-	max_heart_rate = 16
 
 
 	if anchors==1:
@@ -187,7 +186,9 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 
 
 for domuid in c.domu_ids:
-	tmp_thread = heartbeat.MonitorThread(threadLock,shared_data,res_allo,domuid,int(domuid)%2,monitoring_items)
+	tmp_thread = heartbeat.MonitorThread(threadLock,shared_data,res_allo,domuid,int(domuid)%2,min_heart_rate,max_heart_rate, monitoring_items)
+
+
 	tmp_thread.start()
 	threads.append(tmp_thread)
 
