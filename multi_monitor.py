@@ -121,7 +121,7 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 			if not_default_w:
 				xen_interface.sched_credit(domuid,default_w)
 				xen_interface.sched_credit(str(int(domuid)+2),default_w)
-	buf=1000
+	buf=10000
 	thread_shared_data['cnt'] = (thread_shared_data['cnt']+1)%buf
 	info = domuid+" "+str(heart_rate)+" "
 	if sched==1:
