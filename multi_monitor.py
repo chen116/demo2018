@@ -204,4 +204,8 @@ for t in threads:
 	threads_cnt+=1
 pp = pprint.PrettyPrinter(indent=2)
 shared_data = xen_interface.get_global_info()
+for domuid in shared_data['rtxen']:
+	xen_interface.sched_rtds(domuid,10000,default_bw,[])
+for domuid in shared_data['xen']:
+	xen_interface.sched_credit(domuid,default_bw)
 print("Exiting the Monitor, total",threads_cnt,"monitoring threads")
