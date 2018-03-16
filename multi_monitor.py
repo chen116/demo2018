@@ -209,3 +209,4 @@ for domuid in shared_data['rtxen']:
 for domuid in shared_data['xen']:
 	xen_interface.sched_credit(domuid,default_bw)
 print("Exiting the Monitor, total",threads_cnt,"monitoring threads")
+print("Restored RT-Xen, Credit setup for all domUs to equal sharing")
