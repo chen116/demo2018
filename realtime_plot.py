@@ -10,7 +10,11 @@ ax2 = fig.add_subplot(2,1,2)
 buf = 1000
 def animate(i):
     pullData = open("info.txt","r").read()
+    minmax = open("minmax.txt","r").read()
     dataArray = pullData.split('\n')
+    minmaxArray = minmax.split('\n')
+
+
     x = []
     hrs = []
     cpus = []
@@ -32,6 +36,11 @@ def animate(i):
             hrs[index].append(float(line[1]))
             cpus[index].append(float(line[2])/10000)
             cnt+=1
+    min_max = []
+    for eachLine in minmaxArray:
+        if len(eachLine)>1:
+            line = eachLine.split()
+            min_max.append(float(line[1]))
 
     ax1.clear()
     ax2.clear()
@@ -40,6 +49,16 @@ def animate(i):
     for i in range(len(x)):
         ax1.scatter(x[i],hrs[i],s=  ((i+1)%2)*6+5 ,label= sched[i]   )
         ax2.scatter(x[i],cpus[i],s=  ((i+1)%2)*6+5,label= sched[i]   )
+    x_for_minmax = []
+    miny = []
+    maxy = []
+    total_x_len = len(x[0])+len(x[1])
+    for i in range(total_x_len):
+        x_for_minmax.append(i)
+        miny.append(min_max[0])
+        maxy.append(min_max[1])
+    ax1.plot(x_for_minmax,miny,'r')
+    ax1.plot(x_for_minmax,maxy,'r',label= 'target range')
     ax1.legend()
     ax2.legend()
     ax1.set_title('RT-Xen vs Credit Performance')

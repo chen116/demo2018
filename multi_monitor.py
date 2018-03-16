@@ -34,6 +34,9 @@ shared_data = xen_interface.get_global_info()
 min_heart_rate = float(sys.argv[1])
 max_heart_rate = float(sys.argv[2])
 
+with open("minmax.txt", "w") as myfile:
+	myfile.write("min "+sys.argv[1]+"\n")
+	myfile.write("max "+sys.argv[2]+"\n")
 
 
 def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid,min_heart_rate,max_heart_rate):
