@@ -25,7 +25,7 @@ for domuid in shared_data['rtxen']:
 for domuid in shared_data['xen']:
 	xen_interface.sched_credit(domuid,default_bw)
 shared_data = xen_interface.get_global_info()
-	
+
 
 
 
@@ -40,8 +40,8 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid):
 		tab='dom '+str(int(domuid))
 	print(tab,'heart_rate',heart_rate)
 
-	min_heart_rate = 12
-	max_heart_rate = 24
+	min_heart_rate = 8
+	max_heart_rate = 16
 
 
 	if anchors==1:
