@@ -58,7 +58,7 @@ if True:
 
 	checked = IntVar(value=0)
 	previous_checked = checked.get()
-	c = Checkbutton(master, text="Anchors | ", variable=checked)
+	c = Checkbutton(master, text="Anchors: | ", variable=checked)
 	c.pack(side=LEFT)
 
 
