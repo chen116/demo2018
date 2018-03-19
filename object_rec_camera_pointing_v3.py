@@ -42,7 +42,7 @@ if True:
 
 	sched_var = StringVar()
 	sched_label = Label(master, textvariable=sched_var )
-	sched_var.set(" "+sys.argv[7])
+	sched_var.set(" "+sys.argv[7]+" |")
 	sched_label.pack(side=LEFT)
 
 	# scheds = [
@@ -58,7 +58,7 @@ if True:
 
 	checked = IntVar(value=0)
 	previous_checked = checked.get()
-	c = Checkbutton(master, text="Anchors", variable=checked)
+	c = Checkbutton(master, text="Anchors | ", variable=checked)
 	c.pack(side=LEFT)
 
 
