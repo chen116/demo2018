@@ -51,13 +51,13 @@ if True:
 
 	checked = IntVar(value=0)
 	previous_checked = checked.get()
-	c = Checkbutton(master, text="Anchors | ", variable=checked).grid(row=0)
+	c = Checkbutton(master, text="Anchors | ", variable=checked).grid(row=0,column=1)
 	# c.pack(side=LEFT)
 
 
 	frame_var = StringVar()
 	frame_var.set("Frame Size:")
-	frame_label = Label(master, textvariable=frame_var).grid(row=0)
+	frame_label = Label(master, textvariable=frame_var).grid(row=0,column=2)
 	# frame_label.pack(side=LEFT)
 	FSIZE = [
 	    ("300", 300),
@@ -67,14 +67,15 @@ if True:
 	w1 = IntVar()
 	w1.set(300) # initialize
 	previous_f_size = w1.get()
-
+	cols = 3
 	for text, mode in FSIZE:
-	    b = Radiobutton(master, text=text,variable=w1, value=mode).grid(row=0)
+	    b = Radiobutton(master, text=text,variable=w1, value=mode).grid(row=0,column=cols)
+	    cols+=1
 	    # b.pack(side=LEFT)
 
 	def exit_app(w1):
 		w1.set(0)
-	done = Button(master, text="EXIT",command=lambda: exit_app(w1)).grid(row=0)
+	done = Button(master, text="EXIT",command=lambda: exit_app(w1)).grid(row=0,cols)
 	# done.pack(side=LEFT)
 
 
