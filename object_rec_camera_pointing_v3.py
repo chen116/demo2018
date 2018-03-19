@@ -92,7 +92,7 @@ if True:
 	anchors_var = StringVar()
 	anchors_var.set("Meow")
 	anchors_label = Label(master, textvariable=anchors_var)
-	anchors_label.pack()
+	anchors_label.pack(side=BOTTOM)
 
 
 
