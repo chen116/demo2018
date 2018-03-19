@@ -42,8 +42,7 @@ if True:
 
 	sched_var = StringVar()
 	sched_label = Label(master, textvariable=sched_var )
-
-	sched_var.set(sys.argv[7])
+	sched_var.set(" "+sys.argv[7]+"  Frame Size:")
 	sched_label.pack(side=LEFT)
 
 	# scheds = [
@@ -83,7 +82,7 @@ if True:
 
 	m1 = Scale(master,from_=1,to=10,orient=HORIZONTAL)
 	m1.set(5) # init speed
-	m1.pack(side=LEFT,fill=X)
+	# m1.pack(side=LEFT,fill=X)
 
 
 
