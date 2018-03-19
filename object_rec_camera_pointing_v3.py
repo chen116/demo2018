@@ -75,7 +75,7 @@ if True:
 
 	def exit_app(w1):
 		w1.set(0)
-	done = Button(master, text="EXIT",command=lambda: exit_app(w1)).grid(row=0,cols)
+	done = Button(master, text="EXIT",command=lambda: exit_app(w1)).grid(row=0,column=cols)
 	# done.pack(side=LEFT)
 
 
