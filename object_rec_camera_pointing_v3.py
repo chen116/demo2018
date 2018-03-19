@@ -29,7 +29,7 @@ from queue import Queue
 if True:
 	from tkinter import *
 	master = Tk()
-	w = 475 # width for the Tk root
+	w = 550#475 # width for the Tk root
 	h = 50 # height for the Tk root
 	# get screen width and height
 	ws = master.winfo_screenwidth() # width of the screen
