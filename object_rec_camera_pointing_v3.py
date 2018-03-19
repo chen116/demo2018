@@ -41,8 +41,12 @@ if True:
 	master.geometry('%dx%d+%d+%d' % (w, h, x, y))
 
 	sched_var = StringVar()
-	sched_label = Label(master, textvariable=sched_var )
 	sched_var.set(" || "+sys.argv[7]+" ||")
+	
+	sched_label = Label(master, textvariable=sched_var,
+		fg = "blue",
+		 bg = "yellow",
+		 font = "Verdana 10 bold" )
 	sched_label.pack(side=LEFT)
 
 	# scheds = [
