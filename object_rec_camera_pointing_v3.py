@@ -49,10 +49,7 @@ if True:
 	sched_label = Label(master, textvariable=sched_var,fg = fg,bg = "green",font = "Verdana 10 bold" ).grid(row=0)
 	# sched_label.pack(side=LEFT)
 
-	checked = IntVar(value=0)
-	previous_checked = checked.get()
-	c = Checkbutton(master, text="Anchors | ", variable=checked).grid(row=0,column=1)
-	# c.pack(side=LEFT)
+
 
 
 	frame_var = StringVar()
@@ -78,6 +75,12 @@ if True:
 	done = Button(master, text="EXIT",command=lambda: exit_app(w1)).grid(row=0,column=cols)
 	# done.pack(side=LEFT)
 
+
+	cols = 1
+	checked = IntVar(value=0)
+	previous_checked = checked.get()
+	c = Checkbutton(master, text="Anchors | ", variable=checked).grid(row=0,column=1)
+	# c.pack(side=LEFT)
 
 	anchors_var = StringVar()
 	anchors_var.set("Meow")
