@@ -79,12 +79,12 @@ if True:
 	cols = 1
 	checked = IntVar(value=0)
 	previous_checked = checked.get()
-	c = Checkbutton(master, text="Anchors | ", variable=checked).grid(row=0,column=1)
+	c = Checkbutton(master, text="Anchors | ", variable=checked).grid(row=1,column=1)
 	# c.pack(side=LEFT)
-
+	cols += 1
 	anchors_var = StringVar()
 	anchors_var.set("Meow")
-	anchors_label = Label(master, textvariable=anchors_var).grid(row=1)
+	anchors_label = Label(master, textvariable=anchors_var).grid(row=1,column=cols)
 
 
 
