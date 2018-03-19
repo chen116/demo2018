@@ -2,9 +2,10 @@
 
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from matplotlib.font_manager import FontProperties
 import time
 
-fig = plt.figure(figsize=(8, 6))
+fig = plt.figure(figsize=(9, 7))
 ax1 = fig.add_subplot(2,1,1)
 ax2 = fig.add_subplot(2,1,2)
 buf = 1000
@@ -58,14 +59,18 @@ def animate(i):
         miny.append(min_max[0])
         maxy.append(min_max[1])
     ax1.plot(x_for_minmax,miny,'r')
-    ax1.plot(x_for_minmax,maxy,'r',label= 'target range')
-    ax1.legend()
-    ax2.legend()
-    ax1.set_title('RT-Xen vs Credit Performance')
-    ax1.set_xlabel('Time')
+    ax1.plot(x_for_minmax,maxy,'r',label= 'Target FPS Range')
+    fontP = FontProperties()
+    fontP.set_size('small')
+    # ax1.legend(bbox_to_anchor=(0.05, 1), loc=2, borderaxespad=0.,prop=fontP)
+    ax1.legend(loc='upper center', bbox_to_anchor=(0.5, 1.12),ncol=3, fancybox=True, shadow=True,prop=fontP)
+    ax2.legend(loc='upper center', bbox_to_anchor=(0.5, 1.1),ncol=3, fancybox=True, shadow=True,prop=fontP)
+    # ax2.legend(bbox_to_anchor=(0.05, 1), loc=2, borderaxespad=0.,prop=fontP)
+    ax1.set_title('RT-Xen vs Credit Performance \n\n')
+    # ax1.set_xlabel('Time\n \n')
     ax2.set_xlabel('Time')
     ax1.set_ylabel('Moving Average FPS(frames/sec) \n (Window Size = 5)')
-    ax2.set_ylabel('CPU Time Percentage (%)')
+    ax2.set_ylabel('Assigned CPU Time Percentage (%)')
     ax2.set_ylim( 45, 105 )  
 
 ani = animation.FuncAnimation(fig, animate, interval=1000)
