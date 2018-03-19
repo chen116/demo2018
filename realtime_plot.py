@@ -69,7 +69,7 @@ def animate(i):
     # ax2.set_ylim( 0, 100 )  
 
 ani = animation.FuncAnimation(fig, animate, interval=1000)
-plt.show()
+# plt.show()
 
 
 
