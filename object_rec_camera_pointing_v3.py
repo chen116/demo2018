@@ -28,7 +28,7 @@ from queue import Queue
 if True:
 	from tkinter import *
 	master = Tk()
-	w = 400 # width for the Tk root
+	w = 450 # width for the Tk root
 	h = 50 # height for the Tk root
 	# get screen width and height
 	ws = master.winfo_screenwidth() # width of the screen
@@ -42,7 +42,7 @@ if True:
 
 	sched_var = StringVar()
 	sched_label = Label(master, textvariable=sched_var )
-	sched_var.set(" "+sys.argv[7]+"  Frame Size:")
+	sched_var.set(" "+sys.argv[7])
 	sched_label.pack(side=LEFT)
 
 	# scheds = [
@@ -60,6 +60,12 @@ if True:
 	previous_checked = checked.get()
 	c = Checkbutton(master, text="anchors", variable=checked)
 	c.pack(side=LEFT)
+
+
+	frame_var = StringVar()
+	frame_label = Label(master, textvariable=frame_var)
+	frame_var.set("Frame Size:")
+	frame_label.pack(side=LEFT)
 	FSIZE = [
 	    ("300", 300),
 	    ("600", 600),
