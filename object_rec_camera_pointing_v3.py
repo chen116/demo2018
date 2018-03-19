@@ -99,7 +99,7 @@ if True:
 
 	m1 = Scale(master,from_=1,to=10,orient=HORIZONTAL)
 	m1.set(5) # init speed
-	# m1.pack()
+	m1.pack(side=LEFT)
 
 
 
