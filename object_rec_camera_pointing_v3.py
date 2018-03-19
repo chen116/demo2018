@@ -70,14 +70,17 @@ if True:
 	w1.set(300) # initialize
 	previous_f_size = w1.get()
 
-	def exit_app(w1):
-		w1.set(0)
-	done = Button(master, text="EXIT",command=lambda: exit_app(w1))
-	done.pack(side=LEFT)
+
 
 	for text, mode in FSIZE:
 	    b = Radiobutton(master, text=text,variable=w1, value=mode)
 	    b.pack(side=LEFT)
+
+	def exit_app(w1):
+		w1.set(0)
+	done = Button(master, text="EXIT",command=lambda: exit_app(w1))
+	done.pack(side=LEFT)
+	
 	m1 = Scale(master,from_=1,to=10,orient=HORIZONTAL)
 	m1.set(5) # init speed
 	# m1.pack(side=LEFT,fill=X)
