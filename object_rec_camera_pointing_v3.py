@@ -25,74 +25,8 @@ from queue import Queue
 
 
 # setup GUI
+
 if True:
-	from tkinter import *
-	master = Tk()
-	w = 500 # width for the Tk root
-	h = 75 # height for the Tk root
-	# get screen width and height
-	ws = master.winfo_screenwidth() # width of the screen
-	hs = master.winfo_screenheight() # height of the screen
-	# calculate x and y coordinates for the Tk root window
-	x = (ws/2) - (w/2)
-	y = (hs)-h*2
-	# set the dimensions of the screen 
-	# and where it is placed
-	master.geometry('%dx%d+%d+%d' % (w, h, x, y))
-
-	sched_var = StringVar()
-	sched_var.set(" || "+sys.argv[7]+" ||")
-	fg ="blue"
-	if "redit" in sys.argv[7]:
-		fg = "orange"
-
-	sched_label = Label(master, textvariable=sched_var,fg = fg,bg = "green",font = "Verdana 10 bold" ).grid(row=0)
-	# sched_label.pack(side=LEFT)
-
-
-
-
-	frame_var = StringVar()
-	frame_var.set("Frame Size:")
-	frame_label = Label(master, textvariable=frame_var).grid(row=0,column=2)
-	# frame_label.pack(side=LEFT)
-	FSIZE = [
-	    ("300", 300),
-	    ("600", 600),
-	    ("800", 800)
-	]
-	w1 = IntVar()
-	w1.set(300) # initialize
-	previous_f_size = w1.get()
-	cols = 3
-	for text, mode in FSIZE:
-	    b = Radiobutton(master, text=text,variable=w1, value=mode).grid(row=0,column=cols)
-	    cols+=1
-	    # b.pack(side=LEFT)
-
-	def exit_app(w1):
-		w1.set(0)
-	done = Button(master, text="EXIT",command=lambda: exit_app(w1)).grid(row=0,column=cols)
-	# done.pack(side=LEFT)
-
-
-	cols = 1
-	checked = IntVar(value=0)
-	previous_checked = checked.get()
-	c = Checkbutton(master, text="Anchors | ", variable=checked).grid(row=1,column=1)
-	# c.pack(side=LEFT)
-	cols += 1
-	anchors_var = StringVar()
-	anchors_var.set("Meow")
-	anchors_label = Label(master, textvariable=anchors_var).grid(row=1,column=cols)
-
-
-
-
-	m1 = Scale(master,from_=1,to=10,orient=HORIZONTAL)
-	m1.set(5) # init speed
-	# m1.pack()
-else:
 	from tkinter import *
 	master = Tk()
 	w = 450 # width for the Tk root
