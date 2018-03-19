@@ -29,7 +29,7 @@ if True:
 	from tkinter import *
 	master = Tk()
 	w = 450 # width for the Tk root
-	h = 100 # height for the Tk root
+	h = 75 # height for the Tk root
 	# get screen width and height
 	ws = master.winfo_screenwidth() # width of the screen
 	hs = master.winfo_screenheight() # height of the screen
@@ -90,7 +90,7 @@ if True:
 
 
 	anchors_var = StringVar()
-	anchors_var.set("Frame Size:")
+	anchors_var.set("Meow")
 	anchors_label = Label(master, textvariable=anchors_var)
 	anchors_label.pack()
 
