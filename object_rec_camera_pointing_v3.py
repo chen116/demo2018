@@ -64,12 +64,16 @@ if True:
 	FSIZE = [
 	    ("300", 300),
 	    ("600", 600),
-	    ("800", 800),
-	    ("done",0)
+	    ("800", 800)
 	]
 	w1 = IntVar()
 	w1.set(300) # initialize
 	previous_f_size = w1.get()
+
+	def exit_app(w1):
+		w1.set(0)
+	done = Button(master, text="EXIT",command=lambda: exit_app(w1))
+	done.pack(side=LEFT)
 
 	for text, mode in FSIZE:
 	    b = Radiobutton(master, text=text,variable=w1, value=mode)
