@@ -65,7 +65,8 @@ def get_global_info():
     shared_data = {}
     shared_data['rtxen']=set()
     shared_data['xen']=set()
-    shared_data['cnt']=0
+    if 'cnt' not in shared_data:
+        shared_data['cnt']=0
 
 
     out =  subprocess.check_output(['xl', 'vcpu-list']).decode().split('\n')
