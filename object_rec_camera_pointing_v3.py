@@ -89,7 +89,6 @@ if True:
 	m1.set(5) # init speed
 	# m1.pack()
 else:
-	if True:
 	from tkinter import *
 	master = Tk()
 	w = 450 # width for the Tk root
