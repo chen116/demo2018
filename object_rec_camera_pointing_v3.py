@@ -46,10 +46,7 @@ if True:
 	if "redit" in sys.argv[7]:
 		fg = "orange"
 
-	sched_label = Label(master, textvariable=sched_var,
-		fg = fg,
-		 bg = "green",
-		 font = "Verdana 10 bold" )
+	sched_label = Label(master, textvariable=sched_var,fg = fg,bg = "green",font = "Verdana 10 bold" )
 	sched_label.pack(side=LEFT)
 
 	# scheds = [
@@ -70,8 +67,8 @@ if True:
 
 
 	frame_var = StringVar()
-	frame_label = Label(master, textvariable=frame_var)
 	frame_var.set("Frame Size:")
+	frame_label = Label(master, textvariable=frame_var)
 	frame_label.pack(side=LEFT)
 	FSIZE = [
 	    ("300", 300),
@@ -81,8 +78,6 @@ if True:
 	w1 = IntVar()
 	w1.set(300) # initialize
 	previous_f_size = w1.get()
-
-
 
 	for text, mode in FSIZE:
 	    b = Radiobutton(master, text=text,variable=w1, value=mode)
@@ -95,7 +90,8 @@ if True:
 
 	m1 = Scale(master,from_=1,to=10,orient=HORIZONTAL)
 	m1.set(5) # init speed
-	# m1.pack(side=LEFT,fill=X)
+	m1.pack()
+
 
 
 
