@@ -47,8 +47,8 @@ def animate(i):
     opts=['r*','bo']
     sched=["RT-Xen","Credit"]
     for i in range(len(x)):
-        ax1.scatter(x[i],hrs[i],s=  ((i+1)%2)*6+5 ,label= sched[i]   )
-        ax2.scatter(x[i],cpus[i],s=  ((i+1)%2)*6+5,label= sched[i]   )
+        ax1.scatter(x[i],hrs[i],s= ((i+1)%2)*6+5 ,label= sched[i]   )
+        ax2.scatter(x[i],cpus[i],s= ((i+1)%2)*6+5,label= sched[i]   )
     x_for_minmax = []
     miny = []
     maxy = []
@@ -66,6 +66,7 @@ def animate(i):
     ax2.set_xlabel('Time')
     ax1.set_ylabel('Moving Average FPS(frames/sec) \n (Window Size = 5)')
     ax2.set_ylabel('CPU Time Percentage (%)')
+    ax2.set_ylim( 0, 100 )  
 
 ani = animation.FuncAnimation(fig, animate, interval=1000)
 plt.show()
