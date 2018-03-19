@@ -42,7 +42,7 @@ if True:
 
 	sched_var = StringVar()
 	sched_label = Label(master, textvariable=sched_var )
-	sched_var.set(" "+sys.argv[7]+" |")
+	sched_var.set(" || "+sys.argv[7]+" ||")
 	sched_label.pack(side=LEFT)
 
 	# scheds = [
