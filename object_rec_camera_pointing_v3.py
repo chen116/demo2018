@@ -282,7 +282,7 @@ global_cnt=0
 
 import heartbeat
 hb = heartbeat.Heartbeat(1024,5,100,"vic.log",10,100)
-monitoring_items = ["heart_rate","app_mode"]
+monitoring_items = ["heart_rate","app_mode","frame_size"]
 comm = heartbeat.DomU(monitoring_items)
 fps = FPS().start()
 pointat = 0
@@ -458,6 +458,9 @@ while True: # realvid
 		if previous_checked!=current_checked:
 			comm.write("app_mode",current_checked)
 			previous_checked=current_checked
+		if previous_f_size!=current_f_size:
+			comm.write("frame_size",current_f_size)
+			previous_f_size=current_f_size
 		# current_sched = sched.get()
 		# if previous_sched!=current_sched:
 		# 	comm.write("sched",current_sched)

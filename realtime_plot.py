@@ -19,10 +19,14 @@ def animate(i):
     x = []
     hrs = []
     cpus = []
+    anchors = []
+    frames = []
     for i in range(2):
         x.append([])
         hrs.append([])
         cpus.append([])
+        anchors.append([])
+        frames.append([])
 
         # for j in range(buf):
         #     x[i].append(j)
@@ -33,9 +37,14 @@ def animate(i):
         if len(eachLine)>1:
             line = eachLine.split()
             index=int(line[0])-1
-            x[index].append(cnt)
-            hrs[index].append(float(line[1]))
-            cpus[index].append(float(line[2])/10000*100)
+            if len(line)==3:
+                x[index].append(cnt)
+                hrs[index].append(float(line[1]))
+                cpus[index].append(float(line[2])/10000*100)
+            if len(line)==2:
+                anchors[index].append(cnt)
+            if len(line)==4:
+                frames[index].append(cnt)
             cnt+=1
     min_max = []
     for eachLine in minmaxArray:
@@ -45,11 +54,11 @@ def animate(i):
 
     ax1.clear()
     ax2.clear()
-    opts=['r*','bo']
     sched=["RT-Xen","Credit"]
+    colrs = ['blue','orange']
     for i in range(len(x)):
-        ax1.scatter(x[i],hrs[i],s= ((i+1)%2)*6+5 ,label= sched[i]   )
-        ax2.scatter(x[i],cpus[i],s= ((i+1)%2)*6+5,label= sched[i]   )
+        ax1.scatter(x[i],hrs[i],s= ((i+1)%2)*6+5 ,label= sched[i] ,color=colrs[i])
+        ax2.scatter(x[i],cpus[i],s= ((i+1)%2)*6+5,label= sched[i] ,color=colrs[i])
     x_for_minmax = []
     miny = []
     maxy = []
@@ -72,6 +81,17 @@ def animate(i):
     ax1.set_ylabel('Moving Average FPS(frames/sec) \n (Window Size = 5)')
     ax2.set_ylabel('Assigned CPU Time Percentage (%)')
     ax2.set_ylim( 45, 105 )  
+    for i in range(len(anchors)):
+        for j in range(len(anchors[i])):
+            ax1.axvline(x=anchors[i][j] ,color=colrs[i], linestyle='--')
+            # ax1.text(4, 5, "anchors")
+            # ax2.text(4, 5, "anchors")
+    for i in range(len(frames)):
+        for j in range(len(frames[i])):
+            # ax1.text(4, 5, "frames")
+            ax1.axvline(x=frames[i][j] ,color=colrs[i], linestyle='-')
+            # ax2.text(4, 5, "frames")
+
 
 ani = animation.FuncAnimation(fig, animate, interval=1000)
 plt.show()

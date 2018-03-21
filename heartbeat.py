@@ -152,11 +152,18 @@ class MonitorThread(threading.Thread):
 			while msg!='done':
 				path,token=next(m.wait())
 				msg=c.read(path).decode()
+				self.threadLock.acquire()
 				if self.keys[1] in path.decode():
 					if msg.isdigit():
 						self.anchors = int(msg)
+						with open("info.txt", "a") as myfile:
+							myfile.write(self.domuid+" "+int(msg)+"\n")
+				if self.keys[2] in path.decode():
+					if msg.isdigit():
+						with open("info.txt", "a") as myfile:
+							myfile.write(self.domuid+" "+int(msg)+" frame size"+"\n")
 
-				self.threadLock.acquire()
+
 				try :
 					if self.keys[0] in path.decode():
 						self.res_allo(self.anchors,self.sched,float(msg),self.shared_data,self.domuid ,self.min_heart_rate,self.max_heart_rate)					
