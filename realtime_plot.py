@@ -3,6 +3,8 @@
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from matplotlib.font_manager import FontProperties
+from matplotlib.widgets import CheckButtons
+
 import time
 
 fig = plt.figure(figsize=(10, 7))
@@ -20,13 +22,17 @@ def animate(i):
     hrs = []
     cpus = []
     anchor_xs = []
+    anchors = []
     frame_xs = []
+    frames = []
     for i in range(2):
         x.append([])
         hrs.append([])
         cpus.append([])
         anchor_xs.append([])
+        anchors.append([])
         frame_xs.append([])
+        frames.append([])
 
         # for j in range(buf):
         #     x[i].append(j)
@@ -43,8 +49,10 @@ def animate(i):
                 cpus[index].append(float(line[2])/10000*100)
             if len(line)==2:
                 anchor_xs[index].append(cnt)
+                anchors[index].append(int(line[1]))
             if len(line)==4:
                 frame_xs[index].append(cnt)
+                frames[index].append(int(line[1]))
             cnt+=1
     min_max = []
     for eachLine in minmaxArray:
@@ -55,7 +63,7 @@ def animate(i):
     ax1.clear()
     ax2.clear()
     sched=["RT-Xen","Credit"]
-    colrs = ['blue','orange']
+    colrs = ['blue','limegreen']
     for i in range(len(x)):
         ax1.scatter(x[i],hrs[i],s= ((i+1)%2)*6+5 ,label= sched[i] ,color=colrs[i])
         ax2.scatter(x[i],cpus[i],s= ((i+1)%2)*6+5,label= sched[i] ,color=colrs[i])
@@ -68,7 +76,7 @@ def animate(i):
         miny.append(min_max[0])
         maxy.append(min_max[1])
     ax1.plot(x_for_minmax,miny,'r')
-    ax1.plot(x_for_minmax,maxy,'r',label= 'Target\nRange')
+    ax1.plot(x_for_minmax,maxy,'r',label= 'Target\nFPS\nRange')
     fontP = FontProperties()
     fontP.set_size('small')
     ax1.legend(bbox_to_anchor=(1.01, 1), loc=2, borderaxespad=0.,prop=fontP)
@@ -81,25 +89,46 @@ def animate(i):
     ax1.set_ylabel('Moving Average FPS(frame_xs/sec) \n (Window Size = 5)')
     ax2.set_ylabel('Assigned CPU Time Percentage (%)')
     ax2.set_ylim( 45, 105 )  
+    ax=[ax1, ax2]
+    font = [{'family': 'serif',
+            'color':  'blue',
+            'weight': 'bold',
+            'size': 8,
+            },{'family': 'serif',
+            'color':  'limegreen',
+            'weight': 'bold',
+            'size': 8,
+            }]
     for i in range(len(anchor_xs)):
         for j in range(len(anchor_xs[i])):
-            ax1.axvline(x=anchor_xs[i][j] ,color=colrs[i], linestyle='--')
-            ax2.axvline(x=anchor_xs[i][j] ,color=colrs[i], linestyle='--')
-            # ax1.text(4, 5, "anchor_xs")
-            # ax2.text(4, 5, "anchor_xs")
+            ax1.axvline(x=anchor_xs[i][j],color=colrs[i], linestyle='-')
+            ax2.axvline(x=anchor_xs[i][j],color=colrs[i], linestyle='-')
+
+            if anchors[i][j]==0:
+                ax1.text(anchor_xs[i][j],1.2*max(max(hrs)),"anchors:OFF",rotation=45,fontdict=font[i])
+            else:
+                ax1.text(anchor_xs[i][j],1.2*max(max(hrs)),"anchors:ON",rotation=45,fontdict=font[i])
+
     for i in range(len(frame_xs)):
         for j in range(len(frame_xs[i])):
-            # ax1.text(4, 5, "frame_xs")
-            ax1.axvline(x=frame_xs[i][j] ,color=colrs[i], linestyle='-')
-            ax2.axvline(x=frame_xs[i][j] ,color=colrs[i], linestyle='-')
+            ax1.axvline(x=frame_xs[i][j],color=colrs[i], linestyle='--')
+            ax2.axvline(x=frame_xs[i][j],color=colrs[i], linestyle='--')
+            ax2.text(frame_xs[i][j],40,"frame: "+str(frames[i][j]),rotation=45,fontdict=font[i],horizontalalignment='right',verticalalignment='top')
 
-            # ax2.text(4, 5, "frame_xs")
 
+    # rax = plt.axes([0.0, 0.0, 0.10, 0.15])
+    # visibility = [ax1.get_visible() for line in range(1)]
+    # check = CheckButtons(rax, ('show app1'), visibility)
+
+    # def func(label):
+    #     return
+    # check.on_clicked(func)
 
 ani = animation.FuncAnimation(fig, animate, interval=1000)
+
+
+
 plt.show()
-
-
 
 
 # import matplotlib.pyplot as plt
