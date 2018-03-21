@@ -157,11 +157,11 @@ class MonitorThread(threading.Thread):
 					if msg.isdigit():
 						self.anchors = int(msg)
 						with open("info.txt", "a") as myfile:
-							myfile.write(self.domuid+" "+int(msg)+"\n")
+							myfile.write(self.domuid+" "+(msg)+"\n")
 				if self.keys[2] in path.decode():
 					if msg.isdigit():
 						with open("info.txt", "a") as myfile:
-							myfile.write(self.domuid+" "+int(msg)+" frame size"+"\n")
+							myfile.write(self.domuid+" "+(msg)+" frame size"+"\n")
 
 
 				try :
