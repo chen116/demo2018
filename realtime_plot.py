@@ -11,6 +11,8 @@ fig = plt.figure(figsize=(10, 7))
 ax1 = fig.add_subplot(2,1,1)
 ax2 = fig.add_subplot(2,1,2)
 buf = 1000
+show_frames=1
+show_anchors=1
 def animate(i):
     pullData = open("info.txt","r").read()
     minmax = open("minmax.txt","r").read()
@@ -99,34 +101,41 @@ def animate(i):
             'weight': 'bold',
             'size': 8,
             }]
-    for i in range(len(anchor_xs)):
-        for j in range(len(anchor_xs[i])):
-            ax1.axvline(x=anchor_xs[i][j],color=colrs[i], linestyle='-')
-            ax2.axvline(x=anchor_xs[i][j],color=colrs[i], linestyle='-')
+    global show_frames, show_anchors
+    if show_anchors:
+        for i in range(len(anchor_xs)):
+            for j in range(len(anchor_xs[i])):
+                ax1.axvline(x=anchor_xs[i][j],color=colrs[i], linestyle='-')
+                ax2.axvline(x=anchor_xs[i][j],color=colrs[i], linestyle='-')
 
-            if anchors[i][j]==0:
-                ax1.text(anchor_xs[i][j],1.2*max(max(hrs)),"anchors:OFF",rotation=45,fontdict=font[i])
-            else:
-                ax1.text(anchor_xs[i][j],1.2*max(max(hrs)),"anchors:ON",rotation=45,fontdict=font[i])
+                if anchors[i][j]==0:
+                    ax1.text(anchor_xs[i][j],1.2*max(max(hrs)),"Anchors:OFF",rotation=45,fontdict=font[i])
+                else:
+                    ax1.text(anchor_xs[i][j],1.2*max(max(hrs)),"Anchors:ON",rotation=45,fontdict=font[i])
+    if show_frames:
+        for i in range(len(frame_xs)):
+            for j in range(len(frame_xs[i])):
+                ax1.axvline(x=frame_xs[i][j],color=colrs[i], linestyle='--')
+                ax2.axvline(x=frame_xs[i][j],color=colrs[i], linestyle='--')
+                ax2.text(frame_xs[i][j],40,"frame: "+str(frames[i][j]),rotation=45,fontdict=font[i],horizontalalignment='right',verticalalignment='top')
 
-    for i in range(len(frame_xs)):
-        for j in range(len(frame_xs[i])):
-            ax1.axvline(x=frame_xs[i][j],color=colrs[i], linestyle='--')
-            ax2.axvline(x=frame_xs[i][j],color=colrs[i], linestyle='--')
-            ax2.text(frame_xs[i][j],40,"frame: "+str(frames[i][j]),rotation=45,fontdict=font[i],horizontalalignment='right',verticalalignment='top')
 
-
-    # rax = plt.axes([0.0, 0.0, 0.10, 0.15])
-    # visibility = [ax1.get_visible() for line in range(1)]
-    # check = CheckButtons(rax, ('show app1'), visibility)
-
-    # def func(label):
-    #     return
-    # check.on_clicked(func)
 
 ani = animation.FuncAnimation(fig, animate, interval=1000)
 
 
+rax = plt.axes([0.91, 0.02, 0.08, 0.15])
+check = CheckButtons(rax, ['Show\nFrames','Show\nAnchors'], [True,True])
+
+def func(label):
+    global show_frames, show_anchors
+    if 'Anchors' in label:
+      show_anchors=(show_anchors+1)%2
+    elif 'Frames' in label:
+      show_frames=(show_frames+1)%2
+
+    return
+check.on_clicked(func)
 
 plt.show()
 
