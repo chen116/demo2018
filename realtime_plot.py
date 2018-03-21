@@ -5,7 +5,7 @@ import matplotlib.animation as animation
 from matplotlib.font_manager import FontProperties
 import time
 
-fig = plt.figure(figsize=(9, 7))
+fig = plt.figure(figsize=(10, 7))
 ax1 = fig.add_subplot(2,1,1)
 ax2 = fig.add_subplot(2,1,2)
 buf = 1000
@@ -19,14 +19,14 @@ def animate(i):
     x = []
     hrs = []
     cpus = []
-    anchors = []
-    frames = []
+    anchor_xs = []
+    frame_xs = []
     for i in range(2):
         x.append([])
         hrs.append([])
         cpus.append([])
-        anchors.append([])
-        frames.append([])
+        anchor_xs.append([])
+        frame_xs.append([])
 
         # for j in range(buf):
         #     x[i].append(j)
@@ -42,9 +42,9 @@ def animate(i):
                 hrs[index].append(float(line[1]))
                 cpus[index].append(float(line[2])/10000*100)
             if len(line)==2:
-                anchors[index].append(cnt)
+                anchor_xs[index].append(cnt)
             if len(line)==4:
-                frames[index].append(cnt)
+                frame_xs[index].append(cnt)
             cnt+=1
     min_max = []
     for eachLine in minmaxArray:
@@ -68,32 +68,32 @@ def animate(i):
         miny.append(min_max[0])
         maxy.append(min_max[1])
     ax1.plot(x_for_minmax,miny,'r')
-    ax1.plot(x_for_minmax,maxy,'r',label= 'Target FPS Range')
+    ax1.plot(x_for_minmax,maxy,'r',label= 'Target\nRange')
     fontP = FontProperties()
     fontP.set_size('small')
-    # ax1.legend(bbox_to_anchor=(0.05, 1), loc=2, borderaxespad=0.,prop=fontP)
-    ax1.legend(loc='upper center', bbox_to_anchor=(0.5, 1.12),ncol=3, fancybox=True, shadow=True,prop=fontP)
-    ax2.legend(loc='upper center', bbox_to_anchor=(0.5, 1.1),ncol=3, fancybox=True, shadow=True,prop=fontP)
-    # ax2.legend(bbox_to_anchor=(0.05, 1), loc=2, borderaxespad=0.,prop=fontP)
+    ax1.legend(bbox_to_anchor=(1.01, 1), loc=2, borderaxespad=0.,prop=fontP)
+    # ax1.legend(loc='upper center', bbox_to_anchor=(0.5, 1.12),ncol=3, fancybox=True, shadow=True,prop=fontP)
+    # ax2.legend(loc='upper center', bbox_to_anchor=(0.5, 1.1),ncol=3, fancybox=True, shadow=True,prop=fontP)
+    ax2.legend(bbox_to_anchor=(1.01, 1), loc=2, borderaxespad=0.,prop=fontP)
     ax1.set_title('RT-Xen vs Credit Performance \n\n')
     # ax1.set_xlabel('Time\n \n')
     ax2.set_xlabel('Time')
-    ax1.set_ylabel('Moving Average FPS(frames/sec) \n (Window Size = 5)')
+    ax1.set_ylabel('Moving Average FPS(frame_xs/sec) \n (Window Size = 5)')
     ax2.set_ylabel('Assigned CPU Time Percentage (%)')
     ax2.set_ylim( 45, 105 )  
-    for i in range(len(anchors)):
-        for j in range(len(anchors[i])):
-            ax1.axvline(x=anchors[i][j] ,color=colrs[i], linestyle='--')
-            ax2.axvline(x=anchors[i][j] ,color=colrs[i], linestyle='--')
-            # ax1.text(4, 5, "anchors")
-            # ax2.text(4, 5, "anchors")
-    for i in range(len(frames)):
-        for j in range(len(frames[i])):
-            # ax1.text(4, 5, "frames")
-            ax1.axvline(x=frames[i][j] ,color=colrs[i], linestyle='-')
-            ax2.axvline(x=frames[i][j] ,color=colrs[i], linestyle='-')
+    for i in range(len(anchor_xs)):
+        for j in range(len(anchor_xs[i])):
+            ax1.axvline(x=anchor_xs[i][j] ,color=colrs[i], linestyle='--')
+            ax2.axvline(x=anchor_xs[i][j] ,color=colrs[i], linestyle='--')
+            # ax1.text(4, 5, "anchor_xs")
+            # ax2.text(4, 5, "anchor_xs")
+    for i in range(len(frame_xs)):
+        for j in range(len(frame_xs[i])):
+            # ax1.text(4, 5, "frame_xs")
+            ax1.axvline(x=frame_xs[i][j] ,color=colrs[i], linestyle='-')
+            ax2.axvline(x=frame_xs[i][j] ,color=colrs[i], linestyle='-')
 
-            # ax2.text(4, 5, "frames")
+            # ax2.text(4, 5, "frame_xs")
 
 
 ani = animation.FuncAnimation(fig, animate, interval=1000)
