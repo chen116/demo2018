@@ -84,12 +84,15 @@ def animate(i):
     for i in range(len(anchors)):
         for j in range(len(anchors[i])):
             ax1.axvline(x=anchors[i][j] ,color=colrs[i], linestyle='--')
+            ax2.axvline(x=anchors[i][j] ,color=colrs[i], linestyle='--')
             # ax1.text(4, 5, "anchors")
             # ax2.text(4, 5, "anchors")
     for i in range(len(frames)):
         for j in range(len(frames[i])):
             # ax1.text(4, 5, "frames")
             ax1.axvline(x=frames[i][j] ,color=colrs[i], linestyle='-')
+            ax2.axvline(x=frames[i][j] ,color=colrs[i], linestyle='-')
+
             # ax2.text(4, 5, "frames")
 
 
