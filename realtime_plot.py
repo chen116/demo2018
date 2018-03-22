@@ -97,11 +97,11 @@ def animate(i):
             'weight': 'bold',
             'size': 8,
             },{'family': 'serif',
-            'color':  'lightgreen',
+            'color':  'green',
             'weight': 'bold',
             'size': 8,
             }]
-    colrs = ['lightblue','lightgreen']
+    colrs = ['lightblue','green']
 
     global show_frames, show_anchors
     if show_anchors:
