@@ -93,14 +93,16 @@ def animate(i):
     ax2.set_ylim( 45, 105 )  
     ax=[ax1, ax2]
     font = [{'family': 'serif',
-            'color':  'blue',
+            'color':  'lightblue',
             'weight': 'bold',
             'size': 8,
             },{'family': 'serif',
-            'color':  'limegreen',
+            'color':  'lightgreen',
             'weight': 'bold',
             'size': 8,
             }]
+    colrs = ['lightblue','lightgreen']
+
     global show_frames, show_anchors
     if show_anchors:
         for i in range(len(anchor_xs)):
