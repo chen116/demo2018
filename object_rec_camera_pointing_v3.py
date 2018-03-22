@@ -45,9 +45,9 @@ if True:
 	sched_var.set(" || "+sys.argv[7]+" ||")
 	fg ="blue"
 	if "redit" in sys.argv[7]:
-		fg = "orange"
+		fg = "green"
 
-	sched_label = Label(master, textvariable=sched_var,fg = fg,bg = "green",font = "Verdana 10 bold" )
+	sched_label = Label(master, textvariable=sched_var,fg = fg,bg = "white",font = "Verdana 10 bold" )
 	sched_label.pack(side=LEFT)
 
 	# scheds = [
