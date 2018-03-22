@@ -165,13 +165,22 @@ class MonitorThread(threading.Thread):
 						with open("info.txt", "a") as myfile:
 							myfile.write(self.domuid+" "+(msg)+" frame size"+"\n")
 
-
-				try :
-					if self.keys[0] in path.decode():
-						self.res_allocat(float(msg))					
+				if self.keys[0] in path.decode():
+					heart_rate=-1
+					try :
+						heart_rate = float(msg)
+					except:
+						heart_rate=-1
+					if heart_rate>-1:
+						self.res_allocat(heart_rate)					
 						#self.res_allo(self.anchors,self.sched,float(msg),self.shared_data,self.domuid ,self.min_heart_rate,self.max_heart_rate)					
-				except:
-					print("meow",int(self.domuid),token.decode(),msg)
+
+				# try :
+				# 	if self.keys[0] in path.decode():
+				# 		self.res_allocat(float(msg))					
+				# 		#self.res_allo(self.anchors,self.sched,float(msg),self.shared_data,self.domuid ,self.min_heart_rate,self.max_heart_rate)					
+				# except:
+				# 	print("meow",int(self.domuid),token.decode(),msg)
 
 				self.threadLock.release()
 
