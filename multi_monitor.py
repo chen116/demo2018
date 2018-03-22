@@ -388,6 +388,7 @@ threads_cnt=0
 for t in threads:
 	t.join()
 	threads_cnt+=1
+print('FINAL COUNT:',shared_data['cnt'])
 pp = pprint.PrettyPrinter(indent=2)
 print('Final domUs info:')
 shared_data = xen_interface.get_global_info()
