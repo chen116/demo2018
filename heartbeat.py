@@ -129,7 +129,7 @@ class MonitorThread(threading.Thread):
 		self.base_path=base_path
 		self.threadLock=threadLock
 		self.shared_data=shared_data
-		self.res_allo_explicit=res_allo
+		self.res_allo=res_allo
 		self.anchors = 0
 		self.sched = sched
 		self.target_reached_cnt = 0
@@ -168,15 +168,15 @@ class MonitorThread(threading.Thread):
 
 				try :
 					if self.keys[0] in path.decode():
-						self.res_allo(float(msg))					
-						# self.res_allo(self.anchors,self.sched,float(msg),self.shared_data,self.domuid ,self.min_heart_rate,self.max_heart_rate)					
+						#self.res_allocat(float(msg))					
+						self.res_allo(self.anchors,self.sched,float(msg),self.shared_data,self.domuid ,self.min_heart_rate,self.max_heart_rate)					
 				except:
 					print("meow",int(self.domuid),token.decode(),msg)
 
 				self.threadLock.release()
 
 				# print( token.decode(),':',msg)
-	def res_allo(self,heart_rate):
+	def res_allocat(self,heart_rate):
 		tab='               dom '+str(int(self.domuid))
 		if int(self.domuid)<2:
 			tab='dom '+str(int(self.domuid))
