@@ -291,7 +291,7 @@ class MonitorThread(threading.Thread):
 		buf=10000
 		self.shared_data['cnt'] = (self.shared_data['cnt']+1)%buf
 		info = self.domuid+" "+str(heart_rate)+" "
-		if sched==1:
+		if self.sched==1:
 			info += str(self.shared_data[self.domuid][0]['b'])
 		else:
 			info += str(self.shared_data[self.domuid][0]['w'])
