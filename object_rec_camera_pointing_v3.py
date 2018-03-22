@@ -29,7 +29,7 @@ from queue import Queue
 if True:
 	from tkinter import *
 	master = Tk()
-	w = 550#475 # width for the Tk root
+	w = 475#550 # width for the Tk root
 	h = 50 # height for the Tk root
 	# get screen width and height
 	ws = master.winfo_screenwidth() # width of the screen
@@ -99,7 +99,7 @@ if True:
 
 	m1 = Scale(master,from_=1,to=10,orient=HORIZONTAL)
 	m1.set(5) # init speed
-	m1.pack(side=LEFT)
+	# m1.pack(side=LEFT)
 
 
 
