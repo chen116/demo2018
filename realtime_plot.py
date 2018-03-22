@@ -94,7 +94,7 @@ def animate(i):
     ax2.set_xlabel('Time')
     ax1.set_ylabel('Moving Average FPS(frame_xs/sec) \n (Window Size = 5)')
     ax2.set_ylabel('Assigned CPU Time Percentage (%)')
-    ax2.set_ylim( 45, 105 )  
+    # ax2.set_ylim( 45, 105 )  
     ax=[ax1, ax2]
     font = [{'family': 'serif',
             'color':  'dodgerblue',
