@@ -68,7 +68,7 @@ def animate(i):
     ax1.clear()
     ax2.clear()
     sched=["RT-Xen","Credit"]
-    colrs = ['lightskyblue','limegreen']
+    colrs = ['blue','limegreen']
     for i in range(len(x)):
         ax1.scatter(x[i],hrs[i],s= ((i+1)%2)*6+5 ,label= sched[i] ,color=colrs[i])
         ax2.scatter(x[i],cpus[i],s= ((i+1)%2)*6+5,label= sched[i] ,color=colrs[i])
@@ -96,7 +96,7 @@ def animate(i):
     ax2.set_ylim( 45, 105 )  
     ax=[ax1, ax2]
     font = [{'family': 'serif',
-            'color':  'royalblue',
+            'color':  'deepskyblue',
             'weight': 'bold',
             'size': 8,
             },{'family': 'serif',
@@ -104,7 +104,7 @@ def animate(i):
             'weight': 'bold',
             'size': 8,
             }]
-    colrs = ['royalblue','forestgreen']
+    colrs = ['deepskyblue','forestgreen']
 
     global show_frames, show_anchors
     if show_anchors:
