@@ -115,7 +115,7 @@ class MonitorThread(threading.Thread):
 				if heart_rate<=self.max_heart_rate and heart_rate >= self.min_heart_rate:
 					self.target_reached_cnt+=1
 					if self.target_reached_cnt==150:
-						self.target_reached_cnt-=1
+						self.target_reached_cnt-=15
 						if cur_b>=200:
 							cur_b-=100
 							xen_interface.sched_rtds(self.domuid,10000,cur_b,[])
@@ -152,7 +152,7 @@ class MonitorThread(threading.Thread):
 				if heart_rate<=self.max_heart_rate and heart_rate >= self.min_heart_rate:
 					self.target_reached_cnt+=1
 					if self.target_reached_cnt==150:
-						self.target_reached_cnt-=1
+						self.target_reached_cnt-=15
 						if cur_w>=200:
 							cur_w-=100
 							xen_interface.sched_credit(self.domuid,cur_w)
