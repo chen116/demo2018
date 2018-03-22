@@ -251,6 +251,16 @@ class MonitorThread(threading.Thread):
 						cur_w-=100
 						xen_interface.sched_credit(self.domuid,cur_w)
 						xen_interface.sched_credit(str(int(self.domuid)+2),10000-cur_w)
+				if heart_rate<=self.max_heart_rate && heart_rate >= self.min_heart_rate:
+					self.target_reached_cnt+=1
+					if self.target_reached_cnt==10:
+						self.target_reached_cnt-=1
+						if cur_w>=200:
+							cur_w-=100
+							xen_interface.sched_credit(self.domuid,cur_w)
+							xen_interface.sched_credit(str(int(self.domuid)+2),10000-cur_w)
+				else:
+					self.target_reached_cnt=0
 				myinfo = self.shared_data[self.domuid]
 				cnt=0
 				for vcpu in myinfo:
