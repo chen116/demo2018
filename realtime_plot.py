@@ -70,7 +70,7 @@ def animate(i):
     sched=["RT-Xen","Credit"]
     colrs = ['blue','limegreen']
     for i in range(len(x)):
-        ax1.scatter(x[i],hrs[i],s= ((i+1)%2)*6+5 ,label= sched[i] ,color=colrs[i],linestyle='-')
+        ax1.scatter(x[i],hrs[i],s= ((i+1)%2)*6+5 ,label= sched[i] ,color=colrs[i])
         ax2.scatter(x[i],cpus[i],s= ((i+1)%2)*6+5,label= sched[i] ,color=colrs[i],linestyle='-')
     x_for_minmax = []
     miny = []
