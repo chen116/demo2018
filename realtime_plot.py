@@ -123,7 +123,7 @@ def animate(i):
             for j in range(len(frame_xs[i])):
                 ax1.axvline(x=frame_xs[i][j],color=colrs[i], linestyle='--')
                 ax2.axvline(x=frame_xs[i][j],color=colrs[i], linestyle='--')
-                ax2.text(frame_xs[i][j],40,"frame: "+str(frames[i][j]),rotation=45,fontdict=font[i],horizontalalignment='right',verticalalignment='top')
+                ax2.text(frame_xs[i][j],0,"frame: "+str(frames[i][j]),rotation=45,fontdict=font[i],horizontalalignment='right',verticalalignment='top')
 
 
 
