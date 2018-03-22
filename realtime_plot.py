@@ -96,7 +96,7 @@ def animate(i):
     ax2.set_ylim( 45, 105 )  
     ax=[ax1, ax2]
     font = [{'family': 'serif',
-            'color':  'deepskyblue',
+            'color':  'dodgerblue',
             'weight': 'bold',
             'size': 8,
             },{'family': 'serif',
@@ -104,7 +104,7 @@ def animate(i):
             'weight': 'bold',
             'size': 8,
             }]
-    colrs = ['deepskyblue','forestgreen']
+    colrs = ['dodgerblue','forestgreen']
 
     global show_frames, show_anchors
     if show_anchors:
