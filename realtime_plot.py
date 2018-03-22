@@ -41,6 +41,7 @@ def animate(i):
         #     hrs[i].append(0)
         #     cpus[i].append(0)
     cnt=0
+    maxhrs=0
     for eachLine in dataArray:
         if len(eachLine)>1:
             line = eachLine.split()
@@ -48,6 +49,8 @@ def animate(i):
             if len(line)==3:
                 x[index].append(cnt)
                 hrs[index].append(float(line[1]))
+                if float(line[1])>maxhrs:
+                    maxhrs=float(line[1])
                 cpus[index].append(float(line[2])/10000*100)
             if len(line)==2:
                 anchor_xs[index].append(cnt)
@@ -111,9 +114,9 @@ def animate(i):
                 ax2.axvline(x=anchor_xs[i][j],color=colrs[i], linestyle='-')
 
                 if anchors[i][j]==0:
-                    ax1.text(anchor_xs[i][j],1.2*max(max(hrs)),"Anchors:OFF",rotation=45,fontdict=font[i])
+                    ax1.text(anchor_xs[i][j],1.2*maxhrs,"Anchors:OFF",rotation=45,fontdict=font[i])
                 else:
-                    ax1.text(anchor_xs[i][j],1.2*max(max(hrs)),"Anchors:ON",rotation=45,fontdict=font[i])
+                    ax1.text(anchor_xs[i][j],1.2*maxhrs,"Anchors:ON",rotation=45,fontdict=font[i])
     if show_frames:
         for i in range(len(frame_xs)):
             for j in range(len(frame_xs[i])):
