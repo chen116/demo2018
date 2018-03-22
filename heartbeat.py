@@ -214,10 +214,17 @@ class MonitorThread(threading.Thread):
 						xen_interface.sched_rtds(str(int(self.domuid)+2),10000,10000-cur_b,[])
 
 
-				# if heart_rate<=max_heart_rate && heart_rate >= self.min_heart_rate:
-				# 	target_reached_cnt+=1
-				# 	if target_reached_cnt==10:
-				# 		target_reached_cnt=0
+				if heart_rate<=self.max_heart_rate && heart_rate >= self.min_heart_rate:
+					self.target_reached_cnt+=1
+					if self.target_reached_cnt==10:
+						self.target_reached_cnt-=1
+						if cur_b>=200:
+							cur_b-=100
+							xen_interface.sched_rtds(self.domuid,10000,cur_b,[])
+							xen_interface.sched_rtds(str(int(self.domuid)+2),10000,10000-cur_b,[])
+				else:
+					self.target_reached_cnt=0
+
 
 				myinfo = self.shared_data[self.domuid]
 				cnt=0
