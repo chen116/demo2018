@@ -8,7 +8,7 @@ import threading
 import time
 import pprint
 import sys
-
+from pyxs import Client
 with open("info.txt", "w") as myfile:
 	myfile.write("")
 
