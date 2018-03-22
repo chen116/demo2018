@@ -71,7 +71,8 @@ def animate(i):
     colrs = ['blue','limegreen']
     for i in range(len(x)):
         ax1.scatter(x[i],hrs[i],s= ((i+1)%2)*6+5 ,label= sched[i] ,color=colrs[i])
-        ax2.scatter(x[i],cpus[i],s= ((i+1)%2)*6+5,label= sched[i] ,color=colrs[i],linewidths=1)
+        ax2.plot(x[i],cpus[i],color=colrs[i],lw=((i+1)%2)+3,label= sched[i] )
+        # ax2.scatter(x[i],cpus[i],s= ((i+1)%2)*6+5,label= sched[i] ,color=colrs[i])
     x_for_minmax = []
     miny = []
     maxy = []
