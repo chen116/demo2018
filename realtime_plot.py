@@ -35,13 +35,13 @@ def animate2(i):
     for i in range(2):
         x.append([])
         hrs.append([])        
-        dummy_x.append([])
-        dummy_hrs.append([])
         cpus.append([])
         anchor_xs.append([])
         anchors.append([])
         frame_xs.append([])
         frames.append([])
+        dummy_x.append([])
+        dummy_hrs.append([])
 
         # for j in range(buf):
         #     x[i].append(j)
@@ -67,7 +67,7 @@ def animate2(i):
                 frames[index].append(int(line[1]))
             if len(line)==5:
                 dummy_x[index-2].append(cnt)
-                dummy_hrs[index-2].append(int(line[1]))
+                dummy_hrs[index-2].append(float(line[1]))
             cnt+=1
     min_max = []
     for eachLine in minmaxArray:
