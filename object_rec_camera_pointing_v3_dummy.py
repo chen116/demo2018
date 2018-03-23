@@ -240,6 +240,7 @@ while vs.more(): # outvid
 #while True: # realvid
 	if not vs.more():
 		vs = FileVideoStream("walkcat.mp4").start()
+		vs.more()
 
 	frame = vs.read()
 	# frame = cat_frame # outvid
