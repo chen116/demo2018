@@ -238,11 +238,11 @@ pointat = 0
 prev_personincam = personincam
 while vs.more(): # outvid
 #while True: # realvid
-	if not vs.more():
-		vs = FileVideoStream("walkcat.mp4").start()
-		vs.more()
+
 
 	frame = vs.read()
+	if not vs.more():
+		vs = FileVideoStream("walkcat.mp4").start()
 	# frame = cat_frame # outvid
 	current_f_size=w1.get()
 	if current_f_size == 0:
@@ -363,6 +363,8 @@ while vs.more(): # outvid
 		# master.update()
 		#if(time.time()>pointat):
 		#	canpoint = 1
+
+
 
 		
 # stop the timer and display FPS information
