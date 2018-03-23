@@ -13,6 +13,7 @@ ax2 = fig.add_subplot(2,1,2)
 buf = 1000
 show_frames=1
 show_anchors=1
+show_dummies=1
 def animate2(i):
     pullData = open("info.txt","r").read()
     minmax = open("minmax.txt","r").read()
@@ -27,9 +28,13 @@ def animate2(i):
     anchors = []
     frame_xs = []
     frames = []
+    dummy_x = []
+    dummy_hrs = []
     for i in range(2):
         x.append([])
-        hrs.append([])
+        hrs.append([])        
+        dummy_x.append([])
+        dummy_hrs.append([])
         cpus.append([])
         anchor_xs.append([])
         anchors.append([])
@@ -58,6 +63,9 @@ def animate2(i):
             if len(line)==4:
                 frame_xs[index].append(cnt)
                 frames[index].append(int(line[1]))
+            if len(line)==5:
+                frame_xs[index-2].append(cnt)
+                frames[index-2].append(int(line[1]))
             cnt+=1
     min_max = []
     for eachLine in minmaxArray:
@@ -69,14 +77,13 @@ def animate2(i):
     ax2.clear()
     sched=["RT-Xen","Credit"]
     colrs = ['blue','limegreen']
-    dummy_colrs = ['lightblue','lightgreen']
     for i in range(len(x)):
         ax1.scatter(x[i],hrs[i],s= ((i+1)%2)*6+5 ,label= sched[i] ,color=colrs[i])
         ax2.plot(x[i],cpus[i],color=colrs[i],lw=((i+1)%2)+3,label= sched[i] )
-        tmp=[]
-        for j in range(len(cpus[i])):
-            tmp.append(100-cpus[i][j])
-        ax2.plot(x[i],tmp,color=dummy_colrs[i],lw=((i+1)%2)+3,label= sched[i] )
+        # tmp=[]
+        # for j in range(len(cpus[i])):
+        #     tmp.append(100-cpus[i][j])
+        # ax2.plot(x[i],tmp,color=dummy_colrs[i],lw=((i+1)%2)+3,label= sched[i] )
         # ax2.scatter(x[i],cpus[i],s= ((i+1)%2)*6+5,label= sched[i] ,color=colrs[i])
     x_for_minmax = []
     miny = []
@@ -113,7 +120,11 @@ def animate2(i):
             }]
     colrs = ['dodgerblue','forestgreen']
 
-    global show_frames, show_anchors
+    global show_frames, show_anchors, show_dummies
+    dummy_colrs = ['lightblue','lightgreen']
+    if show_dummies:
+        for i in range(len(dummy_x)):
+            ax1.scatter(dummy_x[i],dummy_hrs[i],s= ((i+1)%2)*6+5 ,label= sched[i] ,color=dummy_colrs[i])
     if show_anchors:
         for i in range(len(anchor_xs)):
             for j in range(len(anchor_xs[i])):
@@ -252,14 +263,16 @@ ani = animation.FuncAnimation(fig, animate2, interval=1000)
 
 
 rax = plt.axes([0.91, 0.02, 0.08, 0.15])
-check = CheckButtons(rax, ['Show\nFrames','Show\nAnchors'], [True,True])
+check = CheckButtons(rax, ['Show\nFrames','Show\nAnchors','Show\nDummies'], [True,True,True])
 
 def func(label):
-    global show_frames, show_anchors
+    global show_frames, show_anchors,show_dummies
     if 'Anchors' in label:
       show_anchors=(show_anchors+1)%2
     elif 'Frames' in label:
-      show_frames=(show_frames+1)%2
+      show_frames=(show_frames+1)%2    
+    elif 'Dummies' in label:
+      show_dummies=(show_dummies+1)%2
 
     return
 check.on_clicked(func)
