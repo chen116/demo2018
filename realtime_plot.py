@@ -15,6 +15,8 @@ show_frames=1
 show_anchors=1
 show_dummies=1
 def animate2(i):
+    global show_frames, show_anchors, show_dummies
+
     pullData = open("info.txt","r").read()
     minmax = open("minmax.txt","r").read()
     dataArray = pullData.split('\n')
@@ -85,6 +87,13 @@ def animate2(i):
         #     tmp.append(100-cpus[i][j])
         # ax2.plot(x[i],tmp,color=dummy_colrs[i],lw=((i+1)%2)+3,label= sched[i] )
         # ax2.scatter(x[i],cpus[i],s= ((i+1)%2)*6+5,label= sched[i] ,color=colrs[i])
+    dummy_colrs = ['lightblue','lightgreen']
+    dummy_sched=["Dummy\nRT-Xen","Dummy\nCredit"]
+
+    if show_dummies:
+        for i in range(len(dummy_x)):
+            ax1.scatter(dummy_x[i],dummy_hrs[i],s= ((i+1)%2)*6+5 ,label= dummy_sched[i] ,color=dummy_colrs[i])
+
     x_for_minmax = []
     miny = []
     maxy = []
@@ -120,11 +129,6 @@ def animate2(i):
             }]
     colrs = ['dodgerblue','forestgreen']
 
-    global show_frames, show_anchors, show_dummies
-    dummy_colrs = ['lightblue','lightgreen']
-    if show_dummies:
-        for i in range(len(dummy_x)):
-            ax1.scatter(dummy_x[i],dummy_hrs[i],s= ((i+1)%2)*6+5 ,label= sched[i] ,color=dummy_colrs[i])
     if show_anchors:
         for i in range(len(anchor_xs)):
             for j in range(len(anchor_xs[i])):
