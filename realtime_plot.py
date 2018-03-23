@@ -120,7 +120,7 @@ def animate2(i):
     ax1.set_title(r'$\frac{RT-Xen \quad FPS}{Credit \quad FPS }$ = %.2f %%'%(per),loc='right',fontsize=10)
     # ax1.set_xlabel('Time\n \n')
     ax2.set_xlabel('Time')
-    ax1.set_ylabel('Moving Average FPS(frame_xs/sec) \n (Window Size = 5)')
+    ax1.set_ylabel('Moving Average FPS(frames/sec) \n (Window Size = 5)')
     ax2.set_ylabel('Assigned CPU Time Percentage (%)')
     # ax2.set_ylim( 45, 105 )  
     ax2.set_ylim( -5, 105 )  
@@ -283,8 +283,8 @@ def func(label):
       show_anchors=(show_anchors+1)%2
     elif 'Frames' in label:
       show_frames=(show_frames+1)%2    
-    # elif 'Dummies' in label:
-    #   show_dummies=(show_dummies+1)%2
+    elif 'Dummies' in label:
+      show_dummies=(show_dummies+1)%2
 
     return
 check.on_clicked(func)
