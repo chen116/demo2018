@@ -26,7 +26,7 @@ from queue import Queue
 
 # setup GUI
 
-if not True:
+if True:
 	from tkinter import *
 	master = Tk()
 	w = 475#550 # width for the Tk root
@@ -234,13 +234,15 @@ monitoring_items = ["heart_rate","app_mode","frame_size"]
 fps = FPS().start()
 pointat = 0
 # loop over the frames from the video stream
-
+frame = vs.read()
 prev_personincam = personincam
-while vs.more(): # outvid
-#while True: # realvid
-
-
+while i<100: # outvid
 	frame = vs.read()
+	i=i+1
+while True: # realvid
+
+
+	frame = frame
 	if not vs.more():
 		vs = FileVideoStream("walkcat.mp4").start()
 	# frame = cat_frame # outvid
@@ -332,7 +334,7 @@ while vs.more(): # outvid
 
 
 		# show the output frame
-		# cv2.imshow("Frame", frame)
+		cv2.imshow("Frame", frame)
 		# hb stuff
 		hb.heartbeat_beat()
 		window_hr = hb.get_window_heartrate()
@@ -350,8 +352,8 @@ while vs.more(): # outvid
 
 
 		fps.update()
-		# master.update_idletasks()
-		# master.update()
+		master.update_idletasks()
+		master.update()
 		key = cv2.waitKey(1) & 0xFF
 		# if the `q` key was pressed, break from the loop
 		if key == ord("q"):
