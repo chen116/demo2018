@@ -394,7 +394,7 @@ try:
 		t.join()
 	print("worker threads cleaned up")
 except KeyboardInterrupt:
-	print 'Interrupted'
+	print('Interrupted')
 	try:
 		fps.stop()
 		print("[INFO] elapsed time: {:.2f}".format(fps.elapsed()))
