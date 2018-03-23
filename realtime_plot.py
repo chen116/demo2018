@@ -97,7 +97,7 @@ def animate2(i):
     x_for_minmax = []
     miny = []
     maxy = []
-    total_x_len = len(x[0])+len(x[1])
+    total_x_len = len(x[0])+len(x[1])+len(dummy_x[0])+len(dummy_x[1])
     for i in range(total_x_len):
         x_for_minmax.append(i)
         miny.append(min_max[0])
