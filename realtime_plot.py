@@ -13,7 +13,7 @@ ax2 = fig.add_subplot(2,1,2)
 buf = 1000
 show_frames=1
 show_anchors=1
-show_dummies=1
+show_dummies=0
 def animate2(i):
     global show_frames, show_anchors, show_dummies
 
@@ -274,7 +274,8 @@ ani = animation.FuncAnimation(fig, animate2, interval=1000)
 
 
 rax = plt.axes([0.91, 0.02, 0.085, 0.2])
-check = CheckButtons(rax, ['Show\nFrames','Show\nAnchors','Show\nDummies'], [True,True,True])
+# check = CheckButtons(rax, ['Show\nFrames','Show\nAnchors','Show\nDummies'], [True,True,True])
+check = CheckButtons(rax, ['Show\nFrames','Show\nAnchors'], [True,True])
 
 def func(label):
     global show_frames, show_anchors,show_dummies
@@ -282,8 +283,8 @@ def func(label):
       show_anchors=(show_anchors+1)%2
     elif 'Frames' in label:
       show_frames=(show_frames+1)%2    
-    elif 'Dummies' in label:
-      show_dummies=(show_dummies+1)%2
+    # elif 'Dummies' in label:
+    #   show_dummies=(show_dummies+1)%2
 
     return
 check.on_clicked(func)
