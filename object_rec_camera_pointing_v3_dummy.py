@@ -230,7 +230,7 @@ global_cnt=0
 import heartbeat
 hb = heartbeat.Heartbeat(1024,5,100,"vic.log",10,100)
 monitoring_items = ["heart_rate"]
-# comm = heartbeat.DomU(monitoring_items)
+comm = heartbeat.DomU(monitoring_items)
 fps = FPS().start()
 pointat = 0
 # loop over the frames from the video stream
@@ -339,7 +339,7 @@ while True: # realvid
 		hb.heartbeat_beat()
 		window_hr = hb.get_window_heartrate()
 		instant_hr = hb.get_instant_heartrate()
-		# comm.write("heart_rate",window_hr)
+		comm.write("heart_rate",window_hr)
 		print('------------------window_hr:',window_hr)
 		print('instant_hr:',instant_hr)
 		# current_checked = checked.get()
@@ -380,7 +380,7 @@ vs.stop()
 
 # hb clean up
 hb.heartbeat_finish()
-# comm.write("heart_rate","done")
+comm.write("heart_rate","done")
 
 # worker threads clean up
 threadLock.acquire()
