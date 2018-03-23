@@ -154,7 +154,7 @@ input_q = Queue()  # fps is better if queue is higher but then more lags
 output_q = Queue()
 
 threads = []
-every_n_frame = {'cnt':-1,'n':1}
+every_n_frame = {'cnt':-1,'n':1}#m1.get()}
 threadLock = threading.Lock()
 total_num_threads = 5
 num_threads_exiting = 0
@@ -244,7 +244,7 @@ while vs.more(): # outvid
 	if not vs.more():
 		vs = FileVideoStream("walkcat.mp4").start()
 	# frame = cat_frame # outvid
-	current_f_size=w1.get()
+	current_f_size=300#w1.get()
 	if current_f_size == 0:
 		threadLock.acquire()
 		every_n_frame['n']=-1
