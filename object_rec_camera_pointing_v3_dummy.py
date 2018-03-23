@@ -242,7 +242,7 @@ while vs.more(): # outvid
 	frame = vs.read()
 	# frame = cat_frame # outvid
 	current_f_size=w1.get()
-	if remotetrack == -1 or current_f_size == 0:
+	if current_f_size == 0:
 		threadLock.acquire()
 		every_n_frame['n']=-1
 		threadLock.release()
