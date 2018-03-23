@@ -73,7 +73,10 @@ def animate2(i):
     for i in range(len(x)):
         ax1.scatter(x[i],hrs[i],s= ((i+1)%2)*6+5 ,label= sched[i] ,color=colrs[i])
         ax2.plot(x[i],cpus[i],color=colrs[i],lw=((i+1)%2)+3,label= sched[i] )
-        ax2.plot(x[i],[1000 for i in range(len(cpus[i]))]-cpus[i],color=dummy_colrs[i],lw=((i+1)%2)+3,label= sched[i] )
+        tmp=[]
+        for j in range(len(cpus[i])):
+            tmp.append(10000-cpus[i])
+        ax2.plot(x[i],tmp,color=dummy_colrs[i],lw=((i+1)%2)+3,label= sched[i] )
         # ax2.scatter(x[i],cpus[i],s= ((i+1)%2)*6+5,label= sched[i] ,color=colrs[i])
     x_for_minmax = []
     miny = []
