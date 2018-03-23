@@ -3,7 +3,7 @@ import cv2
 import time
 import argparse
 import numpy as np
-import tensorflow as tf
+# import tensorflow as tf
 from imutils.video import FileVideoStream
 import imutils
 
