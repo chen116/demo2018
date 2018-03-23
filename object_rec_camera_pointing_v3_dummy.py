@@ -327,22 +327,8 @@ while vs.more(): # outvid
 					sentlostmessage = 0
 					centered = 0
 
-		myvec = detections[0,0,:,1]	
 
 
-
-			#elif ((confidence < 0.2) and (CLASSES[idx2]=='person') and (localsearch==0) and (remotetrack == 1) and (localtrack == 0)):
-			#	print('about to start cruise')
-			#	mycam.start_horizontal_cruise()
-			#	localsearch = 1
-			#	localtrack = 0
-			#elif ((confidence < 0.2) and (CLASSES[idx2]=='person') and (localsearch==0) and (remotetrack == 0) and (centered==0)):
-			#	print('about tor reset cam')
-			#	mycam.ptz_reset()
-			#	centered = 1
-			#	localsearch = 0
-			#	localtrack = 0	
-			#	sock_client.send(bytes('lost_object','UTF-8'))
 		# show the output frame
 		cv2.imshow("Frame", frame)
 		# hb stuff
