@@ -80,7 +80,7 @@ def animate2(i):
     sched=["RT-Xen","Credit"]
     colrs = ['blue','limegreen']
     for i in range(len(x)):
-        ax1.scatter(x[i],hrs[i],s= ((i+1)%2)*6+5 ,label= sched[i] ,color=colrs[i])
+        ax1.scatter(x[i],hrs[i],s= ((1)%2)*6+5 ,label= sched[i] ,color=colrs[i])
         ax2.plot(x[i],cpus[i],color=colrs[i],lw=((i+1)%2)+3,label= sched[i] )
         # tmp=[]
         # for j in range(len(cpus[i])):
@@ -92,7 +92,7 @@ def animate2(i):
 
     if show_dummies:
         for i in range(len(dummy_x)):
-            ax1.scatter(dummy_x[i],dummy_hrs[i],s= ((i+1)%2)*6+5 ,label= dummy_sched[i] ,color=dummy_colrs[i],marker='x')
+            ax1.scatter(dummy_x[i],dummy_hrs[i],s= ((1)%2)*6+5 ,label= dummy_sched[i] ,color=dummy_colrs[i],marker='x')
 
     x_for_minmax = []
     miny = []
