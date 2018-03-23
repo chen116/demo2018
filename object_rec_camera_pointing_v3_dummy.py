@@ -331,7 +331,7 @@ while vs.more(): # outvid
 
 
 		# show the output frame
-		#cv2.imshow("Frame", frame)
+		cv2.imshow("Frame", frame)
 		# hb stuff
 		# hb.heartbeat_beat()
 		# window_hr = hb.get_window_heartrate()
