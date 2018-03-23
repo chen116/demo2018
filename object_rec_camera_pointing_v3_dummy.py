@@ -262,9 +262,9 @@ while vs.more(): # outvid
 		blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)),
 			0.007843, (300, 300), 127.5)
 		threadLock.acquire()
-		every_n_frame['n']=m1.get()
+		every_n_frame['n']=1#m1.get()
 		threadLock.release()
-		stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
+		stuff={'blob':blob,'cnt':cnt,'n':1}#m1.get()}
 		cnt+=1
 		input_q.put(stuff)
 
