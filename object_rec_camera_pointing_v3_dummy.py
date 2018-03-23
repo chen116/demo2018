@@ -208,7 +208,7 @@ tracking_target = "cat"  # outvid
 
 
 
-time.sleep(2.0)
+# time.sleep(2.0)
 
 # cat_frame = vs.read()  # outvid
 # for x in range(10):  # outvid
@@ -238,6 +238,8 @@ pointat = 0
 prev_personincam = personincam
 while vs.more(): # outvid
 #while True: # realvid
+	if not vs.more():
+		vs = FileVideoStream("walkcat.mp4").start()
 
 	frame = vs.read()
 	# frame = cat_frame # outvid
