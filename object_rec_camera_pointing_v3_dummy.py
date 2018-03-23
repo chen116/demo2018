@@ -26,7 +26,7 @@ from queue import Queue
 
 # setup GUI
 
-if True:
+if not True:
 	from tkinter import *
 	master = Tk()
 	w = 475#550 # width for the Tk root
@@ -334,7 +334,7 @@ while True: # realvid
 
 
 		# show the output frame
-		cv2.imshow("Frame", frame)
+		# cv2.imshow("Frame", frame)
 		# hb stuff
 		hb.heartbeat_beat()
 		window_hr = hb.get_window_heartrate()
@@ -352,8 +352,8 @@ while True: # realvid
 
 
 		fps.update()
-		master.update_idletasks()
-		master.update()
+		# master.update_idletasks()
+		# master.update()
 		key = cv2.waitKey(1) & 0xFF
 		# if the `q` key was pressed, break from the loop
 		if key == ord("q"):
