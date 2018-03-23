@@ -9,7 +9,7 @@ import imutils
 
 from queue import Queue
 from threading import Thread
-from utils.app_utils import FPS, WebcamVideoStream, draw_boxes_and_labels
+# from utils.app_utils import FPS, WebcamVideoStream, draw_boxes_and_labels
 from object_detection.utils import label_map_util
 from tkinter import *
 master = Tk()
