@@ -228,8 +228,8 @@ cnt=0
 global_cnt=0
 
 import heartbeat
-# hb = heartbeat.Heartbeat(1024,5,100,"vic.log",10,100)
-# monitoring_items = ["heart_rate","app_mode","frame_size"]
+hb = heartbeat.Heartbeat(1024,5,100,"vic.log",10,100)
+monitoring_items = ["heart_rate","app_mode","frame_size"]
 # comm = heartbeat.DomU(monitoring_items)
 fps = FPS().start()
 pointat = 0
@@ -334,12 +334,12 @@ while vs.more(): # outvid
 		# show the output frame
 		cv2.imshow("Frame", frame)
 		# hb stuff
-		# hb.heartbeat_beat()
-		# window_hr = hb.get_window_heartrate()
-		# instant_hr = hb.get_instant_heartrate()
+		hb.heartbeat_beat()
+		window_hr = hb.get_window_heartrate()
+		instant_hr = hb.get_instant_heartrate()
 		# comm.write("heart_rate",window_hr)
-		# print('------------------window_hr:',window_hr)
-		# print('instant_hr:',instant_hr)
+		print('------------------window_hr:',window_hr)
+		print('instant_hr:',instant_hr)
 		# current_checked = checked.get()
 		# if previous_checked!=current_checked:
 		# 	comm.write("app_mode",current_checked)
@@ -377,7 +377,7 @@ cv2.destroyAllWindows()
 vs.stop()
 
 # hb clean up
-# hb.heartbeat_finish()
+hb.heartbeat_finish()
 # comm.write("heart_rate","done")
 
 # worker threads clean up
