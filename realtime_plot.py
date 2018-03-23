@@ -92,7 +92,7 @@ def animate2(i):
 
     if show_dummies:
         for i in range(len(dummy_x)):
-            ax1.scatter(dummy_x[i],dummy_hrs[i],s= ((1)%2)*6+5 ,label= dummy_sched[i] ,color=dummy_colrs[i],marker='x')
+            ax1.scatter(dummy_x[i],dummy_hrs[i],s= ((1)%2)*6+5 ,label= dummy_sched[i] ,color=dummy_colrs[i],marker='o')
 
     x_for_minmax = []
     miny = []
