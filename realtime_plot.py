@@ -262,7 +262,7 @@ def animate(i):
 ani = animation.FuncAnimation(fig, animate2, interval=1000)
 
 
-rax = plt.axes([0.91, 0.02, 0.08, 0.15])
+rax = plt.axes([0.91, 0.02, 0.09, 0.15])
 check = CheckButtons(rax, ['Show\nFrames','Show\nAnchors','Show\nDummies'], [True,True,True])
 
 def func(label):
