@@ -42,10 +42,9 @@ if True:
 	master.geometry('%dx%d+%d+%d' % (w, h, x, y))
 
 	sched_var = StringVar()
-	sched_var.set(" || "+sys.argv[7]+" ||")
-	fg ="blue"
-	if "redit" in sys.argv[7]:
-		fg = "green"
+	sched_var.set("dummy")
+	fg ="black"
+
 
 	sched_label = Label(master, textvariable=sched_var,fg = fg,bg = "white",font = "Verdana 10 bold" )
 	sched_label.pack(side=LEFT)
