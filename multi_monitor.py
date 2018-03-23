@@ -13,7 +13,7 @@ with open("info.txt", "w") as myfile:
 	myfile.write("")
 
 monitoring_items = ["heart_rate","app_mode","frame_size"]
-c = heartbeat.Dom0(monitoring_items,['1','2'])
+c = heartbeat.Dom0(monitoring_items,['1','2','3','4'])
 # c = heartbeat.Dom0(["heart_rate"])
 
 
@@ -84,6 +84,21 @@ class MonitorThread(threading.Thread):
 
 				# print( token.decode(),':',msg)
 	def res_allocat(self,heart_rate):
+
+		if int(self.domuid)>=3:
+			print("dummy",int(self.domuid)-2,"heartrate:",heart_rate)
+			buf=10000
+			self.shared_data['cnt'] = (self.shared_data['cnt']+1)%buf
+			info = self.domuid+" "+str(heart_rate)+" dummy is here"
+			if self.shared_data['cnt']%buf!=0:
+				with open("info.txt", "a") as myfile:
+					myfile.write(info+"\n")
+			else:
+				with open("info.txt", "w") as myfile:
+					myfile.write(info+"\n")			
+
+			return
+
 		tab='               dom '+str(int(self.domuid))
 		if int(self.domuid)<2:
 			tab='dom '+str(int(self.domuid))
@@ -377,10 +392,10 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid,min_heart_rate,m
 
 for domuid in c.domu_ids:
 	tmp_thread = MonitorThread(threadLock,shared_data,res_allo,domuid,int(domuid)%2,min_heart_rate,max_heart_rate, monitoring_items)
-
-
 	tmp_thread.start()
 	threads.append(tmp_thread)
+
+
 
 
 # Wait for all MonitorThreads to complete

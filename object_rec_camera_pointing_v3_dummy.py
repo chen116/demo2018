@@ -229,7 +229,7 @@ global_cnt=0
 
 import heartbeat
 hb = heartbeat.Heartbeat(1024,5,100,"vic.log",10,100)
-monitoring_items = ["heart_rate","app_mode","frame_size"]
+monitoring_items = ["heart_rate"]
 # comm = heartbeat.DomU(monitoring_items)
 fps = FPS().start()
 pointat = 0
