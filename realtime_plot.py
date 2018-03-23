@@ -66,8 +66,8 @@ def animate2(i):
                 frame_xs[index].append(cnt)
                 frames[index].append(int(line[1]))
             if len(line)==5:
-                frame_xs[index-2].append(cnt)
-                frames[index-2].append(int(line[1]))
+                dummy_x[index-2].append(cnt)
+                dummy_hrs[index-2].append(int(line[1]))
             cnt+=1
     min_max = []
     for eachLine in minmaxArray:
