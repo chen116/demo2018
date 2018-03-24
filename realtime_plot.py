@@ -117,7 +117,7 @@ def animate2(i):
     except:
         per=0
 
-    ax1.set_title(r'$\frac{RT-Xen \quad FPS}{Credit \quad FPS }$ = %.2f %%'%(per),loc='right',fontsize=10)
+    ax1.set_title(r'$\frac{RT-Xen \quad FPS}{Credit \quad FPS }$ = %.2f %%'%(per),loc='right',fontsize=15)
     # ax1.set_xlabel('Time\n \n')
     ax2.set_xlabel('Time')
     ax1.set_ylabel('Moving Average FPS(frames/sec) \n (Window Size = 5)')
