@@ -110,14 +110,15 @@ def animate2(i):
     # ax1.legend(loc='upper center', bbox_to_anchor=(0.5, 1.12),ncol=3, fancybox=True, shadow=True,prop=fontP)
     # ax2.legend(loc='upper center', bbox_to_anchor=(0.5, 1.1),ncol=3, fancybox=True, shadow=True,prop=fontP)
     ax2.legend(bbox_to_anchor=(1.01, 1), loc=2, borderaxespad=0.,prop=fontP)
-    fig.suptitle('RT-Xen vs Credit Performance', fontsize=14, fontweight='bold')
+    fig.suptitle('RT-Xen vs Credit', fontsize=14, fontweight='bold')
     per = 0
     try:
-        per=hrs[0][-1]/hrs[1][-1]*100
+        per=(hrs[0][-1]-hrs[1][-1])/hrs[0][-1]*100
     except:
         per=0
 
-    ax1.set_title(r'$\frac{RT-Xen \quad FPS}{Credit \quad FPS }$ = %.2f %%\n'%(per),loc='right',fontsize=15)
+    # ax1.set_title('RT-Xen\'s Performance increased by %.2f %%'%(per)+"\n",loc='right',fontsize=18)
+    ax1.set_title(r'$\frac{RT-Xen \quad FPS}{Credit \quad FPS }$ = %.2f %%'%(per)+"\n",loc='right',fontsize=18)
     # ax1.set_xlabel('Time\n \n')
     ax2.set_xlabel('Time')
     ax1.set_ylabel('Moving Average FPS(frames/sec) \n (Window Size = 5)')
