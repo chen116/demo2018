@@ -113,7 +113,7 @@ def animate2(i):
     fig.suptitle('RT-Xen vs Credit', fontsize=14, fontweight='bold')
     per = 0
     try:
-        per=(hrs[0][-1]-hrs[1][-1])/hrs[0][-1]*100
+        per=(hrs[0][-1]-hrs[1][-1])/hrs[1][-1]*100
     except:
         per=0
 
