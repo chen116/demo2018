@@ -2,6 +2,7 @@
 
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from matplotlib.widgets import Cursor
 from matplotlib.font_manager import FontProperties
 from matplotlib.widgets import CheckButtons
 
@@ -14,8 +15,21 @@ buf = 1000
 show_frames=1
 show_anchors=1
 show_dummies=0
+font_per = [{'family': 'serif',
+        'color':  'k',
+        'size': 12,
+        },{'family': 'serif',
+        'color':  'k',
+        # 'weight': 'bold',
+        'size': 24,
+        }]
+ax_improvement_percentage = plt.axes([0.72, 0.91, 0.2, 0.12])
+ax_improvement_percentage.text(0.08,0.42,'RT-Xen outperforms Credit by:',fontdict=font_per[0])
+ax_improvement_percentage_txt = ax_improvement_percentage.text(0.58,0.01,'%.2f%%'%(0),fontdict=font_per[1])
+ax_improvement_percentage.axis('off')
+
 def animate2(i):
-    global show_frames, show_anchors, show_dummies
+    global show_frames, show_anchors, show_dummies, ax_improvement_percentage_txt
 
     pullData = open("info.txt","r").read()
     minmax = open("minmax.txt","r").read()
@@ -113,12 +127,17 @@ def animate2(i):
     fig.suptitle('RT-Xen vs Credit', fontsize=14, fontweight='bold')
     per = 0
     try:
-        per=(hrs[0][-1]-hrs[1][-1])/hrs[1][-1]*100
+        rtxen_fps = hrs[0][-1]
+        credit_fps = hrs[1][-1]
+        per=(rtxen_fps-credit_fps)/credit_fps*100
     except:
         per=0
 
-    # ax1.set_title('RT-Xen\'s Performance increased by %.2f %%'%(per)+"\n",loc='right',fontsize=18)
-    ax1.set_title(r'$\frac{RT-Xen \quad FPS}{Credit \quad FPS }$ = %.2f %%'%(per)+"\n",loc='right',fontsize=18)
+    ax_improvement_percentage_txt.set_text('%.2f%%'%(per))
+
+    # ax1.set_title('RT-Xen improved by: %.2f %%'%(per)+"\n",loc='right',fontdict=font_per[1])
+    # ax1.set_title(r'$\frac{RT-Xen\'s improvement}{Percentage}$ = %.2f %%'%(per)+"\n",loc='right',fontsize=18)
+    # ax1.set_title(r'$\frac{RT-Xen \quad FPS}{Credit \quad FPS }$ = %.2f %%'%(per)+"\n",loc='right',fontsize=18)
     # ax1.set_xlabel('Time\n \n')
     ax2.set_xlabel('Time')
     ax1.set_ylabel('Moving Average FPS(frames/sec) \n (Window Size = 5)')
@@ -232,7 +251,7 @@ def animate(i):
     # ax1.legend(loc='upper center', bbox_to_anchor=(0.5, 1.12),ncol=3, fancybox=True, shadow=True,prop=fontP)
     # ax2.legend(loc='upper center', bbox_to_anchor=(0.5, 1.1),ncol=3, fancybox=True, shadow=True,prop=fontP)
     ax2.legend(bbox_to_anchor=(1.01, 1), loc=2, borderaxespad=0.,prop=fontP)
-    ax1.set_title('RT-Xen vs Credit Performance \n\n')
+    # ax1.set_title('RT-Xen vs Credit Performance \n\n')
     # ax1.set_xlabel('Time\n \n')
     ax2.set_xlabel('Time')
     ax1.set_ylabel('Moving Average FPS(frame_xs/sec) \n (Window Size = 5)')
@@ -274,9 +293,14 @@ def animate(i):
 ani = animation.FuncAnimation(fig, animate2, interval=1000)
 
 
-rax = plt.axes([0.91, 0.02, 0.085, 0.2])
+rax = plt.axes([0.91, 0.01, 0.085, 0.2])
+rax.axis('off')
+
+
 # check = CheckButtons(rax, ['Show\nFrames','Show\nAnchors','Show\nDummies'], [True,True,True])
 check = CheckButtons(rax, ['Show\nFrames','Show\nAnchors'], [True,True])
+
+# check_per = CheckButtons(rax_per, ['Show\nFrames'], [True])
 
 def func(label):
     global show_frames, show_anchors,show_dummies
@@ -289,6 +313,9 @@ def func(label):
 
     return
 check.on_clicked(func)
+
+# cursor = Cursor(rax, useblit=True, color='m', linewidth=2)
+
 
 plt.show()
 
