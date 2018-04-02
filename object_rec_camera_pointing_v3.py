@@ -448,9 +448,14 @@ while True: # realvid
 		# show the output frame
 		cv2.imshow("Frame", frame)
 		# hb stuff
+		print("hb: before heartbeat_beat()")
 		hb.heartbeat_beat()
+		print("hb: before get_window_heartrate()")
 		window_hr = hb.get_window_heartrate()
+		print("hb: before get_instant_heartrate()")
 		instant_hr = hb.get_instant_heartrate()
+		print("hb: after hb stuff")
+
 		comm.write("heart_rate",window_hr)
 		print('------------------window_hr:',window_hr)
 		print('instant_hr:',instant_hr)
