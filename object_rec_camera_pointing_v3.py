@@ -452,13 +452,13 @@ while True: # realvid
 		hb.heartbeat_beat()
 		print("hb: before get_window_heartrate()")
 		window_hr = hb.get_window_heartrate()
-		print("hb: before get_instant_heartrate()")
-		instant_hr = hb.get_instant_heartrate()
+		# print("hb: before get_instant_heartrate()")
+		# instant_hr = hb.get_instant_heartrate()
 		print("hb: after hb stuff")
 
 		comm.write("heart_rate",window_hr)
 		print('------------------window_hr:',window_hr)
-		print('instant_hr:',instant_hr)
+		# print('instant_hr:',instant_hr)
 		current_checked = checked.get()
 		if previous_checked!=current_checked:
 			comm.write("app_mode",current_checked)
