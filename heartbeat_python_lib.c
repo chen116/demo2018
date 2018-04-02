@@ -43,7 +43,7 @@ float get_instant_heartrate(int anchors_hb_shm_key, int index)
 float get_window_heartrate(int anchors_hb_shm_key, int index)
 {
   int shmid;
-  float tempRetVal;
+  double tempRetVal;
   void* sharedAddress;
   if ((shmid = shmget(anchors_hb_shm_key, 1*sizeof(heartbeat_t), 0666)) < 0) {
         perror("shmget");
