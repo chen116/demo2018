@@ -24,15 +24,17 @@ float get_instant_heartrate(int anchors_hb_shm_key, int index)
 {
   int shmid;
   float tempRetVal;
+  void* sharedAddress;
   if ((shmid = shmget(anchors_hb_shm_key, 1*sizeof(heartbeat_t), 0666)) < 0) {
         perror("shmget");
         return 0;
     }
-  heartbeat_t* hb = (heartbeat_t*) shmat(shmid, NULL, 0);
-  if(hb!=NULL) {
-    shmdt(hb);
-  }
+  sharedAddress = shmat(shmid, NULL, 0);
+  heartbeat_t* hb = (heartbeat_t*) sharedAddress;
   tempRetVal = hb->log[index].instant_rate;
+  if(sharedAddress!=NULL) {
+    shmdt(sharedAddress);
+  }
   return tempRetVal;
        
 
@@ -42,15 +44,17 @@ float get_window_heartrate(int anchors_hb_shm_key, int index)
 {
   int shmid;
   float tempRetVal;
+  void* sharedAddress;
   if ((shmid = shmget(anchors_hb_shm_key, 1*sizeof(heartbeat_t), 0666)) < 0) {
         perror("shmget");
         return 0;
     }
-  heartbeat_t* hb = (heartbeat_t*) shmat(shmid, NULL, 0);
-  if(hb!=NULL) {
-    shmdt(hb);
-  }
+  sharedAddress = shmat(shmid, NULL, 0);
+  heartbeat_t* hb = (heartbeat_t*) sharedAddress;
   tempRetVal = hb->log[index].window_rate;
+  if(sharedAddress!=NULL) {
+    shmdt(sharedAddress);
+  }
   return tempRetVal;
       
 
@@ -73,12 +77,14 @@ if ((shmid = shmget(anchors_hb_shm_key, 1*sizeof(heartbeat_t), IPC_CREAT | 0666)
     }
 
 heartbeat_t* hb = NULL;
-hb = (heartbeat_t*) shmat(shmid, NULL, 0); 
+void* sharedAddress;
+sharedAddress = shmat(shmid, NULL, 0);
+hb = (heartbeat_t*) sharedAddress; 
 
   if (hb == NULL) {
     perror("Failed to malloc heartbeat");
-    if(hb!=NULL) {
-      shmdt(hb);
+    if(sharedAddress!=NULL) {
+      shmdt(sharedAddress);
     }
     return 0;
   }
@@ -92,8 +98,8 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   if (hb->state == NULL) {
 
     anchors_heartbeat_finish(anchors_hb_shm_key);
-    if(hb!=NULL) {
-      shmdt(hb);
+    if(sharedAddress!=NULL) {
+      shmdt(sharedAddress);
     }
     return 0;
   }
@@ -104,8 +110,8 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
     if (hb->text_file == NULL) {
       perror("Failed to open heartbeat log file");
       anchors_heartbeat_finish(anchors_hb_shm_key);
-      if(hb!=NULL) {
-        shmdt(hb);
+      if(sharedAddress!=NULL) {
+        shmdt(sharedAddress);
       }
       return 0;
     } else {
@@ -118,8 +124,8 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   enabled_dir = getenv("HEARTBEAT_ENABLED_DIR");
   if(!enabled_dir) {
     anchors_heartbeat_finish(anchors_hb_shm_key);
-    if(hb!=NULL) {
-      shmdt(hb);
+    if(sharedAddress!=NULL) {
+      shmdt(sharedAddress);
     }
     return 0;
   }
@@ -137,8 +143,8 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
 
   if(hb->log == NULL) {
     anchors_heartbeat_finish(anchors_hb_shm_key);
-    if(hb!=NULL) {
-      shmdt(hb);
+    if(sharedAddress!=NULL) {
+      shmdt(sharedAddress);
     }
     return 0;
   }
@@ -149,8 +155,8 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   if (hb->window == NULL) {
     perror("Failed to malloc window size");
     anchors_heartbeat_finish(anchors_hb_shm_key);
-    if(hb!=NULL) {
-      shmdt(hb);
+    if(sharedAddress!=NULL) {
+      shmdt(sharedAddress);
     }
     return 0;
   }
@@ -169,29 +175,29 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   if ( hb->binary_file == NULL ) {
     perror("Failed to open heartbeat log");
     anchors_heartbeat_finish(anchors_hb_shm_key);
-    if(hb!=NULL) {
-      shmdt(hb);
+    if(sharedAddress!=NULL) {
+      shmdt(sharedAddress);
     }
     return 0;
   }
   fclose(hb->binary_file);
 
-  if(hb!=NULL) {
-    shmdt(hb);
+  if(sharedAddress!=NULL) {
+    shmdt(sharedAddress);
   }
   return 1;
 }
 int anchors_heartbeat_finish(int anchors_hb_shm_key) {
     int shmid;
-
+    void* sharedAddress;
 
   if ((shmid = shmget(anchors_hb_shm_key, 1*sizeof(heartbeat_t), 0666)) < 0) {
         perror("shmget");
         return 0;
     }
 
-
-  heartbeat_t* hb = (heartbeat_t*) shmat(shmid, NULL, 0);
+  sharedAddress = shmat(shmid, NULL, 0);
+  heartbeat_t* hb = (heartbeat_t*) sharedAddress;
   if (hb != NULL) {
     pthread_mutex_destroy(&hb->mutex);
     free(hb->window);
@@ -202,8 +208,8 @@ int anchors_heartbeat_finish(int anchors_hb_shm_key) {
     remove(hb->filename);
     /*TODO : need to deallocate log */
   }
-  if(hb!=NULL) {
-    shmdt(hb);
+  if(sharedAddress!=NULL) {
+    shmdt(sharedAddress);
   }
   return 1;
 }
@@ -211,12 +217,14 @@ int anchors_heartbeat_finish(int anchors_hb_shm_key) {
 int64_t anchors_heartbeat( int anchors_hb_shm_key, int tag )
 {
     int shmid;
+    void* sharedAddress;
 
   if ((shmid = shmget(anchors_hb_shm_key, 1*sizeof(heartbeat_t), 0666)) < 0) {
         perror("shmget");
         return 0;
     }
-  heartbeat_t* hb = (heartbeat_t*) shmat(shmid, NULL, 0);
+  sharedAddress = shmat(shmid, NULL, 0);
+  heartbeat_t* hb = (heartbeat_t*) sharedAddress;
 
     struct timespec time_info;
     int64_t time;
@@ -277,8 +285,8 @@ int64_t anchors_heartbeat( int anchors_hb_shm_key, int tag )
       }
     }
     pthread_mutex_unlock(&hb->mutex);
-    if(hb!=NULL) {
-      shmdt(hb);
+    if(sharedAddress!=NULL) {
+      shmdt(sharedAddress);
     }
     return time;
 
@@ -349,6 +357,7 @@ static void hb_flush_buffer(heartbeat_t volatile * hb) {
 _heartbeat_record_t* HB_alloc_log(int pid, int64_t buffer_size) {
   _heartbeat_record_t* p = NULL;
   int shmid;
+  void* sharedAddress;
 
   // printf("Allocating log for %d, %d\n", pid, pid << 1);
 
@@ -361,17 +370,18 @@ _heartbeat_record_t* HB_alloc_log(int pid, int64_t buffer_size) {
   /*
    * Now we attach the segment to our data space.
    */
-  p = (_heartbeat_record_t*) shmat(shmid, NULL, 0);
+  sharedAddress = shmat(shmid, NULL, 0);
+  p = (_heartbeat_record_t*) sharedAddress;
   if (p == (_heartbeat_record_t*) -1) {
     perror("cannot attach shared memory to heartbeat enabled process");
-    if(p!=NULL) {
-      shmdt(p);
+    if(sharedAddress!=NULL) {
+      shmdt(sharedAddress);
     }
     return NULL;
   }
 
-  if(p!=NULL) {
-    shmdt(p);
+  if(sharedAddress!=NULL) {
+    shmdt(sharedAddress);
   }
   return p;
 }
@@ -379,6 +389,7 @@ _heartbeat_record_t* HB_alloc_log(int pid, int64_t buffer_size) {
 _HB_global_state_t* HB_alloc_state(int pid) {
   _HB_global_state_t* p = NULL;
   int shmid;
+  void* sharedAddress;
 
   shmid = shmget((pid << 1) | 1, 1*sizeof(_HB_global_state_t), IPC_CREAT | 0666);
   if (shmid < 0) {
@@ -389,17 +400,18 @@ _HB_global_state_t* HB_alloc_state(int pid) {
   /*
    * Now we attach the segment to our data space.
    */
-  p = (_HB_global_state_t*) shmat(shmid, NULL, 0);
+  sharedAddress = shmat(shmid, NULL, 0);
+  p = (_HB_global_state_t*) sharedAddress;
   if (p == (_HB_global_state_t*) -1) {
     perror("cannot attach shared memory to heartbeat global state");
-    if(p!=NULL) {
-      shmdt(p);
+    if(sharedAddress!=NULL) {
+      shmdt(sharedAddress);
     }
     return NULL;
   }
 
-  if(p!=NULL) {
-    shmdt(p);
+  if(sharedAddress!=NULL) {
+    shmdt(sharedAddress);
   }
   return p;
 }
