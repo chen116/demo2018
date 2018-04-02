@@ -4,7 +4,7 @@
 # import the necessary packages
 from imutils.video import VideoStream
 from imutils.video import FPS
-from foscam_v2 import FoscamCamera
+from foscam_v3 import FoscamCamera
 import numpy as np
 import argparse
 import imutils
