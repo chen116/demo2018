@@ -374,15 +374,10 @@ _heartbeat_record_t* HB_alloc_log(int pid, int64_t buffer_size) {
   p = (_heartbeat_record_t*) sharedAddress;
   if (p == (_heartbeat_record_t*) -1) {
     perror("cannot attach shared memory to heartbeat enabled process");
-    if(sharedAddress!=NULL) {
-      shmdt(sharedAddress);
-    }
     return NULL;
   }
 
-  if(sharedAddress!=NULL) {
-    shmdt(sharedAddress);
-  }
+
   return p;
 }
 
@@ -404,14 +399,9 @@ _HB_global_state_t* HB_alloc_state(int pid) {
   p = (_HB_global_state_t*) sharedAddress;
   if (p == (_HB_global_state_t*) -1) {
     perror("cannot attach shared memory to heartbeat global state");
-    if(sharedAddress!=NULL) {
-      shmdt(sharedAddress);
-    }
     return NULL;
   }
 
-  if(sharedAddress!=NULL) {
-    shmdt(sharedAddress);
-  }
+
   return p;
 }
