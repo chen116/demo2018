@@ -421,7 +421,7 @@ while True: # realvid
 
 		if ((localsearch == 0) and (localtrack == 0) and (remotetrack == 1) and (personincam==0)):
 				print('about to start cruise')
-				mycam.start_horizontal_cruise()
+				mycam.start_cruise('mycruise')
 				localsearch = 1
 				localtrack = 0
 				centered = 0
