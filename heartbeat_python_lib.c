@@ -23,12 +23,15 @@ int anchors_heartbeat_init(int,int64_t,int64_t ,const char* , double ,double );
 float get_instant_heartrate(int anchors_hb_shm_key, int index)
 {
   int shmid;
+  float tempRetVal;
   if ((shmid = shmget(anchors_hb_shm_key, 1*sizeof(heartbeat_t), 0666)) < 0) {
         perror("shmget");
         return 0;
     }
   heartbeat_t* hb = (heartbeat_t*) shmat(shmid, NULL, 0);
-  return hb->log[index].instant_rate;
+  shmdt(hb);
+  tempRetVal = hb->log[index].instant_rate;
+  return tempRetVal;
        
 
 
@@ -36,12 +39,15 @@ float get_instant_heartrate(int anchors_hb_shm_key, int index)
 float get_window_heartrate(int anchors_hb_shm_key, int index)
 {
   int shmid;
+  float tempRetVal;
   if ((shmid = shmget(anchors_hb_shm_key, 1*sizeof(heartbeat_t), 0666)) < 0) {
         perror("shmget");
         return 0;
     }
   heartbeat_t* hb = (heartbeat_t*) shmat(shmid, NULL, 0);
-  return hb->log[index].window_rate;
+  shmdt(hb);
+  tempRetVal = hb->log[index].window_rate;
+  return tempRetVal;
       
 
 }
@@ -67,6 +73,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
 
   if (hb == NULL) {
     perror("Failed to malloc heartbeat");
+    shmdt(hb);
     return 0;
   }
   // set to NULL so free doesn't fail in finish function if we have to abort
@@ -79,6 +86,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   if (hb->state == NULL) {
 
     anchors_heartbeat_finish(anchors_hb_shm_key);
+    shmdt(hb);
     return 0;
   }
   hb->state->pid = pid;
@@ -88,6 +96,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
     if (hb->text_file == NULL) {
       perror("Failed to open heartbeat log file");
       anchors_heartbeat_finish(anchors_hb_shm_key);
+      shmdt(hb);
       return 0;
     } else {
       fprintf(hb->text_file, "Beat    Tag    Timestamp    Global Rate    Window Rate    Instant Rate\n" );
@@ -99,6 +108,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   enabled_dir = getenv("HEARTBEAT_ENABLED_DIR");
   if(!enabled_dir) {
     anchors_heartbeat_finish(anchors_hb_shm_key);
+    shmdt(hb);
     return 0;
   }
   snprintf(hb->filename, sizeof(hb->filename), "%s/%d", enabled_dir, hb->state->pid);
@@ -115,6 +125,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
 
   if(hb->log == NULL) {
     anchors_heartbeat_finish(anchors_hb_shm_key);
+    shmdt(hb);
     return 0;
   }
 
@@ -124,6 +135,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   if (hb->window == NULL) {
     perror("Failed to malloc window size");
     anchors_heartbeat_finish(anchors_hb_shm_key);
+    shmdt(hb);
     return 0;
   }
   hb->current_index = 0;
@@ -141,10 +153,12 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   if ( hb->binary_file == NULL ) {
     perror("Failed to open heartbeat log");
     anchors_heartbeat_finish(anchors_hb_shm_key);
+    shmdt(hb);
     return 0;
   }
   fclose(hb->binary_file);
 
+  shmdt(hb);
   return 1;
 }
 int anchors_heartbeat_finish(int anchors_hb_shm_key) {
@@ -168,6 +182,7 @@ int anchors_heartbeat_finish(int anchors_hb_shm_key) {
     remove(hb->filename);
     /*TODO : need to deallocate log */
   }
+  shmdt(hb);
   return 1;
 }
 
@@ -240,6 +255,7 @@ int64_t anchors_heartbeat( int anchors_hb_shm_key, int tag )
       }
     }
     pthread_mutex_unlock(&hb->mutex);
+    shmdt(hb);
     return time;
 
 }
@@ -324,9 +340,11 @@ _heartbeat_record_t* HB_alloc_log(int pid, int64_t buffer_size) {
   p = (_heartbeat_record_t*) shmat(shmid, NULL, 0);
   if (p == (_heartbeat_record_t*) -1) {
     perror("cannot attach shared memory to heartbeat enabled process");
+    shmdt(p);
     return NULL;
   }
 
+  shmdt(p);
   return p;
 }
 
@@ -346,8 +364,10 @@ _HB_global_state_t* HB_alloc_state(int pid) {
   p = (_HB_global_state_t*) shmat(shmid, NULL, 0);
   if (p == (_HB_global_state_t*) -1) {
     perror("cannot attach shared memory to heartbeat global state");
+    shmdt(p);
     return NULL;
   }
 
+  shmdt(p);
   return p;
 }
