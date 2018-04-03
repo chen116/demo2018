@@ -215,12 +215,18 @@ centered = 1
 thread = threading.Thread(target = start_server)
 thread.daemon = True
 thread.start()
-input('press enter when other node is ready')
 
 
 sock_client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-sock_client.connect((sys.argv[4],int(sys.argv[5])))
-
+tempFlag=None
+while tempFlag is None:
+	try:
+		sock_client.connect((sys.argv[4],int(sys.argv[5])))
+		tempFlag=1
+	except:
+		print("")
+		time.sleep(1)
+		pass
 
 #setup CAM
 # construct the argument parse and parse the arguments
