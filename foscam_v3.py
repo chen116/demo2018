@@ -737,6 +737,25 @@ class FoscamCamera(object):
         return self.execute_command('ptzSetCruiseMap',cruisemap,callback=callback)
     def delete_cruise(self,cruisemap,callback=None):
         return self.execute_command('ptzDelCruiseMap',{'name':cruisemap},callback=callback)
+
+
+
+    def zoomOut(self, callback=None):
+        '''
+        Start zooming out
+        '''
+        return self.execute_command('zoomOut', callback=callback)
+    def zoomIn(self, callback=None):
+        '''
+        Start zooming in
+        '''
+        return self.execute_command('zoomIn', callback=callback)
+    def zoomStop(self, callback=None):
+        '''
+        Stop zooming
+        '''
+        return self.execute_command('zoomStop', callback=callback)
+
 # *************** SnapPicture Function *******************
 
     def snap_picture_2(self, callback=None):
