@@ -97,8 +97,8 @@ if True:
 
 
 
-	m1 = Scale(master,from_=1,to=10,orient=HORIZONTAL)
-	m1.set(5) # init speed
+	m1 = Scale(master,from_=1,to=20,orient=HORIZONTAL)
+	m1.set(10) # init speed
 	# m1.pack(side=LEFT)
 
 
@@ -322,9 +322,9 @@ while True: # realvid
 		stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
 		cnt+=1
 		input_q.put(stuff)
-		stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
-		cnt+=1
-		input_q.put(stuff)
+		# stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
+		# cnt+=1
+		# input_q.put(stuff)
 
 	if not output_q.empty():
 		stuff = output_q.get()
@@ -334,20 +334,19 @@ while True: # realvid
 		global_cnt+=1
 
 		if detections[0][0][0][0] == -1:
-			detections[0][0][0][0] = -1
-			# if len(prev_boxes)>0:
-			# 	for prev_box in prev_boxes:
-			# 		startX=prev_box['startX']
-			# 		startY=prev_box['startY']
-			# 		endX=prev_box['endX']
-			# 		endY=prev_box['endY']
-			# 		idx=prev_box['idx']
-			# 		label=prev_box['label']
-			# 		cv2.rectangle(frame, (startX, startY), (endX, endY),
-			# 			COLORS[idx], 2)
-			# 		y = startY - 15 if startY - 15 > 15 else startY + 15
-			# 		cv2.putText(frame, label, (startX, y),
-			# 			cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)					
+			if len(prev_boxes)>0:
+				for prev_box in prev_boxes:
+					startX=prev_box['startX']
+					startY=prev_box['startY']
+					endX=prev_box['endX']
+					endY=prev_box['endY']
+					idx=prev_box['idx']
+					label=prev_box['label']
+					cv2.rectangle(frame, (startX, startY), (endX, endY),
+						COLORS[idx], 2)
+					y = startY - 15 if startY - 15 > 15 else startY + 15
+					cv2.putText(frame, label, (startX, y),
+						cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)					
 		else:
 			prev_boxes=[]
 			for i in np.arange(0, detections.shape[2]):
