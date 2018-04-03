@@ -246,7 +246,7 @@ def animate(i):
         miny.append(min_max[0])
         maxy.append(min_max[1])
     ax1.plot(x_for_minmax,miny,'r')
-    ax1.plot(x_for_minmax,maxy,'r',label= 'Target\nFPS\nRange')
+    ax1.plot(x_for_minmax,maxy,'r',label= 'Target\nFPS\nInterval')
     fontP = FontProperties()
     fontP.set_size('small')
     ax1.legend(bbox_to_anchor=(1.01, 1), loc=2, borderaxespad=0.,prop=fontP)
