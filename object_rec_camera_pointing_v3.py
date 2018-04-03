@@ -292,7 +292,8 @@ cnt=0
 global_cnt=0
 
 import heartbeat
-hb = heartbeat.Heartbeat(1024,5,100,"vic.log",10,100)
+window_size_hr=5
+hb = heartbeat.Heartbeat(1024,window_size_hr,100,"vic.log",10,100)
 monitoring_items = ["heart_rate","app_mode","frame_size"]
 comm = heartbeat.DomU(monitoring_items)
 fps = FPS().start()
@@ -432,8 +433,8 @@ while True: # realvid
 		# print("hb: before get_instant_heartrate()")
 		# instant_hr = hb.get_instant_heartrate()
 		# print("hb: after hb stuff")
-
-		comm.write("heart_rate",window_hr)
+		if global_cnt>window_size_hr:
+			comm.write("heart_rate",window_hr)
 		# print('------------------window_hr:',window_hr)
 		# print('instant_hr:',instant_hr)
 		current_checked = checked.get()
@@ -581,8 +582,8 @@ while True: # realvid
 		# print("hb: before get_instant_heartrate()")
 		# instant_hr = hb.get_instant_heartrate()
 		# print("hb: after hb stuff")
-
-		comm.write("heart_rate",window_hr)
+		if global_cnt>window_size_hr:
+			comm.write("heart_rate",window_hr)
 		# print('------------------window_hr:',window_hr)
 		# print('instant_hr:',instant_hr)
 		current_checked = checked.get()
