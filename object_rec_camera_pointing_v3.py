@@ -98,7 +98,7 @@ if True:
 
 
 	m1 = Scale(master,from_=1,to=10,orient=HORIZONTAL)
-	m1.set(5) # init speed
+	m1.set(10) # init speed
 	# m1.pack(side=LEFT)
 
 
@@ -322,9 +322,9 @@ while True: # realvid
 		stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
 		cnt+=1
 		input_q.put(stuff)
-		# stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
-		# cnt+=1
-		# input_q.put(stuff)
+		stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
+		cnt+=1
+		input_q.put(stuff)
 
 	if not output_q.empty():
 		stuff = output_q.get()
