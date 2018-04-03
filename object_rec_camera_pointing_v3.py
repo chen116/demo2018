@@ -143,11 +143,11 @@ class Workers(threading.Thread):
 				# self.output_q.put(self.net.forward())
 				# self.output_q.put({'blob':self.net.forward(),'cnt':stuff['cnt']})
 				net_result=self.net.forward()
-				self.output_q.put({'blob':net_result,'cnt':stuff['cnt']})
+				# self.output_q.put({'blob':net_result,'cnt':stuff['cnt']})
 				self.output_q.put({'blob':net_result,'cnt':stuff['cnt']})
 
 			else:
-				self.output_q.put({'blob':-1*np.ones((1,1,1,2)),'cnt':stuff['cnt']})
+				# self.output_q.put({'blob':-1*np.ones((1,1,1,2)),'cnt':stuff['cnt']})
 				self.output_q.put({'blob':-1*np.ones((1,1,1,2)),'cnt':stuff['cnt']})
 				# self.output_q.put(np.ndarray([0]))
 
@@ -319,6 +319,9 @@ while True: # realvid
 		threadLock.acquire()
 		every_n_frame['n']=m1.get()
 		threadLock.release()
+		stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
+		cnt+=1
+		input_q.put(stuff)
 		stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
 		cnt+=1
 		input_q.put(stuff)
