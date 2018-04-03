@@ -85,7 +85,7 @@ class MonitorThread(threading.Thread):
 
 				# print( token.decode(),':',msg)
 	def res_allocat(self,heart_rate):
-		maxx=20000
+		maxx=30000
 		minn=100
 
 		if int(self.domuid)>=3:

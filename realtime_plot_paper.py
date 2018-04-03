@@ -29,7 +29,7 @@ ax_improvement_percentage_txt = ax_improvement_percentage.text(0.58,0.01,'%.2f%%
 ax_improvement_percentage.axis('off')
 
 def animate2(i):
-    maxx=20000
+    maxx=30000
 
     global show_frames, show_anchors, show_dummies, ax_improvement_percentage_txt
 
