@@ -405,7 +405,7 @@ class MonitorThread(threading.Thread):
 threadLock = threading.Lock()
 threads = []
 shared_data = xen_interface.get_global_info()
-maxx=20000
+maxx=30000
 default_bw=int(maxx/2)
 
 for domuid in shared_data['rtxen']:
