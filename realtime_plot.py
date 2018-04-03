@@ -35,6 +35,7 @@ ax_improvement_percentage_txt = ax_improvement_percentage.text(0.8,0.01,'%.2f%%'
 ax_improvement_percentage.axis('off')
 
 def animate2(i):
+    maxx=20000
     global show_frames, show_anchors, show_dummies, ax_improvement_percentage_txt
 
     pullData = open("info.txt","r").read()
@@ -63,7 +64,7 @@ def animate2(i):
         frames.append([])
         dummy_x.append([])
         dummy_hrs.append([])
-        event_last_happened_at_cnt.append([])
+        event_last_happened_at_cnt.append(-1)
 
         # for j in range(buf):
         #     x[i].append(j)
@@ -81,7 +82,7 @@ def animate2(i):
                 hrs[index].append(float(line[1]))
                 if float(line[1])>maxhrs:
                     maxhrs=float(line[1])
-                cpus[index].append(float(line[2])/10000*100)
+                cpus[index].append(float(line[2])/maxx*100)
             if len(line)==2:
                 anchor_xs[index].append(cnt)
                 anchors[index].append(int(line[1]))
