@@ -322,9 +322,9 @@ while True: # realvid
 		stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
 		cnt+=1
 		input_q.put(stuff)
-		stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
-		cnt+=1
-		input_q.put(stuff)
+		# stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
+		# cnt+=1
+		# input_q.put(stuff)
 
 	if not output_q.empty():
 		stuff = output_q.get()
