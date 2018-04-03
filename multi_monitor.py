@@ -71,7 +71,7 @@ class MonitorThread(threading.Thread):
 					except:
 						heart_rate=-1
 					if heart_rate>-1:
-						self.res_allocat(heart_rate)					
+						self.res_allocat20(heart_rate)					
 						#self.res_allo(self.anchors,self.sched,float(msg),self.shared_data,self.domuid ,self.min_heart_rate,self.max_heart_rate)					
 
 				# try :
@@ -84,7 +84,162 @@ class MonitorThread(threading.Thread):
 				self.threadLock.release()
 
 				# print( token.decode(),':',msg)
-	def res_allocat(self,heart_rate):
+	def res_allocat20(self,heart_rate):
+
+		if int(self.domuid)>=3:
+			print("dummy",int(self.domuid)-2,"heartrate:",heart_rate)
+			buf=10000
+			self.shared_data['cnt'] = (self.shared_data['cnt']+1)%buf
+			info = self.domuid+" "+str(heart_rate)+" dummy is here"
+			if self.shared_data['cnt']%buf!=0:
+				with open("info.txt", "a") as myfile:
+					myfile.write(info+"\n")
+			else:
+				with open("info.txt", "w") as myfile:
+					myfile.write(info+"\n")			
+
+			return
+
+		tab='               dom '+str(int(self.domuid))
+		if int(self.domuid)<2:
+			tab='dom '+str(int(self.domuid))
+		print(tab,'heart_rate',heart_rate)
+
+		maxx=20000
+		minn=100
+
+		if self.anchors==1:
+			if self.sched==1:
+				print(tab,'RT-Xen anchors ACTIVE:')
+				cur_b = 0
+				myinfo = self.shared_data[self.domuid]
+				for vcpu in myinfo:
+					if vcpu['pcpu']!=-1:
+						cur_b=int(vcpu['b'])
+
+				if(heart_rate<self.min_heart_rate):
+					if cur_b<maxx-minn:
+						cur_b+=minn
+						xen_interface.sched_rtds(self.domuid,maxx,cur_b,[])
+						xen_interface.sched_rtds(str(int(self.domuid)+2),maxx,maxx-cur_b,[])
+				if(heart_rate>self.max_heart_rate):
+					if cur_b>minn:
+						cur_b-=minn
+						xen_interface.sched_rtds(self.domuid,maxx,cur_b,[])
+						xen_interface.sched_rtds(str(int(self.domuid)+2),maxx,maxx-cur_b,[])
+
+
+				if heart_rate<=self.max_heart_rate and heart_rate >= self.min_heart_rate:
+					self.target_reached_cnt+=1
+					if self.target_reached_cnt==150:
+						self.target_reached_cnt-=15
+						if cur_b>minn:
+							cur_b-=minn
+							xen_interface.sched_rtds(self.domuid,maxx,cur_b,[])
+							xen_interface.sched_rtds(str(int(self.domuid)+2),maxx,maxx-cur_b,[])
+				else:
+					self.target_reached_cnt=0
+
+
+				myinfo = self.shared_data[self.domuid]
+				cnt=0
+				for vcpu in myinfo:
+					if vcpu['pcpu']!=-1:
+						vcpu['b']=cur_b
+						print(tab,'vcpu:',cnt,'b:',vcpu['b'])
+						cnt+=1
+			else:
+				print(tab,'Credit anchors ACTIVE:')
+				cur_w = 0
+				myinfo = self.shared_data[self.domuid]
+				for vcpu in myinfo:
+					if vcpu['pcpu']!=-1:
+						cur_w=int(vcpu['w'])
+
+				if(heart_rate<self.min_heart_rate):
+					if cur_w<maxx-minn:
+						cur_w+=minn
+						xen_interface.sched_credit(self.domuid,cur_w)
+						xen_interface.sched_credit(str(int(self.domuid)+2),maxx-cur_w)
+				if(heart_rate>self.max_heart_rate):
+					if cur_w>minn:
+						cur_w-=minn
+						xen_interface.sched_credit(self.domuid,cur_w)
+						xen_interface.sched_credit(str(int(self.domuid)+2),maxx-cur_w)
+				if heart_rate<=self.max_heart_rate and heart_rate >= self.min_heart_rate:
+					self.target_reached_cnt+=1
+					if self.target_reached_cnt==150:
+						self.target_reached_cnt-=15
+						if cur_w>minn:
+							cur_w-=minn
+							xen_interface.sched_credit(self.domuid,cur_w)
+							xen_interface.sched_credit(str(int(self.domuid)+2),maxx-cur_w)
+				else:
+					self.target_reached_cnt=0
+				myinfo = self.shared_data[self.domuid]
+				cnt=0
+				for vcpu in myinfo:
+					if vcpu['pcpu']!=-1:
+						vcpu['w']=cur_w
+						print(tab,'vcpu:',cnt,'w:',vcpu['w'])
+						cnt+=1
+
+
+		else:
+			if self.sched==1:
+				print(tab,'-------------RT-Xen anchors INACTIVE:')
+				default_b=int(maxx/2)
+				myinfo = self.shared_data[self.domuid]
+				cnt=0
+				not_default_b = 0
+				for vcpu in myinfo:
+					if vcpu['pcpu']!=-1:
+						if vcpu['b']!=default_b:
+							not_default_b = 1
+							vcpu['b']=default_b
+
+						print(tab,'vcpu:',cnt,'b:',vcpu['b'])	
+						cnt+=1
+				if not_default_b:
+					xen_interface.sched_rtds(self.domuid,maxx,default_b,[])
+					xen_interface.sched_rtds(str(int(self.domuid)+2),maxx,default_b,[])
+			else:
+				print(tab,'Credit anchors INACTIVE:')
+				default_w=int(maxx/2)
+				myinfo = self.shared_data[self.domuid]
+				cnt=0
+				not_default_w = 0
+				for vcpu in myinfo:
+					if vcpu['pcpu']!=-1:
+						if vcpu['w']!=default_w:
+							not_default_w = 1
+							vcpu['w']=default_w
+
+						print(tab,'vcpu:',cnt,'w:',vcpu['w'])	
+						cnt+=1
+				if not_default_w:
+					xen_interface.sched_credit(self.domuid,default_w)
+					xen_interface.sched_credit(str(int(self.domuid)+2),default_w)
+		buf=10000
+		self.shared_data['cnt'] = (self.shared_data['cnt']+1)%buf
+		info = self.domuid+" "+str(heart_rate)+" "
+		if self.sched==1:
+			info += str(self.shared_data[self.domuid][0]['b'])
+		else:
+			info += str(self.shared_data[self.domuid][0]['w'])
+
+
+		if self.shared_data['cnt']%buf!=0:
+			with open("info.txt", "a") as myfile:
+				myfile.write(info+"\n")
+		else:
+			with open("info.txt", "w") as myfile:
+				myfile.write(info+"\n")
+
+
+
+		return
+	def res_allocat10(self,heart_rate):
 
 		if int(self.domuid)>=3:
 			print("dummy",int(self.domuid)-2,"heartrate:",heart_rate)
