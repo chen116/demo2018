@@ -6,7 +6,7 @@ from matplotlib.widgets import Cursor
 from matplotlib.font_manager import FontProperties
 from matplotlib.widgets import CheckButtons
 import matplotlib 
-matplotlib.rc('xtick', labelsize=10) 
+matplotlib.rc('xtick', labelsize=20) 
 matplotlib.rc('ytick', labelsize=30) 
 import time
 fig = plt.figure(figsize=(16, 9))
