@@ -224,7 +224,7 @@ while tempFlag is None:
 		sock_client.connect((sys.argv[4],int(sys.argv[5])))
 		tempFlag=1
 	except:
-		print("")
+		print("Waiting for other host")
 		time.sleep(1)
 		pass
 
