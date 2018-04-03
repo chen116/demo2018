@@ -71,7 +71,7 @@ class MonitorThread(threading.Thread):
 					except:
 						heart_rate=-1
 					if heart_rate>-1:
-						self.res_allocat20(heart_rate)					
+						self.res_allocat(heart_rate)					
 						#self.res_allo(self.anchors,self.sched,float(msg),self.shared_data,self.domuid ,self.min_heart_rate,self.max_heart_rate)					
 
 				# try :
@@ -84,7 +84,9 @@ class MonitorThread(threading.Thread):
 				self.threadLock.release()
 
 				# print( token.decode(),':',msg)
-	def res_allocat20(self,heart_rate):
+	def res_allocat(self,heart_rate):
+		maxx=20000
+		minn=100
 
 		if int(self.domuid)>=3:
 			print("dummy",int(self.domuid)-2,"heartrate:",heart_rate)
@@ -105,8 +107,7 @@ class MonitorThread(threading.Thread):
 			tab='dom '+str(int(self.domuid))
 		print(tab,'heart_rate',heart_rate)
 
-		maxx=20000
-		minn=100
+
 
 		if self.anchors==1:
 			if self.sched==1:
