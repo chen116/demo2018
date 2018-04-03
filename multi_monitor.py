@@ -405,9 +405,11 @@ class MonitorThread(threading.Thread):
 threadLock = threading.Lock()
 threads = []
 shared_data = xen_interface.get_global_info()
-default_bw=5000
+maxx=20000
+default_bw=int(maxx/2)
+
 for domuid in shared_data['rtxen']:
-	xen_interface.sched_rtds(domuid,10000,default_bw,[])
+	xen_interface.sched_rtds(domuid,maxx,default_bw,[])
 for domuid in shared_data['xen']:
 	xen_interface.sched_credit(domuid,default_bw)
 shared_data = xen_interface.get_global_info()
@@ -565,7 +567,7 @@ pp = pprint.PrettyPrinter(indent=2)
 print('Final domUs info:')
 shared_data = xen_interface.get_global_info()
 for domuid in shared_data['rtxen']:
-	xen_interface.sched_rtds(domuid,10000,default_bw,[])
+	xen_interface.sched_rtds(domuid,maxx,default_bw,[])
 for domuid in shared_data['xen']:
 	xen_interface.sched_credit(domuid,default_bw)
 print("Exiting the Monitor, total",threads_cnt,"monitoring threads")
