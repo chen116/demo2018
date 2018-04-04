@@ -21,7 +21,7 @@ c = heartbeat.Dom0(monitoring_items,['1','2'])
 
 
 class MonitorThread(threading.Thread):
-	def __init__(self, threadLock,shared_data,res_allo,domuid,sched,timeslice_ns,min_heart_rate,max_heart_rate,keys=['test'],base_path='/local/domain'):
+	def __init__(self, threadLock,shared_data,res_allo,domuid,sched,timeslice_us,min_heart_rate,max_heart_rate,keys=['test'],base_path='/local/domain'):
 		threading.Thread.__init__(self)
 		self.domuid=(domuid)
 		self.keys=keys
@@ -34,7 +34,7 @@ class MonitorThread(threading.Thread):
 		self.target_reached_cnt = 0
 		self.min_heart_rate=min_heart_rate
 		self.max_heart_rate=max_heart_rate
-		self.timeslice_ns = timeslice_ns
+		self.timeslice_us = timeslice_us
 	def run(self):
 		# Acquire lock to synchronize thread
 		# self.threadLock.acquire()
@@ -66,7 +66,7 @@ class MonitorThread(threading.Thread):
 							myfile.write(self.domuid+" "+(msg)+" frame size"+"\n")
 				if self.keys[3] in path.decode():
 					if msg.isdigit():
-						self.timeslice_ns = int(msg)*1000
+						self.timeslice_us = int(msg)*1000
 						xen_interface.sched_credit_timeslice(int(msg))
 						with open("info.txt", "a") as myfile:
 							myfile.write(self.domuid+" "+(msg)+" time slice len 6"+"\n")							
@@ -126,15 +126,15 @@ class MonitorThread(threading.Thread):
 						cur_b=int(vcpu['b'])
 
 				if(heart_rate<self.min_heart_rate):
-					if cur_b<self.timeslice_ns-minn:
+					if cur_b<self.timeslice_us-minn:
 						cur_b+=minn
-						xen_interface.sched_rtds(self.domuid,self.timeslice_ns,cur_b,[])
-						xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_ns,self.timeslice_ns-cur_b,[])
+						xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
+						xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
 				if(heart_rate>self.max_heart_rate):
 					if cur_b>minn:
 						cur_b-=minn
-						xen_interface.sched_rtds(self.domuid,self.timeslice_ns,cur_b,[])
-						xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_ns,self.timeslice_ns-cur_b,[])
+						xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
+						xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
 
 
 				if heart_rate<=self.max_heart_rate and heart_rate >= self.min_heart_rate:
@@ -143,8 +143,8 @@ class MonitorThread(threading.Thread):
 						self.target_reached_cnt-=15
 						if cur_b>minn:
 							cur_b-=minn
-							xen_interface.sched_rtds(self.domuid,self.timeslice_ns,cur_b,[])
-							xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_ns,self.timeslice_ns-cur_b,[])
+							xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
+							xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
 				else:
 					self.target_reached_cnt=0
 
@@ -165,15 +165,15 @@ class MonitorThread(threading.Thread):
 						cur_w=int(vcpu['w'])
 
 				if(heart_rate<self.min_heart_rate):
-					if cur_w<self.timeslice_ns-minn:
+					if cur_w<self.timeslice_us-minn:
 						cur_w+=minn
 						xen_interface.sched_credit(self.domuid,cur_w)
-						xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_ns-cur_w)
+						xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_w)
 				if(heart_rate>self.max_heart_rate):
 					if cur_w>minn:
 						cur_w-=minn
 						xen_interface.sched_credit(self.domuid,cur_w)
-						xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_ns-cur_w)
+						xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_w)
 				if heart_rate<=self.max_heart_rate and heart_rate >= self.min_heart_rate:
 					self.target_reached_cnt+=1
 					if self.target_reached_cnt==150:
@@ -181,7 +181,7 @@ class MonitorThread(threading.Thread):
 						if cur_w>minn:
 							cur_w-=minn
 							xen_interface.sched_credit(self.domuid,cur_w)
-							xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_ns-cur_w)
+							xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_w)
 				else:
 					self.target_reached_cnt=0
 				myinfo = self.shared_data[self.domuid]
@@ -196,7 +196,7 @@ class MonitorThread(threading.Thread):
 		else:
 			if self.sched==1:
 				print(tab,'-------------RT-Xen anchors INACTIVE:')
-				default_b=int(self.timeslice_ns/2)
+				default_b=int(self.timeslice_us/2)
 				myinfo = self.shared_data[self.domuid]
 				cnt=0
 				not_default_b = 0
@@ -209,11 +209,11 @@ class MonitorThread(threading.Thread):
 						print(tab,'vcpu:',cnt,'b:',vcpu['b'])	
 						cnt+=1
 				if not_default_b:
-					xen_interface.sched_rtds(self.domuid,self.timeslice_ns,default_b,[])
-					xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_ns,default_b,[])
+					xen_interface.sched_rtds(self.domuid,self.timeslice_us,default_b,[])
+					xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,default_b,[])
 			else:
 				print(tab,'Credit anchors INACTIVE:')
-				default_w=int(self.timeslice_ns/2)
+				default_w=int(self.timeslice_us/2)
 				myinfo = self.shared_data[self.domuid]
 				cnt=0
 				not_default_w = 0
@@ -232,9 +232,9 @@ class MonitorThread(threading.Thread):
 		self.shared_data['cnt'] = (self.shared_data['cnt']+1)%buf
 		info = self.domuid+" "+str(heart_rate)+" "
 		if self.sched==1:
-			info += str(self.shared_data[self.domuid][0]['b'])
+			info += str(self.shared_data[self.domuid][0]['b']/self.timeslice_us)
 		else:
-			info += str(self.shared_data[self.domuid][0]['w'])
+			info += str(self.shared_data[self.domuid][0]['w']/self.timeslice_us)
 
 
 		if self.shared_data['cnt']%buf!=0:
@@ -412,11 +412,11 @@ class MonitorThread(threading.Thread):
 threadLock = threading.Lock()
 threads = []
 shared_data = xen_interface.get_global_info()
-timeslice_ns=15000
-default_bw=int(timeslice_ns/2)
+timeslice_us=15000
+default_bw=int(timeslice_us/2)
 
 for domuid in shared_data['rtxen']:
-	xen_interface.sched_rtds(domuid,timeslice_ns,default_bw,[])
+	xen_interface.sched_rtds(domuid,timeslice_us,default_bw,[])
 for domuid in shared_data['xen']:
 	xen_interface.sched_credit(domuid,default_bw)
 shared_data = xen_interface.get_global_info()
@@ -431,7 +431,7 @@ max_heart_rate = float(sys.argv[2])
 with open("minmax.txt", "w") as myfile:
 	myfile.write("min "+sys.argv[1]+"\n")
 	myfile.write("max "+sys.argv[2]+"\n")
-	myfile.write("timeslice_ns "+str(timeslice_ns/1000)+"\n")
+	myfile.write("timeslice_us "+str(timeslice_us/1000)+"\n")
 
 
 def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid,min_heart_rate,max_heart_rate):
@@ -558,7 +558,7 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid,min_heart_rate,m
 
 
 for domuid in c.domu_ids:
-	tmp_thread = MonitorThread(threadLock,shared_data,res_allo,domuid,int(domuid)%2,timeslice_ns,min_heart_rate,max_heart_rate, monitoring_items)
+	tmp_thread = MonitorThread(threadLock,shared_data,res_allo,domuid,int(domuid)%2,timeslice_us,min_heart_rate,max_heart_rate, monitoring_items)
 	tmp_thread.start()
 	threads.append(tmp_thread)
 
@@ -575,8 +575,8 @@ pp = pprint.PrettyPrinter(indent=2)
 print('Final domUs info:')
 shared_data = xen_interface.get_global_info()
 for domuid in shared_data['rtxen']:
-	xen_interface.sched_rtds(domuid,timeslice_ns,default_bw,[])
-xen_interface.sched_credit_timeslice(timeslice_ns/1000)
+	xen_interface.sched_rtds(domuid,timeslice_us,default_bw,[])
+xen_interface.sched_credit_timeslice(timeslice_us/1000)
 for domuid in shared_data['xen']:
 	xen_interface.sched_credit(domuid,default_bw)
 print("Exiting the Monitor, total",threads_cnt,"monitoring threads")

@@ -86,7 +86,7 @@ def animate2(i):
                 hrs[index].append(float(line[1]))
                 if float(line[1])>maxhrs:
                     maxhrs=float(line[1])
-                cpus[index].append(float(line[2])/(last_ts[index]*1000)*100)
+                cpus[index].append(float(line[2])/(1)*100)
             if len(line)==2:
                 anchor_xs[index].append(cnt)
                 anchors[index].append(int(line[1]))
