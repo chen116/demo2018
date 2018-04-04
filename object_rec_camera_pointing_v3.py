@@ -29,7 +29,7 @@ from queue import Queue
 if True:
 	from tkinter import *
 	master = Tk()
-	w = 675#475#550 # width for the Tk root
+	w = 800#475#550 # width for the Tk root
 	h = 75 # height for the Tk root
 	# get screen width and height
 	ws = master.winfo_screenwidth() # width of the screen
@@ -63,7 +63,7 @@ if True:
 
 	checked = IntVar(value=0)
 	previous_checked = checked.get()
-	c = Checkbutton(master, text="Anchors | ", variable=checked)
+	c = Checkbutton(master, text="Anchors | ", variable=checked,font = "Verdana 15" )
 	c.pack(side=LEFT)
 
 
@@ -86,7 +86,7 @@ if True:
 
 	def exit_app(w1):
 		w1.set(0)
-	done = Button(master, text="EXIT",command=lambda: exit_app(w1),font = "Verdana 30 bold" )
+	done = Button(master, text="EXIT",command=lambda: exit_app(w1),font = "Verdana 10" )
 	done.pack(side=LEFT)
 
 
