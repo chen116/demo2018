@@ -440,7 +440,6 @@ threads = []
 shared_data = xen_interface.get_global_info()
 timeslice_us=15000
 default_bw=int(timeslice_us/2)
-xen_interface.sched_credit_timeslice(int(timeslice_us/1000))
 
 for domuid in shared_data['rtxen']:
 	xen_interface.sched_rtds(domuid,timeslice_us,default_bw,[])

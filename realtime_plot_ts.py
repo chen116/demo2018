@@ -45,7 +45,6 @@ last_ts=[15,15]
 
 
 def animate2(i):
-    maxx=18000
     global last_ts, show_frames, show_anchors, show_dummies, ax_improvement_percentage_txt,show_ts
 
     pullData = open("info.txt","r").read()
@@ -94,7 +93,7 @@ def animate2(i):
                 hrs[index].append(float(line[1]))
                 if float(line[1])>maxhrs:
                     maxhrs=float(line[1])
-                cpus[index].append(float(line[2])/maxx*100)
+                cpus[index].append(float(line[2])*100)
             if len(line)==2:
                 anchor_xs[index].append(cnt)
                 anchors[index].append(int(line[1]))
