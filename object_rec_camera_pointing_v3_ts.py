@@ -47,7 +47,7 @@ if True:
 	if "redit" in sys.argv[7]:
 		fg = "green"
 
-	sched_label = Label(master, textvariable=sched_var,fg = fg,bg = "white",font = "Verdana 10 bold" )
+	sched_label = Label(master, textvariable=sched_var,fg = fg,bg = "white",font = "Verdana 30 bold" )
 	sched_label.pack(side=LEFT)
 
 	# scheds = [
@@ -72,9 +72,9 @@ if True:
 	frame_label = Label(master, textvariable=frame_var)
 	frame_label.pack(side=LEFT)
 	FSIZE = [
-	    ("300", 300),
-	    ("600", 600),
-	    ("800", 800)
+	    ("small", 300),
+	    ("medium", 600),
+	    ("large", 800)
 	]
 	w1 = IntVar()
 	w1.set(300) # initialize
@@ -89,10 +89,8 @@ if True:
 	timeslice_label = Label(master, textvariable=timeslice_var)
 	timeslice_label.pack(side=LEFT)
 	tsSIZE = [
-	    ("15", 15),
-	    ("20", 20),
-	    ("25", 25),
-	    ("30", 30)
+	    ("low-lat", 15),
+	    ("high-lat", 25)
 	]
 	ts1 = IntVar()
 	ts1.set(15) # initialize
