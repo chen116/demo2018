@@ -29,10 +29,12 @@ ax_improvement_percentage.text(0.08,0.42,'RT-Xen outperforms Credit by:',fontdic
 ax_improvement_percentage_txt = ax_improvement_percentage.text(0.58,0.01,'%.2f%%'%(0),fontdict=font_per[1])
 ax_improvement_percentage.axis('off')
 
+last_ts=[15,15]
+
 def animate2(i):
     maxx=30000
 
-    global show_frames, show_anchors, show_dummies, ax_improvement_percentage_txt,show_ts
+    global last_ts,show_frames, show_anchors, show_dummies, ax_improvement_percentage_txt,show_ts
 
     pullData = open("info.txt","r").read()
     minmax = open("minmax.txt","r").read()
@@ -79,10 +81,7 @@ def animate2(i):
                 hrs[index].append(float(line[1]))
                 if float(line[1])>maxhrs:
                     maxhrs=float(line[1])
-                if len(ts[index])>0:
-                    cpus[index].append(float(line[2])/(ts[index][-1]*1000)*100)
-                else:
-                    cpus[index].append(float(line[2])/(15*1000)*100)
+                cpus[index].append(float(line[2])/(last_ts[index]*1000)*100)
             if len(line)==2:
                 anchor_xs[index].append(cnt)
                 anchors[index].append(int(line[1]))
@@ -95,6 +94,7 @@ def animate2(i):
             if len(line)==6:
                 ts_xs[index].append(cnt)
                 ts[index].append(int(line[1]))
+                last_ts[index]=int(line[1])
             cnt+=1
     min_max = []
     for eachLine in minmaxArray:
