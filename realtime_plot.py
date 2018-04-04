@@ -9,10 +9,10 @@ import matplotlib
 matplotlib.rc('xtick', labelsize=20) 
 matplotlib.rc('ytick', labelsize=30) 
 import time
-fig = plt.figure(figsize=(16, 9))
+# fig = plt.figure(figsize=(16, 9))
 # plt.subplots_adjust(left=None, bottom=None, right=None, top=None,wspace=1, hspace=None)
 # fig.set_size_inches(18.5, 10.5)
-# fig = plt.figure(figsize=(10, 7))
+fig = plt.figure(figsize=(10, 7))
 ax1 = plt.subplot(2,1,1)
 plt.subplots_adjust(left = 0.13,right=0.84)
 
@@ -34,7 +34,7 @@ ax_improvement_percentage.text(0.06,0.42,'RT-Xen outperforms Credit by:',fontdic
 ax_improvement_percentage_txt = ax_improvement_percentage.text(0.1,0.01,'%.2f%%'%(0),fontdict=font_per[1])
 ax_improvement_percentage.axis('off')
 
-ax_improvement_percentage_vs_static = plt.axes([0.6, 0.91, 0.2, 0.12])
+ax_improvement_percentage_vs_static = plt.axes([0.65, 0.91, 0.2, 0.12])
 ax_improvement_percentage_vs_static.text(0.06,0.42,'RT-Xen Anchors outperforms RT-Xen Static by:',fontdict=font_per[0])
 ax_improvement_percentage_vs_static_txt = ax_improvement_percentage_vs_static.text(0.8,0.01,'%.2f%%'%(0),fontdict=font_per[1])
 ax_improvement_percentage_vs_static.axis('off')
