@@ -72,9 +72,9 @@ if True:
 	anchors_label = Label(master, textvariable=anchors_var,font = "Verdana 12 bold" )
 	anchors_label.pack(side=LEFT)
 	FSIZE = [
-	    ("Anchors", 0),
-	    ("50%", 1),
-	    ("100%", 2)
+	    ("Anchors", 1),
+	    ("50%",0)
+	    ("100%", 2),
 	]
 	checked = IntVar()
 	checked.set(0) # initialize
