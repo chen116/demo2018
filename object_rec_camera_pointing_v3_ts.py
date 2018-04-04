@@ -29,7 +29,7 @@ from queue import Queue
 if True:
 	from tkinter import *
 	master = Tk()
-	w = 475#550 # width for the Tk root
+	w = 675 # width for the Tk root
 	h = 50 # height for the Tk root
 	# get screen width and height
 	ws = master.winfo_screenwidth() # width of the screen
@@ -85,7 +85,7 @@ if True:
 	    b.pack(side=LEFT)
 
 	timeslice_var = StringVar()
-	timeslice_var.set("timeslice(ms):")
+	timeslice_var.set("    timeslice(ms):")
 	timeslice_label = Label(master, textvariable=timeslice_var)
 	timeslice_label.pack(side=LEFT)
 	tsSIZE = [
