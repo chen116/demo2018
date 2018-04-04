@@ -139,7 +139,7 @@ class Workers(threading.Thread):
 			blob = stuff['blob']
 			if self.my_every_n_frame_cnt%self.n==0:
 				self.net.setInput(blob)
-				print("--------------------thread:",self.thread_id," gonna dnn", "cnt:",self.my_every_n_frame_cnt,'n:',self.n)
+				#print("--------------------thread:",self.thread_id," gonna dnn", "cnt:",self.my_every_n_frame_cnt,'n:',self.n)
 				# self.output_q.put(self.net.forward())
 				# self.output_q.put({'blob':self.net.forward(),'cnt':stuff['cnt']})
 				net_result=self.net.forward()
@@ -155,7 +155,7 @@ class Workers(threading.Thread):
 
 		# Release lock for the next thread
 		# self.threadLock.release()
-		print("Exiting thread" , self.thread_id)
+		#print("Exiting thread" , self.thread_id)
 input_q = Queue()  # fps is better if queue is higher but then more lags
 output_q = Queue()
 
@@ -172,7 +172,7 @@ def start_server():
 	host = socket.gethostname()
 	s.bind((host,int(sys.argv[6])))
 	s.listen(5)
-	print('server started')
+	#print('server started')
 	while True:
 		connection, address = s.accept()
 		while True:
@@ -180,13 +180,13 @@ def start_server():
 			if (len(data)>0):
 				msg = data.decode('utf-8')
 				if (msg == 'found_object'):
-					print('remote node found object')
+					#print('remote node found object')
 					remotetrack = 1
 				elif (msg=='lost_object'):
-					print('remote node lost object')
+					#print('remote node lost object')
 					remotetrack = 0
 				elif (msg=='clean_up'):
-					print('cleanup from other node')
+					#print('cleanup from other node')
 					remotetrack = -1
 			if not data:
 				break
@@ -224,7 +224,7 @@ while tempFlag is None:
 		sock_client.connect((sys.argv[4],int(sys.argv[5])))
 		tempFlag=1
 	except:
-		print("Waiting for other host")
+		#print("Waiting for other host")
 		time.sleep(1)
 		pass
 
@@ -253,14 +253,14 @@ R=0.7
 COLORS = np.random.uniform(0, 255, size=(len(CLASSES), 3))
 canpoint = 1
 # load our serialized model from disk
-# print("[INFO] loading model...")
+# #print("[INFO] loading model...")
 # prototxt = 'MobileNetSSD_deploy.prototxt.txt'
 # model = 'MobileNetSSD_deploy.caffemodel'
 # net = cv2.dnn.readNetFromCaffe(prototxt, model)
 personincam = 0
 # initialize the video stream, allow the cammera sensor to warmup,
 # and initialize the FPS counter
-print("[INFO] starting video stream...")
+#print("[INFO] starting video stream...")
 #vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
 vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
 # vs= FileVideoStream("walkcat.mp4").start() # outvid
@@ -338,7 +338,7 @@ while True: # realvid
 	# 	stuff = output_q.get()
 	# 	detections = stuff['blob']
 	# 	order = stuff['cnt']
-	# 	print('output cnt:',order,'global cnt:',global_cnt)
+	# 	#print('output cnt:',order,'global cnt:',global_cnt)
 	# 	global_cnt+=1
 
 	# 	if detections[0][0][0][0] == -1:
@@ -368,12 +368,12 @@ while True: # realvid
 	# 				# extract the index of the class label from the
 	# 				# `detections`, then compute the (x, y)-coordinates of
 	# 				# the bounding box for the object
-	# 				# print('catttttttttttttttttt')
+	# 				# #print('catttttttttttttttttt')
 	# 				idx = int(detections[0, 0, i, 1])
 	# 				box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
 	# 				(startX, startY, endX, endY) = box.astype("int")
-	# 			#	print('startX=',startX)
-	# 			#	print('endX=',endX)
+	# 			#	#print('startX=',startX)
+	# 			#	#print('endX=',endX)
 	# 				if(((startX+endX)/2<(L*w)) and (moveleft==0)):
 	# 					mycam.ptz_move_left()
 	# 					moveleft = 1
@@ -412,12 +412,12 @@ while True: # realvid
 	# 				centered = 0
 
 	# 	#elif ((confidence < 0.2) and (CLASSES[idx2]=='person') and (localsearch==0) and (remotetrack == 1) and (localtrack == 0)):
-	# 		#	print('about to start cruise')
+	# 		#	#print('about to start cruise')
 	# 		#	mycam.start_horizontal_cruise()
 	# 		#	localsearch = 1
 	# 		#	localtrack = 0
 	# 		#elif ((confidence < 0.2) and (CLASSES[idx2]=='person') and (localsearch==0) and (remotetrack == 0) and (centered==0)):
-	# 		#	print('about tor reset cam')
+	# 		#	#print('about tor reset cam')
 	# 		#	mycam.ptz_reset()
 	# 		#	centered = 1
 	# 		#	localsearch = 0
@@ -426,17 +426,17 @@ while True: # realvid
 	# 	# show the output frame
 	# 	cv2.imshow("Frame", frame)
 	# 	# hb stuff
-	# 	# print("hb: before heartbeat_beat()")
+	# 	# #print("hb: before heartbeat_beat()")
 	# 	hb.heartbeat_beat()
-	# 	# print("hb: before get_window_heartrate()")
+	# 	# #print("hb: before get_window_heartrate()")
 	# 	window_hr = hb.get_window_heartrate()
-	# 	# print("hb: before get_instant_heartrate()")
+	# 	# #print("hb: before get_instant_heartrate()")
 	# 	# instant_hr = hb.get_instant_heartrate()
-	# 	# print("hb: after hb stuff")
+	# 	# #print("hb: after hb stuff")
 	# 	if global_cnt>window_size_hr:
 	# 		comm.write("heart_rate",window_hr)
-	# 	# print('------------------window_hr:',window_hr)
-	# 	# print('instant_hr:',instant_hr)
+	# 	# #print('------------------window_hr:',window_hr)
+	# 	# #print('instant_hr:',instant_hr)
 	# 	current_checked = checked.get()
 	# 	if previous_checked!=current_checked:
 	# 		comm.write("app_mode",current_checked)
@@ -449,7 +449,7 @@ while True: # realvid
 		stuff = output_q.get()
 		detections = stuff['blob']
 		order = stuff['cnt']
-		print('output cnt:',order,'global cnt:',global_cnt)
+		#print('output cnt:',order,'global cnt:',global_cnt)
 		global_cnt+=1
 
 		if detections[0][0][0][0] == -1:
@@ -479,12 +479,12 @@ while True: # realvid
 					# extract the index of the class label from the
 					# `detections`, then compute the (x, y)-coordinates of
 					# the bounding box for the object
-					# print('catttttttttttttttttt')
+					# #print('catttttttttttttttttt')
 					idx = int(detections[0, 0, i, 1])
 					box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
 					(startX, startY, endX, endY) = box.astype("int")
-				#	print('startX=',startX)
-				#	print('endX=',endX)
+				#	#print('startX=',startX)
+				#	#print('endX=',endX)
 					if(((startX+endX)/2<(L*w)) and (moveleft==0)):
 						mycam.ptz_move_left()
 						moveleft = 1
@@ -530,7 +530,7 @@ while True: # realvid
 				personincam = 1
 				prev_personincam=1
 			else:
-				print('about to send lost message')
+				#print('about to send lost message')
 				personincam = 0
 				prev_personincam = 0
 				localtrack = 0
@@ -539,7 +539,7 @@ while True: # realvid
 		else:
 			personincam = prev_personincam
 			if personincam == 0:
-				print('about to send lost message')
+				#print('about to send lost message')
 				personincam = 0
 				prev_personincam = 0
 				localtrack = 0
@@ -547,26 +547,26 @@ while True: # realvid
 				sentlostmessage = 1
 
 		if ((localsearch == 0) and (localtrack == 0) and (remotetrack == 1) and (personincam==0)):
-				print('about to start cruise')
+				#print('about to start cruise')
 				mycam.start_cruise('mycruise')
 				localsearch = 1
 				localtrack = 0
 				centered = 0
 
 		if ((localtrack == 0) and (remotetrack ==0) and (centered == 0) and (personincam==0)):
-				print('about to reset cam')
+				#print('about to reset cam')
 				mycam.ptz_reset()
 				centered = 1
 				localsearch = 0
 				localtrack = 0
 				sentfoundmessage = 0
 			#elif ((confidence < 0.2) and (CLASSES[idx2]=='person') and (localsearch==0) and (remotetrack == 1) and (localtrack == 0)):
-			#	print('about to start cruise')
+			#	#print('about to start cruise')
 			#	mycam.start_horizontal_cruise()
 			#	localsearch = 1
 			#	localtrack = 0
 			#elif ((confidence < 0.2) and (CLASSES[idx2]=='person') and (localsearch==0) and (remotetrack == 0) and (centered==0)):
-			#	print('about tor reset cam')
+			#	#print('about tor reset cam')
 			#	mycam.ptz_reset()
 			#	centered = 1
 			#	localsearch = 0
@@ -575,17 +575,17 @@ while True: # realvid
 		# show the output frame
 		cv2.imshow("Frame", frame)
 		# hb stuff
-		# print("hb: before heartbeat_beat()")
+		# #print("hb: before heartbeat_beat()")
 		hb.heartbeat_beat()
-		# print("hb: before get_window_heartrate()")
+		# #print("hb: before get_window_heartrate()")
 		window_hr = hb.get_window_heartrate()
-		# print("hb: before get_instant_heartrate()")
+		# #print("hb: before get_instant_heartrate()")
 		# instant_hr = hb.get_instant_heartrate()
-		# print("hb: after hb stuff")
+		# #print("hb: after hb stuff")
 		if global_cnt>window_size_hr:
 			comm.write("heart_rate",window_hr)
-		# print('------------------window_hr:',window_hr)
-		# print('instant_hr:',instant_hr)
+		# #print('------------------window_hr:',window_hr)
+		# #print('instant_hr:',instant_hr)
 		current_checked = checked.get()
 		if previous_checked!=current_checked:
 			comm.write("app_mode",current_checked)
@@ -611,22 +611,22 @@ while True: # realvid
 		# master.update()
 		#if(time.time()>pointat):
 		#	canpoint = 1
-		print('localsearch = ',localsearch)
-		print('remotetrack = ',remotetrack)
-		print('localtrack = ',localtrack)
-		print('personincam =',personincam)
-		print('sentfoundmessage = ',sentfoundmessage)
-		print('sentlostmessage = ',sentlostmessage)
+		#print('localsearch = ',localsearch)
+		#print('remotetrack = ',remotetrack)
+		#print('localtrack = ',localtrack)
+		#print('personincam =',personincam)
+		#print('sentfoundmessage = ',sentfoundmessage)
+		#print('sentlostmessage = ',sentlostmessage)
 		sentfoundmessage = 0
 		if ((personincam==1) and (sentfoundmessage==0)):
-			print('about to send found message')
+			#print('about to send found message')
 			sock_client.send(bytes('found_object','UTF-8'))
 			sentfoundmessage = 1
 		
 # stop the timer and display FPS information
 fps.stop()
-print("[INFO] elapsed time: {:.2f}".format(fps.elapsed()))
-print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
+#print("[INFO] elapsed time: {:.2f}".format(fps.elapsed()))
+#print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 
 # do a bit of cleanup
 cv2.destroyAllWindows()
@@ -646,7 +646,7 @@ for i in range(total_num_threads):
 	input_q.put({'cnt':-1})
 for t in threads:
 	t.join()
-print("worker threads cleaned up")
+#print("worker threads cleaned up")
 # mycam1 = FoscamCamera('65.114.169.154',88,'arittenbach','8mmhamcgt16!')
 # mycam2 = FoscamCamera('65.114.169.108',88,'admin','admin')
 mycam1 = FoscamCamera('65.114.169.139',88,'arittenbach','8mmhamcgt16!')
