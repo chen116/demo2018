@@ -66,8 +66,25 @@ class MonitorThread(threading.Thread):
 							myfile.write(self.domuid+" "+(msg)+" frame size"+"\n")
 				if self.keys[3] in path.decode():
 					if msg.isdigit():
-						self.timeslice_us = int(msg)*1000
+						tmp_new_timeslice_us = int(msg)*1000
+						if self.sched ==1:
+							cur_b = 0
+							myinfo = self.shared_data[self.domuid]
+							for vcpu in myinfo:
+								if vcpu['pcpu']!=-1:
+									cur_b=int(vcpu['b'])
+							xen_interface.sched_rtds(self.domuid,tmp_new_timeslice_us,cur_b/self.timeslice_us*tmp_new_timeslice_us,[])
+							xen_interface.sched_rtds(str(int(self.domuid)+2),tmp_new_timeslice_us,(self.timeslice_us-cur_b)/self.timeslice_us*tmp_new_timeslice_us,[])
+						else:
+							cur_w = 0
+							myinfo = self.shared_data[self.domuid]
+							for vcpu in myinfo:
+								if vcpu['pcpu']!=-1:
+									cur_w=int(vcpu['w'])
+							xen_interface.sched_credit(self.domuid,cur_w/self.timeslice_us*tmp_new_timeslice_us)
+							xen_interface.sched_credit(str(int(self.domuid)+2),(self.timeslice_us-cur_w)/self.timeslice_us*tmp_new_timeslice_us)
 						xen_interface.sched_credit_timeslice(int(msg))
+						self.timeslice_us = tmp_new_timeslice_us
 						with open("info.txt", "a") as myfile:
 							myfile.write(self.domuid+" "+(msg)+" time slice len 6"+"\n")							
 
