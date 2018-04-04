@@ -85,7 +85,7 @@ class MonitorThread(threading.Thread):
 
 				# print( token.decode(),':',msg)
 	def res_allocat(self,heart_rate):
-		maxx=24000
+		maxx=30000
 		minn=100
 
 		if int(self.domuid)>=3:
@@ -405,7 +405,7 @@ class MonitorThread(threading.Thread):
 threadLock = threading.Lock()
 threads = []
 shared_data = xen_interface.get_global_info()
-maxx=24000
+maxx=30000
 default_bw=int(maxx/2)
 
 for domuid in shared_data['rtxen']:
