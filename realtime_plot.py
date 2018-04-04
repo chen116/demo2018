@@ -42,7 +42,7 @@ ax_improvement_percentage_vs_static.axis('off')
 
 
 def animate2(i):
-    maxx=18000
+    maxx=15000
     global show_frames, show_anchors, show_dummies, ax_improvement_percentage_txt
 
     pullData = open("info.txt","r").read()
