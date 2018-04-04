@@ -47,7 +47,7 @@ if True:
 	if "redit" in sys.argv[7]:
 		fg = "green"
 
-	sched_label = Label(master, textvariable=sched_var,fg = fg,bg = "white",font = "Verdana 10 bold" )
+	sched_label = Label(master, textvariable=sched_var,fg = fg,bg = "white",font = "Verdana 30 bold" )
 	sched_label.pack(side=LEFT)
 
 	# scheds = [
@@ -63,7 +63,7 @@ if True:
 
 	checked = IntVar(value=0)
 	previous_checked = checked.get()
-	c = Checkbutton(master, text="Anchors | ", variable=checked)
+	c = Checkbutton(master, text="Anchors | ", variable=checked,,font = "Verdana 15" )
 	c.pack(side=LEFT)
 
 
@@ -84,23 +84,29 @@ if True:
 	    b = Radiobutton(master, text=text,variable=w1, value=mode)
 	    b.pack(side=LEFT)
 
-	timeslice_var = StringVar()
-	timeslice_var.set("   | Timeslice(ms):")
-	timeslice_label = Label(master, textvariable=timeslice_var)
-	timeslice_label.pack(side=LEFT)
-	tsSIZE = [
-	    ("15", 15),
-	    ("20", 20),
-	    ("25", 25),
-	    ("30", 30)
-	]
-	ts1 = IntVar()
-	ts1.set(15) # initialize
-	previous_ts = ts1.get()
+	# timeslice_var = StringVar()
+	# timeslice_var.set("   | Timeslice(ms):")
+	# timeslice_label = Label(master, textvariable=timeslice_var)
+	# timeslice_label.pack(side=LEFT)
+	# tsSIZE = [
+	#     ("15", 15),
+	#     ("20", 20),
+	#     ("25", 25),
+	#     ("30", 30)
+	# ]
+	# ts1 = IntVar()
+	# ts1.set(15) # initialize
+	# previous_ts = ts1.get()
+	# for text, mode in tsSIZE:
+	#     b = Radiobutton(master, text=text,variable=ts1, value=mode)
+	#     b.pack(side=LEFT)
 
-	for text, mode in tsSIZE:
-	    b = Radiobutton(master, text=text,variable=ts1, value=mode)
-	    b.pack(side=LEFT)
+
+	ts1 = Scale(master,from_=15,to=30,orient=HORIZONTAL)
+	ts1.set(15) # init speed
+	previous_ts = ts1.get()
+	ts1.pack(side=LEFT)
+
 
 	def exit_app(w1):
 		w1.set(0)
@@ -116,7 +122,7 @@ if True:
 
 
 	m1 = Scale(master,from_=1,to=20,orient=HORIZONTAL)
-	m1.set(10) # init speed
+	m1.set(5) # init speed
 	# m1.pack(side=LEFT)
 
 
@@ -348,122 +354,6 @@ while True: # realvid
 		stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
 		cnt+=1
 		input_q.put(stuff)
-		stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
-		cnt+=1
-		input_q.put(stuff)
-
-	if not output_q.empty():
-		stuff = output_q.get()
-		detections = stuff['blob']
-		order = stuff['cnt']
-		print('output cnt:',order,'global cnt:',global_cnt)
-		global_cnt+=1
-
-		if detections[0][0][0][0] == -1:
-			if len(prev_boxes)>0:
-				for prev_box in prev_boxes:
-					startX=prev_box['startX']
-					startY=prev_box['startY']
-					endX=prev_box['endX']
-					endY=prev_box['endY']
-					idx=prev_box['idx']
-					label=prev_box['label']
-					cv2.rectangle(frame, (startX, startY), (endX, endY),
-						COLORS[idx], 2)
-					y = startY - 15 if startY - 15 > 15 else startY + 15
-					cv2.putText(frame, label, (startX, y),
-						cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)					
-		else:
-			prev_boxes=[]
-			for i in np.arange(0, detections.shape[2]):
-				# extract the confidence (i.e., probability) associated with
-				# the prediction
-				confidence = detections[0, 0, i, 2]
-				idx2 = int(detections[0,0,i,1])
-				# filter out weak detections by ensuring the `confidence` is
-				# greater than the minimum confidence
-				if ((confidence > 0.2) and (CLASSES[idx2]==tracking_target)):
-					# extract the index of the class label from the
-					# `detections`, then compute the (x, y)-coordinates of
-					# the bounding box for the object
-					# print('catttttttttttttttttt')
-					idx = int(detections[0, 0, i, 1])
-					box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
-					(startX, startY, endX, endY) = box.astype("int")
-				#	print('startX=',startX)
-				#	print('endX=',endX)
-					if(((startX+endX)/2<(L*w)) and (moveleft==0)):
-						mycam.ptz_move_left()
-						moveleft = 1
-						moveright = 0
-					#	canpoint = 0
-					#	pointat = time.time()+0.3 
-					elif(((startX+endX)/2>(R*w)) and (moveright==0)):
-						mycam.ptz_move_right()
-						moveright = 1
-						moveleft = 0
-					#	canpoint = 0
-					#	pointat = time.time()+0.3
-					# draw the prediction on the frame
-					elif((((startX+endX)/2>(L*w)) and (((startX+endX)/2)<(R*w))))and((moveright==1)or(moveleft==1)):
-						mycam.ptz_stop_run()
-						moveright = 0
-						moveleft = 0
-					label = "{}: {:.2f}%".format(CLASSES[idx],
-						confidence * 100)
-					cv2.rectangle(frame, (startX, startY), (endX, endY),
-						COLORS[idx], 2)
-					y = startY - 15 if startY - 15 > 15 else startY + 15
-					cv2.putText(frame, label, (startX, y),
-						cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)
-					prev_box = {}
-					prev_box['startX']=startX
-					prev_box['startY']=startY
-					prev_box['endX']=endX
-					prev_box['endY']=endY
-					prev_box['idx']=idx
-					prev_box['label']= "recalculating..."
-					prev_boxes.append(prev_box)
-					localtrack = 1
-					localsearch = 0
-					sentlostmessage = 0
-					centered = 0
-
-		#elif ((confidence < 0.2) and (CLASSES[idx2]=='person') and (localsearch==0) and (remotetrack == 1) and (localtrack == 0)):
-			#	print('about to start cruise')
-			#	mycam.start_horizontal_cruise()
-			#	localsearch = 1
-			#	localtrack = 0
-			#elif ((confidence < 0.2) and (CLASSES[idx2]=='person') and (localsearch==0) and (remotetrack == 0) and (centered==0)):
-			#	print('about tor reset cam')
-			#	mycam.ptz_reset()
-			#	centered = 1
-			#	localsearch = 0
-			#	localtrack = 0	
-			#	sock_client.send(bytes('lost_object','UTF-8'))
-		# show the output frame
-		cv2.imshow("Frame", frame)
-		# hb stuff
-		# print("hb: before heartbeat_beat()")
-		hb.heartbeat_beat()
-		# print("hb: before get_window_heartrate()")
-		window_hr = hb.get_window_heartrate()
-		# print("hb: before get_instant_heartrate()")
-		# instant_hr = hb.get_instant_heartrate()
-		# print("hb: after hb stuff")
-		if global_cnt>window_size_hr:
-			comm.write("heart_rate",window_hr)
-		# print('------------------window_hr:',window_hr)
-		# print('instant_hr:',instant_hr)
-		current_checked = checked.get()
-		if previous_checked!=current_checked:
-			comm.write("app_mode",current_checked)
-			previous_checked=current_checked
-		if previous_f_size!=current_f_size:
-			comm.write("frame_size",current_f_size)
-			previous_f_size=current_f_size
-
-
 
 	if not output_q.empty():
 		stuff = output_q.get()
