@@ -115,10 +115,10 @@ def animate2(i):
     for i in range(len(x)):
         ax1.scatter(x[i],hrs[i],s= ((1)%2)*6+5 ,label= sched[i] ,color=colrs[i])
         ax2.plot(x[i],cpus[i],color=colrs[i],lw=((i+1)%2)+3,label= sched[i] )
-        # tmp=[]
-        # for j in range(len(cpus[i])):
-        #     tmp.append(100-cpus[i][j])
-        # ax2.plot(x[i],tmp,color=dummy_colrs[i],lw=((i+1)%2)+3,label= sched[i] )
+        tmp=[]
+        for j in range(len(cpus[i])):
+            tmp.append(100-cpus[i][j])
+        ax2.plot(x[i],tmp,color=dummy_colrs[i],lw=((i+1)%2)+3,label= sched[i] )
         # ax2.scatter(x[i],cpus[i],s= ((i+1)%2)*6+5,label= sched[i] ,color=colrs[i])
     dummy_colrs = ['cyan','lightgreen']
     dummy_sched=["Dummy\nRT-Xen","Dummy\nCredit"]
