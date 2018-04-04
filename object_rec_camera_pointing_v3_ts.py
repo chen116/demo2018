@@ -72,9 +72,9 @@ if True:
 	frame_label = Label(master, textvariable=frame_var)
 	frame_label.pack(side=LEFT)
 	FSIZE = [
-	    ("small", 300),
-	    ("medium", 600),
-	    ("large", 800)
+	    ("small", 250),
+	    ("medium", 550),
+	    ("large", 750)
 	]
 	w1 = IntVar()
 	w1.set(300) # initialize
