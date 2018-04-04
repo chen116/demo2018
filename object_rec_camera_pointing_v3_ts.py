@@ -77,7 +77,7 @@ if True:
 	    ("large", 750)
 	]
 	w1 = IntVar()
-	w1.set(300) # initialize
+	w1.set(250) # initialize
 	previous_f_size = w1.get()
 
 	for text, mode in FSIZE:
