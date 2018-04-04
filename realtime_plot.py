@@ -9,10 +9,10 @@ import matplotlib
 matplotlib.rc('xtick', labelsize=20) 
 matplotlib.rc('ytick', labelsize=30) 
 import time
-# fig = plt.figure(figsize=(16, 9))
+fig = plt.figure(figsize=(16, 9))
 # plt.subplots_adjust(left=None, bottom=None, right=None, top=None,wspace=1, hspace=None)
 # fig.set_size_inches(18.5, 10.5)
-fig = plt.figure(figsize=(10, 7))
+# fig = plt.figure(figsize=(10, 7))
 ax1 = plt.subplot(2,1,1)
 plt.subplots_adjust(left = 0.13,right=0.84)
 
@@ -42,7 +42,7 @@ ax_improvement_percentage_vs_static.axis('off')
 
 
 def animate2(i):
-    maxx=30000
+    maxx=10000
     global show_frames, show_anchors, show_dummies, ax_improvement_percentage_txt
 
     pullData = open("info.txt","r").read()
@@ -112,15 +112,18 @@ def animate2(i):
     ax2.clear()
     sched=["RT-Xen","Credit"]
     colrs = ['blue','limegreen']
+    dummy_colrs = ['cyan','lightgreen']
+    dummy_sched=["Free\nResource\n(RT-Xen)","Free\nResource\n(Credit)"]
+
     for i in range(len(x)):
         ax1.scatter(x[i],hrs[i],s= ((1)%2)*6+5 ,label= sched[i] ,color=colrs[i])
         ax2.plot(x[i],cpus[i],color=colrs[i],lw=((i+1)%2)+3,label= sched[i] )
         tmp=[]
         for j in range(len(cpus[i])):
             tmp.append(100-cpus[i][j])
-        ax2.plot(x[i],tmp,color=dummy_colrs[i],lw=((i+1)%2)+3,label= sched[i] )
+        ax2.plot(x[i],tmp,'--',color=dummy_colrs[i],lw=((i+1)%2)+3,label= dummy_sched[i])
         # ax2.scatter(x[i],cpus[i],s= ((i+1)%2)*6+5,label= sched[i] ,color=colrs[i])
-    dummy_colrs = ['cyan','lightgreen']
+
     dummy_sched=["Dummy\nRT-Xen","Dummy\nCredit"]
 
     if show_dummies:
@@ -142,7 +145,7 @@ def animate2(i):
     ax1.legend(bbox_to_anchor=(1.01, 1), loc=2, borderaxespad=0.,fontsize=20)
     # ax1.legend(loc='upper center', bbox_to_anchor=(0.5, 1.12),ncol=3, fancybox=True, shadow=True,prop=fontP)
     # ax2.legend(loc='upper center', bbox_to_anchor=(0.5, 1.1),ncol=3, fancybox=True, shadow=True,prop=fontP)
-    ax2.legend(bbox_to_anchor=(1.01, 1), loc=2, borderaxespad=0.,fontsize=20)
+    ax2.legend(bbox_to_anchor=(1.01, 1), loc=2, borderaxespad=0.,fontsize=18)
     fig.suptitle('RT-Xen vs Credit', fontsize=24, fontweight='bold')
     per = 0
     try:
