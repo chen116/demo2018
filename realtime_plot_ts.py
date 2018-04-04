@@ -214,7 +214,7 @@ def animate2(i):
                 if anchors[i][j]==0:
                     ax1.text(anchor_xs[i][j],1.2*maxhrs,"Static 50%",rotation=45,fontdict=font[i])
                 elif anchors[i][j]==1:
-                    ax1.text(anchor_xs[i][j],1.2*maxhrs,"Anchors",rotation=45,fontdict=font[i])
+                    ax1.text(anchor_xs[i][j],1.2*maxhrs,"Anchors On",rotation=45,fontdict=font[i])
                 elif anchors[i][j]==2:
                     ax1.text(anchor_xs[i][j],1.2*maxhrs,"Static 100%",rotation=45,fontdict=font[i])
 
