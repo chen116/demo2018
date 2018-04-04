@@ -21,6 +21,8 @@ buf = 1000
 show_frames=1
 show_anchors=1
 show_dummies=0
+show_ts=1
+
 font_per = [{'family': 'serif',
         'color':  'k',
         'size': 18,
