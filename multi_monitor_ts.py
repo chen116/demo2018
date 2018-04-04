@@ -182,7 +182,7 @@ class MonitorThread(threading.Thread):
 						vcpu['b']=cur_b
 						print(tab,'vcpu:',cnt,'b:',vcpu['b'])
 						cnt+=1
-			else:
+			elif self.anchors==0:
 				print(tab,'Credit anchors ACTIVE:')
 				cur_w = 0
 				myinfo = self.shared_data[self.domuid]
@@ -219,7 +219,7 @@ class MonitorThread(threading.Thread):
 						cnt+=1
 
 
-		else:
+		elif self.anchors==0:
 			if self.sched==1:
 				print(tab,'-------------RT-Xen anchors INACTIVE:')
 				default_b=int(self.timeslice_us/2)
@@ -254,6 +254,42 @@ class MonitorThread(threading.Thread):
 				if not_default_w:
 					xen_interface.sched_credit(self.domuid,default_w)
 					xen_interface.sched_credit(str(int(self.domuid)+2),default_w)
+		elif self.anchors==2:
+			if self.sched==1:
+				print(tab,'-------------RT-Xen anchors INACTIVE:')
+				default_b=int(self.timeslice_us-minn)
+				myinfo = self.shared_data[self.domuid]
+				cnt=0
+				not_default_b = 0
+				for vcpu in myinfo:
+					if vcpu['pcpu']!=-1:
+						if vcpu['b']!=default_b:
+							not_default_b = 1
+							vcpu['b']=default_b
+
+						print(tab,'vcpu:',cnt,'b:',vcpu['b'])	
+						cnt+=1
+				if not_default_b:
+					xen_interface.sched_rtds(self.domuid,self.timeslice_us,default_b,[])
+					xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,minn,[])
+			else:
+				print(tab,'Credit anchors INACTIVE:')
+				default_w=int(self.timeslice_us-minn)
+				myinfo = self.shared_data[self.domuid]
+				cnt=0
+				not_default_w = 0
+				for vcpu in myinfo:
+					if vcpu['pcpu']!=-1:
+						if vcpu['w']!=default_w:
+							not_default_w = 1
+							vcpu['w']=default_w
+
+						print(tab,'vcpu:',cnt,'w:',vcpu['w'])	
+						cnt+=1
+				if not_default_w:
+					xen_interface.sched_credit(self.domuid,default_w)
+					xen_interface.sched_credit(str(int(self.domuid)+2),minn)
+
 		buf=10000
 		self.shared_data['cnt'] = (self.shared_data['cnt']+1)%buf
 		info = self.domuid+" "+str(heart_rate)+" "

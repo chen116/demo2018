@@ -61,10 +61,28 @@ if True:
 	#     b = Radiobutton(master, text=text,variable=sched, value=mode)
 	#     b.pack(side=LEFT)
 
-	checked = IntVar(value=0)
+	# checked = IntVar(value=0)
+	# previous_checked = checked.get()
+	# c = Checkbutton(master, text="Anchors | ", variable=checked,font = "Verdana 14 bold" )
+	# c.pack(side=LEFT)
+
+
+	anchors_var = StringVar()
+	anchors_var.set("Resource:")
+	anchors_label = Label(master, textvariable=anchors_var,font = "Verdana 12 bold" )
+	anchors_label.pack(side=LEFT)
+	FSIZE = [
+	    ("Anchors", 0),
+	    ("50%", 1),
+	    ("100%", 2)
+	]
+	checked = IntVar()
+	checked.set(0) # initialize
 	previous_checked = checked.get()
-	c = Checkbutton(master, text="Anchors | ", variable=checked,font = "Verdana 14 bold" )
-	c.pack(side=LEFT)
+
+	for text, mode in FSIZE:
+	    b = Radiobutton(master, text=text,variable=checked, value=mode)
+	    b.pack(side=LEFT)
 
 
 	frame_var = StringVar()
