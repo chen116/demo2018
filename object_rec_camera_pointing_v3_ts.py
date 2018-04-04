@@ -69,7 +69,7 @@ if True:
 
 	frame_var = StringVar()
 	frame_var.set("Frame Size:")
-	frame_label = Label(master, textvariable=frame_var)
+	frame_label = Label(master, textvariable=frame_var,font = "Verdana 12 bold" )
 	frame_label.pack(side=LEFT)
 	FSIZE = [
 	    ("small", 300),
@@ -85,8 +85,8 @@ if True:
 	    b.pack(side=LEFT)
 
 	timeslice_var = StringVar()
-	timeslice_var.set("   | Timeslice(ms):")
-	timeslice_label = Label(master, textvariable=timeslice_var)
+	timeslice_var.set(" | ")
+	timeslice_label = Label(master, textvariable=timeslice_var,font = "Verdana 14 bold" )
 	timeslice_label.pack(side=LEFT)
 	tsSIZE = [
 	    ("low-lat", 15),
