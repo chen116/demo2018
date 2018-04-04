@@ -69,7 +69,7 @@ if True:
 
 	anchors_var = StringVar()
 	anchors_var.set("Resource:")
-	anchors_label = Label(master, textvariable=anchors_var,font = "Verdana 12 bold" )
+	anchors_label = Label(master, textvariable=anchors_var,font = "Verdana 10 bold" )
 	anchors_label.pack(side=LEFT)
 	FSIZE = [
 	    ("Anchors", 1),
@@ -86,13 +86,13 @@ if True:
 
 
 	frame_var = StringVar()
-	frame_var.set("Frame Size:")
-	frame_label = Label(master, textvariable=frame_var,font = "Verdana 12 bold" )
+	frame_var.set("Frame:")
+	frame_label = Label(master, textvariable=frame_var,font = "Verdana 10 bold" )
 	frame_label.pack(side=LEFT)
 	FSIZE = [
-	    ("small", 300),
-	    ("medium", 600),
-	    ("large", 800)
+	    ("S", 300),
+	    ("M", 600),
+	    ("L", 800)
 	]
 	w1 = IntVar()
 	w1.set(600) # initialize
@@ -107,8 +107,8 @@ if True:
 	timeslice_label = Label(master, textvariable=timeslice_var,font = "Verdana 14 bold" )
 	timeslice_label.pack(side=LEFT)
 	tsSIZE = [
-	    ("low-lat", 15),
-	    ("high-lat", 25)
+	    ("Low-lat", 15),
+	    ("High-thru", 25)
 	]
 	ts1 = IntVar()
 	ts1.set(15) # initialize
