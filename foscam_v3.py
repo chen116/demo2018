@@ -71,17 +71,20 @@ class FoscamCamera(object):
 
         # Parse parameters from response string.
         if self.verbose:
+            self.verbose=self.verbose
             #print ('Send Foscam command: %s' % cmdurl)
         try:
             raw_string = ''
             raw_string = urlopen(cmdurl).read()
             if raw:
                 if self.verbose:
+                    self.verbose=self.verbose
                     #print ('Returning raw Foscam response: len=%d' % len(raw_string))
                 return FOSCAM_SUCCESS, raw_string
             root = ET.fromstring(raw_string)
         except:
             if self.verbose:
+                self.verbose=self.verbose
                 #print ('Foscam exception: ' + raw_string)
             return ERROR_FOSCAM_UNAVAILABLE, None
         code = ERROR_FOSCAM_UNKNOWN
@@ -94,6 +97,7 @@ class FoscamCamera(object):
                 params[child.tag] = child.text
 
         if self.verbose:
+            self.verbose=self.verbose
             #print ('Received Foscam response: %s, %s' % (code, params))
         return code, params
 
