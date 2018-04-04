@@ -31,7 +31,7 @@ font_per = [{'family': 'serif',
         }]
 ax_improvement_percentage = plt.axes([0, 0.91, 0.2, 0.12])
 ax_improvement_percentage.text(0.06,0.42,'RT-Xen outperforms Credit by:',fontdict=font_per[0])
-ax_improvement_percentage_txt = ax_improvement_percentage.text(0.8,0.01,'%.2f%%'%(0),fontdict=font_per[1])
+ax_improvement_percentage_txt = ax_improvement_percentage.text(0.,0.01,'%.2f%%'%(0),fontdict=font_per[1])
 ax_improvement_percentage.axis('off')
 
 ax_improvement_percentage_vs_static = plt.axes([0.7, 0.91, 0.2, 0.12])
