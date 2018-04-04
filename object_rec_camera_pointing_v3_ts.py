@@ -84,28 +84,28 @@ if True:
 	    b = Radiobutton(master, text=text,variable=w1, value=mode)
 	    b.pack(side=LEFT)
 
-	# timeslice_var = StringVar()
-	# timeslice_var.set("   | Timeslice(ms):")
-	# timeslice_label = Label(master, textvariable=timeslice_var)
-	# timeslice_label.pack(side=LEFT)
-	# tsSIZE = [
-	#     ("15", 15),
-	#     ("20", 20),
-	#     ("25", 25),
-	#     ("30", 30)
-	# ]
-	# ts1 = IntVar()
-	# ts1.set(15) # initialize
-	# previous_ts = ts1.get()
-	# for text, mode in tsSIZE:
-	#     b = Radiobutton(master, text=text,variable=ts1, value=mode)
-	#     b.pack(side=LEFT)
-
-
-	ts1 = Scale(master,from_=15,to=30,orient=HORIZONTAL)
-	ts1.set(15) # init speed
+	timeslice_var = StringVar()
+	timeslice_var.set("   | Timeslice(ms):")
+	timeslice_label = Label(master, textvariable=timeslice_var)
+	timeslice_label.pack(side=LEFT)
+	tsSIZE = [
+	    ("15", 15),
+	    ("20", 20),
+	    ("25", 25),
+	    ("30", 30)
+	]
+	ts1 = IntVar()
+	ts1.set(15) # initialize
 	previous_ts = ts1.get()
-	ts1.pack(side=LEFT)
+	for text, mode in tsSIZE:
+	    b = Radiobutton(master, text=text,variable=ts1, value=mode)
+	    b.pack(side=LEFT)
+
+
+	# ts1 = Scale(master,from_=15,to=30,orient=HORIZONTAL)
+	# ts1.set(15) # init speed
+	# previous_ts = ts1.get()
+	# ts1.pack(side=LEFT)
 
 
 	def exit_app(w1):
