@@ -9,10 +9,10 @@ import matplotlib
 matplotlib.rc('xtick', labelsize=20) 
 matplotlib.rc('ytick', labelsize=30) 
 import time
-# fig = plt.figure(figsize=(16, 9))
+fig = plt.figure(figsize=(16, 9))
 # plt.subplots_adjust(left=None, bottom=None, right=None, top=None,wspace=1, hspace=None)
 # fig.set_size_inches(18.5, 10.5)
-fig = plt.figure(figsize=(10, 7))
+# fig = plt.figure(figsize=(10, 7))
 ax1 = plt.subplot(2,1,1)
 plt.subplots_adjust(left = 0.13,right=0.84)
 
