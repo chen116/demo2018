@@ -85,7 +85,7 @@ if True:
 	    b.pack(side=LEFT)
 
 	timeslice_var = StringVar()
-	timeslice_var.set("    timeslice(ms):")
+	timeslice_var.set("   | Timeslice(ms):")
 	timeslice_label = Label(master, textvariable=timeslice_var)
 	timeslice_label.pack(side=LEFT)
 	tsSIZE = [

@@ -53,6 +53,8 @@ def animate2(i):
     dummy_hrs = []
     ts_xs = []
     ts = []
+    event_last_happened_at_cnt=[-1,-1]
+
     for i in range(2):
         x.append([])
         hrs.append([])        
@@ -65,6 +67,9 @@ def animate2(i):
         dummy_hrs.append([])        
         ts_xs.append([])
         ts.append([])
+
+
+
 
         # for j in range(buf):
         #     x[i].append(j)
@@ -85,9 +90,13 @@ def animate2(i):
             if len(line)==2:
                 anchor_xs[index].append(cnt)
                 anchors[index].append(int(line[1]))
+                event_last_happened_at_cnt[index]=cnt
+
             if len(line)==4:
                 frame_xs[index].append(cnt)
                 frames[index].append(int(line[1]))
+                event_last_happened_at_cnt[index]=cnt
+
             if len(line)==5:
                 dummy_x[index-2].append(cnt)
                 dummy_hrs[index-2].append(float(line[1]))
@@ -95,6 +104,8 @@ def animate2(i):
                 ts_xs[index].append(cnt)
                 ts[index].append(int(line[1]))
                 last_ts[index]=int(line[1])
+                event_last_happened_at_cnt[index]=cnt
+
             cnt+=1
     min_max = []
     for eachLine in minmaxArray:
@@ -139,10 +150,29 @@ def animate2(i):
     ax2.legend(bbox_to_anchor=(1.01, 1), loc=2, borderaxespad=0.,prop=fontP)
     fig.suptitle('RT-Xen vs Credit', fontsize=14, fontweight='bold')
     per = 0
+    # try:
+    #     rtxen_fps = hrs[0][-1]
+    #     credit_fps = hrs[1][-1]
+    #     per=(rtxen_fps-credit_fps)/credit_fps*100
     try:
-        rtxen_fps = hrs[0][-1]
-        credit_fps = hrs[1][-1]
-        per=(rtxen_fps-credit_fps)/credit_fps*100
+        hrs_after_event_rtxen=0
+        hrs_after_event_rtxen_cnt=0
+        hrs_after_event_credit=0
+        hrs_after_event_credit_cnt=0
+        for ii,xx in enumerate(hrs[0]):
+            if x[0][ii]>event_last_happened_at_cnt[0]:
+                hrs_after_event_rtxen+=xx
+                hrs_after_event_rtxen_cnt+=1
+        for ii,xx in enumerate(hrs[1]):
+            if x[1][ii]>event_last_happened_at_cnt[1]:
+                hrs_after_event_credit+=xx
+                hrs_after_event_credit_cnt+=1
+        if hrs_after_event_rtxen_cnt > 0 and hrs_after_event_rtxen_cnt >0:
+            rtxen_fps = hrs_after_event_rtxen/hrs_after_event_rtxen_cnt
+            credit_fps = hrs_after_event_credit/hrs_after_event_credit_cnt
+            per=(rtxen_fps-credit_fps)/credit_fps*100
+
+
     except:
         per=0
 
