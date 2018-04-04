@@ -29,7 +29,7 @@ from queue import Queue
 if True:
 	from tkinter import *
 	master = Tk()
-	w = 600#475#550 # width for the Tk root
+	w = 675#475#550 # width for the Tk root
 	h = 75 # height for the Tk root
 	# get screen width and height
 	ws = master.winfo_screenwidth() # width of the screen
@@ -86,7 +86,7 @@ if True:
 
 	def exit_app(w1):
 		w1.set(0)
-	done = Button(master, text="EXIT",command=lambda: exit_app(w1))
+	done = Button(master, text="EXIT",command=lambda: exit_app(w1),font = "Verdana 30 bold" )
 	done.pack(side=LEFT)
 
 
