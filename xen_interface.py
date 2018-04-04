@@ -216,3 +216,6 @@ def sched_rtds(domuid,p,b,vcpus):
 
 def sched_credit(domuid,w):
     proc = subprocess.Popen(['xl','sched-credit','-d',str(domuid),'-w',str(w)])
+def sched_credit_timeslices(ts):
+    # xl sched-credit -p credit -s -t 5ms
+    proc = subprocess.Popen(['xl','sched-credit','-p','credit','-s','-t',str(ts)+'ms'])
