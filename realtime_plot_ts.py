@@ -212,9 +212,12 @@ def animate2(i):
                 ax2.axvline(x=anchor_xs[i][j],color=colrs[i], linestyle='-')
 
                 if anchors[i][j]==0:
-                    ax1.text(anchor_xs[i][j],1.2*maxhrs,"Anchors:OFF",rotation=45,fontdict=font[i])
-                else:
-                    ax1.text(anchor_xs[i][j],1.2*maxhrs,"Anchors:ON",rotation=45,fontdict=font[i])
+                    ax1.text(anchor_xs[i][j],1.2*maxhrs,"Static 50%",rotation=45,fontdict=font[i])
+                elif anchors[i][j]==1:
+                    ax1.text(anchor_xs[i][j],1.2*maxhrs,"Anchors",rotation=45,fontdict=font[i])
+                elif anchors[i][j]==2:
+                    ax1.text(anchor_xs[i][j],1.2*maxhrs,"Static 100%",rotation=45,fontdict=font[i])
+
     if show_frames:
         for i in range(len(frame_xs)):
             for j in range(len(frame_xs[i])):
