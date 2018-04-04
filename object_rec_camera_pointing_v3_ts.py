@@ -74,7 +74,7 @@ if True:
 	FSIZE = [
 	    ("small", 300),
 	    ("medium", 600),
-	    ("large", 8000)
+	    ("large", 800)
 	]
 	w1 = IntVar()
 	w1.set(300) # initialize
