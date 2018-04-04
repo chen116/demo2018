@@ -76,6 +76,8 @@ def animate2(i):
         dummy_x.append([])
         dummy_hrs.append([])
         event_last_happened_at_cnt.append(-1)
+        ts_xs.append([])
+        ts.append([])
 
         # for j in range(buf):
         #     x[i].append(j)
