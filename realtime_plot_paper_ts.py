@@ -220,7 +220,7 @@ def animate2(i):
             for j in range(len(ts_xs[i])):
                 ax1.axvline(x=ts_xs[i][j],color=colrs[i], linestyle=':')
                 ax2.axvline(x=ts_xs[i][j],color=colrs[i], linestyle=':')
-                ax2.text(ts_xs[i][j],-15,"ts: "+str(ts[i][j]),rotation=45,fontdict=font[i],horizontalalignment='right',verticalalignment='top')
+                ax2.text(ts_xs[i][j],-10,"ts: "+str(ts[i][j]),rotation=45,fontdict=font[i],horizontalalignment='right',verticalalignment='top')
 
 
 
