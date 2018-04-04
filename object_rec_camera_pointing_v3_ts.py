@@ -29,7 +29,7 @@ from queue import Queue
 if True:
 	from tkinter import *
 	master = Tk()
-	w = 775 # width for the Tk root
+	w = 1000 # width for the Tk root
 	h = 50 # height for the Tk root
 	# get screen width and height
 	ws = master.winfo_screenwidth() # width of the screen
@@ -47,7 +47,7 @@ if True:
 	if "redit" in sys.argv[7]:
 		fg = "green"
 
-	sched_label = Label(master, textvariable=sched_var,fg = fg,bg = "white",font = "Verdana 30 bold" )
+	sched_label = Label(master, textvariable=sched_var,fg = fg,bg = "white",font = "Verdana 10 bold" )
 	sched_label.pack(side=LEFT)
 
 	# scheds = [
