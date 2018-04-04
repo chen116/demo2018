@@ -73,7 +73,7 @@ if True:
 	anchors_label.pack(side=LEFT)
 	FSIZE = [
 	    ("Anchors", 1),
-	    ("50%",0)
+	    ("50%",0),
 	    ("100%", 2),
 	]
 	checked = IntVar()
