@@ -177,7 +177,7 @@ def animate(frame):
     creditMeanSinceLastChange = getAverageSinceLastChange(df, 1, mostRecentChanges[1])
     rtXenMeanSinceLastChange = getAverageSinceLastChange(df, 0, mostRecentChanges[0])
 
-    if (creditMeanSinceLastChange is None) or (creditMeanSinceLastChange is None):
+    if (creditMeanSinceLastChange is None) or (rtXenMeanSinceLastChange is None):
         ax_improvement_percentage_vs_credit_txt.set_text('')
     else:
         per=(rtXenMeanSinceLastChange-creditMeanSinceLastChange)/creditMeanSinceLastChange*100
