@@ -205,7 +205,7 @@ def animate(frame):
 
     ax2.set_xlabel('Events',fontsize=15)
     ax1.set_ylabel('Moving Average FPS\n(Window Size = 5)\n(frames/sec)', fontsize=22)
-    ax2.set_ylabel('Assigned CPU Time\n(%)', fontsize=22)
+    ax2.set_ylabel('Assigned CPU Share\n(%)', fontsize=22)
     # ax2.set_ylim( 45, 105 )  
     ax2.set_ylim( -5, 105 )
     ax1.set_xlim( -5000/25, 5000+5000/25 )
