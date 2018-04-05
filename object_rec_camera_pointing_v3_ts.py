@@ -71,7 +71,7 @@ if True:
 	anchors_var.set("Resource:")
 	anchors_label = Label(master, textvariable=anchors_var,font = "Verdana 10 bold" )
 	anchors_label.pack(side=LEFT)
-	FSIZE = [
+	anchors_options = [
 	    ("Anchors", 1),
 	    ("50%",0),
 	    ("100%", 2),
@@ -80,7 +80,7 @@ if True:
 	checked.set(0) # initialize
 	previous_checked = checked.get()
 
-	for text, mode in FSIZE:
+	for text, mode in anchors_options:
 	    b = Radiobutton(master, text=text,variable=checked, value=mode)
 	    b.pack(side=LEFT)
 

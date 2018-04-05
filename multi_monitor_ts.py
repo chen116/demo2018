@@ -182,7 +182,7 @@ class MonitorThread(threading.Thread):
 						vcpu['b']=cur_b
 						print(tab,'vcpu:',cnt,'b:',vcpu['b'])
 						cnt+=1
-			elif self.anchors==0:
+			else:
 				print(tab,'Credit anchors ACTIVE:')
 				cur_w = 0
 				myinfo = self.shared_data[self.domuid]
