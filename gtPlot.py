@@ -198,6 +198,11 @@ def animate(frame):
     #     rtXenMeanAnchors if rtXenMeanAnchors!= None else 0)
     # )
 
+    anchorsResources=float(df.loc[(df['type'] == "RECORD_HEARTBEAT") & (df['dom'] == 1)]["value2"].sum())
+    staticResources=len(df.loc[(df['type'] == "RECORD_HEARTBEAT") & (df['dom'] == 1)]["value2"].values)*100
+    ax_cpu_saving_txt.set_text('%.2f%%'%((staticResources-anchorsResources)/staticResources*100))
+
+
     ax2.set_xlabel('Events',fontsize=15)
     ax1.set_ylabel('Moving Average FPS\n(Window Size = 5)\n(frames/sec)', fontsize=22)
     ax2.set_ylabel('Assigned CPU Time\n(%)', fontsize=22)
