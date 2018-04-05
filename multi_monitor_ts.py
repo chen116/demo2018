@@ -298,15 +298,14 @@ class MonitorThread(threading.Thread):
 		else:
 			info += str(self.shared_data[self.domuid][0]['w']/self.timeslice_us)
 
-
-		if self.shared_data['cnt']%buf!=0:
-			with open("info.txt", "a") as myfile:
-				myfile.write(info+"\n")
-		else:
-			with open("info.txt", "a") as myfile:
-			# with open("info.txt", "w") as myfile:
-				myfile.write(info+"\n")
-
+		# if self.shared_data['cnt']%buf!=0:
+		# 	with open("info.txt", "a") as myfile:
+		# 		myfile.write(info+"\n")
+		# else:
+		# 	with open("info.txt", "w") as myfile:
+		# 		myfile.write(info+"\n")
+		with open("info.txt", "a") as myfile:
+			myfile.write(info+"\n")
 
 
 		return
