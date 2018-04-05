@@ -20,7 +20,8 @@ maxPoints=5000
 inputDataFile="info.txt"
 
 
-hypervisorSchedulers=["RT-Xen", "Xen"]
+hypervisorSchedulers=["RT-Xen"]
+# hypervisorSchedulers=["RT-Xen", "Xen"]
 colors = ['blue','limegreen']
 
 DEFAULT_ANCHORSMODE=0
@@ -58,6 +59,7 @@ ax_improvement_percentage_vs_static_txt = ax_improvement_percentage_vs_static.te
 ax_improvement_percentage_vs_static.axis('off')
 
 def animate(frame):
+    plot_vertlines=False
 
 
 
@@ -130,41 +132,43 @@ def animate(frame):
             'size': 15,
             }]
     colrs = ['dodgerblue','forestgreen']
-    # Plot anchors
-    for idx, row in df.loc[df['type'] == "RECORD_ANCHORS"].iterrows():
-        dom_index=row["dom"]-1
-        # print row["index"], row["value"]
-        ax1.axvline(x=row["index"],linestyle='-',color=colrs[dom_index])
-        ax2.axvline(x=row["index"],linestyle='-',color=colrs[dom_index])
-        maxhrs= df.loc[(df['type'] == "RECORD_HEARTBEAT")]["value"].max()
-        if row["curMode"]==0:
-            ax1.text(row["index"],1.2*maxhrs,"Static 50%",rotation=45,fontdict=font[dom_index])
-        elif row["curMode"]==1:
-            ax1.text(row["index"],1.2*maxhrs,"Anchors",rotation=45,fontdict=font[dom_index])
-        elif row["curMode"]==2:
-            ax1.text(row["index"],1.2*maxhrs,"Static 100%",rotation=45,fontdict=font[dom_index])
+
+    if plot_vertlines:
+        # Plot anchors
+        for idx, row in df.loc[df['type'] == "RECORD_ANCHORS"].iterrows():
+            dom_index=row["dom"]-1
+            # print row["index"], row["value"]
+            ax1.axvline(x=row["index"],linestyle='-',color=colrs[dom_index])
+            ax2.axvline(x=row["index"],linestyle='-',color=colrs[dom_index])
+            maxhrs= df.loc[(df['type'] == "RECORD_HEARTBEAT")]["value"].max()
+            if row["curMode"]==0:
+                ax1.text(row["index"],1.2*maxhrs,"Static 50%",rotation=45,fontdict=font[dom_index])
+            elif row["curMode"]==1:
+                ax1.text(row["index"],1.2*maxhrs,"Anchors",rotation=45,fontdict=font[dom_index])
+            elif row["curMode"]==2:
+                ax1.text(row["index"],1.2*maxhrs,"Static 100%",rotation=45,fontdict=font[dom_index])
 
 
 
-    # Plot framesize
-    for idx, row in df.loc[df['type'] == "RECORD_FRAMESIZE"].iterrows():
-        # print row["index"], row["value"]
-        dom_index=row["dom"]-1
+        # Plot framesize
+        for idx, row in df.loc[df['type'] == "RECORD_FRAMESIZE"].iterrows():
+            # print row["index"], row["value"]
+            dom_index=row["dom"]-1
 
-        ax1.axvline(x=row["index"],linestyle='--',color=colrs[dom_index])
-        ax2.axvline(x=row["index"],linestyle='--',color=colrs[dom_index])
-        ax2.text(row["index"],25,"frame: "+str(row["curFramesize"]),rotation=45,fontdict=font[dom_index],horizontalalignment='right',verticalalignment='top')
+            ax1.axvline(x=row["index"],linestyle='--',color=colrs[dom_index])
+            ax2.axvline(x=row["index"],linestyle='--',color=colrs[dom_index])
+            ax2.text(row["index"],25,"frame: "+str(row["curFramesize"]),rotation=45,fontdict=font[dom_index],horizontalalignment='right',verticalalignment='top')
 
 
 
-    # Plot timeslice
-    for idx, row in df.loc[df['type'] == "RECORD_TIMESLICE"].iterrows():
-        # print row["index"], row["value"]
-        dom_index=row["dom"]-1
+        # Plot timeslice
+        for idx, row in df.loc[df['type'] == "RECORD_TIMESLICE"].iterrows():
+            # print row["index"], row["value"]
+            dom_index=row["dom"]-1
 
-        ax1.axvline(x=row["index"],linestyle=':',color=colrs[dom_index])
-        ax2.axvline(x=row["index"],linestyle=':',color=colrs[dom_index])
-        ax2.text(row["index"],10,"ts: "+str(row["curTimeslice"]),rotation=45,fontdict=font[dom_index],horizontalalignment='right',verticalalignment='top')
+            ax1.axvline(x=row["index"],linestyle=':',color=colrs[dom_index])
+            ax2.axvline(x=row["index"],linestyle=':',color=colrs[dom_index])
+            ax2.text(row["index"],10,"ts: "+str(row["curTimeslice"]),rotation=45,fontdict=font[dom_index],horizontalalignment='right',verticalalignment='top')
 
 
     # print(getAverageAtMode(df, 1, 0))
@@ -173,7 +177,7 @@ def animate(frame):
     creditMeanSinceLastChange = getAverageSinceLastChange(df, 1, mostRecentChanges[1])
     rtXenMeanSinceLastChange = getAverageSinceLastChange(df, 0, mostRecentChanges[0])
 
-    if creditMeanSinceLastChange is None or creditMeanSinceLastChange is None:
+    if (creditMeanSinceLastChange is None) or (creditMeanSinceLastChange is None):
         ax_improvement_percentage_vs_credit_txt.set_text('')
     else:
         per=(rtXenMeanSinceLastChange-creditMeanSinceLastChange)/creditMeanSinceLastChange*100
@@ -182,7 +186,7 @@ def animate(frame):
     rtXenMean50=getAverageAtMode(df, 0, 0)
     rtXenMeanAnchors=getAverageAtMode(df, 0, 1)
 
-    if rtXenMean50 is None or rtXenMeanAnchors is None:
+    if (rtXenMean50 is None) or (rtXenMeanAnchors is None):
         ax_improvement_percentage_vs_static_txt.set_text('')
     else:
         per=(rtXenMeanAnchors-rtXenMean50)/rtXenMean50*100
@@ -288,7 +292,7 @@ def loadData(fileName):
                 splitLine[1],
                 splitLine[2])
             )
-            tempRecord=[i, dom, "RECORD_HEARTBEAT", curMode, curFramesize, curTimeslice, splitLine[1], splitLine[2]]
+            tempRecord=[i, dom, "RECORD_HEARTBEAT", curMode, curFramesize, curTimeslice, splitLine[1], float(splitLine[2])*100]
             pass
         elif lineLength==4:
             debugPrint("Framesize update: \n\tdom: %s\n\tNewFrameSize: %s"%(
