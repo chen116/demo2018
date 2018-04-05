@@ -73,6 +73,7 @@ def animate(frame):
     ax1.clear()
     ax2.clear()
     dummy_colrs = ['cyan','lightgreen']
+    hatches=['//','\\']
     dummy_sched=["Free\nResource\n(RT-Xen)","Free\nResource\n(Credit)"]
 
 
@@ -98,7 +99,7 @@ def animate(frame):
             lw=((i+1)%2)+3,
             linestyle='--',
             label= dummy_sched[i] )
-        ax2.fill_between(df.loc[(df['type'] == "RECORD_HEARTBEAT") & (df['dom'] == i+1)]["index"].values,100-df.loc[(df['type'] == "RECORD_HEARTBEAT") & (df['dom'] == i+1)]["value2"].values, facecolor="none", hatch="X", edgecolor="b", linewidth=0.0)
+        ax2.fill_between(df.loc[(df['type'] == "RECORD_HEARTBEAT") & (df['dom'] == i+1)]["index"].values,100-df.loc[(df['type'] == "RECORD_HEARTBEAT") & (df['dom'] == i+1)]["value2"].values, facecolor="none", hatch=hatches[i], edgecolor="b", linewidth=0.0,color=dummy_colrs[i])
 
 
     # Draw min/max lines
