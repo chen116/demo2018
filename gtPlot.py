@@ -55,7 +55,7 @@ font_per = [{'family': 'serif',
 
 ax_cpu_saving = plt.axes([0.62, 0.91, 0.2, 0.12])
 ax_cpu_saving.text(0.06,0.42,'Cumulative RT-Xen CPU Utilization Savings:',fontdict=font_per[0])
-ax_cpu_saving_txt = ax_cpu_saving.text(.8,0.01,'%.2f%%'%(0),fontdict=font_per[1])
+ax_cpu_saving_txt = ax_cpu_saving.text(1.2,0.01,'%.2f%%'%(0),fontdict=font_per[1])
 ax_cpu_saving.axis('off')
 
 def animate(frame):
@@ -98,6 +98,8 @@ def animate(frame):
             lw=((i+1)%2)+3,
             linestyle='--',
             label= dummy_sched[i] )
+        ax2.fill_between(df.loc[(df['type'] == "RECORD_HEARTBEAT") & (df['dom'] == i+1)]["index"].values,100-df.loc[(df['type'] == "RECORD_HEARTBEAT") & (df['dom'] == i+1)]["value2"].values, facecolor="none", hatch="X", edgecolor="b", linewidth=0.0)
+
 
     # Draw min/max lines
     minmax = open("minmax.txt","r").read()
