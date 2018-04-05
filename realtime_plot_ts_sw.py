@@ -18,10 +18,10 @@ plt.subplots_adjust(left = 0.13,right=0.84)
 
 ax2 = fig.add_subplot(2,1,2)
 buf = 1000
-show_frames=0
-show_anchors=0
+show_frames=1
+show_anchors=1
 show_dummies=0
-show_ts=0
+show_ts=1
 
 font_per = [{'family': 'serif',
         'color':  'k',
@@ -45,6 +45,7 @@ last_ts=[15,15]
 
 
 def animate2(i):
+    line_lim=500
     global last_ts, show_frames, show_anchors, show_dummies, ax_improvement_percentage_txt,show_ts
 
     pullData = open("info.txt","r").read()
@@ -84,7 +85,6 @@ def animate2(i):
         #     hrs[i].append(0)
         #     cpus[i].append(0)
     cnt=0
-    
     maxhrs=0
     for eachLine in dataArray:
         if len(eachLine)>1:
@@ -113,6 +113,10 @@ def animate2(i):
                 last_ts[index]=int(line[1])
                 event_last_happened_at_cnt[index]=cnt
             cnt+=1
+
+
+
+
     min_max = []
     for eachLine in minmaxArray:
         if len(eachLine)>1:
@@ -126,8 +130,7 @@ def animate2(i):
     dummy_colrs = ['cyan','lightgreen']
     dummy_sched=["Free\nResource\n(RT-Xen)","Free\nResource\n(Credit)"]
 
-    for i in range(1):
-    # for i in range(len(x)): #meow
+    for i in range(len(x)):
         ax1.scatter(x[i],hrs[i],s= ((1)%2)*6+5 ,label= sched[i] ,color=colrs[i])
         ax2.plot(x[i],cpus[i],color=colrs[i],lw=((i+1)%2)+3,label= sched[i] )
         tmp=[]
@@ -189,7 +192,7 @@ def animate2(i):
     # ax1.set_title(r'$\frac{RT-Xen\'s improvement}{Percentage}$ = %.2f %%'%(per)+"\n",loc='right',fontsize=18)
     # ax1.set_title(r'$\frac{RT-Xen \quad FPS}{Credit \quad FPS }$ = %.2f %%'%(per)+"\n",loc='right',fontsize=18)
     # ax1.set_xlabel('Time\n \n')
-    ax2.set_xlabel('Time')
+    ax2.set_xlabel('Events')
     ax1.set_ylabel('Moving Average FPS\n(Window Size = 5)\n(frames/sec)', fontsize=22)
     ax2.set_ylabel('Assigned CPU Time\n(%)', fontsize=22)
     # ax2.set_ylim( 45, 105 )  
