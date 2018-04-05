@@ -18,10 +18,10 @@ plt.subplots_adjust(left = 0.13,right=0.84)
 
 ax2 = fig.add_subplot(2,1,2)
 buf = 1000
-show_frames=1
-show_anchors=1
+show_frames=0
+show_anchors=0
 show_dummies=0
-show_ts=1
+show_ts=0
 
 font_per = [{'family': 'serif',
         'color':  'k',
