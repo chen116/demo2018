@@ -64,7 +64,7 @@ def animate(frame):
 
 
     # Load new data
-    df, mostRecentChanges=loadData(inputDataFile)
+    df, mostRecentChanges, cpuSavings=loadData(inputDataFile)
     # print df.columns
     # print df.iloc[:,0] # Column
     # print df.iloc[328] # Row
@@ -201,9 +201,9 @@ def animate(frame):
     #     rtXenMeanAnchors if rtXenMeanAnchors!= None else 0)
     # )
 
-    anchorsResources=float(df.loc[(df['type'] == "RECORD_HEARTBEAT") & (df['dom'] == 1)]["value2"].sum())
-    staticResources=len(df.loc[(df['type'] == "RECORD_HEARTBEAT") & (df['dom'] == 1)]["value2"].values)*100
-    ax_cpu_saving_txt.set_text('%.2f%%'%((staticResources-anchorsResources)/staticResources*100))
+    # anchorsResources=float(df.loc[(df['type'] == "RECORD_HEARTBEAT") & (df['dom'] == 1)]["value2"].sum())
+    # staticResources=len(df.loc[(df['type'] == "RECORD_HEARTBEAT") & (df['dom'] == 1)]["value2"].values)*100
+    ax_cpu_saving_txt.set_text('%.2f%%'%(cpuSavings))
 
 
     ax2.set_xlabel('Events',fontsize=15)
@@ -266,6 +266,7 @@ def loadData(fileName):
         "RECORD_TIMESLICE": {0:DEFAULT_TIMESLICE, 1:DEFAULT_TIMESLICE}
         }
     mostRecentChanges={}
+    anchorsTotalCpuTime=0
 
     # Read whole file into memory
     with open(inputDataFile) as inputFile:
@@ -304,6 +305,7 @@ def loadData(fileName):
                 splitLine[2])
             )
             tempRecord=[i, dom, "RECORD_HEARTBEAT", curMode, curFramesize, curTimeslice, splitLine[1], float(splitLine[2])*100]
+            anchorsTotalCpuTime = anchorsTotalCpuTime + float(splitLine[2])*100
             pass
         elif lineLength==4:
             debugPrint("Framesize update: \n\tdom: %s\n\tNewFrameSize: %s"%(
@@ -335,6 +337,8 @@ def loadData(fileName):
 
     # Check size
     print(len(records))
+    fullAllocationCPU =len(records)*100
+    cpuSavings = float(fullAllocationCPU-anchorsTotalCpuTime)/fullAllocationCPU*100
     if len(records) > maxPoints:
         del records[0:len(records)-maxPoints]
     print(len(records))
@@ -363,7 +367,7 @@ def loadData(fileName):
     pprint.pprint(currentParams)
 
 
-    return df, mostRecentChanges
+    return df, mostRecentChanges, cpuSavings
 
 
 def main():
