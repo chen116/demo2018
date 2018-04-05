@@ -53,8 +53,8 @@ font_per = [{'family': 'serif',
 # ax_improvement_percentage_vs_credit_txt = ax_improvement_percentage_vs_credit.text(0.1,0.01,'%.2f%%'%(0),fontdict=font_per[1])
 # ax_improvement_percentage_vs_credit.axis('off')
 
-ax_cpu_saving = plt.axes([0.7, 0.91, 0.2, 0.12])
-ax_cpu_saving.text(0.06,0.42,'RT-Xen CPU Saving:',fontdict=font_per[0])
+ax_cpu_saving = plt.axes([0.65, 0.91, 0.2, 0.12])
+ax_cpu_saving.text(0.06,0.42,'Cumulative RT-Xen CPU Time Saving:',fontdict=font_per[0])
 ax_cpu_saving_txt = ax_cpu_saving.text(.5,0.01,'%.2f%%'%(0),fontdict=font_per[1])
 ax_cpu_saving.axis('off')
 
