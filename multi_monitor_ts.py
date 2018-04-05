@@ -303,7 +303,8 @@ class MonitorThread(threading.Thread):
 			with open("info.txt", "a") as myfile:
 				myfile.write(info+"\n")
 		else:
-			with open("info.txt", "w") as myfile:
+			with open("info.txt", "a") as myfile:
+			# with open("info.txt", "w") as myfile:
 				myfile.write(info+"\n")
 
 
