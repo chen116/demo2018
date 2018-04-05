@@ -20,8 +20,8 @@ maxPoints=5000
 inputDataFile="info.txt"
 
 
-hypervisorSchedulers=["RT-Xen"]
-# hypervisorSchedulers=["RT-Xen", "Xen"]
+# hypervisorSchedulers=["RT-Xen"]
+hypervisorSchedulers=["RT-Xen", "Xen"]
 colors = ['blue','limegreen']
 
 DEFAULT_ANCHORSMODE=0
@@ -59,7 +59,7 @@ ax_improvement_percentage_vs_static_txt = ax_improvement_percentage_vs_static.te
 ax_improvement_percentage_vs_static.axis('off')
 
 def animate(frame):
-    plot_vertlines=False
+    plot_vertlines=True
 
 
 
