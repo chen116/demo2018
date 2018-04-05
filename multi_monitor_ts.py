@@ -41,7 +41,7 @@ class MonitorThread(threading.Thread):
 		self.vmonitor()
 		# Release lock for the next thread
 		# self.threadLock.release()
-		print("Exiting " , self.name)
+		#print("Exiting " , self.name)
 	def vmonitor(self):  # one monitor observe one domU at a time
 		with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
 			m = c.monitor()
@@ -112,17 +112,17 @@ class MonitorThread(threading.Thread):
 				# 		self.res_allocat(float(msg))					
 				# 		#self.res_allo(self.anchors,self.sched,float(msg),self.shared_data,self.domuid ,self.min_heart_rate,self.max_heart_rate)					
 				# except:
-				# 	print("meow",int(self.domuid),token.decode(),msg)
+				# 	#print("meow",int(self.domuid),token.decode(),msg)
 
 				self.threadLock.release()
 
-				# print( token.decode(),':',msg)
+				# #print( token.decode(),':',msg)
 	def res_allocat(self,heart_rate):
 
 		minn=100
 
 		if int(self.domuid)>=3:
-			print("dummy",int(self.domuid)-2,"heartrate:",heart_rate)
+			#print("dummy",int(self.domuid)-2,"heartrate:",heart_rate)
 			buf=10000
 			self.shared_data['cnt'] = (self.shared_data['cnt']+1)%buf
 			info = self.domuid+" "+str(heart_rate)+" dummy is here"
@@ -138,13 +138,13 @@ class MonitorThread(threading.Thread):
 		tab='               dom '+str(int(self.domuid))
 		if int(self.domuid)<2:
 			tab='dom '+str(int(self.domuid))
-		print(tab,'heart_rate',heart_rate)
+		#print(tab,'heart_rate',heart_rate)
 
 
 
 		if self.anchors==1:
 			if self.sched==1:
-				print(tab,'RT-Xen anchors ACTIVE:')
+				#print(tab,'RT-Xen anchors ACTIVE:')
 				cur_b = 0
 				myinfo = self.shared_data[self.domuid]
 				for vcpu in myinfo:
@@ -180,10 +180,10 @@ class MonitorThread(threading.Thread):
 				for vcpu in myinfo:
 					if vcpu['pcpu']!=-1:
 						vcpu['b']=cur_b
-						print(tab,'vcpu:',cnt,'b:',vcpu['b'])
+						#print(tab,'vcpu:',cnt,'b:',vcpu['b'])
 						cnt+=1
 			else:
-				print(tab,'Credit anchors ACTIVE:')
+				#print(tab,'Credit anchors ACTIVE:')
 				cur_w = 0
 				myinfo = self.shared_data[self.domuid]
 				for vcpu in myinfo:
@@ -215,13 +215,13 @@ class MonitorThread(threading.Thread):
 				for vcpu in myinfo:
 					if vcpu['pcpu']!=-1:
 						vcpu['w']=cur_w
-						print(tab,'vcpu:',cnt,'w:',vcpu['w'])
+						#print(tab,'vcpu:',cnt,'w:',vcpu['w'])
 						cnt+=1
 
 
 		elif self.anchors==0:
 			if self.sched==1:
-				print(tab,'-------------RT-Xen anchors INACTIVE:')
+				#print(tab,'-------------RT-Xen anchors INACTIVE:')
 				default_b=int(self.timeslice_us/2)
 				myinfo = self.shared_data[self.domuid]
 				cnt=0
@@ -232,13 +232,13 @@ class MonitorThread(threading.Thread):
 							not_default_b = 1
 							vcpu['b']=default_b
 
-						print(tab,'vcpu:',cnt,'b:',vcpu['b'])	
+						#print(tab,'vcpu:',cnt,'b:',vcpu['b'])	
 						cnt+=1
 				if not_default_b:
 					xen_interface.sched_rtds(self.domuid,self.timeslice_us,default_b,[])
 					xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,default_b,[])
 			else:
-				print(tab,'Credit anchors INACTIVE:')
+				#print(tab,'Credit anchors INACTIVE:')
 				default_w=int(self.timeslice_us/2)
 				myinfo = self.shared_data[self.domuid]
 				cnt=0
@@ -249,14 +249,14 @@ class MonitorThread(threading.Thread):
 							not_default_w = 1
 							vcpu['w']=default_w
 
-						print(tab,'vcpu:',cnt,'w:',vcpu['w'])	
+						#print(tab,'vcpu:',cnt,'w:',vcpu['w'])	
 						cnt+=1
 				if not_default_w:
 					xen_interface.sched_credit(self.domuid,default_w)
 					xen_interface.sched_credit(str(int(self.domuid)+2),default_w)
 		elif self.anchors==2:
 			if self.sched==1:
-				print(tab,'-------------RT-Xen anchors INACTIVE:')
+				#print(tab,'-------------RT-Xen anchors INACTIVE:')
 				default_b=int(self.timeslice_us-minn)
 				myinfo = self.shared_data[self.domuid]
 				cnt=0
@@ -267,13 +267,13 @@ class MonitorThread(threading.Thread):
 							not_default_b = 1
 							vcpu['b']=default_b
 
-						print(tab,'vcpu:',cnt,'b:',vcpu['b'])	
+						#print(tab,'vcpu:',cnt,'b:',vcpu['b'])	
 						cnt+=1
 				if not_default_b:
 					xen_interface.sched_rtds(self.domuid,self.timeslice_us,default_b,[])
 					xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,minn,[])
 			else:
-				print(tab,'Credit anchors INACTIVE:')
+				#print(tab,'Credit anchors INACTIVE:')
 				default_w=int(self.timeslice_us-minn)
 				myinfo = self.shared_data[self.domuid]
 				cnt=0
@@ -284,7 +284,7 @@ class MonitorThread(threading.Thread):
 							not_default_w = 1
 							vcpu['w']=default_w
 
-						print(tab,'vcpu:',cnt,'w:',vcpu['w'])	
+						#print(tab,'vcpu:',cnt,'w:',vcpu['w'])	
 						cnt+=1
 				if not_default_w:
 					xen_interface.sched_credit(self.domuid,default_w)
@@ -312,7 +312,7 @@ class MonitorThread(threading.Thread):
 	def res_allocat10(self,heart_rate):
 
 		if int(self.domuid)>=3:
-			print("dummy",int(self.domuid)-2,"heartrate:",heart_rate)
+			#print("dummy",int(self.domuid)-2,"heartrate:",heart_rate)
 			buf=10000
 			self.shared_data['cnt'] = (self.shared_data['cnt']+1)%buf
 			info = self.domuid+" "+str(heart_rate)+" dummy is here"
@@ -328,13 +328,13 @@ class MonitorThread(threading.Thread):
 		tab='               dom '+str(int(self.domuid))
 		if int(self.domuid)<2:
 			tab='dom '+str(int(self.domuid))
-		print(tab,'heart_rate',heart_rate)
+		#print(tab,'heart_rate',heart_rate)
 
 
 
 		if self.anchors==1:
 			if self.sched==1:
-				print(tab,'RT-Xen anchors ACTIVE:')
+				#print(tab,'RT-Xen anchors ACTIVE:')
 				cur_b = 0
 				myinfo = self.shared_data[self.domuid]
 				for vcpu in myinfo:
@@ -370,10 +370,10 @@ class MonitorThread(threading.Thread):
 				for vcpu in myinfo:
 					if vcpu['pcpu']!=-1:
 						vcpu['b']=cur_b
-						print(tab,'vcpu:',cnt,'b:',vcpu['b'])
+						#print(tab,'vcpu:',cnt,'b:',vcpu['b'])
 						cnt+=1
 			else:
-				print(tab,'Credit anchors ACTIVE:')
+				#print(tab,'Credit anchors ACTIVE:')
 				cur_w = 0
 				myinfo = self.shared_data[self.domuid]
 				for vcpu in myinfo:
@@ -405,13 +405,13 @@ class MonitorThread(threading.Thread):
 				for vcpu in myinfo:
 					if vcpu['pcpu']!=-1:
 						vcpu['w']=cur_w
-						print(tab,'vcpu:',cnt,'w:',vcpu['w'])
+						#print(tab,'vcpu:',cnt,'w:',vcpu['w'])
 						cnt+=1
 
 
 		else:
 			if self.sched==1:
-				print(tab,'-------------RT-Xen anchors INACTIVE:')
+				#print(tab,'-------------RT-Xen anchors INACTIVE:')
 				default_b=5000
 				myinfo = self.shared_data[self.domuid]
 				cnt=0
@@ -422,13 +422,13 @@ class MonitorThread(threading.Thread):
 							not_default_b = 1
 							vcpu['b']=default_b
 
-						print(tab,'vcpu:',cnt,'b:',vcpu['b'])	
+						#print(tab,'vcpu:',cnt,'b:',vcpu['b'])	
 						cnt+=1
 				if not_default_b:
 					xen_interface.sched_rtds(self.domuid,10000,default_b,[])
 					xen_interface.sched_rtds(str(int(self.domuid)+2),10000,default_b,[])
 			else:
-				print(tab,'Credit anchors INACTIVE:')
+				#print(tab,'Credit anchors INACTIVE:')
 				default_w=5000
 				myinfo = self.shared_data[self.domuid]
 				cnt=0
@@ -439,7 +439,7 @@ class MonitorThread(threading.Thread):
 							not_default_w = 1
 							vcpu['w']=default_w
 
-						print(tab,'vcpu:',cnt,'w:',vcpu['w'])	
+						#print(tab,'vcpu:',cnt,'w:',vcpu['w'])	
 						cnt+=1
 				if not_default_w:
 					xen_interface.sched_credit(self.domuid,default_w)
@@ -497,119 +497,6 @@ with open("minmax.txt", "w") as myfile:
 
 
 def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid,min_heart_rate,max_heart_rate):
-	tab='               dom '+str(int(domuid))
-	if int(domuid)<2:
-		tab='dom '+str(int(domuid))
-	print(tab,'heart_rate',heart_rate)
-
-
-
-	if anchors==1:
-		if sched==1:
-			print(tab,'RT-Xen anchors ACTIVE:')
-			cur_b = 0
-			myinfo = thread_shared_data[domuid]
-			for vcpu in myinfo:
-				if vcpu['pcpu']!=-1:
-					cur_b=int(vcpu['b'])
-
-			if(heart_rate<min_heart_rate):
-				if cur_b<=9800:
-					cur_b+=100
-					xen_interface.sched_rtds(domuid,10000,cur_b,[])
-					xen_interface.sched_rtds(str(int(domuid)+2),10000,10000-cur_b,[])
-			if(heart_rate>max_heart_rate):
-				if cur_b>=200:
-					cur_b-=100
-					xen_interface.sched_rtds(domuid,10000,cur_b,[])
-					xen_interface.sched_rtds(str(int(domuid)+2),10000,10000-cur_b,[])
-			myinfo = thread_shared_data[domuid]
-			cnt=0
-			for vcpu in myinfo:
-				if vcpu['pcpu']!=-1:
-					vcpu['b']=cur_b
-					print(tab,'vcpu:',cnt,'b:',vcpu['b'])
-					cnt+=1
-		else:
-			print(tab,'Credit anchors ACTIVE:')
-			cur_w = 0
-			myinfo = thread_shared_data[domuid]
-			for vcpu in myinfo:
-				if vcpu['pcpu']!=-1:
-					cur_w=int(vcpu['w'])
-
-			if(heart_rate<min_heart_rate):
-				if cur_w<=9800:
-					cur_w+=100
-					xen_interface.sched_credit(domuid,cur_w)
-					xen_interface.sched_credit(str(int(domuid)+2),10000-cur_w)
-			if(heart_rate>max_heart_rate):
-				if cur_w>=200:
-					cur_w-=100
-					xen_interface.sched_credit(domuid,cur_w)
-					xen_interface.sched_credit(str(int(domuid)+2),10000-cur_w)
-			myinfo = thread_shared_data[domuid]
-			cnt=0
-			for vcpu in myinfo:
-				if vcpu['pcpu']!=-1:
-					vcpu['w']=cur_w
-					print(tab,'vcpu:',cnt,'w:',vcpu['w'])
-					cnt+=1
-
-
-	else:
-		if sched==1:
-			print(tab,'-------------RT-Xen anchors INACTIVE:')
-			default_b=5000
-			myinfo = thread_shared_data[domuid]
-			cnt=0
-			not_default_b = 0
-			for vcpu in myinfo:
-				if vcpu['pcpu']!=-1:
-					if vcpu['b']!=default_b:
-						not_default_b = 1
-						vcpu['b']=default_b
-
-					print(tab,'vcpu:',cnt,'b:',vcpu['b'])	
-					cnt+=1
-			if not_default_b:
-				xen_interface.sched_rtds(domuid,10000,default_b,[])
-				xen_interface.sched_rtds(str(int(domuid)+2),10000,default_b,[])
-		else:
-			print(tab,'Credit anchors INACTIVE:')
-			default_w=5000
-			myinfo = thread_shared_data[domuid]
-			cnt=0
-			not_default_w = 0
-			for vcpu in myinfo:
-				if vcpu['pcpu']!=-1:
-					if vcpu['w']!=default_w:
-						not_default_w = 1
-						vcpu['w']=default_w
-
-					print(tab,'vcpu:',cnt,'w:',vcpu['w'])	
-					cnt+=1
-			if not_default_w:
-				xen_interface.sched_credit(domuid,default_w)
-				xen_interface.sched_credit(str(int(domuid)+2),default_w)
-	buf=10000
-	thread_shared_data['cnt'] = (thread_shared_data['cnt']+1)%buf
-	info = domuid+" "+str(heart_rate)+" "
-	if sched==1:
-		info += str(thread_shared_data[domuid][0]['b'])
-	else:
-		info += str(thread_shared_data[domuid][0]['w'])
-
-
-	if thread_shared_data['cnt']%buf!=0:
-		with open("info.txt", "a") as myfile:
-			myfile.write(info+"\n")
-	else:
-		with open("info.txt", "w") as myfile:
-			myfile.write(info+"\n")
-
-
-
 	return
 	# https://xenbits.xen.org/docs/unstable/man/xl.1.html#SCHEDULER-SUBCOMMANDS
 	# cpupool, vcpupin, rtds-budget,period, extratime, vcpu-list
@@ -632,7 +519,7 @@ threads_cnt=0
 for t in threads:
 	t.join()
 	threads_cnt+=1
-print('FINAL COUNT:',shared_data['cnt'])
+#print('FINAL COUNT:',shared_data['cnt'])
 pp = pprint.PrettyPrinter(indent=2)
 print('Final domUs info:')
 shared_data = xen_interface.get_global_info()
