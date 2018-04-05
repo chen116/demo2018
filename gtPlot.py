@@ -48,7 +48,7 @@ font_per = [{'family': 'serif',
         # 'weight': 'bold',
         'size': 32,
         }]
-ax_improvement_percentage_vs_credit = plt.axes([0.1, 0.91, 0.2, 0.12])
+ax_improvement_percentage_vs_credit = plt.axes([0.05, 0.91, 0.2, 0.12])
 ax_improvement_percentage_vs_credit.text(0.06,0.42,'RT-Xen Advantage:',fontdict=font_per[0])
 ax_improvement_percentage_vs_credit_txt = ax_improvement_percentage_vs_credit.text(0.1,0.01,'%.2f%%'%(0),fontdict=font_per[1])
 ax_improvement_percentage_vs_credit.axis('off')
