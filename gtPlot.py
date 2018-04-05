@@ -48,15 +48,15 @@ font_per = [{'family': 'serif',
         # 'weight': 'bold',
         'size': 32,
         }]
-ax_improvement_percentage_vs_credit = plt.axes([0.05, 0.91, 0.2, 0.12])
-ax_improvement_percentage_vs_credit.text(0.06,0.42,'RT-Xen Advantage:',fontdict=font_per[0])
-ax_improvement_percentage_vs_credit_txt = ax_improvement_percentage_vs_credit.text(0.1,0.01,'%.2f%%'%(0),fontdict=font_per[1])
-ax_improvement_percentage_vs_credit.axis('off')
+# ax_improvement_percentage_vs_credit = plt.axes([0.05, 0.91, 0.2, 0.12])
+# ax_improvement_percentage_vs_credit.text(0.06,0.42,'RT-Xen Advantage:',fontdict=font_per[0])
+# ax_improvement_percentage_vs_credit_txt = ax_improvement_percentage_vs_credit.text(0.1,0.01,'%.2f%%'%(0),fontdict=font_per[1])
+# ax_improvement_percentage_vs_credit.axis('off')
 
-ax_improvement_percentage_vs_static = plt.axes([0.7, 0.91, 0.2, 0.12])
-ax_improvement_percentage_vs_static.text(0.06,0.42,'RT-Xen Anchors Advantage:',fontdict=font_per[0])
-ax_improvement_percentage_vs_static_txt = ax_improvement_percentage_vs_static.text(.5,0.01,'%.2f%%'%(0),fontdict=font_per[1])
-ax_improvement_percentage_vs_static.axis('off')
+ax_cpu_saving = plt.axes([0.7, 0.91, 0.2, 0.12])
+ax_cpu_saving.text(0.06,0.42,'RT-Xen CPU Saving:',fontdict=font_per[0])
+ax_cpu_saving_txt = ax_cpu_saving.text(.5,0.01,'%.2f%%'%(0),fontdict=font_per[1])
+ax_cpu_saving.axis('off')
 
 def animate(frame):
     plot_vertlines=True
@@ -110,8 +110,7 @@ def animate(frame):
     x_for_minmax = []
     miny = []
     maxy = []
-    total_x_len = len(df.loc[(df['type'] == "RECORD_HEARTBEAT") & (df['dom'] == 1)]["index"].values)+len(df.loc[(df['type'] == "RECORD_HEARTBEAT") & (df['dom'] == 2)]["index"].values)
-    for i in range(total_x_len):
+    for i in range(maxPoints):
         x_for_minmax.append(i)
         miny.append(min_max[0])
         maxy.append(min_max[1])
@@ -177,27 +176,27 @@ def animate(frame):
     creditMeanSinceLastChange = getAverageSinceLastChange(df, 1, mostRecentChanges[1])
     rtXenMeanSinceLastChange = getAverageSinceLastChange(df, 0, mostRecentChanges[0])
 
-    if (creditMeanSinceLastChange is None) or (rtXenMeanSinceLastChange is None):
-        ax_improvement_percentage_vs_credit_txt.set_text('')
-    else:
-        per=(rtXenMeanSinceLastChange-creditMeanSinceLastChange)/creditMeanSinceLastChange*100
-        ax_improvement_percentage_vs_credit_txt.set_text('%.2f%%'%(per))
+    # if (creditMeanSinceLastChange is None) or (rtXenMeanSinceLastChange is None):
+    #     ax_improvement_percentage_vs_credit_txt.set_text('')
+    # else:
+    #     per=(rtXenMeanSinceLastChange-creditMeanSinceLastChange)/creditMeanSinceLastChange*100
+    #     ax_improvement_percentage_vs_credit_txt.set_text('%.2f%%'%(per))
 
-    rtXenMean50=getAverageAtMode(df, 0, 0)
-    rtXenMeanAnchors=getAverageAtMode(df, 0, 1)
+    # rtXenMean50=getAverageAtMode(df, 0, 0)
+    # rtXenMeanAnchors=getAverageAtMode(df, 0, 1)
 
-    if (rtXenMean50 is None) or (rtXenMeanAnchors is None):
-        ax_improvement_percentage_vs_static_txt.set_text('')
-    else:
-        per=(rtXenMeanAnchors-rtXenMean50)/rtXenMean50*100
-        ax_improvement_percentage_vs_static_txt.set_text('%.2f%%'%(per))
+    # if (rtXenMean50 is None) or (rtXenMeanAnchors is None):
+    #     ax_cpu_saving_txt.set_text('')
+    # else:
+    #     per=(rtXenMeanAnchors-rtXenMean50)/rtXenMean50*100
+    #     ax_cpu_saving_txt.set_text('%.2f%%'%(per))
 
-    print("%d %d %d %d"%(
-        creditMeanSinceLastChange if creditMeanSinceLastChange!= None else 0, 
-        rtXenMeanSinceLastChange if rtXenMeanSinceLastChange!= None else 0,
-        rtXenMean50 if rtXenMean50!= None else 0,
-        rtXenMeanAnchors if rtXenMeanAnchors!= None else 0)
-    )
+    # print("%d %d %d %d"%(
+    #     creditMeanSinceLastChange if creditMeanSinceLastChange!= None else 0, 
+    #     rtXenMeanSinceLastChange if rtXenMeanSinceLastChange!= None else 0,
+    #     rtXenMean50 if rtXenMean50!= None else 0,
+    #     rtXenMeanAnchors if rtXenMeanAnchors!= None else 0)
+    # )
 
     ax2.set_xlabel('Events',fontsize=15)
     ax1.set_ylabel('Moving Average FPS\n(Window Size = 5)\n(frames/sec)', fontsize=22)
