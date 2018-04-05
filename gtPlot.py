@@ -53,7 +53,7 @@ ax_improvement_percentage_vs_credit.text(0.06,0.42,'RT-Xen Advantage:',fontdict=
 ax_improvement_percentage_vs_credit_txt = ax_improvement_percentage_vs_credit.text(0.1,0.01,'%.2f%%'%(0),fontdict=font_per[1])
 ax_improvement_percentage_vs_credit.axis('off')
 
-ax_improvement_percentage_vs_static = plt.axes([0.65, 0.91, 0.2, 0.12])
+ax_improvement_percentage_vs_static = plt.axes([0.75, 0.91, 0.2, 0.12])
 ax_improvement_percentage_vs_static.text(0.06,0.42,'RT-Xen Anchors Advantage:',fontdict=font_per[0])
 ax_improvement_percentage_vs_static_txt = ax_improvement_percentage_vs_static.text(.5,0.01,'%.2f%%'%(0),fontdict=font_per[1])
 ax_improvement_percentage_vs_static.axis('off')
