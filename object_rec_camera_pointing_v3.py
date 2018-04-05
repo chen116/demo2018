@@ -305,7 +305,7 @@ prev_personincam = personincam
 while True: # realvid
 
 	frame = vs.read()
-	if frame is not None:
+	if True:#frame is not None:
 		# frame = cat_frame # outvid
 		current_f_size=w1.get()
 		if remotetrack == -1 or current_f_size == 0:
