@@ -366,6 +366,12 @@ def loadData(fileName):
     pprint.pprint(mostRecentChanges)
     pprint.pprint(currentParams)
 
+    tempFrame=df.loc[(df['type'] == "RECORD_HEARTBEAT") & (df['dom'] == 1) & (df['curMode'] == 1)]
+
+    tempFrame["value2"].sum()
+    len(tempFrame["value2"].values)
+    cpuSavings = float(len(tempFrame["value2"].values)*100-tempFrame["value2"].sum())/len(tempFrame["value2"].values)
+
 
     return df, mostRecentChanges, cpuSavings
 
