@@ -202,7 +202,7 @@ output_q = Queue()
 threads = []
 every_n_frame = {'cnt':-1,'n':m1.get()}
 threadLock = threading.Lock()
-total_num_threads = 5
+total_num_threads = 1
 num_threads_exiting = 0
 
 def start_server():
