@@ -90,12 +90,12 @@ if True:
 	frame_label = Label(master, textvariable=frame_var,font = "Verdana 10 bold" )
 	frame_label.pack(side=LEFT)
 	FSIZE = [
-	    ("S", 300),
-	    ("M", 600),
-	    ("L", 800)
+	    ("S", 100),
+	    ("M", 200),
+	    ("L", 300)
 	]
 	w1 = IntVar()
-	w1.set(600) # initialize
+	w1.set(200) # initialize
 	previous_f_size = w1.get()
 
 	for text, mode in FSIZE:
@@ -108,7 +108,7 @@ if True:
 	timeslice_label.pack(side=LEFT)
 	tsSIZE = [
 	    ("Low-lat", 15),
-	    ("High-thru", 25)
+	    ("High-thru", 30)
 	]
 	ts1 = IntVar()
 	ts1.set(15) # initialize
@@ -362,8 +362,8 @@ while True: # realvid
 			frame = imutils.resize(frame, width=current_f_size)
 			# grab the frame dimensions and convert it to a blob
 			(h, w) = frame.shape[:2]
-			blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)),
-				0.007843, (300, 300), 127.5)
+			blob = cv2.dnn.blobFromImage(cv2.resize(frame, (current_f_size, current_f_size)),
+				0.007843, (current_f_size, current_f_size), 127.5)
 			threadLock.acquire()
 			every_n_frame['n']=m1.get()
 			threadLock.release()
