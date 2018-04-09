@@ -9,7 +9,7 @@ hb = heartbeat.Heartbeat(1024,window_size_hr,100,"vic.log",10,100)
 #             shm_key, win_size,buf_depth,log_file,min_target,max_target):
 # monitoring_items = ["heart_rate","app_mode","frame_size","timeslice"]
 # comm = heartbeat.DomU(monitoring_items)
-
+print("start")
 for i in range(10000):
 # hb stuff
 	hb.heartbeat_beat()
