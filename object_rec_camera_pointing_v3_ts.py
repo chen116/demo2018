@@ -138,7 +138,7 @@ if True:
 
 
 	m1 = Scale(master,from_=1,to=20,orient=HORIZONTAL)
-	m1.set(1) # init speed
+	m1.set(5) # init speed
 	# m1.pack(side=LEFT)
 
 
@@ -202,7 +202,7 @@ output_q = Queue()
 threads = []
 every_n_frame = {'cnt':-1,'n':m1.get()}
 threadLock = threading.Lock()
-total_num_threads = 1
+total_num_threads = 5
 num_threads_exiting = 0
 
 def start_server():
