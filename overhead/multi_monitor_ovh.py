@@ -9,12 +9,15 @@ import time
 import pprint
 import sys
 from pyxs import Client
+
+
+
 with open("info.txt", "w") as myfile:
 	myfile.write("")
 
 monitoring_items = ["heart_rate","app_mode","frame_size","timeslice"]
 # c = heartbeat.Dom0(monitoring_items,['1','2','3','4'])
-c = heartbeat.Dom0(monitoring_items,['1','2'])
+c = heartbeat.Dom0(monitoring_items,['1'])
 
 
 
@@ -35,6 +38,9 @@ class MonitorThread(threading.Thread):
 		self.min_heart_rate=min_heart_rate
 		self.max_heart_rate=max_heart_rate
 		self.timeslice_us = timeslice_us
+		self.ovh = 0
+		self.ovh_cnt=0
+
 
 	def run(self):
 		# Acquire lock to synchronize thread
@@ -99,14 +105,18 @@ class MonitorThread(threading.Thread):
 							myfile.write(self.domuid+" "+(msg)+" time slice len 6"+"\n")							
 
 				if self.keys[0] in path.decode():
-					heart_rate=-1
-					try :
-						heart_rate = float(msg)
-					except:
+					if self.ovh_cnt==0:
 						heart_rate=-1
-					if heart_rate>-1:
-						
-						self.res_allocat(heart_rate)					
+						try :
+							heart_rate = float(msg)
+						except:
+							heart_rate=-1
+						if heart_rate>-1:
+							self.ovh = time.time()
+							self.ovh_cnt=1
+
+					
+						# self.res_allocat(heart_rate)					
 						#self.res_allo(self.anchors,self.sched,float(msg),self.shared_data,self.domuid ,self.min_heart_rate,self.max_heart_rate)					
 
 				# try :
@@ -117,6 +127,8 @@ class MonitorThread(threading.Thread):
 				# 	#print("meow",int(self.domuid),token.decode(),msg)
 
 				self.threadLock.release()
+			print(time.time() - self.ovh)
+
 
 				# #print( token.decode(),':',msg)
 	def res_allocat(self,heart_rate):

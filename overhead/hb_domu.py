@@ -18,6 +18,8 @@ for i in range(10000):
 # #print("hb: before get_instant_heartrate()")
 print(hb.get_instant_heartrate())
 hb.heartbeat_finish()
+comm.write("heart_rate","done")
+
 
 # #print("hb: after hb stuff")
 # if global_cnt>window_size_hr:
