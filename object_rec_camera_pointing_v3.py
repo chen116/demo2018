@@ -573,7 +573,7 @@ while True: # realvid
 				#	localtrack = 0	
 				#	sock_client.send(bytes('lost_object','UTF-8'))
 			# show the output frame
-			# cv2.imshow("Frame", frame)
+			cv2.imshow("Frame", frame)
 			# hb stuff
 			# #print("hb: before heartbeat_beat()")
 			hb.heartbeat_beat()
