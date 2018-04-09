@@ -362,7 +362,7 @@ while True: # realvid
 			frame = imutils.resize(frame, width=current_f_size)
 			# grab the frame dimensions and convert it to a blob
 			(h, w) = frame.shape[:2]
-			blob = cv2.dnn.blobFromImage(cv2.resize(frame, (100, 100)),
+			blob = cv2.dnn.blobFromImage(cv2.resize(frame, (50, 50)),
 				0.007843, (300, 300), 127.5)
 			threadLock.acquire()
 			every_n_frame['n']=m1.get()
