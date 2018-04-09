@@ -113,6 +113,7 @@ class MonitorThread(threading.Thread):
 							heart_rate=-1
 						if heart_rate>-1:
 							self.ovh = time.time()
+							print('first time',self.ovh)
 							self.ovh_cnt=1
 
 					
