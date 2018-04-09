@@ -99,7 +99,7 @@ hb = (heartbeat_t*) shmat(shmid, NULL, 0);
   }
   hb->state->pid = pid;
 
-  if(0){//log_name != NULL) {   //vic kill log
+  if(log_name != NULL) {   //vic kill log
     hb->text_file = fopen(log_name, "w");
     if (hb->text_file == NULL) {
       perror("Failed to open heartbeat log file");
@@ -193,7 +193,7 @@ int anchors_heartbeat_finish(int anchors_hb_shm_key) {
   if (hb != NULL) {
     pthread_mutex_destroy(&hb->mutex);
     free(hb->window);
-    if(0){//(hb->text_file != NULL) { //vic kill log
+    if(hb->text_file != NULL) { //vic kill log
       hb_flush_buffer(hb);
       fclose(hb->text_file);
     }
@@ -266,8 +266,8 @@ int64_t anchors_heartbeat( int anchors_hb_shm_key, int tag )
       hb->state->read_index++;
 
       if(hb->state->buffer_index%hb->state->buffer_depth == 0) {
-  // if(hb->text_file != NULL) //vic kill log
-  //   hb_flush_buffer(hb);  //vic kill log
+  if(hb->text_file != NULL) //vic kill log
+    hb_flush_buffer(hb);  //vic kill log
   hb->state->buffer_index = 0;
       }
       if(hb->state->read_index%hb->state->buffer_depth == 0) {
@@ -327,7 +327,7 @@ static void hb_flush_buffer(heartbeat_t volatile * hb) {
   //printf("Flushing buffer - %lld records\n",
   //   (long long int) nrecords);
 
-  if(0){//(hb->text_file != NULL) { //vic kill log
+  if(hb->text_file != NULL) { //vic kill log
     for(i = 0; i < nrecords; i++) {
       fprintf(hb->text_file,
         "%lld    %d    %lld    %f    %f    %f\n",
