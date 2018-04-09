@@ -13,7 +13,7 @@ print("start")
 for i in range(100000):
 # hb stuff
 	hb.heartbeat_beat()
-	window_hr = hb.get_window_heartrate()
+	# window_hr = hb.get_window_heartrate()
 	# comm.write("heart_rate",window_hr)
 # #print("hb: before get_instant_heartrate()")
 print(hb.get_instant_heartrate())
