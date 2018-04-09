@@ -11,7 +11,7 @@ import matplotlib
 
 matplotlib.rc('xtick', labelsize=20) 
 matplotlib.rc('ytick', labelsize=30) 
-fig = plt.figure(figsize=(16, 9))
+fig = plt.figure(figsize=(10, 7))
 ax1 = fig.add_subplot(2,1,1)
 ax2 = fig.add_subplot(2,1,2)
 plt.subplots_adjust(left = 0.13,right=0.84)
