@@ -86,7 +86,7 @@ else:
 
 		hb_timestamps.append(time.time())
 		hb.heartbeat_beat()
-		# window_hr = hb.get_window_heartrate()
+		window_hr = hb.get_window_heartrate()
 		tx_timestamps.append(time.time())
 		comm.write("heart_rate",str(i))
 
