@@ -74,7 +74,7 @@ class Dom0:
 					tmp_key_path = (base_path+'/'+domuid+'/'+key).encode()
 					tmp_val = ('xenstore entry init').encode()
 					c.set_perms(tmp_key_path,permissions)
-					c.write(tmp_key_path,tmp_val)
+					# c.write(tmp_key_path,tmp_val)
 					
 					print('created',key,'for dom',domuid)			
 
