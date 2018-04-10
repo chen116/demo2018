@@ -8,6 +8,7 @@ import threading
 import sys
 from pyxs import Client
 import time
+import numpy as np
 
 
 
@@ -97,7 +98,12 @@ else:
 	tmp_thread.join()
 	rx_timestamps = tmp_thread.timestamps
 	hb.heartbeat_finish()
-	print(rx_timestamps-hb_timestamps)
+	hbs = np.asarray(hb_timestamps)
+	txs = np.asarray(tx_timestamps)
+	rxs = np.asarray(rx_timestamps)
+
+
+	print( np.average((rxs-txs)/2+(txs-hbs) ))
 	# print(rx_timestamps)
 
 			
