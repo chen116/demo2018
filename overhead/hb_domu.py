@@ -31,12 +31,12 @@ if 'thru' in lat_or_thruput:
 	for i in range(11-1):
 	# hb stuff
 		hb.heartbeat_beat()
-		window_hr = hb.get_window_heartrate()
-		comm.write("heart_rate",window_hr)
+		# window_hr = hb.get_window_heartrate()
+		comm.write("heart_rate",i)
 	# #print("hb: before get_instant_heartrate()")
-	print(hb.get_instant_heartrate())
+	comm.write("app_mode","reset")
+
 	hb.heartbeat_finish()
-	comm.write("heart_rate","done")
 else:
 	class MonitorThread(threading.Thread):
 		def __init__(self):
@@ -80,16 +80,16 @@ else:
 	#             shm_key, win_size,buf_depth,log_file,min_target,max_target):
 	monitoring_items = ["heart_rate","app_mode"]
 	comm = heartbeat.DomU(monitoring_items)
-	cnt=0
+
 	for i in range(11):
 	# hb stuff
 
 		hb_timestamps.append(time.time())
 		hb.heartbeat_beat()
-		window_hr = hb.get_window_heartrate()
+		# window_hr = hb.get_window_heartrate()
 		tx_timestamps.append(time.time())
-		comm.write("heart_rate",str(cnt))
-		cnt+=1
+		comm.write("heart_rate",str(i))
+
 	# #print("hb: before get_instant_heartrate()")
 
 
