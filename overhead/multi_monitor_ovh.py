@@ -45,6 +45,7 @@ class MonitorThread(threading.Thread):
 			m = c.monitor()
 			self.watch_tmp_key_path = (self.base_path+'/'+self.domuid+'/heart_rate').encode()
 			self.write_tmp_key_path = (self.base_path+'/'+self.domuid+'/app_mode').encode()
+			print(c.write(self.write_tmp_key_path).decode())
 			token = ("heart_rate").encode()
 			m.watch(self.watch_tmp_key_path,token)
 
