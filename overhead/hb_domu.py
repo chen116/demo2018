@@ -38,30 +38,30 @@ if 'thru' in lat_or_thruput:
 	comm.write("heart_rate","done")
 else:
 	class MonitorThread(threading.Thread):
-	def __init__(self,tx_or_rx):
-		threading.Thread.__init__(self)
-		self.timestamps=[]
-		with Client(xen_bus_path="/dev/xen/xenbus") as c:
-			self.domu_id = c.read("domid".encode())
-			self.key_path_hash=('/local/domain/'+self.domu_id.decode()+'/app_mode').encode()
-	def run(self):
-		with Client(xen_bus_path="/dev/xen/xenbus") as c:
-			msg = -1
-			tmp_msg = -1
-			while msg!=0:
-				try:
+		def __init__(self,tx_or_rx):
+			threading.Thread.__init__(self)
+			self.timestamps=[]
+			with Client(xen_bus_path="/dev/xen/xenbus") as c:
+				self.domu_id = c.read("domid".encode())
+				self.key_path_hash=('/local/domain/'+self.domu_id.decode()+'/app_mode').encode()
+		def run(self):
+			with Client(xen_bus_path="/dev/xen/xenbus") as c:
+				msg = -1
+				tmp_msg = -1
+				while msg!=0:
+					try:
+						msg = int(c.read(self.key_path_hash).decode())
+						self.timestamps.append(time.time())
+						print(msg)
+					except:
+						msg = -1
+				tmp_msg=msg
+				while tmp_msg!=11-1:
 					msg = int(c.read(self.key_path_hash).decode())
-					self.timestamps.append(time.time())
-					print(msg)
-				except:
-					msg = -1
-			tmp_msg=msg
-			while tmp_msg!=11-1:
-				msg = int(c.read(self.key_path_hash).decode())
-				if msg!=tmp_msg:
-					tmp_msg=msg
-					self.timestamps.append(time.time())
-					print(msg)
+					if msg!=tmp_msg:
+						tmp_msg=msg
+						self.timestamps.append(time.time())
+						print(msg)
 
 
 
