@@ -64,6 +64,7 @@ else:
 						tmp_msg=msg
 						self.timestamps.append(time.time())
 						print(msg)
+				c.write(self.key_path_hash, 'reset'.encode())
 
 
 
