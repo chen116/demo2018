@@ -90,12 +90,12 @@ if True:
 	frame_label = Label(master, textvariable=frame_var,font = "Verdana 10 bold" )
 	frame_label.pack(side=LEFT)
 	FSIZE = [
-	    ("S", 250),
-	    ("M", 500),
-	    ("L", 750)
+	    ("S", 300),
+	    ("M", 600),
+	    ("L", 800)
 	]
 	w1 = IntVar()
-	w1.set(750) # initialize
+	w1.set(600) # initialize
 	previous_f_size = w1.get()
 
 	for text, mode in FSIZE:
