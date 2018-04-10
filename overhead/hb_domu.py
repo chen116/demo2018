@@ -86,65 +86,85 @@ else:
 	monitoring_items = ["heart_rate","app_mode"]
 	comm = heartbeat.DomU(monitoring_items)
 
-	for j in range(2):
-		tmp_thread = MonitorThread()
-		tmp_thread.start()
+
+	tmp_thread = MonitorThread()
+	tmp_thread.start()
 
 
-		tx_timestamps=[]
-		hb_timestamps=[]
-		for i in range(100):
-		# hb stuff
+	tx_timestamps=[]
+	hb_timestamps=[]
+	for i in range(100):
+	# hb stuff
 
-			# hb_timestamps.append(time.time())
-			hb.heartbeat_beat()
-			# window_hr = hb.get_window_heartrate()
-			# hb_timestamps.append(time.time())
-			comm.write("heart_rate",str(i))
-			tx_timestamps.append(time.time())
-
-
-	# #print("hb: before get_instant_heartrate()")
+		# hb_timestamps.append(time.time())
+		hb.heartbeat_beat()
+		# window_hr = hb.get_window_heartrate()
+		# hb_timestamps.append(time.time())
+		comm.write("heart_rate",str(i))
+		tx_timestamps.append(time.time())
 
 
+# #print("hb: before get_instant_heartrate()")
 
 
 
-		tmp_thread.join()
-		time.sleep(1)
-		rx_timestamps = tmp_thread.timestamps
-		hb.heartbeat_finish()
-		hbs = np.asarray(hb_timestamps)
-		txs = np.asarray(tx_timestamps)
-		rxs = np.asarray(rx_timestamps)
-
-		print(hbs.shape)
-		print(txs.shape)
-		print(rxs.shape)
 
 
-		# print( np.average((rxs-txs)/2+(txs-hbs)))
-		if len(rxs)==len(txs):
-			print( np.average((rxs-txs)/2))
+	tmp_thread.join()
+	rx_timestamps = tmp_thread.timestamps
+	hb.heartbeat_finish()
+	hbs = np.asarray(hb_timestamps)
+	txs = np.asarray(tx_timestamps)
+	rxs = np.asarray(rx_timestamps)
+
+	print(hbs.shape)
+	print(txs.shape)
+	print(rxs.shape)
+
+
+	# print( np.average((rxs-txs)/2+(txs-hbs)))
+	if len(rxs)==len(txs):
+		print( np.average((rxs-txs)/2))
 
 		# print(rx_timestamps)
 
 			
 
+	tmp_thread = MonitorThread()
+	tmp_thread.start()
 
-# #print("hb: after hb stuff")
-# if global_cnt>window_size_hr:
-# 	comm.write("heart_rate",window_hr)
-# # #print('------------------window_hr:',window_hr)
-# # #print('instant_hr:',instant_hr)
-# current_checked = checked.get()
-# if previous_checked!=current_checked:
-# 	comm.write("app_mode",current_checked)
-# 	previous_checked=current_checked
-# if previous_f_size!=current_f_size:
-# 	comm.write("frame_size",current_f_size)
-# 	previous_f_size=current_f_size
-# current_ts=ts1.get()
-# if previous_ts!=current_ts:
-# 	comm.write("timeslice",current_ts)
-# 	previous_ts=current_ts
+
+	tx_timestamps=[]
+	hb_timestamps=[]
+	for i in range(100):
+	# hb stuff
+
+		# hb_timestamps.append(time.time())
+		hb.heartbeat_beat()
+		# window_hr = hb.get_window_heartrate()
+		# hb_timestamps.append(time.time())
+		comm.write("heart_rate",str(i))
+		tx_timestamps.append(time.time())
+
+
+# #print("hb: before get_instant_heartrate()")
+
+
+
+
+
+	tmp_thread.join()
+	rx_timestamps = tmp_thread.timestamps
+	hb.heartbeat_finish()
+	hbs = np.asarray(hb_timestamps)
+	txs = np.asarray(tx_timestamps)
+	rxs = np.asarray(rx_timestamps)
+
+	print(hbs.shape)
+	print(txs.shape)
+	print(rxs.shape)
+
+
+	# print( np.average((rxs-txs)/2+(txs-hbs)))
+	if len(rxs)==len(txs):
+		print( np.average((rxs-txs)/2))
