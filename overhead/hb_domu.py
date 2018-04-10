@@ -102,8 +102,12 @@ else:
 	txs = np.asarray(tx_timestamps)
 	rxs = np.asarray(rx_timestamps)
 
+	print(hbs.shape)
+	print(txs.shape)
+	print(rxs.shape)
 
-	print( np.average((rxs-txs)/2+(txs-hbs) ))
+
+	print( np.average((rxs-txs)/2+(txs-hbs)))
 	# print(rx_timestamps)
 
 			
