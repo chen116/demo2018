@@ -89,6 +89,7 @@ else:
 		# window_hr = hb.get_window_heartrate()
 		tx_timestamps.append(time.time())
 		comm.write("heart_rate",str(i))
+		print(i)
 
 	# #print("hb: before get_instant_heartrate()")
 
