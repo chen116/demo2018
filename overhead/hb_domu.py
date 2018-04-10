@@ -28,6 +28,7 @@ if 'thru' in lat_or_thruput:
 	monitoring_items = ["heart_rate","app_mode"]
 	comm = heartbeat.DomU(monitoring_items)
 	print("start")
+	st = time.time()
 	for i in range(100-1):
 	# hb stuff
 		hb.heartbeat_beat()
@@ -36,7 +37,7 @@ if 'thru' in lat_or_thruput:
 	# #print("hb: before get_instant_heartrate()")
 	hb.heartbeat_beat()
 	comm.write("heart_rate","reset")
-
+	print( (time.time()-st)/100)
 	print(hb.get_global_heartrate())
 	print(1/hb.get_global_heartrate())
 
