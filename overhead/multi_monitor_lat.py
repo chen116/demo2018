@@ -54,8 +54,8 @@ class MonitorThread(threading.Thread):
 				# msg=c.read(path).decode()
 				msg=c.read(path)
 				# self.threadLock.acquire()		
-				if 'reset' in msg.decode():
-					self.ovh_cnt=0
+				# if 'reset' in msg.decode():
+				# 	self.ovh_cnt=0
 
 				if self.ovh_cnt==0:
 					heart_rate=-1
