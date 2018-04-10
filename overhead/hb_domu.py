@@ -124,10 +124,9 @@ else:
 
 
 		# print( np.average((rxs-txs)/2+(txs-hbs)))
-		try:
+		if len(rxs)==len(txs):
 			print( np.average((rxs-txs)/2))
-		except:
-			print('meow')
+
 		# print(rx_timestamps)
 
 			
