@@ -97,7 +97,8 @@ else:
 	tmp_thread.join()
 	rx_timestamps = tmp_thread.timestamps
 	hb.heartbeat_finish()
-	print(rx_timestamps)
+	print(rx_timestamps-hb_timestamps)
+	# print(rx_timestamps)
 
 			
 
