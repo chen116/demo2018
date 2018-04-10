@@ -36,7 +36,7 @@ if 'thru' in lat_or_thruput:
 	# #print("hb: before get_instant_heartrate()")
 	hb.heartbeat_beat()
 	comm.write("heart_rate","reset")
-	
+
 	print(hb.get_global_heartrate())
 
 
@@ -114,6 +114,7 @@ else:
 
 
 	print( np.average((rxs-txs)/2+(txs-hbs)))
+	print( np.average((rxs-txs)/2))
 	# print(rx_timestamps)
 
 			
