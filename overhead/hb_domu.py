@@ -51,7 +51,7 @@ else:
 	class MonitorThread(threading.Thread):
 		def __init__(self):
 			threading.Thread.__init__(self)
-			self.timestamps=[]
+			self.rx_timestamps=[]
 			with Client(xen_bus_path="/dev/xen/xenbus") as c:
 				self.domu_id = c.read("domid".encode())
 				self.key_path_hash=('/local/domain/'+self.domu_id.decode()+'/app_mode').encode()
@@ -63,7 +63,7 @@ else:
 				while msg!=0:
 					try:
 						msg = int(c.read(self.key_path_hash).decode())
-						self.timestamps.append(time.time())
+						self.rx_timestamps.append(time.time())
 						# print(msg)
 					except:
 						msg = -1
@@ -72,7 +72,7 @@ else:
 					msg = int(c.read(self.key_path_hash).decode())
 					if msg!=tmp_msg:
 						tmp_msg=msg
-						self.timestamps.append(time.time())
+						self.rx_timestamps.append(time.time())
 						# print(msg)
 				c.write(self.key_path_hash, 'reset'.encode())
 
