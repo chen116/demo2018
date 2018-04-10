@@ -44,7 +44,7 @@ class MonitorThread(threading.Thread):
 		# with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
 			m = c.monitor()
 			self.watch_tmp_key_path = (self.base_path+'/'+self.domuid+'/heart_rate').encode()
-			self.write_tmp_key_path = (self.base_path+'/'+self.domuid+'/app_mode').encode()
+
 			token = ("heart_rate").encode()
 			m.watch(self.watch_tmp_key_path,token)
 

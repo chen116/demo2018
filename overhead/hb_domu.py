@@ -34,7 +34,7 @@ if 'thru' in lat_or_thruput:
 		# window_hr = hb.get_window_heartrate()
 		comm.write("heart_rate",i)
 	# #print("hb: before get_instant_heartrate()")
-	comm.write("app_mode","reset")
+	comm.write("heart_rate","reset")
 
 	hb.heartbeat_finish()
 else:
