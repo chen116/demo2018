@@ -38,7 +38,7 @@ if 'thru' in lat_or_thruput:
 	comm.write("heart_rate","done")
 else:
 	class MonitorThread(threading.Thread):
-		def __init__(self,tx_or_rx):
+		def __init__(self):
 			threading.Thread.__init__(self)
 			self.timestamps=[]
 			with Client(xen_bus_path="/dev/xen/xenbus") as c:
