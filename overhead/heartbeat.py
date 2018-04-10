@@ -75,7 +75,7 @@ class Dom0:
 		# 			tmp_val = ('xenstore entry init').encode()
 		# 			c.set_perms(tmp_key_path,permissions)
 		# 			# c.write(tmp_key_path,tmp_val)
-					
+
 		# 			print('created',key,'for dom',domuid)			
 
 		with Client(xen_bus_path="/dev/xen/xenbus") as c:
@@ -136,6 +136,10 @@ class DomU:
 				self.key_path_hash[key]=(self.base_path+'/'+self.domu_id.decode()+'/'+key).encode()
 	def write(self,key='test',val='0'):
 		with Client(xen_bus_path="/dev/xen/xenbus") as c:
-			msg=str(val).encode()
-			c.write(self.key_path_hash[key],msg)
+			success = False
+			while not success:
+				c.transaction()
+				msg=str(val).encode()
+				c.write(self.key_path_hash[key],msg)
+				success = c.commit()
 
