@@ -20,7 +20,7 @@ import time
 lat_or_thruput=sys.argv[1]
 
 # thruput
-if 'lat' in lat_or_thruput:
+if 'thru' in lat_or_thruput:
 	window_size_hr=5
 	hb = heartbeat.Heartbeat(1024,window_size_hr,11,"vic.log",10,100)
 	#             shm_key, win_size,buf_depth,log_file,min_target,max_target):
