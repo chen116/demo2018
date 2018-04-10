@@ -54,8 +54,8 @@ class MonitorThread(threading.Thread):
 				# msg=c.read(path).decode()
 				msg=c.read(path)
 				# self.threadLock.acquire()		
-				# if 'reset' in msg.decode():
-				# 	self.ovh_cnt=0
+				if 'reset' in msg.decode():
+					self.ovh_cnt=0
 
 				if self.ovh_cnt==0:
 					heart_rate=-1
@@ -65,12 +65,12 @@ class MonitorThread(threading.Thread):
 						heart_rate=-1
 					if heart_rate>-1:
 						c.write(self.write_tmp_key_path,msg)
-						print(int(msg.decode()))
+						# print(int(msg.decode()))
 						self.ovh_cnt=1
 						
 				else:
 					c.write(self.write_tmp_key_path,msg)
-					print(int(msg.decode()))
+					# print(int(msg.decode()))
 
 
 
