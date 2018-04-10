@@ -4,21 +4,100 @@
 # thruput
 
 import heartbeat
-window_size_hr=5
-hb = heartbeat.Heartbeat(1024,window_size_hr,10000,"vic.log",10,100)
-#             shm_key, win_size,buf_depth,log_file,min_target,max_target):
-monitoring_items = ["heart_rate","app_mode","frame_size","timeslice"]
-comm = heartbeat.DomU(monitoring_items)
-print("start")
-for i in range(10000-1):
-# hb stuff
-	hb.heartbeat_beat()
-	window_hr = hb.get_window_heartrate()
-	comm.write("heart_rate",window_hr)
-# #print("hb: before get_instant_heartrate()")
-print(hb.get_instant_heartrate())
-hb.heartbeat_finish()
-comm.write("heart_rate","done")
+import threading
+import sys
+from pyxs import Client
+import time
+
+
+
+
+
+
+
+
+
+lat_or_thruput=sys.argv[1]
+
+# thruput
+if 'lat' in lat_or_thruput:
+	window_size_hr=5
+	hb = heartbeat.Heartbeat(1024,window_size_hr,11,"vic.log",10,100)
+	#             shm_key, win_size,buf_depth,log_file,min_target,max_target):
+	monitoring_items = ["heart_rate","app_mode"]
+	comm = heartbeat.DomU(monitoring_items)
+	print("start")
+	for i in range(11-1):
+	# hb stuff
+		hb.heartbeat_beat()
+		window_hr = hb.get_window_heartrate()
+		comm.write("heart_rate",window_hr)
+	# #print("hb: before get_instant_heartrate()")
+	print(hb.get_instant_heartrate())
+	hb.heartbeat_finish()
+	comm.write("heart_rate","done")
+else:
+	class MonitorThread(threading.Thread):
+	def __init__(self,tx_or_rx):
+		threading.Thread.__init__(self)
+		self.timestamps=[]
+		with Client(xen_bus_path="/dev/xen/xenbus") as c:
+			self.domu_id = c.read("domid".encode())
+			self.key_path_hash=('/local/domain/'+self.domu_id.decode()+'/app_mode').encode()
+	def run(self):
+		with Client(xen_bus_path="/dev/xen/xenbus") as c:
+			msg = -1
+			tmp_msg = -1
+			while msg!=0:
+				try:
+					msg = int(c.read(self.key_path_hash).decode())
+					self.timestamps.append(time.time())
+					print(msg)
+				except:
+					msg = -1
+			tmp_msg=msg
+			while tmp_msg!=11-1:
+				msg = int(c.read(self.key_path_hash).decode())
+				if msg!=tmp_msg:
+					tmp_msg=msg
+					self.timestamps.append(time.time())
+					print(msg)
+
+
+
+
+	tmp_thread = MonitorThread()
+	tmp_thread.start()
+
+
+	tx_timestamps=[]
+	hb_timestamps=[]
+	window_size_hr=5
+	hb = heartbeat.Heartbeat(1024,window_size_hr,11,"vic.log",10,100)
+	#             shm_key, win_size,buf_depth,log_file,min_target,max_target):
+	monitoring_items = ["heart_rate"]
+	comm = heartbeat.DomU(monitoring_items)
+	cnt=0
+	for i in range(11):
+	# hb stuff
+
+		hb_timestamps.append(time.time())
+		hb.heartbeat_beat()
+		window_hr = hb.get_window_heartrate()
+		tx_timestamps.append(time.time())
+		comm.write("heart_rate",str(cnt))
+		cnt+=1
+	# #print("hb: before get_instant_heartrate()")
+	hb.heartbeat_finish()
+
+
+
+
+
+	tmp_thread.join()
+	rx_timestamps = tmp_thread.timestamps
+
+			
 
 
 # #print("hb: after hb stuff")
