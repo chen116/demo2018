@@ -79,8 +79,8 @@ else:
 
 
 
-	# tmp_thread = MonitorThread()
-	# tmp_thread.start()
+	tmp_thread = MonitorThread()
+	tmp_thread.start()
 
 
 	tx_timestamps=[]
@@ -109,8 +109,8 @@ else:
 
 
 	rx_timestamps=[]
-	# tmp_thread.join()
-	# rx_timestamps = tmp_thread.timestamps
+	tmp_thread.join()
+	rx_timestamps = tmp_thread.timestamps
 	hb.heartbeat_finish()
 	hbs = np.asarray(hb_timestamps)
 	txs = np.asarray(tx_timestamps)
