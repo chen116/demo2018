@@ -64,21 +64,23 @@ class MonitorThread(threading.Thread):
 					except:
 						heart_rate=-1
 					if heart_rate>-1:
-						success = False
-						while not success:
-							c.transaction()
-							c.write(self.write_tmp_key_path,msg)
-							success = c.commit()
+						c.write(self.write_tmp_key_path,msg)
+						
+						# success = False
+						# while not success:
+						# 	c.transaction()
+						# 	c.write(self.write_tmp_key_path,msg)
+						# 	success = c.commit()
 						# print(int(msg.decode()))
 						self.ovh_cnt=1
 						
 				else:
-					success = False
-					while not success:
-						c.transaction()
-						c.write(self.write_tmp_key_path,msg)
-						success = c.commit()
-					# c.write(self.write_tmp_key_path,msg)
+					# success = False
+					# while not success:
+					# 	c.transaction()
+					# 	c.write(self.write_tmp_key_path,msg)
+					# 	success = c.commit()
+					c.write(self.write_tmp_key_path,msg)
 					# print(int(msg.decode()))
 
 
