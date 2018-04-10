@@ -45,9 +45,7 @@ else:
 				self.domu_id = c.read("domid".encode())
 				self.key_path_hash=('/local/domain/'+self.domu_id.decode()+'/app_mode').encode()
 		def run(self):
-			with Client(xen_bus_path="/dev/xen/xenbus") as c:
-			# with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
-				m = c.monitor()
+
 			with Client(xen_bus_path="/dev/xen/xenbus") as c:
 				msg = -1
 				tmp_msg = -1
