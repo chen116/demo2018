@@ -103,6 +103,7 @@ else:
 		# hb_timestamps.append(time.time())
 		comm.write("heart_rate",str(i))
 		tx_timestamps.append(time.time())
+		print(i)
 
 
 # #print("hb: before get_instant_heartrate()")
