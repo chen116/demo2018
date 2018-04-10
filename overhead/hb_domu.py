@@ -137,6 +137,8 @@ else:
 	print(hbs.shape)
 	print(txs.shape)
 	print(rxs.shape)
+	hb.heartbeat_beat()
+
 	print(hb.get_global_heartrate())
 	print(1/hb.get_global_heartrate())
 
