@@ -86,7 +86,7 @@ else:
 	monitoring_items = ["heart_rate","app_mode"]
 	comm = heartbeat.DomU(monitoring_items)
 
-	for j in range(1):
+	for j in range(2):
 		tmp_thread = MonitorThread()
 		tmp_thread.start()
 
