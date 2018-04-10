@@ -97,8 +97,9 @@ else:
 		# hb_timestamps.append(time.time())
 		hb.heartbeat_beat()
 		# window_hr = hb.get_window_heartrate()
+		hb_timestamps.append(time.time())
 		comm.write("heart_rate",str(i))
-		# tx_timestamps.append(time.time())
+		tx_timestamps.append(time.time())
 
 	print(hb.get_global_heartrate())
 
