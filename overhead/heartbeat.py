@@ -137,10 +137,10 @@ class DomU:
 	def write(self,key='test',val='0'):
 		with Client(xen_bus_path="/dev/xen/xenbus") as c:
 			msg=str(val).encode()
-			# c.write(self.key_path_hash[key],msg)	
-			success = False
-			while not success:
-				c.transaction()
-				c.write(self.key_path_hash[key],msg)
-				success = c.commit()
+			c.write(self.key_path_hash[key],msg)	
+			# success = False
+			# while not success:
+			# 	c.transaction()
+			# 	c.write(self.key_path_hash[key],msg)
+			# 	success = c.commit()
 
