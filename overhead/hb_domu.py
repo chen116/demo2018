@@ -121,7 +121,6 @@ else:
 	print(txs.shape)
 	print(rxs.shape)
 	print(hb.get_global_heartrate())
-	
 	print(1/hb.get_global_heartrate())
 
 
