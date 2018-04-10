@@ -24,19 +24,10 @@ c = heartbeat.Dom0(monitoring_items,['1'])
 
 
 class MonitorThread(threading.Thread):
-	def __init__(self, threadLock,shared_data,domuid,sched,timeslice_us,min_heart_rate,max_heart_rate,keys=['test'],base_path='/local/domain'):
+	def __init__(self,domuid):
 		threading.Thread.__init__(self)
 		self.domuid=(domuid)
-		self.keys=keys
-		self.base_path=base_path
-		self.threadLock=threadLock
-		self.shared_data=shared_data
-		self.anchors = 0
-		self.sched = sched
-		self.target_reached_cnt = 0
-		self.min_heart_rate=min_heart_rate
-		self.max_heart_rate=max_heart_rate
-		self.timeslice_us = timeslice_us
+		self.base_path='/local/domain'
 		self.ovh = 0
 		self.ovh_cnt=0
 
@@ -44,11 +35,11 @@ class MonitorThread(threading.Thread):
 	def run(self):
 		# Acquire lock to synchronize thread
 		# self.threadLock.acquire()
-		self.vmonitor()
+
 		# Release lock for the next thread
 		# self.threadLock.release()
 		#print("Exiting " , self.name)
-	def vmonitor(self):  # one monitor observe one domU at a time
+
 		with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
 			m = c.monitor()
 			self.watch_tmp_key_path = (self.base_path+'/'+self.domuid+'/heart_rate').encode()
@@ -100,45 +91,15 @@ class MonitorThread(threading.Thread):
 				# #print( token.decode(),':',msg)
 
 
-
-
-
-
 threadLock = threading.Lock()
 threads = []
-shared_data = xen_interface.get_global_info()
-timeslice_us=15000
-default_bw=int(timeslice_us/2)
-
-for domuid in shared_data['rtxen']:
-	xen_interface.sched_rtds(domuid,timeslice_us,default_bw,[])
-for domuid in shared_data['xen']:
-	xen_interface.sched_credit(domuid,default_bw)
-shared_data = xen_interface.get_global_info()
-
-
-
-
-
-min_heart_rate = float(sys.argv[1])
-max_heart_rate = float(sys.argv[2])
-
-with open("minmax.txt", "w") as myfile:
-	myfile.write("min "+sys.argv[1]+"\n")
-	myfile.write("max "+sys.argv[2]+"\n")
-	myfile.write("timeslice_us "+str(timeslice_us/1000)+"\n")
-
-
-
 
 
 
 for domuid in c.domu_ids:
-	tmp_thread = MonitorThread(threadLock,shared_data,domuid,int(domuid)%2,timeslice_us,min_heart_rate,max_heart_rate, monitoring_items)
+	tmp_thread = MonitorThread(domuid)
 	tmp_thread.start()
 	threads.append(tmp_thread)
-
-
 
 
 # Wait for all MonitorThreads to complete
@@ -146,14 +107,4 @@ threads_cnt=0
 for t in threads:
 	t.join()
 	threads_cnt+=1
-#print('FINAL COUNT:',shared_data['cnt'])
-pp = pprint.PrettyPrinter(indent=2)
-print('Final domUs info:')
-shared_data = xen_interface.get_global_info()
-for domuid in shared_data['rtxen']:
-	xen_interface.sched_rtds(domuid,timeslice_us,default_bw,[])
-xen_interface.sched_credit_timeslice(timeslice_us/1000)
-for domuid in shared_data['xen']:
-	xen_interface.sched_credit(domuid,default_bw)
-print("Exiting the Monitor, total",threads_cnt,"monitoring threads")
-print("Restored RT-Xen, Credit to all domUs have equal cpu time sharing")
+print('done')
