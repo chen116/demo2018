@@ -54,7 +54,7 @@ else:
 					try:
 						msg = int(c.read(self.key_path_hash).decode())
 						self.timestamps.append(time.time())
-						# print(msg)
+						print(msg)
 					except:
 						msg = -1
 				tmp_msg=msg
@@ -63,7 +63,7 @@ else:
 					if msg!=tmp_msg:
 						tmp_msg=msg
 						self.timestamps.append(time.time())
-						# print(msg)
+						print(msg)
 				c.write(self.key_path_hash, 'reset'.encode())
 
 
@@ -89,7 +89,6 @@ else:
 		# window_hr = hb.get_window_heartrate()
 		tx_timestamps.append(time.time())
 		comm.write("heart_rate",str(i))
-		print(i)
 
 	# #print("hb: before get_instant_heartrate()")
 
