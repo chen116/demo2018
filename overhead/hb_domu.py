@@ -111,7 +111,7 @@ else:
 
 
 	tmp_thread.join()
-	rx_timestamps = tmp_thread.timestamps
+	rx_timestamps = tmp_thread.rx_timestamps
 	hb.heartbeat_finish()
 	hbs = np.asarray(hb_timestamps)
 	txs = np.asarray(tx_timestamps)
