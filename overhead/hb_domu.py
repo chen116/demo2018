@@ -99,7 +99,7 @@ else:
 		# window_hr = hb.get_window_heartrate()
 		# hb_timestamps.append(time.time())
 		comm.write("heart_rate",str(i))
-		# tx_timestamps.append(time.time())
+		tx_timestamps.append(time.time())
 
 	print(hb.get_global_heartrate())
 
@@ -121,7 +121,7 @@ else:
 	print(rxs.shape)
 
 
-	print( np.average((rxs-txs)/2+(txs-hbs)))
+	# print( np.average((rxs-txs)/2+(txs-hbs)))
 	print( np.average((rxs-txs)/2))
 	# print(rx_timestamps)
 
