@@ -69,7 +69,7 @@ class MonitorThread(threading.Thread):
 						
 				else:
 					c.write(self.write_tmp_key_path,msg)
-					print(int(msg.decode()))
+					# print(int(msg.decode()))
 
 
 
