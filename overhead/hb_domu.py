@@ -23,13 +23,13 @@ lat_or_thruput=sys.argv[1]
 # thruput
 if 'thru' in lat_or_thruput:
 	window_size_hr=5
-	hb = heartbeat.Heartbeat(1024,window_size_hr,100,"vic.log",10,100)
+	hb = heartbeat.Heartbeat(1024,window_size_hr,10000,"vic.log",10,10000)
 	#             shm_key, win_size,buf_depth,log_file,min_target,max_target):
 	monitoring_items = ["heart_rate","app_mode"]
 	comm = heartbeat.DomU(monitoring_items)
 	print("start")
 	st = time.time()
-	for i in range(100-1):
+	for i in range(10000-1):
 	# hb stuff
 		hb.heartbeat_beat()
 		# window_hr = hb.get_window_heartrate()
@@ -37,8 +37,8 @@ if 'thru' in lat_or_thruput:
 	# #print("hb: before get_instant_heartrate()")
 	hb.heartbeat_beat()
 	comm.write("heart_rate","reset")
-	print( (time.time()-st)/100)
-	
+	print( (time.time()-st)/10000)
+
 	hb.heartbeat_beat()
 
 	print(hb.get_global_heartrate())
