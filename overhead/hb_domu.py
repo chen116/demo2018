@@ -88,7 +88,6 @@ else:
 		comm.write("heart_rate",str(cnt))
 		cnt+=1
 	# #print("hb: before get_instant_heartrate()")
-	hb.heartbeat_finish()
 
 
 
@@ -96,6 +95,8 @@ else:
 
 	tmp_thread.join()
 	rx_timestamps = tmp_thread.timestamps
+	hb.heartbeat_finish()
+	print(rx_timestamps)
 
 			
 
