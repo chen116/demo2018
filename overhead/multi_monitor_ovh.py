@@ -24,14 +24,13 @@ c = heartbeat.Dom0(monitoring_items,['1'])
 
 
 class MonitorThread(threading.Thread):
-	def __init__(self, threadLock,shared_data,res_allo,domuid,sched,timeslice_us,min_heart_rate,max_heart_rate,keys=['test'],base_path='/local/domain'):
+	def __init__(self, threadLock,shared_data,domuid,sched,timeslice_us,min_heart_rate,max_heart_rate,keys=['test'],base_path='/local/domain'):
 		threading.Thread.__init__(self)
 		self.domuid=(domuid)
 		self.keys=keys
 		self.base_path=base_path
 		self.threadLock=threadLock
 		self.shared_data=shared_data
-		self.res_allo=res_allo
 		self.anchors = 0
 		self.sched = sched
 		self.target_reached_cnt = 0
@@ -135,7 +134,7 @@ with open("minmax.txt", "w") as myfile:
 
 
 for domuid in c.domu_ids:
-	tmp_thread = MonitorThread(threadLock,shared_data,res_allo,domuid,int(domuid)%2,timeslice_us,min_heart_rate,max_heart_rate, monitoring_items)
+	tmp_thread = MonitorThread(threadLock,shared_data,domuid,int(domuid)%2,timeslice_us,min_heart_rate,max_heart_rate, monitoring_items)
 	tmp_thread.start()
 	threads.append(tmp_thread)
 
