@@ -32,7 +32,7 @@ if 'thru' in lat_or_thruput:
 	# hb stuff
 		hb.heartbeat_beat()
 		# window_hr = hb.get_window_heartrate()
-		comm.write("heart_rate",i)
+		# comm.write("heart_rate",i)
 	# #print("hb: before get_instant_heartrate()")
 	hb.heartbeat_beat()
 	print(hb.get_global_heartrate())
