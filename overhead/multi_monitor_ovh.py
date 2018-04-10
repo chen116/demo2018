@@ -40,7 +40,8 @@ class MonitorThread(threading.Thread):
 		# self.threadLock.release()
 		#print("Exiting " , self.name)
 
-		with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
+		with Client() as c:
+		# with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
 			m = c.monitor()
 			self.watch_tmp_key_path = (self.base_path+'/'+self.domuid+'/heart_rate').encode()
 			self.write_tmp_key_path = (self.base_path+'/'+self.domuid+'/app_mode').encode()
