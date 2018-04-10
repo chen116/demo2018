@@ -79,51 +79,52 @@ else:
 
 
 
-	tmp_thread = MonitorThread()
-	tmp_thread.start()
 
-
-	tx_timestamps=[]
-	hb_timestamps=[]
 	window_size_hr=5
 	hb = heartbeat.Heartbeat(1024,window_size_hr,100,"vic.log",10,100)
 	#             shm_key, win_size,buf_depth,log_file,min_target,max_target):
 	monitoring_items = ["heart_rate","app_mode"]
 	comm = heartbeat.DomU(monitoring_items)
 
-	for i in range(100):
-	# hb stuff
+	for j in range(10):
+		tmp_thread = MonitorThread()
+		tmp_thread.start()
 
-		# hb_timestamps.append(time.time())
-		hb.heartbeat_beat()
-		# window_hr = hb.get_window_heartrate()
-		# hb_timestamps.append(time.time())
-		comm.write("heart_rate",str(i))
-		tx_timestamps.append(time.time())
 
-	print(hb.get_global_heartrate())
+		tx_timestamps=[]
+		hb_timestamps=[]
+		for i in range(100):
+		# hb stuff
+
+			# hb_timestamps.append(time.time())
+			hb.heartbeat_beat()
+			# window_hr = hb.get_window_heartrate()
+			# hb_timestamps.append(time.time())
+			comm.write("heart_rate",str(i))
+			tx_timestamps.append(time.time())
+
 
 	# #print("hb: before get_instant_heartrate()")
 
 
 
 
-	rx_timestamps=[]
-	tmp_thread.join()
-	rx_timestamps = tmp_thread.timestamps
-	hb.heartbeat_finish()
-	hbs = np.asarray(hb_timestamps)
-	txs = np.asarray(tx_timestamps)
-	rxs = np.asarray(rx_timestamps)
 
-	print(hbs.shape)
-	print(txs.shape)
-	print(rxs.shape)
+		tmp_thread.join()
+		rx_timestamps = tmp_thread.timestamps
+		hb.heartbeat_finish()
+		hbs = np.asarray(hb_timestamps)
+		txs = np.asarray(tx_timestamps)
+		rxs = np.asarray(rx_timestamps)
+
+		print(hbs.shape)
+		print(txs.shape)
+		print(rxs.shape)
 
 
-	# print( np.average((rxs-txs)/2+(txs-hbs)))
-	print( np.average((rxs-txs)/2))
-	# print(rx_timestamps)
+		# print( np.average((rxs-txs)/2+(txs-hbs)))
+		print( np.average((rxs-txs)/2))
+		# print(rx_timestamps)
 
 			
 
