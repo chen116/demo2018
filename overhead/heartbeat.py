@@ -73,8 +73,9 @@ class Dom0:
 				for key in keys:
 					tmp_key_path = (base_path+'/'+domuid+'/'+key).encode()
 					tmp_val = ('xenstore entry init').encode()
-					c.write(tmp_key_path,tmp_val)
 					c.set_perms(tmp_key_path,permissions)
+					c.write(tmp_key_path,tmp_val)
+					
 					print('created',key,'for dom',domuid)			
 
 		with Client(xen_bus_path="/dev/xen/xenbus") as c:
