@@ -120,6 +120,8 @@ else:
 	print(hbs.shape)
 	print(txs.shape)
 	print(rxs.shape)
+	print(1/hb.get_global_heartrate())
+	
 
 
 	# print( np.average((rxs-txs)/2+(txs-hbs)))
