@@ -117,7 +117,6 @@ else:
 
 	tmp_thread.join()
 	rx_timestamps = tmp_thread.rx_timestamps
-	hb.heartbeat_finish()
 	hbs = np.asarray(hb_timestamps)
 	valid_indecies= [i for i, x in enumerate(rx_timestamps) if x != 0]
 
@@ -148,5 +147,6 @@ else:
 	print(np.average((rxs-txs)/2))
 
 		# print(rx_timestamps)
+	hb.heartbeat_finish()
 
 			
