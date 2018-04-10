@@ -52,7 +52,7 @@ else:
 	class MonitorThread(threading.Thread):
 		def __init__(self):
 			threading.Thread.__init__(self)
-			self.rx_timestamps=[]
+			self.rx_timestamps=[0 for i in range(1000)]
 			with Client(xen_bus_path="/dev/xen/xenbus") as c:
 				self.domu_id = c.read("domid".encode())
 				self.key_path_hash=('/local/domain/'+self.domu_id.decode()+'/app_mode').encode()
@@ -64,7 +64,8 @@ else:
 				while msg!=0:
 					try:
 						msg = int(c.read(self.key_path_hash).decode())
-						self.rx_timestamps.append(time.time())
+						# self.rx_timestamps.append(time.time())
+						self.rx_timestamps[msg]=(time.time())
 						# print(msg)
 					except:
 						msg = -1
@@ -73,7 +74,8 @@ else:
 					msg = int(c.read(self.key_path_hash).decode())
 					if msg!=tmp_msg:
 						tmp_msg=msg
-						self.rx_timestamps.append(time.time())
+						# self.rx_timestamps.append(time.time())
+						self.rx_timestamps[msg]=(time.time())
 						# print(msg)
 				c.write(self.key_path_hash, 'reset'.encode())
 
@@ -94,6 +96,7 @@ else:
 
 	tx_timestamps=[]
 	hb_timestamps=[]
+
 	for i in range(1000):
 	# hb stuff
 
@@ -116,8 +119,21 @@ else:
 	rx_timestamps = tmp_thread.rx_timestamps
 	hb.heartbeat_finish()
 	hbs = np.asarray(hb_timestamps)
-	txs = np.asarray(tx_timestamps)
-	rxs = np.asarray(rx_timestamps)
+	valid_indecies= [i for i, x in enumerate(rx_timestamps) if x != 0]
+
+	txs = []
+	rxs = []
+	for x in valid_indecies:
+		txs.append(tx_timestamps[x])
+		rxs.append(rx_timestamps[x])
+
+
+
+	txs = np.asarray(txs)
+	rxs = np.asarray(rxs)
+
+
+
 
 	print(hbs.shape)
 	print(txs.shape)
