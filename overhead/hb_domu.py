@@ -23,13 +23,13 @@ lat_or_thruput=sys.argv[1]
 # thruput
 if 'thru' in lat_or_thruput:
 	window_size_hr=5
-	hb = heartbeat.Heartbeat(1024,window_size_hr,10000,"vic.log",10,10000)
+	hb = heartbeat.Heartbeat(1024,window_size_hr,1000,"vic.log",10,1000)
 	#             shm_key, win_size,buf_depth,log_file,min_target,max_target):
 	monitoring_items = ["heart_rate","app_mode"]
 	comm = heartbeat.DomU(monitoring_items)
 	print("start")
 	st = time.time()
-	for i in range(10000-1):
+	for i in range(1000-1):
 	# hb stuff
 		hb.heartbeat_beat()
 		# window_hr = hb.get_window_heartrate()
@@ -37,7 +37,7 @@ if 'thru' in lat_or_thruput:
 	# #print("hb: before get_instant_heartrate()")
 	hb.heartbeat_beat()
 	comm.write("heart_rate","reset")
-	print( (time.time()-st)/10000)
+	print( (time.time()-st)/1000)
 
 	hb.heartbeat_beat()
 
@@ -68,7 +68,7 @@ else:
 					except:
 						msg = -1
 				tmp_msg=msg
-				while tmp_msg!=10000-1:
+				while tmp_msg!=1000-1:
 					msg = int(c.read(self.key_path_hash).decode())
 					if msg!=tmp_msg:
 						tmp_msg=msg
@@ -81,7 +81,7 @@ else:
 
 
 	window_size_hr=5
-	hb = heartbeat.Heartbeat(1024,window_size_hr,10000,"vic.log",10,10000)
+	hb = heartbeat.Heartbeat(1024,window_size_hr,1000,"vic.log",10,1000)
 	#             shm_key, win_size,buf_depth,log_file,min_target,max_target):
 	monitoring_items = ["heart_rate","app_mode"]
 	comm = heartbeat.DomU(monitoring_items)
@@ -93,7 +93,7 @@ else:
 
 	tx_timestamps=[]
 	hb_timestamps=[]
-	for i in range(10000):
+	for i in range(1000):
 	# hb stuff
 
 		# hb_timestamps.append(time.time())
