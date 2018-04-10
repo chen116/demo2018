@@ -49,11 +49,13 @@ class MonitorThread(threading.Thread):
 			m.watch(self.watch_tmp_key_path,token)
 
 			msg=""
-			while msg!='done':
+			while True:
 				path,token=next(m.wait())
 				# msg=c.read(path).decode()
 				msg=c.read(path)
 				# self.threadLock.acquire()		
+				if 'reset' in msg.decode():
+					self.ovh_cnt=0
 				if self.ovh_cnt==0:
 					heart_rate=-1
 					try :
