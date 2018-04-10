@@ -38,6 +38,9 @@ if 'thru' in lat_or_thruput:
 	hb.heartbeat_beat()
 	comm.write("heart_rate","reset")
 	print( (time.time()-st)/100)
+	
+	hb.heartbeat_beat()
+
 	print(hb.get_global_heartrate())
 	print(1/hb.get_global_heartrate())
 
