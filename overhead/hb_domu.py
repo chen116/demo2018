@@ -123,7 +123,10 @@ else:
 
 
 		# print( np.average((rxs-txs)/2+(txs-hbs)))
-		print( np.average((rxs-txs)/2))
+		try:
+			print( np.average((rxs-txs)/2))
+		except:
+			print('meow')
 		# print(rx_timestamps)
 
 			
