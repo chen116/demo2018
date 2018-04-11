@@ -55,7 +55,7 @@ if 'thru' in lat_or_thruput:
 
 
 
-	# hb.heartbeat_finish()
+	hb.heartbeat_finish()
 else:
 	class MonitorThread(threading.Thread):
 		def __init__(self):
