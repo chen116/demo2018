@@ -102,7 +102,7 @@ else:
 
 	tx_timestamps=[]
 	hb_timestamps=[]
-
+	rx_timestamps=[0 for i in range(10)]
 	for i in range(10):
 	# hb stuff
 
@@ -118,7 +118,7 @@ else:
 				try:
 					msg = int(c.read(self.key_path_hash).decode())
 					# self.rx_timestamps.append(time.time())
-					self.rx_timestamps[msg]=(time.time())
+					rx_timestamps[msg]=(time.time())
 					print(msg)
 				except:
 					msg = -1
