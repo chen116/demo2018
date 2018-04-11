@@ -37,8 +37,8 @@ if 'thru' in lat_or_thruput:
 		hb.heartbeat_beat()
 		comm.write("heart_rate",i)
 
-	# hb.heartbeat_beat()
-	# comm.write("heart_rate","reset")
+	hb.heartbeat_beat()
+	comm.write("heart_rate","reset")
 
 	# a= np.random.rand(500, 500)
 	# b= np.random.rand(500,500)
