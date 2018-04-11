@@ -21,28 +21,28 @@ lat_or_thruput=sys.argv[1]
 
 # thruput
 if 'thru' in lat_or_thruput:
-	window_size_hr=5
-	hb = heartbeat.Heartbeat(1024,window_size_hr,1000,"vic.log",10,1000)
-	#            shm_key, win_size,buf_depth,log_file,min_target,max_target):
-	monitoring_items = ["heart_rate","app_mode"]
-	comm = heartbeat.DomU(monitoring_items)
+	# window_size_hr=5
+	# hb = heartbeat.Heartbeat(1024,window_size_hr,1000,"vic.log",10,1000)
+	# #            shm_key, win_size,buf_depth,log_file,min_target,max_target):
+	# monitoring_items = ["heart_rate","app_mode"]
+	# comm = heartbeat.DomU(monitoring_items)
 	# print("start")
 	st = time.time()
 	for i in range(int(1e3)-1):
 	# hb stuff
 
-		# a= np.random.rand(500, 500)
-		# b= np.random.rand(500, 500)
-		# c= np.dot(b,a.T)
-		hb.heartbeat_beat()
-		comm.write("heart_rate",i)
+		a= np.random.rand(500, 500)
+		b= np.random.rand(500, 500)
+		c= np.dot(b,a.T)
+		# hb.heartbeat_beat()
+		# comm.write("heart_rate",i)
 
-	hb.heartbeat_beat()
-	comm.write("heart_rate","reset")
+	# hb.heartbeat_beat()
+	# comm.write("heart_rate","reset")
 
-	# a= np.random.rand(500, 500)
-	# b= np.random.rand(500,500)
-	# c= np.dot(b,a.T)
+	a= np.random.rand(500, 500)
+	b= np.random.rand(500,500)
+	c= np.dot(b,a.T)
 	time_now = time.time()
 
 	print(int(1e3)/(time_now-st))
@@ -55,7 +55,7 @@ if 'thru' in lat_or_thruput:
 
 
 
-	hb.heartbeat_finish()
+	# hb.heartbeat_finish()
 else:
 	class MonitorThread(threading.Thread):
 		def __init__(self):
