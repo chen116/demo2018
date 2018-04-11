@@ -52,7 +52,7 @@ if 'thru' in lat_or_thruput:
 	# comm = heartbeat.DomU(monitoring_items)
 	# print("start")
 	st = time.time()
-	for i in range(10000-1):
+	for i in range(100000-1):
 	# hb stuff
 		mm()
 		# hb.heartbeat_beat()
@@ -62,8 +62,8 @@ if 'thru' in lat_or_thruput:
 	# comm.write("heart_rate","reset")
 
 	mm()
-	print(1/  ((time.time()-st)/10000))
-	print( (time.time()-st)/10000)
+	print(1/  ((time.time()-st)/100000))
+	print( (time.time()-st)/100000)
 
 	# hb.heartbeat_beat()
 
