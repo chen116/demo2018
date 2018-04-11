@@ -69,7 +69,7 @@ if 'thru' in lat_or_thruput:
 	c= np.dot(b,a.T)
 	time_now = time.time()
 
-	print(1/  ((time_now-st)/int(1e2)))
+	print(int(1e2)/(time_now-st))
 	print( (time_now-st)/int(1))
 
 	# hb.heartbeat_beat()
