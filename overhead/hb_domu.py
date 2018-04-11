@@ -98,7 +98,10 @@ else:
 
 	# tmp_thread = MonitorThread()
 	# tmp_thread.start()
-
+	key_path_hash=None
+	with Client(xen_bus_path="/dev/xen/xenbus") as c:
+		domu_id = c.read("domid".encode())
+		key_path_hash=('/local/domain/'+self.domu_id.decode()+'/app_mode').encode()
 
 	tx_timestamps=[]
 	hb_timestamps=[]
@@ -116,7 +119,7 @@ else:
 		with Client(xen_bus_path="/dev/xen/xenbus") as c:
 			while msg!=i:
 				try:
-					msg = int(c.read(self.key_path_hash).decode())
+					msg = int(c.read(key_path_hash).decode())
 					# self.rx_timestamps.append(time.time())
 					rx_timestamps[msg]=(time.time())
 					print(msg)
