@@ -72,7 +72,7 @@ else:
 						msg = int(c.read(self.key_path_hash).decode())
 						# self.rx_timestamps.append(time.time())
 						self.rx_timestamps[msg]=(time.time())
-						# print(msg)
+						print(msg)
 					except:
 						msg = -1
 				tmp_msg=msg
@@ -82,7 +82,7 @@ else:
 						tmp_msg=msg
 						# self.rx_timestamps.append(time.time())
 						self.rx_timestamps[msg]=(time.time())
-						# print(msg)
+						print(msg)
 				c.write(self.key_path_hash, 'reset'.encode())
 
 
@@ -152,7 +152,7 @@ else:
 
 	# print( np.average((rxs-txs)/2+(txs-hbs)))
 
-	print(((rxs-txs)/2))
+	print(np.average((rxs-txs)/2))
 
 		# print(rx_timestamps)
 	# hb.heartbeat_finish()
