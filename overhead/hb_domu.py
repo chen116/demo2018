@@ -127,6 +127,8 @@ else:
 					msg = -1
 
 		# print(i)
+	with Client(xen_bus_path="/dev/xen/xenbus") as c:
+		c.write(key_path_hash, 'reset'.encode())
 
 
 # #print("hb: before get_instant_heartrate()")
