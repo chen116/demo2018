@@ -122,7 +122,7 @@ else:
 					msg = int(c.read(key_path_hash).decode())
 					# self.rx_timestamps.append(time.time())
 					rx_timestamps[msg]=(time.time())
-					print(msg)
+					# print(msg)
 				except:
 					msg = -1
 
