@@ -25,7 +25,7 @@ if 'thru' in lat_or_thruput:
 	# window_size_hr=5
 	# hb = heartbeat.Heartbeat(1024,window_size_hr,1000,"vic.log",10,1000)
 	# #            shm_key, win_size,buf_depth,log_file,min_target,max_target):
-	# monitoring_items = ["heart_rate","app_mode"]
+	monitoring_items = ["heart_rate","app_mode"]
 	comm = heartbeat.DomU(monitoring_items)
 	# print("start")
 	st = time.time()
