@@ -65,10 +65,10 @@ if 'thru' in lat_or_thruput:
 	print(1/  ((time.time()-st)/1000))
 	print( (time.time()-st)/1000)
 
-	hb.heartbeat_beat()
+	# hb.heartbeat_beat()
 
-	print(hb.get_global_heartrate())
-	print(1/hb.get_global_heartrate())
+	# print(hb.get_global_heartrate())
+	# print(1/hb.get_global_heartrate())
 
 
 
