@@ -124,7 +124,7 @@ else:
 
 					if rx_timestamps[msg]==0:
 						rx_timestamps[msg]=(time.time()) 
-						print(msg)
+						# print(msg)
 				except:
 					msg = -1
 
