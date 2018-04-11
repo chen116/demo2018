@@ -106,17 +106,17 @@ else:
 	tx_timestamps=[]
 	hb_timestamps=[]
 	rx_timestamps=[0 for i in range(1000)]
-	for i in range(1000):
-	# hb stuff
+	with Client(xen_bus_path="/dev/xen/xenbus") as c:
+		for i in range(1000):
+		# hb stuff
 
-		# hb_timestamps.append(time.time())
-		# hb.heartbeat_beat()
-		# window_hr = hb.get_window_heartrate()
-		# hb_timestamps.append(time.time())
-		comm.write("heart_rate",str(i))
-		tx_timestamps.append(time.time())
-		msg=-1
-		with Client(xen_bus_path="/dev/xen/xenbus") as c:
+			# hb_timestamps.append(time.time())
+			# hb.heartbeat_beat()
+			# window_hr = hb.get_window_heartrate()
+			# hb_timestamps.append(time.time())
+			comm.write("heart_rate",str(i))
+			tx_timestamps.append(time.time())
+			msg=-1
 			while msg!=i:
 				try:
 					msg = int(c.read(key_path_hash).decode())
