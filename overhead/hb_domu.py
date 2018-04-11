@@ -171,7 +171,7 @@ else:
 	# print( np.average((rxs-txs)/2+(txs-hbs)))
 
 	print(np.average((rxs-txs)/2))
-	print(((rxs-txs)/2))
+	# print(((rxs-txs)/2))
 
 		# print(rx_timestamps)
 	# hb.heartbeat_finish()
