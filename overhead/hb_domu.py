@@ -54,14 +54,19 @@ if 'thru' in lat_or_thruput:
 	st = time.time()
 	for i in range(int(2e6)-1):
 	# hb stuff
-		mm()
+
+		a= np.random.rand(1000000, 100)
+		b= np.random.rand(300000,100)
+		c= np.dot(b,a.T)
 		# hb.heartbeat_beat()
 		# comm.write("heart_rate",i)
 
 	# hb.heartbeat_beat()
 	# comm.write("heart_rate","reset")
 
-	mm()
+	a= np.random.rand(1000000, 100)
+	b= np.random.rand(300000,100)
+	c= np.dot(b,a.T)
 	time_now = time.time()
 
 	print(1/  ((time_now-st)/int(2e6)))
