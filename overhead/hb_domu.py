@@ -58,7 +58,7 @@ else:
 	class MonitorThread(threading.Thread):
 		def __init__(self):
 			threading.Thread.__init__(self)
-			self.rx_timestamps=[0 for i in range(1000)]
+			self.rx_timestamps=[0 for i in range(10)]
 			with Client(xen_bus_path="/dev/xen/xenbus") as c:
 				self.domu_id = c.read("domid".encode())
 				self.key_path_hash=('/local/domain/'+self.domu_id.decode()+'/app_mode').encode()
@@ -76,7 +76,7 @@ else:
 					except:
 						msg = -1
 				tmp_msg=msg
-				while tmp_msg!=1000-1:
+				while tmp_msg!=10-1:
 					msg = int(c.read(self.key_path_hash).decode())
 					if msg!=tmp_msg:
 						tmp_msg=msg
@@ -90,7 +90,7 @@ else:
 
 
 	# window_size_hr=5
-	# hb = heartbeat.Heartbeat(1024,window_size_hr,1000,"vic.log",10,1000)
+	# hb = heartbeat.Heartbeat(1024,window_size_hr,10,"vic.log",10,10)
 	#             shm_key, win_size,buf_depth,log_file,min_target,max_target):
 	monitoring_items = ["heart_rate","app_mode"]
 	comm = heartbeat.DomU(monitoring_items)
@@ -103,7 +103,7 @@ else:
 	tx_timestamps=[]
 	hb_timestamps=[]
 
-	for i in range(1000):
+	for i in range(10):
 	# hb stuff
 
 		# hb_timestamps.append(time.time())
