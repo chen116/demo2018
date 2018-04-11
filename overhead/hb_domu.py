@@ -101,7 +101,7 @@ else:
 	key_path_hash=None
 	with Client(xen_bus_path="/dev/xen/xenbus") as c:
 		domu_id = c.read("domid".encode())
-		key_path_hash=('/local/domain/'+self.domu_id.decode()+'/app_mode').encode()
+		key_path_hash=('/local/domain/'+domu_id.decode()+'/app_mode').encode()
 
 	tx_timestamps=[]
 	hb_timestamps=[]
