@@ -96,8 +96,8 @@ else:
 	comm = heartbeat.DomU(monitoring_items)
 
 
-	tmp_thread = MonitorThread()
-	tmp_thread.start()
+	# tmp_thread = MonitorThread()
+	# tmp_thread.start()
 
 
 	tx_timestamps=[]
@@ -112,6 +112,17 @@ else:
 		# hb_timestamps.append(time.time())
 		comm.write("heart_rate",str(i))
 		tx_timestamps.append(time.time())
+		msg=-1
+		with Client(xen_bus_path="/dev/xen/xenbus") as c:
+			while msg!=i:
+				try:
+					msg = int(c.read(self.key_path_hash).decode())
+					# self.rx_timestamps.append(time.time())
+					self.rx_timestamps[msg]=(time.time())
+					print(msg)
+				except:
+					msg = -1
+
 		# print(i)
 
 
@@ -121,8 +132,8 @@ else:
 
 
 
-	tmp_thread.join()
-	rx_timestamps = tmp_thread.rx_timestamps
+	# tmp_thread.join()
+	# rx_timestamps = tmp_thread.rx_timestamps
 	hbs = np.asarray(hb_timestamps)
 	valid_indecies= [i for i, x in enumerate(rx_timestamps) if x != 0]
 
