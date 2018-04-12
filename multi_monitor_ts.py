@@ -211,7 +211,7 @@ class MonitorThread(threading.Thread):
 						cur_w=int(vcpu['w'])
 
 				alpha=1
-				beta=.5
+				beta=.25
 				free = self.timeslice_us-cur_w
 
 				if(heart_rate<self.min_heart_rate):
