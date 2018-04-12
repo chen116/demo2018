@@ -162,7 +162,7 @@ class MonitorThread(threading.Thread):
 						cur_b=self.timeslice_us-free
 						xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
 						xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
-				if(heart_rate>self.max_heart_rate):
+				if(heart_rate>self.min_heart_rate):
 					if cur_b>minn:
 						free+=alpha*minn
 						cur_b=self.timeslice_us-free
@@ -220,7 +220,7 @@ class MonitorThread(threading.Thread):
 						cur_w=self.timeslice_us-free
 						xen_interface.sched_credit(self.domuid,cur_w)
 						xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_w)
-				if(heart_rate>self.max_heart_rate):
+				if(heart_rate>self.min_heart_rate):
 					if cur_w>minn:
 						free+=alpha*minn
 						cur_w=self.timeslice_us-free
