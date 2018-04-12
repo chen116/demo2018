@@ -36,6 +36,7 @@ if 'thru' in lat_or_thruput:
 		# c= np.dot(b,a.T)
 		hb.heartbeat_beat()
 		comm.write("heart_rate",i)
+		print(time.time())
 
 	# hb.heartbeat_beat()
 	# comm.write("heart_rate","reset")
