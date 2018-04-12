@@ -152,29 +152,47 @@ class MonitorThread(threading.Thread):
 				for vcpu in myinfo:
 					if vcpu['pcpu']!=-1:
 						cur_b=int(vcpu['b'])
+				alpha=1
+				beta=.5
+				free = self.timeslice_us-cur_b
 
 				if(heart_rate<self.min_heart_rate):
 					if cur_b<self.timeslice_us-minn:
-						cur_b+=minn
+						free=free*beta
+						cur_b=self.timeslice_us-free
 						xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
 						xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
 				if(heart_rate>self.max_heart_rate):
 					if cur_b>minn:
-						cur_b-=minn
+						free+=alpha*minn
+						cur_b=self.timeslice_us-free
 						xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
 						xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
 
 
-				if heart_rate<=self.max_heart_rate and heart_rate >= self.min_heart_rate:
-					self.target_reached_cnt+=1
-					if self.target_reached_cnt==150:
-						self.target_reached_cnt-=15
-						if cur_b>minn:
-							cur_b-=minn
-							xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
-							xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
-				else:
-					self.target_reached_cnt=0
+
+				# if(heart_rate<self.min_heart_rate):
+				# 	if cur_b<self.timeslice_us-minn:
+				# 		cur_b+=minn
+				# 		xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
+				# 		xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
+				# if(heart_rate>self.max_heart_rate):
+				# 	if cur_b>minn:
+				# 		cur_b-=minn
+				# 		xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
+				# 		xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
+
+
+				# if heart_rate<=self.max_heart_rate and heart_rate >= self.min_heart_rate:
+				# 	self.target_reached_cnt+=1
+				# 	if self.target_reached_cnt==150:
+				# 		self.target_reached_cnt-=15
+				# 		if cur_b>minn:
+				# 			cur_b-=minn
+				# 			xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
+				# 			xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
+				# else:
+				# 	self.target_reached_cnt=0
 
 
 				myinfo = self.shared_data[self.domuid]
@@ -192,26 +210,43 @@ class MonitorThread(threading.Thread):
 					if vcpu['pcpu']!=-1:
 						cur_w=int(vcpu['w'])
 
+				alpha=1
+				beta=.5
+				free = self.timeslice_us-cur_w
+
 				if(heart_rate<self.min_heart_rate):
 					if cur_w<self.timeslice_us-minn:
-						cur_w+=minn
+						free=free*beta
+						cur_w=self.timeslice_us-free
 						xen_interface.sched_credit(self.domuid,cur_w)
 						xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_w)
 				if(heart_rate>self.max_heart_rate):
 					if cur_w>minn:
-						cur_w-=minn
+						free+=alpha*minn
+						cur_w=self.timeslice_us-free
 						xen_interface.sched_credit(self.domuid,cur_w)
 						xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_w)
-				if heart_rate<=self.max_heart_rate and heart_rate >= self.min_heart_rate:
-					self.target_reached_cnt+=1
-					if self.target_reached_cnt==150:
-						self.target_reached_cnt-=15
-						if cur_w>minn:
-							cur_w-=minn
-							xen_interface.sched_credit(self.domuid,cur_w)
-							xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_w)
-				else:
-					self.target_reached_cnt=0
+
+				# if(heart_rate<self.min_heart_rate):
+				# 	if cur_w<self.timeslice_us-minn:
+				# 		cur_w+=minn
+				# 		xen_interface.sched_credit(self.domuid,cur_w)
+				# 		xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_w)
+				# if(heart_rate>self.max_heart_rate):
+				# 	if cur_w>minn:
+				# 		cur_w-=minn
+				# 		xen_interface.sched_credit(self.domuid,cur_w)
+				# 		xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_w)
+				# if heart_rate<=self.max_heart_rate and heart_rate >= self.min_heart_rate:
+				# 	self.target_reached_cnt+=1
+				# 	if self.target_reached_cnt==150:
+				# 		self.target_reached_cnt-=15
+				# 		if cur_w>minn:
+				# 			cur_w-=minn
+				# 			xen_interface.sched_credit(self.domuid,cur_w)
+				# 			xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_w)
+				# else:
+				# 	self.target_reached_cnt=0
 				myinfo = self.shared_data[self.domuid]
 				cnt=0
 				for vcpu in myinfo:
