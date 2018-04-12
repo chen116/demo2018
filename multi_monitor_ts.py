@@ -153,7 +153,7 @@ class MonitorThread(threading.Thread):
 					if vcpu['pcpu']!=-1:
 						cur_b=int(vcpu['b'])
 				alpha=1
-				beta=.75
+				beta=.9
 				free = self.timeslice_us-cur_b
 
 				if(heart_rate<self.min_heart_rate):
@@ -211,7 +211,7 @@ class MonitorThread(threading.Thread):
 						cur_w=int(vcpu['w'])
 
 				alpha=1
-				beta=.75
+				beta=.9
 				free = self.timeslice_us-cur_w
 
 				if(heart_rate<self.min_heart_rate):
