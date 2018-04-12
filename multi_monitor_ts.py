@@ -153,7 +153,7 @@ class MonitorThread(threading.Thread):
 					if vcpu['pcpu']!=-1:
 						cur_b=int(vcpu['b'])
 				alpha=1
-				beta=.25
+				beta=.1
 				free = self.timeslice_us-cur_b
 
 				if(heart_rate<self.min_heart_rate):
@@ -164,7 +164,7 @@ class MonitorThread(threading.Thread):
 						xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
 				if(heart_rate>self.min_heart_rate):
 					if cur_b>minn:
-						free+=alpha*minn
+						free+=alpha*10
 						cur_b=self.timeslice_us-free
 						xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
 						xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
@@ -222,7 +222,7 @@ class MonitorThread(threading.Thread):
 						xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_w)
 				if(heart_rate>self.min_heart_rate):
 					if cur_w>minn:
-						free+=alpha*minn
+						free+=alpha*10
 						cur_w=self.timeslice_us-free
 						xen_interface.sched_credit(self.domuid,cur_w)
 						xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_w)
