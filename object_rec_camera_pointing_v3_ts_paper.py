@@ -204,7 +204,7 @@ threads = []
 every_n_frame = {'cnt':-1,'n':6}
 window_size_hr=6
 threadLock = threading.Lock()
-total_num_threads = 3
+total_num_threads = 6
 num_threads_exiting = 0
 
 def start_server():
