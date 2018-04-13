@@ -307,7 +307,7 @@ time.sleep(4.0)
 cat_frame = vs.read()  # outvid
 for x in range(100):  # outvid
 	cat_frame = vs.read()  # outvid
-	cv2.imshow("Frame", cat_frame)
+
 
 
 # setup mulithreads
@@ -334,7 +334,7 @@ pointat = 0
 prev_personincam = personincam
 while vs.more(): # outvid
 # while True: # realvid
-
+	print('mewo')
 	frame = vs.read()
 	if frame is not None:
 		# frame = cat_frame # outvid
