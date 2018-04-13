@@ -347,7 +347,7 @@ while vs.more(): # outvid
 
 
 	if frame is not None:
-		# frame = cat_frame # outvid
+		frame = cat_frame # outvid
 		current_f_size=w1.get()
 		if current_f_size == 0:
 			threadLock.acquire()
