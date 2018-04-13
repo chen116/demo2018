@@ -203,7 +203,7 @@ output_q = Queue()
 threads = []
 every_n_frame = {'cnt':-1,'n':m1.get()}
 threadLock = threading.Lock()
-total_num_threads = 5
+total_num_threads = 3
 num_threads_exiting = 0
 
 def start_server():
@@ -332,8 +332,8 @@ pointat = 0
 # loop over the frames from the video stream
 
 prev_personincam = personincam
-while vs.more(): # outvid
-# while True: # realvid
+# while vs.more(): # outvid
+while True: # realvid
 
 	frame = vs.read()
 	# current_f_size=w1.get()
@@ -342,7 +342,6 @@ while vs.more(): # outvid
 	# fps.update()
 	# master.update_idletasks()
 	# master.update()
-
 
 
 
