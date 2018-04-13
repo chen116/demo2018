@@ -269,7 +269,7 @@ centered = 1
 #	help="minimum probability to filter weak detections")
 #args = vars(ap.parse_args())
 #os.system('python reset_cam.py') 
-mycam.ptz_reset()
+# mycam.ptz_reset()
 # initialize the list of class labels MobileNet SSD was trained to
 # detect, then generate a set of bounding box colors for each class
 CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
