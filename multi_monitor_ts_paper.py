@@ -572,7 +572,8 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid,min_heart_rate,m
 
 
 
-for domuid in ['1']:
+for domuid in c.domu_ids:
+	print(domuid)
 	tmp_thread = MonitorThread(threadLock,shared_data,res_allo,domuid,int(domuid)%2,timeslice_us,min_heart_rate,max_heart_rate, monitoring_items)
 	tmp_thread.start()
 	threads.append(tmp_thread)
