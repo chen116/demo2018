@@ -166,12 +166,13 @@ class MonitorThread(threading.Thread):
 				
 				print(output)
 				if pid_iter>0:
-					if cur_b>=self.timeslice_us-minn:
+					tmp_cur_b = output*cur_b+cur_b
+					if tmp_cur_b>=self.timeslice_us-minn:
 						cur_b=self.timeslice_us-minn
-					elif cur_b<=minn:
+					elif tmp_cur_b<=minn:
 						cur_b=minn
 					else:
-						cur_b=output
+						cur_b=tmp_cur_b
 				print(cur_b)
 				
 		
