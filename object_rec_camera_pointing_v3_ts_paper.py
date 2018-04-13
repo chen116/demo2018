@@ -375,7 +375,7 @@ while True: # realvid
 						endX=prev_box['endX']
 						endY=prev_box['endY']
 						idx=prev_box['idx']
-						label=prev_box['label']
+						label=prev_box['label']+str(order)
 						cv2.rectangle(frame, (startX, startY), (endX, endY),
 							COLORS[idx], 2)
 						y = startY - 15 if startY - 15 > 15 else startY + 15
@@ -419,6 +419,7 @@ while True: # realvid
 							moveleft = 0
 						label = "{}: {:.2f}%".format(CLASSES[idx],
 							confidence * 100)
+						label+=str(order)
 						cv2.rectangle(frame, (startX, startY), (endX, endY),
 							COLORS[idx], 2)
 						y = startY - 15 if startY - 15 > 15 else startY + 15
@@ -440,41 +441,8 @@ while True: # realvid
 			myvec = detections[0,0,:,1]	
 			
 
-			if myvec[0]!=-1:
-				if CLASSES.index(tracking_target) in myvec:
-					personincam = 1
-					prev_personincam=1
-				else:
-					#print('about to send lost message')
-					personincam = 0
-					prev_personincam = 0
-					localtrack = 0
-					sock_client.send(bytes('lost_object','UTF-8'))
-					sentlostmessage = 1
-			else:
-				personincam = prev_personincam
-				if personincam == 0:
-					#print('about to send lost message')
-					personincam = 0
-					prev_personincam = 0
-					localtrack = 0
-					sock_client.send(bytes('lost_object','UTF-8'))
-					sentlostmessage = 1
 
-			if ((localsearch == 0) and (localtrack == 0) and (remotetrack == 1) and (personincam==0)):
-					#print('about to start cruise')
-					mycam.start_cruise('mycruise')
-					localsearch = 1
-					localtrack = 0
-					centered = 0
 
-			if ((localtrack == 0) and (remotetrack ==0) and (centered == 0) and (personincam==0)):
-					#print('about to reset cam')
-					mycam.ptz_reset()
-					centered = 1
-					localsearch = 0
-					localtrack = 0
-					sentfoundmessage = 0
 				#elif ((confidence < 0.2) and (CLASSES[idx2]=='person') and (localsearch==0) and (remotetrack == 1) and (localtrack == 0)):
 				#	#print('about to start cruise')
 				#	mycam.start_horizontal_cruise()
@@ -492,13 +460,10 @@ while True: # realvid
 			# hb stuff
 			# #print("hb: before heartbeat_beat()")
 			hb.heartbeat_beat()
-			# #print("hb: before get_window_heartrate()")
-			window_hr = hb.get_window_heartrate()
-			# #print("hb: before get_instant_heartrate()")
-			# instant_hr = hb.get_instant_heartrate()
-			# #print("hb: after hb stuff")
-			if global_cnt>window_size_hr:
-				comm.write("heart_rate",window_hr)
+			if myvec[0]!=-1:
+				window_hr = hb.get_window_heartrate()
+				if global_cnt>window_size_hr:
+					comm.write("heart_rate",window_hr)
 			# #print('------------------window_hr:',window_hr)
 			# #print('instant_hr:',instant_hr)
 			current_checked = checked.get()
@@ -536,11 +501,7 @@ while True: # realvid
 			#print('personincam =',personincam)
 			#print('sentfoundmessage = ',sentfoundmessage)
 			#print('sentlostmessage = ',sentlostmessage)
-			sentfoundmessage = 0
-			if ((personincam==1) and (sentfoundmessage==0)):
-				#print('about to send found message')
-				sock_client.send(bytes('found_object','UTF-8'))
-				sentfoundmessage = 1
+
 		
 # stop the timer and display FPS information
 fps.stop()
