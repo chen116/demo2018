@@ -345,7 +345,7 @@ while True: # realvid
 						endX=prev_box['endX']
 						endY=prev_box['endY']
 						idx=prev_box['idx']
-						label=prev_box['label']
+						label=str(order)+'--'+prev_box['label']
 						cv2.rectangle(frame, (startX, startY), (endX, endY),
 							COLORS[idx], 2)
 						y = startY - 15 if startY - 15 > 15 else startY + 15
@@ -370,8 +370,8 @@ while True: # realvid
 						(startX, startY, endX, endY) = box.astype("int")
 					#	#print('startX=',startX)
 					#	#print('endX=',endX)
-
-						label = "{}: {:.2f}%".format(CLASSES[idx],
+						label =str(order)+'--'
+						label += "{}: {:.2f}%".format(CLASSES[idx],
 							confidence * 100)
 						cv2.rectangle(frame, (startX, startY), (endX, endY),
 							COLORS[idx], 2)
