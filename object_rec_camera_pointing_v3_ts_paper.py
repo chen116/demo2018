@@ -138,7 +138,7 @@ if True:
 
 
 	m1 = Scale(master,from_=1,to=20,orient=HORIZONTAL)
-	m1.set(5) # init speed
+	m1.set(4) # init speed
 	# m1.pack(side=LEFT)
 
 
@@ -256,21 +256,6 @@ centered = 1
 
 
 
-thread = threading.Thread(target = start_server)
-thread.daemon = True
-thread.start()
-
-
-sock_client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-tempFlag=None
-while tempFlag is None:
-	try:
-		sock_client.connect((sys.argv[4],int(sys.argv[5])))
-		tempFlag=1
-	except:
-		#print("Waiting for other host")
-		time.sleep(1)
-		pass
 
 #setup CAM
 # construct the argument parse and parse the arguments
@@ -590,5 +575,4 @@ mycam1.ptz_reset()
 mycam2.ptz_reset()
 mycam1.set_ptz_speed(4)
 mycam2.set_ptz_speed(4)
-if remotetrack!=-1:
-	sock_client.send(bytes('clean_up','UTF-8'))
+
