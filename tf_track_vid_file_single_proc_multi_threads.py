@@ -290,7 +290,7 @@ while video_capture.more():  # fps._numFrames < 120
         # hb stuff
         hb.heartbeat_beat()
         window_hr = hb.get_window_heartrate()
-        instant_hr = hb.get_instant_heartrate()
+        # instant_hr = hb.get_instant_heartrate()
         comm.write("heart_rate",window_hr)
         print('------------------window_hr:',window_hr)
         print('instant_hr:',instant_hr)
