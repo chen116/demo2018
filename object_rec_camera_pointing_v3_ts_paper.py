@@ -138,7 +138,7 @@ if True:
 
 
 	m1 = Scale(master,from_=1,to=20,orient=HORIZONTAL)
-	m1.set(5) # init speed
+	m1.set() # init speed
 	# m1.pack(side=LEFT)
 
 
@@ -201,9 +201,9 @@ input_q = Queue()  # fps is better if queue is higher but then more lags
 output_q = Queue()
 
 threads = []
-every_n_frame = {'cnt':-1,'n':m1.get()}
+every_n_frame = {'cnt':-1,'n':4}
 threadLock = threading.Lock()
-total_num_threads = 3
+total_num_threads = 4
 num_threads_exiting = 0
 
 def start_server():
@@ -323,7 +323,7 @@ cnt=0
 global_cnt=0
 
 import heartbeat
-window_size_hr=5
+window_size_hr=4
 hb = heartbeat.Heartbeat(1024,window_size_hr,100,"vic.log",10,100)
 monitoring_items = ["heart_rate","app_mode","frame_size","timeslice"]
 comm = heartbeat.DomU(monitoring_items)
@@ -332,8 +332,8 @@ pointat = 0
 # loop over the frames from the video stream
 
 prev_personincam = personincam
-# while vs.more(): # outvid
-while True: # realvid
+while vs.more(): # outvid
+# while True: # realvid
 
 	frame = vs.read()
 	# current_f_size=w1.get()
