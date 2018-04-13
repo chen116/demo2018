@@ -32,7 +32,7 @@ class MonitorThread(threading.Thread):
 		self.threadLock=threadLock
 		self.shared_data=shared_data
 		self.res_allo=res_allo
-		self.anchors = 1
+		self.anchors = 0
 		self.sched = sched
 		self.target_reached_cnt = 0
 		self.min_heart_rate=min_heart_rate
