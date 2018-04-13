@@ -14,7 +14,7 @@ comm = heartbeat.DomU(monitoring_items)
 st = time.time()
 while True:
 # hb stuff
-	for i in range(int(1e4)):
+	for i in range(int(1e2)):
 		a= np.random.rand(500, 500)
 		b= np.random.rand(500, 500)	
 		c= np.dot(b,a.T)
