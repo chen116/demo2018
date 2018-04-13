@@ -202,6 +202,7 @@ output_q = Queue()
 
 threads = []
 every_n_frame = {'cnt':-1,'n':6}
+window_size_hr=6
 threadLock = threading.Lock()
 total_num_threads = 3
 num_threads_exiting = 0
@@ -323,7 +324,7 @@ cnt=0
 global_cnt=0
 
 import heartbeat
-window_size_hr=6
+
 hb = heartbeat.Heartbeat(1024,window_size_hr,100,"vic.log",10,100)
 monitoring_items = ["heart_rate","app_mode","frame_size","timeslice"]
 comm = heartbeat.DomU(monitoring_items)
