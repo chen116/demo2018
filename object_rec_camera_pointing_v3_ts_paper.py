@@ -183,6 +183,7 @@ class Workers(threading.Thread):
 				# self.output_q.put(self.net.forward())
 				# self.output_q.put({'blob':self.net.forward(),'cnt':stuff['cnt']})
 				net_result=self.net.forward()
+				net_result=-1*np.ones((1,1,1,2))
 				# self.output_q.put({'blob':net_result,'cnt':stuff['cnt']})
 				self.output_q.put({'blob':net_result,'cnt':stuff['cnt']})
 
@@ -291,21 +292,21 @@ personincam = 0
 # and initialize the FPS counter
 #print("[INFO] starting video stream...")
 #vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
-vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
-# vs= FileVideoStream("walkcat.mp4").start() # outvid
+# vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
+vs= FileVideoStream("walkcat.mp4").start() # outvid
 
 
 
-tracking_target = "person" # realvid
-# tracking_target = "cat"  # outvid
+# tracking_target = "person" # realvid
+tracking_target = "cat"  # outvid
 
 
 
 time.sleep(2.0)
 
-# cat_frame = vs.read()  # outvid
-# for x in range(10):  # outvid
-# 	cat_frame = vs.read()  # outvid
+cat_frame = vs.read()  # outvid
+for x in range(10):  # outvid
+	cat_frame = vs.read()  # outvid
 
 
 # setup mulithreads
@@ -330,12 +331,12 @@ pointat = 0
 # loop over the frames from the video stream
 
 prev_personincam = personincam
-# while vs.more(): # outvid
-while True: # realvid
+while vs.more(): # outvid
+# while True: # realvid
 
 	frame = vs.read()
 	if frame is not None:
-		# frame = cat_frame # outvid
+		frame = cat_frame # outvid
 		current_f_size=w1.get()
 		if remotetrack == -1 or current_f_size == 0:
 			threadLock.acquire()
@@ -506,7 +507,7 @@ while True: # realvid
 # stop the timer and display FPS information
 fps.stop()
 #print("[INFO] elapsed time: {:.2f}".format(fps.elapsed()))
-#print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
+print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 
 # do a bit of cleanup
 cv2.destroyAllWindows()
