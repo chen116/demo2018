@@ -175,11 +175,8 @@ class MonitorThread(threading.Thread):
 						cur_b=tmp_cur_b
 				print(cur_b)
 				cur_b=int(cur_b)-int(cur_b)%100
-				
-		
-
-				# xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
-				# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
+				xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
+				xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
 
 
 
