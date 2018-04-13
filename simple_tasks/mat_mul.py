@@ -21,7 +21,8 @@ try:
 		hb.heartbeat_beat()
 		comm.write("heart_rate", hb.get_window_heartrate())
 except:
-	comm.write("heart_rate", "done")
+	print("meow")
+	# comm.write("heart_rate", "done")
 
 # hb.heartbeat_beat()
 # comm.write("heart_rate","reset")
