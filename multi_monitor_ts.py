@@ -17,7 +17,7 @@ with open("info.txt", "w") as myfile:
 
 monitoring_items = ["heart_rate","app_mode","frame_size","timeslice"]
 # c = heartbeat.Dom0(monitoring_items,['1','2','3','4'])
-c = heartbeat.Dom0(monitoring_items,['1','2'])
+c = heartbeat.Dom0(monitoring_items,['1'])
 
 
 
