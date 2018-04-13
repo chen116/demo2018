@@ -8,7 +8,10 @@ import threading
 import time
 import pprint
 import sys
+
 from pyxs import Client
+
+import apid
 with open("info.txt", "w") as myfile:
 	myfile.write("")
 
@@ -35,6 +38,8 @@ class MonitorThread(threading.Thread):
 		self.min_heart_rate=min_heart_rate
 		self.max_heart_rate=max_heart_rate
 		self.timeslice_us = timeslice_us
+
+		self.pid = apid.AdapPID(min_heart_rate,0.05)
 
 	def run(self):
 		# Acquire lock to synchronize thread
@@ -152,25 +157,42 @@ class MonitorThread(threading.Thread):
 				for vcpu in myinfo:
 					if vcpu['pcpu']!=-1:
 						cur_b=int(vcpu['b'])
-				alpha=1
-				beta=.9
-				free = self.timeslice_us-cur_b
 
-				if(heart_rate<self.min_heart_rate):
-					if cur_b<self.timeslice_us-minn:
-						free=free*beta
-						cur_b=self.timeslice_us-free
-						xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
-						xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
-				if(heart_rate>self.min_heart_rate):
-					if cur_b>minn:
-						free+=alpha*10
-						cur_b=self.timeslice_us-free
-						xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
-						xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
+
+				# aimd algo
+				output = pid.update(heart_rate)
+				cur_b=output
+
+				if cur_b>=self.timeslice_us-minn:
+					cur_b=self.timeslice_us-minn
+				elif cur_b<=minn:
+					cur_b=minn
+
+				xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
+				xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
 
 
 
+				# aimd algo
+				# alpha=1
+				# beta=.9
+				# free = self.timeslice_us-cur_b
+
+				# if(heart_rate<self.min_heart_rate):
+				# 	if cur_b<self.timeslice_us-minn:
+				# 		free=free*beta
+				# 		cur_b=self.timeslice_us-free
+				# 		xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
+				# 		xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
+				# if(heart_rate>self.min_heart_rate):
+				# 	if cur_b>minn:
+				# 		free+=alpha*10
+				# 		cur_b=self.timeslice_us-free
+				# 		xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
+				# 		xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
+
+
+				# simple algo			
 				# if(heart_rate<self.min_heart_rate):
 				# 	if cur_b<self.timeslice_us-minn:
 				# 		cur_b+=minn
