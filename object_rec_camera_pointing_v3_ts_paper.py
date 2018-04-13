@@ -305,7 +305,7 @@ tracking_target = "cat"  # outvid
 time.sleep(2.0)
 
 cat_frame = vs.read()  # outvid
-for x in range(100):  # outvid
+for x in range(10):  # outvid
 	cat_frame = vs.read()  # outvid
 
 
