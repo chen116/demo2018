@@ -138,7 +138,7 @@ if True:
 
 
 	m1 = Scale(master,from_=1,to=20,orient=HORIZONTAL)
-	m1.set(0) # init speed
+	m1.set(5) # init speed
 	# m1.pack(side=LEFT)
 
 
@@ -183,7 +183,6 @@ class Workers(threading.Thread):
 				# self.output_q.put(self.net.forward())
 				# self.output_q.put({'blob':self.net.forward(),'cnt':stuff['cnt']})
 				net_result=self.net.forward()
-				# net_result=-1*np.ones((1,1,1,2))
 				# self.output_q.put({'blob':net_result,'cnt':stuff['cnt']})
 				self.output_q.put({'blob':net_result,'cnt':stuff['cnt']})
 
@@ -201,46 +200,16 @@ input_q = Queue()  # fps is better if queue is higher but then more lags
 output_q = Queue()
 
 threads = []
-every_n_frame = {'cnt':-1,'n':5}
-window_size_hr=5
+every_n_frame = {'cnt':-1,'n':m1.get()}
 threadLock = threading.Lock()
 total_num_threads = 5
 num_threads_exiting = 0
 
-def start_server():
-	global remotetrack
-	remotetrack = 0
-	s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-	host = socket.gethostname()
-	s.bind((host,int(sys.argv[6])))
-	s.listen(5)
-	#print('server started')
-	while True:
-		connection, address = s.accept()
-		while True:
-			data = connection.recv(64)
-			if (len(data)>0):
-				msg = data.decode('utf-8')
-				if (msg == 'found_object'):
-					#print('remote node found object')
-					remotetrack = 1
-				elif (msg=='lost_object'):
-					#print('remote node lost object')
-					remotetrack = 0
-				elif (msg=='clean_up'):
-					#print('cleanup from other node')
-					remotetrack = -1
-			if not data:
-				break
-			connection.sendall(data)
-		remotetrack = -1
-		connection.close()
-	remotetrack = -1
 
 
 
 
-
+mycam = FoscamCamera(sys.argv[1],88,sys.argv[2],sys.argv[3],daemon=False)
 moveright = 0
 moveleft = 0
 
@@ -258,7 +227,6 @@ centered = 1
 
 
 
-
 #setup CAM
 # construct the argument parse and parse the arguments
 #ap = argparse.ArgumentParser()
@@ -270,7 +238,7 @@ centered = 1
 #	help="minimum probability to filter weak detections")
 #args = vars(ap.parse_args())
 #os.system('python reset_cam.py') 
-# mycam.ptz_reset()
+mycam.ptz_reset()
 # initialize the list of class labels MobileNet SSD was trained to
 # detect, then generate a set of bounding box colors for each class
 CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
@@ -307,8 +275,7 @@ time.sleep(2.0)
 
 # cat_frame = vs.read()  # outvid
 # for x in range(10):  # outvid
-	# cat_frame = vs.read()  # outvid
-
+# 	cat_frame = vs.read()  # outvid
 
 
 # setup mulithreads
@@ -317,14 +284,14 @@ for i in range(total_num_threads):
 	tmp_thread = Workers(threadLock,every_n_frame,i,input_q,output_q)
 	tmp_thread.start()
 	threads.append(tmp_thread)
-
+# prev_box = {}
 prev_boxes = []
 # loop over the frames from the video stream
 cnt=0
 global_cnt=0
 
 import heartbeat
-
+window_size_hr=5
 hb = heartbeat.Heartbeat(1024,window_size_hr,100,"vic.log",10,100)
 monitoring_items = ["heart_rate","app_mode","frame_size","timeslice"]
 comm = heartbeat.DomU(monitoring_items)
@@ -337,19 +304,10 @@ prev_personincam = personincam
 while True: # realvid
 
 	frame = vs.read()
-	# current_f_size=w1.get()
-	# frame = imutils.resize(frame, width=current_f_size)
-	# cv2.imshow("Frame", frame)
-	# fps.update()
-	# master.update_idletasks()
-	# master.update()
-
-
-
 	if frame is not None:
 		# frame = cat_frame # outvid
 		current_f_size=w1.get()
-		if current_f_size == 0:
+		if remotetrack == -1 or current_f_size == 0:
 			threadLock.acquire()
 			every_n_frame['n']=-1
 			threadLock.release()
@@ -387,7 +345,7 @@ while True: # realvid
 						endX=prev_box['endX']
 						endY=prev_box['endY']
 						idx=prev_box['idx']
-						label=str(order)+'--'+prev_box['label']
+						label=prev_box['label']
 						cv2.rectangle(frame, (startX, startY), (endX, endY),
 							COLORS[idx], 2)
 						y = startY - 15 if startY - 15 > 15 else startY + 15
@@ -415,7 +373,6 @@ while True: # realvid
 
 						label = "{}: {:.2f}%".format(CLASSES[idx],
 							confidence * 100)
-						label=str(order)+'--'+label
 						cv2.rectangle(frame, (startX, startY), (endX, endY),
 							COLORS[idx], 2)
 						y = startY - 15 if startY - 15 > 15 else startY + 15
@@ -438,7 +395,6 @@ while True: # realvid
 			
 
 
-
 				#elif ((confidence < 0.2) and (CLASSES[idx2]=='person') and (localsearch==0) and (remotetrack == 1) and (localtrack == 0)):
 				#	#print('about to start cruise')
 				#	mycam.start_horizontal_cruise()
@@ -456,8 +412,11 @@ while True: # realvid
 			# hb stuff
 			# #print("hb: before heartbeat_beat()")
 			hb.heartbeat_beat()
-			# if cnt%window_size_hr==0:
+			# #print("hb: before get_window_heartrate()")
 			window_hr = hb.get_window_heartrate()
+			# #print("hb: before get_instant_heartrate()")
+			# instant_hr = hb.get_instant_heartrate()
+			# #print("hb: after hb stuff")
 			if global_cnt>window_size_hr:
 				comm.write("heart_rate",window_hr)
 			# #print('------------------window_hr:',window_hr)
@@ -502,7 +461,7 @@ while True: # realvid
 # stop the timer and display FPS information
 fps.stop()
 #print("[INFO] elapsed time: {:.2f}".format(fps.elapsed()))
-print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
+#print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 
 # do a bit of cleanup
 cv2.destroyAllWindows()
