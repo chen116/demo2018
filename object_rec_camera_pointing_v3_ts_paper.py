@@ -338,7 +338,7 @@ while vs.more(): # outvid
 	if frame is not None:
 		# frame = cat_frame # outvid
 		current_f_size=w1.get()
-		if remotetrack == -1 or current_f_size == 0:
+		if current_f_size == 0:
 			threadLock.acquire()
 			every_n_frame['n']=-1
 			threadLock.release()
@@ -348,18 +348,18 @@ while vs.more(): # outvid
 				input_q.put({'cnt':-1})
 			break		
 
-		if current_f_size > 0:
-			frame = imutils.resize(frame, width=current_f_size)
-			# grab the frame dimensions and convert it to a blob
-			(h, w) = frame.shape[:2]
-			blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)),
-				0.007843, (300, 300), 127.5)
-			threadLock.acquire()
-			every_n_frame['n']=m1.get()
-			threadLock.release()
-			stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
-			cnt+=1
-			input_q.put(stuff)
+		# if current_f_size > 0:
+		# 	frame = imutils.resize(frame, width=current_f_size)
+		# 	# grab the frame dimensions and convert it to a blob
+		# 	(h, w) = frame.shape[:2]
+		# 	blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)),
+		# 		0.007843, (300, 300), 127.5)
+		# 	threadLock.acquire()
+		# 	every_n_frame['n']=m1.get()
+		# 	threadLock.release()
+		# 	stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
+		# 	cnt+=1
+		# 	input_q.put(stuff)
 	cv2.imshow("Frame", frame)
 	fps.update()
 	master.update_idletasks()
