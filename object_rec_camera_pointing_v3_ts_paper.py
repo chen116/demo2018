@@ -336,7 +336,7 @@ while vs.more(): # outvid
 # while True: # realvid
 
 	frame = vs.read()
-
+	current_f_size=w1.get()
 	frame = imutils.resize(frame, width=current_f_size)
 	cv2.imshow("Frame", frame)
 	fps.update()
