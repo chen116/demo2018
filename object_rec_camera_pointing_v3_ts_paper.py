@@ -311,10 +311,10 @@ for x in range(10):  # outvid
 
 # setup mulithreads
 
-# for i in range(total_num_threads):
-# 	tmp_thread = Workers(threadLock,every_n_frame,i,input_q,output_q)
-# 	tmp_thread.start()
-# 	threads.append(tmp_thread)
+for i in range(total_num_threads):
+	tmp_thread = Workers(threadLock,every_n_frame,i,input_q,output_q)
+	tmp_thread.start()
+	threads.append(tmp_thread)
 
 prev_boxes = []
 # loop over the frames from the video stream
