@@ -239,7 +239,7 @@ def start_server():
 
 
 
-mycam = FoscamCamera(sys.argv[1],88,sys.argv[2],sys.argv[3],daemon=False)
+
 moveright = 0
 moveleft = 0
 
@@ -336,173 +336,167 @@ while vs.more(): # outvid
 # while True: # realvid
 
 	frame = vs.read()
-	if frame is not None:
-		# frame = cat_frame # outvid
-		current_f_size=w1.get()
-		if current_f_size == 0:
-			threadLock.acquire()
-			every_n_frame['n']=-1
-			threadLock.release()
-			while not input_q.empty():
-				x=input_q.get()		
-			for i in range(total_num_threads):
-				input_q.put({'cnt':-1})
-			break		
 
-		if current_f_size > 0:
-			frame = imutils.resize(frame, width=current_f_size)
-			# grab the frame dimensions and convert it to a blob
-			(h, w) = frame.shape[:2]
-			blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)),
-				0.007843, (300, 300), 127.5)
-			threadLock.acquire()
-			every_n_frame['n']=m1.get()
-			threadLock.release()
-			stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
-			cnt+=1
-			input_q.put(stuff)
+	frame = imutils.resize(frame, width=current_f_size)
+	cv2.imshow("Frame", frame)
+	fps.update()
+	master.update_idletasks()
+	master.update()
 
-		if not output_q.empty():
-			stuff = output_q.get()
-			detections = stuff['blob']
-			order = stuff['cnt']
-			#print('output cnt:',order,'global cnt:',global_cnt)
-			global_cnt+=1
 
-			if detections[0][0][0][0] == -1:
-				if len(prev_boxes)>0:
-					for prev_box in prev_boxes:
-						startX=prev_box['startX']
-						startY=prev_box['startY']
-						endX=prev_box['endX']
-						endY=prev_box['endY']
-						idx=prev_box['idx']
-						label=str(order)+'--'+prev_box['label']
-						cv2.rectangle(frame, (startX, startY), (endX, endY),
-							COLORS[idx], 2)
-						y = startY - 15 if startY - 15 > 15 else startY + 15
-						cv2.putText(frame, label, (startX, y),
-							cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)					
-			else:
-				prev_boxes=[]
-				for i in np.arange(0, detections.shape[2]):
-					# extract the confidence (i.e., probability) associated with
-					# the prediction
-					confidence = detections[0, 0, i, 2]
-					idx2 = int(detections[0,0,i,1])
-					# filter out weak detections by ensuring the `confidence` is
-					# greater than the minimum confidence
-					if ((confidence > 0.2) and (CLASSES[idx2]==tracking_target)):
-						# extract the index of the class label from the
-						# `detections`, then compute the (x, y)-coordinates of
-						# the bounding box for the object
-						# #print('catttttttttttttttttt')
-						idx = int(detections[0, 0, i, 1])
-						box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
-						(startX, startY, endX, endY) = box.astype("int")
-					#	#print('startX=',startX)
-					#	#print('endX=',endX)
-						if(((startX+endX)/2<(L*w)) and (moveleft==0)):
-							mycam.ptz_move_left()
-							moveleft = 1
-							moveright = 0
-						#	canpoint = 0
-						#	pointat = time.time()+0.3 
-						elif(((startX+endX)/2>(R*w)) and (moveright==0)):
-							mycam.ptz_move_right()
-							moveright = 1
-							moveleft = 0
-						#	canpoint = 0
-						#	pointat = time.time()+0.3
-						# draw the prediction on the frame
-						elif((((startX+endX)/2>(L*w)) and (((startX+endX)/2)<(R*w))))and((moveright==1)or(moveleft==1)):
-							mycam.ptz_stop_run()
-							moveright = 0
-							moveleft = 0
-						label = "{}: {:.2f}%".format(CLASSES[idx],
-							confidence * 100)
-						label=str(order)+'--'+label
-						cv2.rectangle(frame, (startX, startY), (endX, endY),
-							COLORS[idx], 2)
-						y = startY - 15 if startY - 15 > 15 else startY + 15
-						cv2.putText(frame, label, (startX, y),
-							cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)
-						prev_box = {}
-						prev_box['startX']=startX
-						prev_box['startY']=startY
-						prev_box['endX']=endX
-						prev_box['endY']=endY
-						prev_box['idx']=idx
-						prev_box['label']= "recalculating..."
-						prev_boxes.append(prev_box)
-						localtrack = 1
-						localsearch = 0
-						sentlostmessage = 0
-						centered = 0
 
-			myvec = detections[0,0,:,1]	
+
+	# if frame is not None:
+	# 	# frame = cat_frame # outvid
+	# 	current_f_size=w1.get()
+	# 	if current_f_size == 0:
+	# 		threadLock.acquire()
+	# 		every_n_frame['n']=-1
+	# 		threadLock.release()
+	# 		while not input_q.empty():
+	# 			x=input_q.get()		
+	# 		for i in range(total_num_threads):
+	# 			input_q.put({'cnt':-1})
+	# 		break		
+
+	# 	if current_f_size > 0:
+	# 		frame = imutils.resize(frame, width=current_f_size)
+	# 		# grab the frame dimensions and convert it to a blob
+	# 		(h, w) = frame.shape[:2]
+	# 		blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)),
+	# 			0.007843, (300, 300), 127.5)
+	# 		threadLock.acquire()
+	# 		every_n_frame['n']=m1.get()
+	# 		threadLock.release()
+	# 		stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
+	# 		cnt+=1
+	# 		input_q.put(stuff)
+
+	# 	if not output_q.empty():
+	# 		stuff = output_q.get()
+	# 		detections = stuff['blob']
+	# 		order = stuff['cnt']
+	# 		#print('output cnt:',order,'global cnt:',global_cnt)
+	# 		global_cnt+=1
+
+	# 		if detections[0][0][0][0] == -1:
+	# 			if len(prev_boxes)>0:
+	# 				for prev_box in prev_boxes:
+	# 					startX=prev_box['startX']
+	# 					startY=prev_box['startY']
+	# 					endX=prev_box['endX']
+	# 					endY=prev_box['endY']
+	# 					idx=prev_box['idx']
+	# 					label=str(order)+'--'+prev_box['label']
+	# 					cv2.rectangle(frame, (startX, startY), (endX, endY),
+	# 						COLORS[idx], 2)
+	# 					y = startY - 15 if startY - 15 > 15 else startY + 15
+	# 					cv2.putText(frame, label, (startX, y),
+	# 						cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)					
+	# 		else:
+	# 			prev_boxes=[]
+	# 			for i in np.arange(0, detections.shape[2]):
+	# 				# extract the confidence (i.e., probability) associated with
+	# 				# the prediction
+	# 				confidence = detections[0, 0, i, 2]
+	# 				idx2 = int(detections[0,0,i,1])
+	# 				# filter out weak detections by ensuring the `confidence` is
+	# 				# greater than the minimum confidence
+	# 				if ((confidence > 0.2) and (CLASSES[idx2]==tracking_target)):
+	# 					# extract the index of the class label from the
+	# 					# `detections`, then compute the (x, y)-coordinates of
+	# 					# the bounding box for the object
+	# 					# #print('catttttttttttttttttt')
+	# 					idx = int(detections[0, 0, i, 1])
+	# 					box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
+	# 					(startX, startY, endX, endY) = box.astype("int")
+	# 				#	#print('startX=',startX)
+	# 				#	#print('endX=',endX)
+
+	# 					label = "{}: {:.2f}%".format(CLASSES[idx],
+	# 						confidence * 100)
+	# 					label=str(order)+'--'+label
+	# 					cv2.rectangle(frame, (startX, startY), (endX, endY),
+	# 						COLORS[idx], 2)
+	# 					y = startY - 15 if startY - 15 > 15 else startY + 15
+	# 					cv2.putText(frame, label, (startX, y),
+	# 						cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)
+	# 					prev_box = {}
+	# 					prev_box['startX']=startX
+	# 					prev_box['startY']=startY
+	# 					prev_box['endX']=endX
+	# 					prev_box['endY']=endY
+	# 					prev_box['idx']=idx
+	# 					prev_box['label']= "recalculating..."
+	# 					prev_boxes.append(prev_box)
+	# 					localtrack = 1
+	# 					localsearch = 0
+	# 					sentlostmessage = 0
+	# 					centered = 0
+
+	# 		myvec = detections[0,0,:,1]	
 			
 
 
 
-				#elif ((confidence < 0.2) and (CLASSES[idx2]=='person') and (localsearch==0) and (remotetrack == 1) and (localtrack == 0)):
-				#	#print('about to start cruise')
-				#	mycam.start_horizontal_cruise()
-				#	localsearch = 1
-				#	localtrack = 0
-				#elif ((confidence < 0.2) and (CLASSES[idx2]=='person') and (localsearch==0) and (remotetrack == 0) and (centered==0)):
-				#	#print('about tor reset cam')
-				#	mycam.ptz_reset()
-				#	centered = 1
-				#	localsearch = 0
-				#	localtrack = 0	
-				#	sock_client.send(bytes('lost_object','UTF-8'))
-			# show the output frame
-			cv2.imshow("Frame", frame)
-			# hb stuff
-			# #print("hb: before heartbeat_beat()")
-			hb.heartbeat_beat()
-			if myvec[0]!=-1:
-				window_hr = hb.get_window_heartrate()
-				if global_cnt>window_size_hr:
-					comm.write("heart_rate",window_hr)
-			# #print('------------------window_hr:',window_hr)
-			# #print('instant_hr:',instant_hr)
-			current_checked = checked.get()
-			if previous_checked!=current_checked:
-				comm.write("app_mode",current_checked)
-				previous_checked=current_checked
-			if previous_f_size!=current_f_size:
-				comm.write("frame_size",current_f_size)
-				previous_f_size=current_f_size
-			current_ts=ts1.get()
-			if previous_ts!=current_ts:
-				comm.write("timeslice",current_ts)
-				previous_ts=current_ts
-			# current_sched = sched.get()
-			# if previous_sched!=current_sched:
-			# 	comm.write("sched",current_sched)
-			# 	previous_sched=current_sched
-			fps.update()
-			master.update_idletasks()
-			master.update()
-			key = cv2.waitKey(1) & 0xFF
-			# if the `q` key was pressed, break from the loop
-			if key == ord("q"):
-				break
+	# 			#elif ((confidence < 0.2) and (CLASSES[idx2]=='person') and (localsearch==0) and (remotetrack == 1) and (localtrack == 0)):
+	# 			#	#print('about to start cruise')
+	# 			#	mycam.start_horizontal_cruise()
+	# 			#	localsearch = 1
+	# 			#	localtrack = 0
+	# 			#elif ((confidence < 0.2) and (CLASSES[idx2]=='person') and (localsearch==0) and (remotetrack == 0) and (centered==0)):
+	# 			#	#print('about tor reset cam')
+	# 			#	mycam.ptz_reset()
+	# 			#	centered = 1
+	# 			#	localsearch = 0
+	# 			#	localtrack = 0	
+	# 			#	sock_client.send(bytes('lost_object','UTF-8'))
+	# 		# show the output frame
+	# 		cv2.imshow("Frame", frame)
+	# 		# hb stuff
+	# 		# #print("hb: before heartbeat_beat()")
+	# 		hb.heartbeat_beat()
+	# 		if myvec[0]!=-1:
+	# 			window_hr = hb.get_window_heartrate()
+	# 			if global_cnt>window_size_hr:
+	# 				comm.write("heart_rate",window_hr)
+	# 		# #print('------------------window_hr:',window_hr)
+	# 		# #print('instant_hr:',instant_hr)
+	# 		current_checked = checked.get()
+	# 		if previous_checked!=current_checked:
+	# 			comm.write("app_mode",current_checked)
+	# 			previous_checked=current_checked
+	# 		if previous_f_size!=current_f_size:
+	# 			comm.write("frame_size",current_f_size)
+	# 			previous_f_size=current_f_size
+	# 		current_ts=ts1.get()
+	# 		if previous_ts!=current_ts:
+	# 			comm.write("timeslice",current_ts)
+	# 			previous_ts=current_ts
+	# 		# current_sched = sched.get()
+	# 		# if previous_sched!=current_sched:
+	# 		# 	comm.write("sched",current_sched)
+	# 		# 	previous_sched=current_sched
+	# 		fps.update()
+	# 		master.update_idletasks()
+	# 		master.update()
+	# 		key = cv2.waitKey(1) & 0xFF
+	# 		# if the `q` key was pressed, break from the loop
+	# 		if key == ord("q"):
+	# 			break
 
-			# # update the FPS counter
-			# fps.update()
-			# master.update_idletasks()
-			# master.update()
-			#if(time.time()>pointat):
-			#	canpoint = 1
-			#print('localsearch = ',localsearch)
-			#print('remotetrack = ',remotetrack)
-			#print('localtrack = ',localtrack)
-			#print('personincam =',personincam)
-			#print('sentfoundmessage = ',sentfoundmessage)
-			#print('sentlostmessage = ',sentlostmessage)
+	# 		# # update the FPS counter
+	# 		# fps.update()
+	# 		# master.update_idletasks()
+	# 		# master.update()
+	# 		#if(time.time()>pointat):
+	# 		#	canpoint = 1
+	# 		#print('localsearch = ',localsearch)
+	# 		#print('remotetrack = ',remotetrack)
+	# 		#print('localtrack = ',localtrack)
+	# 		#print('personincam =',personincam)
+	# 		#print('sentfoundmessage = ',sentfoundmessage)
+	# 		#print('sentlostmessage = ',sentlostmessage)
 
 		
 # stop the timer and display FPS information
@@ -531,11 +525,5 @@ for t in threads:
 #print("worker threads cleaned up")
 # mycam1 = FoscamCamera('65.114.169.154',88,'arittenbach','8mmhamcgt16!')
 # mycam2 = FoscamCamera('65.114.169.108',88,'admin','admin')
-mycam1 = FoscamCamera('65.114.169.139',88,'arittenbach','8mmhamcgt16!')
-mycam2 = FoscamCamera('65.114.169.151',88,'admin','admin')
 
-mycam1.ptz_reset()
-mycam2.ptz_reset()
-mycam1.set_ptz_speed(4)
-mycam2.set_ptz_speed(4)
 
