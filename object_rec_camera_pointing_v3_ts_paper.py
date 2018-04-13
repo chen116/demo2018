@@ -375,7 +375,7 @@ while True: # realvid
 						endX=prev_box['endX']
 						endY=prev_box['endY']
 						idx=prev_box['idx']
-						label=prev_box['label']+str(order)
+						label=str(order)+'--'+prev_box['label']
 						cv2.rectangle(frame, (startX, startY), (endX, endY),
 							COLORS[idx], 2)
 						y = startY - 15 if startY - 15 > 15 else startY + 15
@@ -419,7 +419,7 @@ while True: # realvid
 							moveleft = 0
 						label = "{}: {:.2f}%".format(CLASSES[idx],
 							confidence * 100)
-						label+=str(order)
+						label=str(order)+'--'+label
 						cv2.rectangle(frame, (startX, startY), (endX, endY),
 							COLORS[idx], 2)
 						y = startY - 15 if startY - 15 > 15 else startY + 15
