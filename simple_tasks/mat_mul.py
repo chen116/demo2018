@@ -14,11 +14,14 @@ comm = heartbeat.DomU(monitoring_items)
 st = time.time()
 a= np.random.rand(500, 500)
 b= np.random.rand(500, 500)	
-while True:
-# hb stuff
-	c= np.dot(b,a.T)
-	hb.heartbeat_beat()
-	comm.write("heart_rate", hb.get_window_heartrate())
+try:
+	while True:
+	# hb stuff
+		c= np.dot(b,a.T)
+		hb.heartbeat_beat()
+		comm.write("heart_rate", hb.get_window_heartrate())
+except:
+	comm.write("heart_rate", "done")
 
 # hb.heartbeat_beat()
 # comm.write("heart_rate","reset")
