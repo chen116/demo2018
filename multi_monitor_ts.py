@@ -160,8 +160,10 @@ class MonitorThread(threading.Thread):
 
 
 				# aimd algo
+				print(heart_rate)
 				output = self.pid.update(heart_rate)
 				cur_b=output
+				print(output)
 
 				if cur_b>=self.timeslice_us-minn:
 					cur_b=self.timeslice_us-minn
