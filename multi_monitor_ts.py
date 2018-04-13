@@ -169,8 +169,8 @@ class MonitorThread(threading.Thread):
 					tmp_cur_b = int(output*cur_b+cur_b)-int(output*cur_b+cur_b)%100
 					if tmp_cur_b>=self.timeslice_us-minn:
 						cur_b=self.timeslice_us-minn
-					elif tmp_cur_b<=minn:
-						cur_b=minn
+					elif tmp_cur_b<=self.timeslice_us/2:
+						cur_b=int(self.timeslice_us/2)
 					else:
 						cur_b=tmp_cur_b
 				print(cur_b)
