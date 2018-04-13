@@ -293,13 +293,13 @@ personincam = 0
 # and initialize the FPS counter
 #print("[INFO] starting video stream...")
 #vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
-vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
-# vs= FileVideoStream("walkcat.mp4").start() # outvid
+#vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
+vs= FileVideoStream("walkcat.mp4").start() # outvid
 
 
 
-tracking_target = "person" # realvid
-# tracking_target = "cat"  # outvid
+# tracking_target = "person" # realvid
+tracking_target = "cat"  # outvid
 
 
 
@@ -333,8 +333,8 @@ pointat = 0
 # loop over the frames from the video stream
 
 prev_personincam = personincam
-# while vs.more(): # outvid
-while True: # realvid
+while vs.more(): # outvid
+# while True: # realvid
 
 	frame = vs.read()
 	# current_f_size=w1.get()
@@ -456,7 +456,7 @@ while True: # realvid
 			# hb stuff
 			# #print("hb: before heartbeat_beat()")
 			hb.heartbeat_beat()
-			if myvec[0]!=-1:
+			if cnt%window_size_hr==0:
 				window_hr = hb.get_window_heartrate()
 				if global_cnt>window_size_hr:
 					comm.write("heart_rate",window_hr)
