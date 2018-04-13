@@ -16,8 +16,6 @@ a= np.random.rand(500, 500)
 b= np.random.rand(500, 500)	
 while True:
 # hb stuff
-	# for i in range(int(1)):
-
 	c= np.dot(b,a.T)
 	hb.heartbeat_beat()
 	comm.write("heart_rate", hb.get_window_heartrate())
