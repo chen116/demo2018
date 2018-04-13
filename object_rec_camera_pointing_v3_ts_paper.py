@@ -360,10 +360,10 @@ while vs.more(): # outvid
 			stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
 			cnt+=1
 			input_q.put(stuff)
-		cv2.imshow("Frame", frame)
-		fps.update()
-		master.update_idletasks()
-		master.update()
+	cv2.imshow("Frame", frame)
+	fps.update()
+	master.update_idletasks()
+	master.update()
 		# if not output_q.empty():
 		# 	stuff = output_q.get()
 		# 	detections = stuff['blob']
