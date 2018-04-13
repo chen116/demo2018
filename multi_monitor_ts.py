@@ -17,7 +17,7 @@ with open("info.txt", "w") as myfile:
 
 monitoring_items = ["heart_rate","app_mode","frame_size","timeslice"]
 # c = heartbeat.Dom0(monitoring_items,['1','2','3','4'])
-c = heartbeat.Dom0(monitoring_items,['1'])
+c = heartbeat.Dom0(monitoring_items,['1'],['2'])
 
 
 
@@ -39,7 +39,7 @@ class MonitorThread(threading.Thread):
 		self.max_heart_rate=max_heart_rate
 		self.timeslice_us = timeslice_us
 
-		self.pid = apid.AdapPID(min_heart_rate,0.05)
+		self.pid = apid.AdapPID(min_heart_rate,0.01)
 
 	def run(self):
 		# Acquire lock to synchronize thread
@@ -572,10 +572,10 @@ def res_allo(anchors,sched,heart_rate,thread_shared_data,domuid,min_heart_rate,m
 
 
 
-domuid='1'
-tmp_thread = MonitorThread(threadLock,shared_data,res_allo,domuid,int(domuid)%2,timeslice_us,min_heart_rate,max_heart_rate, monitoring_items)
-tmp_thread.start()
-threads.append(tmp_thread)
+for domuid in c.domu_ids:
+	tmp_thread = MonitorThread(threadLock,shared_data,res_allo,domuid,int(domuid)%2,timeslice_us,min_heart_rate,max_heart_rate, monitoring_items)
+	tmp_thread.start()
+	threads.append(tmp_thread)
 
 
 
