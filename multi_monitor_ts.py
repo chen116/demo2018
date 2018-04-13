@@ -163,10 +163,10 @@ class MonitorThread(threading.Thread):
 				print(heart_rate)
 				pid_iter=self.pid.start
 				output = self.pid.update(heart_rate)
-				output+=self.timeslice_us/2
+				# output+=self.timeslice_us/2
 				print(output)
 				if pid_iter>0:
-					tmp_cur_b = int(output)-int(output)%100#int(output*cur_b+cur_b)-int(output*cur_b+cur_b)%100
+					tmp_cur_b = cur_b+100*output #int(output*cur_b+cur_b)-int(output*cur_b+cur_b)%100
 					if tmp_cur_b>=self.timeslice_us-minn:
 						cur_b=self.timeslice_us-minn
 					elif tmp_cur_b<=self.timeslice_us/2:
@@ -174,6 +174,7 @@ class MonitorThread(threading.Thread):
 					else:
 						cur_b=tmp_cur_b
 				print(cur_b)
+				cur_b=int(cur_b)-int(cur_b)%100
 				
 		
 
