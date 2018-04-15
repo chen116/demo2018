@@ -15,7 +15,7 @@ st = time.time()
 a= np.random.rand(500, 500)
 b= np.random.rand(500, 500)	
 try:
-	while True:
+	for i in range(1000):
 	# hb stuff
 		c= np.dot(b,a.T)
 		hb.heartbeat_beat()
