@@ -164,43 +164,43 @@ class MonitorThread(threading.Thread):
 
 
 				# aimd algo
-				print(heart_rate)
-				pid_iter=self.pid.start
-				output = self.pid.update(heart_rate)
-				# output+=self.timeslice_us/2
-				print(output)
-				if pid_iter>0:
-					tmp_cur_b = output+cur_b #int(output*cur_b+cur_b)-int(output*cur_b+cur_b)%100
-					if tmp_cur_b>=self.timeslice_us-minn:
-						cur_b=self.timeslice_us-minn
-					elif tmp_cur_b<=self.timeslice_us/3:
-						cur_b=int(self.timeslice_us/3)
-					else:
-						cur_b=tmp_cur_b
-				print(cur_b)
-				cur_b=int(cur_b)-int(cur_b)%100
-				xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
-				xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
+				# print(heart_rate)
+				# pid_iter=self.pid.start
+				# output = self.pid.update(heart_rate)
+				# # output+=self.timeslice_us/2
+				# print(output)
+				# if pid_iter>0:
+				# 	tmp_cur_b = output+cur_b #int(output*cur_b+cur_b)-int(output*cur_b+cur_b)%100
+				# 	if tmp_cur_b>=self.timeslice_us-minn:
+				# 		cur_b=self.timeslice_us-minn
+				# 	elif tmp_cur_b<=self.timeslice_us/3:
+				# 		cur_b=int(self.timeslice_us/3)
+				# 	else:
+				# 		cur_b=tmp_cur_b
+				# print(cur_b)
+				# cur_b=int(cur_b)-int(cur_b)%100
+				# xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
+				# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
 
 
 
 				# aimd algo
-				# alpha=1
-				# beta=.9
-				# free = self.timeslice_us-cur_b
+				alpha=1
+				beta=.9
+				free = self.timeslice_us-cur_b
 
-				# if(heart_rate<self.min_heart_rate):
-				# 	if cur_b<self.timeslice_us-minn:
-				# 		free=free*beta
-				# 		cur_b=self.timeslice_us-free
-				# 		xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
-				# 		xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
-				# if(heart_rate>self.min_heart_rate):
-				# 	if cur_b>minn:
-				# 		free+=alpha*10
-				# 		cur_b=self.timeslice_us-free
-				# 		xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
-				# 		xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
+				if(heart_rate<self.min_heart_rate):
+					if cur_b<self.timeslice_us-minn:
+						free=free*beta
+						cur_b=self.timeslice_us-free
+						xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
+						xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
+				if(heart_rate>self.min_heart_rate):
+					if cur_b>minn:
+						free+=alpha*10
+						cur_b=self.timeslice_us-free
+						xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
+						xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
 
 
 				# simple algo			
