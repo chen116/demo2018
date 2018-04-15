@@ -393,12 +393,22 @@ threadLock = threading.Lock()
 threads = []
 shared_data = xen_interface.get_global_info()
 timeslice_us=10000
-default_bw=int(timeslice_us-100)
+default_bw=int(timeslice_us)
 
-for domuid in shared_data['rtxen']:
-	xen_interface.sched_rtds(domuid,timeslice_us,default_bw,[])
-for domuid in shared_data['xen']:
-	xen_interface.sched_credit(domuid,default_bw)
+rtxen_or_xen = 0
+
+if len(shared_data['rtxen'])==1:
+	rtxen_or_xen = 'rtxen'
+else:
+	rtxen_or_xen = 'xen'
+
+
+if rtxen_or_xen == 'rtxen':
+	for i,domuid in enumerate(shared_data['rtxen']):
+		xen_interface.sched_rtds(domuid,timeslice_us,default_bw,[])
+else:
+	for domuid in shared_data['xen']:
+		xen_interface.sched_credit(domuid,default_bw)
 shared_data = xen_interface.get_global_info()
 
 
