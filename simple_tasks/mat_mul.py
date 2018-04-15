@@ -34,7 +34,7 @@ try:
 		c= np.matmul(b,a.T)
 		print(time.time()-tn)
 
-		time.sleep(0.1)
+		# time.sleep(0.1)
 		hb.heartbeat_beat()
 
 		comm.write("heart_rate", hb.get_instant_heartrate())
