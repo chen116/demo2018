@@ -15,7 +15,7 @@ st = time.time()
 
 a = []
 for i in range(10):
-	a[i].append([])
+	a.append([])
 	for j in range(10):
 		a[i]=j+1
 a=np.asarray(a)
