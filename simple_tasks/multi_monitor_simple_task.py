@@ -114,7 +114,7 @@ class MonitorThread(threading.Thread):
 					except:
 						heart_rate=-1
 					if heart_rate>-1:
-						
+						print("meow")
 						self.res_allocat(heart_rate)					
 						#self.res_allo(self.anchors,self.sched,float(msg),self.shared_data,self.domuid ,self.min_heart_rate,self.max_heart_rate)					
 
