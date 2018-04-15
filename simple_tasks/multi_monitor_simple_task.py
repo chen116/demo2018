@@ -177,9 +177,9 @@ class MonitorThread(threading.Thread):
 			cnt=0
 			for vcpu in myinfo:
 				if vcpu['pcpu']!=-1:
-					vcpu['w']=cur_w
-					#print(tab,'vcpu:',cnt,'w:',vcpu['w'])
-					cnt+=1			
+					vcpu['b']=cur_b
+					#print(tab,'vcpu:',cnt,'b:',vcpu['b'])
+					cnt+=1		
 		if self.anchors==4:
 			cur_b = 0
 			myinfo = self.shared_data[self.domuid]
@@ -210,8 +210,8 @@ class MonitorThread(threading.Thread):
 			cnt=0
 			for vcpu in myinfo:
 				if vcpu['pcpu']!=-1:
-					vcpu['w']=cur_w
-					#print(tab,'vcpu:',cnt,'w:',vcpu['w'])
+					vcpu['b']=cur_b
+					#print(tab,'vcpu:',cnt,'b:',vcpu['b'])
 					cnt+=1
 		if self.anchors==1:
 			if self.sched==1:
