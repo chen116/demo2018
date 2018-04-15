@@ -25,7 +25,7 @@ b=np.asarray(a)
 # a= np.random.rand(500, 500)
 # b= np.random.rand(500, 500)	
 try:
-	for i in range(1000):
+	for i in range(500):
 	# hb stuff
 		# c= np.dot(b,a.T)
 		c= np.matmul(b,a.T)
@@ -34,7 +34,7 @@ try:
 		comm.write("heart_rate", hb.get_instant_heartrate())
 except:
 	print("stopped")
-	# comm.write("heart_rate", "done")
+	comm.write("heart_rate", "done")
 
 # hb.heartbeat_beat()
 # comm.write("heart_rate","reset")
