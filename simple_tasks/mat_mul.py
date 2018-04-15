@@ -36,8 +36,8 @@ try:
 
 		# time.sleep(0.1)
 		hb.heartbeat_beat()
-
-		comm.write("heart_rate", hb.get_window_heartrate())
+		if i%window_size_hr==0
+			comm.write("heart_rate", hb.get_window_heartrate())
 
 except:
 	print("stopped")
