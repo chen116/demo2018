@@ -30,11 +30,11 @@ try:
 		# a= np.random.rand(500, 500)
 		# b= np.random.rand(500, 500)	
 		# c= np.dot(b,a.T)
-		tn = time.time()
-		c= np.matmul(b,a.T)
-		print(time.time()-tn)
+		# tn = time.time()
+		# c= np.matmul(b,a.T)
+		# print(time.time()-tn)
 
-		# time.sleep(0.1)
+		time.sleep(0.1)
 		hb.heartbeat_beat()
 
 		comm.write("heart_rate", hb.get_instant_heartrate())
