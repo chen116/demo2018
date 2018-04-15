@@ -208,12 +208,12 @@ class MonitorThread(threading.Thread):
 					if cur_b<self.timeslice_us-minn:
 						cur_b+=minn
 						xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
-						xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
+						# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
 				if(heart_rate>self.max_heart_rate):
 					if cur_b>minn:
 						cur_b-=minn
 						xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
-						xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
+						# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
 
 
 				if heart_rate<=self.max_heart_rate and heart_rate >= self.min_heart_rate:
@@ -223,7 +223,7 @@ class MonitorThread(threading.Thread):
 						if cur_b>minn:
 							cur_b-=minn
 							xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
-							xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
+							# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
 				else:
 					self.target_reached_cnt=0
 
