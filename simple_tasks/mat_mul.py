@@ -13,12 +13,13 @@ comm = heartbeat.DomU(monitoring_items)
 # print("start")
 st = time.time()
 
-a = np.arange(1,10+1)
-for i in range(10-1):
-	a=np.concatenate((a,np.arange(1,10+1)),axis=0)
-b = np.arange(1,10+1)
-for i in range(10-1):
-	b=np.concatenate((b,np.arange(1,10+1)),axis=0)
+a = []
+for i in range(10):
+	a[i].append([])
+	for j in range(10):
+		a[i]=j+1
+a=np.asarray(a)
+b=np.asarray(a)
 
 print(b)
 # a= np.random.rand(500, 500)
