@@ -15,22 +15,21 @@ st = time.time()
 
 a = np.arange(1,500+1)
 for i in range(500-1):
-	a=np.concatenate(a,np.arange(1,500),axis=0)
+	a=np.concatenate((a,np.arange(1,500)),axis=0)
 b = np.arange(1,500+1)
 for i in range(500-1):
-	b=np.concatenate(b,np.arange(1,500),axis=0)
+	b=np.concatenate((b,np.arange(1,500)),axis=0)
 
 # a= np.random.rand(500, 500)
 # b= np.random.rand(500, 500)	
-try:
-	for i in range(1000):
-	# hb stuff
-		# c= np.dot(b,a.T)
-		c= np.matmult(b,a.T)
-		hb.heartbeat_beat()
-		comm.write("heart_rate", hb.get_window_heartrate())
-except:
-	print("meow")
+
+for i in range(1000):
+# hb stuff
+	# c= np.dot(b,a.T)
+	c= np.matmult(b,a.T)
+	hb.heartbeat_beat()
+	comm.write("heart_rate", hb.get_window_heartrate())
+
 	# comm.write("heart_rate", "done")
 
 # hb.heartbeat_beat()
