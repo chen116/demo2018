@@ -204,7 +204,7 @@ class MonitorThread(threading.Thread):
 
 
 
-				simple algo			
+				#simple algo			
 				if(heart_rate<self.min_heart_rate):
 					if cur_b<self.timeslice_us-minn:
 						cur_b+=minn
