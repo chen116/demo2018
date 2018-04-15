@@ -360,7 +360,7 @@ class MonitorThread(threading.Thread):
 						cnt+=1
 				if not_default_b:
 					xen_interface.sched_rtds(self.domuid,self.timeslice_us,default_b,[])
-					xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,minn,[])
+					# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,minn,[])
 			else:
 				#print(tab,'Credit anchors INACTIVE:')
 				default_w=int(self.timeslice_us-minn)
