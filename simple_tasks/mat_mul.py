@@ -28,8 +28,8 @@ try:
 	for i in range(500):
 	# hb stuff
 		# c= np.dot(b,a.T)
-		# c= np.matmul(b,a.T)
-		time.sleep(0.1)
+		c= np.matmul(b,a.T)
+		# time.sleep(0.1)
 		hb.heartbeat_beat()
 
 		comm.write("heart_rate", hb.get_window_heartrate())
