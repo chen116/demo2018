@@ -173,7 +173,7 @@ class MonitorThread(threading.Thread):
 
 			cur_b=int(cur_b)-int(cur_b)%100
 			xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
-			xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
+			# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
 			
 		if self.anchors==4:
 			cur_b = 0
@@ -194,13 +194,13 @@ class MonitorThread(threading.Thread):
 					free=free*beta
 					cur_b=self.timeslice_us-free
 					xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
-					xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
+					# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
 			if(heart_rate>self.min_heart_rate):
 				if cur_b>minn:
 					free+=alpha*10
 					cur_b=self.timeslice_us-free
 					xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
-					xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
+					# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
 
 		if self.anchors==1:
 			if self.sched==1:
