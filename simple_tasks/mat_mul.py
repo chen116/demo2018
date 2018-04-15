@@ -27,8 +27,8 @@ b=np.asarray(a)
 try:
 	for i in range(500):
 	# hb stuff
-		# a= np.random.rand(500, 500)
-		# b= np.random.rand(500, 500)	
+		a= np.random.rand(500, 500)
+		b= np.random.rand(500, 500)	
 		# c= np.dot(b,a.T)
 		# tn = time.time()
 		c= np.matmul(b,a.T)
