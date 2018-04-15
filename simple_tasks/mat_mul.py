@@ -28,11 +28,14 @@ try:
 	for i in range(500):
 	# hb stuff
 		# c= np.dot(b,a.T)
+		tn = time.time()
 		c= np.matmul(b,a.T)
 		# time.sleep(0.1)
 		hb.heartbeat_beat()
 
 		comm.write("heart_rate", hb.get_instant_heartrate())
+		print(time.time()-tn)
+
 except:
 	print("stopped")
 	comm.write("heart_rate", "done")
