@@ -203,6 +203,7 @@ class MonitorThread(threading.Thread):
 				# 		xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
 
 
+
 				# simple algo			
 				if(heart_rate<self.min_heart_rate):
 					if cur_b<self.timeslice_us-minn:
@@ -545,7 +546,7 @@ threadLock = threading.Lock()
 threads = []
 shared_data = xen_interface.get_global_info()
 timeslice_us=10000
-default_bw=int(timeslice_us/2)
+default_bw=int(timeslice_us-100)
 
 for domuid in shared_data['rtxen']:
 	xen_interface.sched_rtds(domuid,timeslice_us,default_bw,[])
