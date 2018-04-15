@@ -24,8 +24,10 @@ b=np.asarray(a)
 # print(b)
 # a= np.random.rand(500, 500)
 # b= np.random.rand(500, 500)	
+
+it = 500
 try:
-	for i in range(500):
+	for i in range(it*3):
 	# hb stuff
 		a= np.random.rand(600, 600)
 		b= np.random.rand(600, 600)	
@@ -38,6 +40,15 @@ try:
 		hb.heartbeat_beat()
 		if i%window_size_hr==0:
 			comm.write("heart_rate", hb.get_window_heartrate())
+		if i==it*1:
+			comm.write("app_mode", 2)
+		if i==it*1+10:
+			comm.write("app_mode", 3)
+		if i==it*2:
+			comm.write("app_mode", 2)
+		if i==it*2+10:
+			comm.write("app_mode", 4)
+
 
 except:
 	print("stopped")
