@@ -25,7 +25,7 @@ b=np.asarray(a)
 # a= np.random.rand(500, 500)
 # b= np.random.rand(500, 500)	
 try:
-	for i in range(50):
+	for i in range(100):
 	# hb stuff
 		# c= np.dot(b,a.T)
 		c= np.matmul(b,a.T)
