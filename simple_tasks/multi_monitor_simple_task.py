@@ -171,6 +171,7 @@ class MonitorThread(threading.Thread):
 					cur_b=tmp_cur_b
 
 			cur_b=int(cur_b)-int(cur_b)%100
+			print(cur_b)
 			xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
 			# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
 			myinfo = self.shared_data[self.domuid]
@@ -202,7 +203,7 @@ class MonitorThread(threading.Thread):
 					# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
 			if(heart_rate>self.max_heart_rate):
 				if cur_b>minn:
-					free+=alpha*10
+					free+=alpha*100
 					cur_b=self.timeslice_us-free
 					xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
 					# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
