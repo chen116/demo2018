@@ -15,10 +15,11 @@ st = time.time()
 
 a = np.arange(1,500+1)
 for i in range(500-1):
-	a=np.stack(a,np.arange(1,500))
+	a=np.concatenate(a,np.arange(1,500),axis=0)
 b = np.arange(1,500+1)
 for i in range(500-1):
-	b=np.stack(a,np.arange(1,500))
+	b=np.concatenate(b,np.arange(1,500),axis=0)
+
 # a= np.random.rand(500, 500)
 # b= np.random.rand(500, 500)	
 try:
