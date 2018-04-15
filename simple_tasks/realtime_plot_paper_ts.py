@@ -140,7 +140,7 @@ def animate2(i):
         x_for_minmax.append(i)
         miny.append(min_max[0])
         maxy.append(min_max[1])
-    # ax1.plot(x_for_minmax,miny,'r')
+    ax1.plot(x_for_minmax,miny,'r')
     # ax1.plot(x_for_minmax,maxy,'r',label= 'Target\nFPS\nInterval')
     fontP = FontProperties()
     fontP.set_size('small')
