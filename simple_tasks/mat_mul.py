@@ -14,9 +14,9 @@ comm = heartbeat.DomU(monitoring_items)
 st = time.time()
 
 a = []
-for i in range(400):
+for i in range(500):
 	a.append([])
-	for j in range(400):
+	for j in range(500):
 		a[i].append(j+1)
 a=np.asarray(a)
 b=np.asarray(a)
@@ -25,7 +25,7 @@ b=np.asarray(a)
 # a= np.random.rand(500, 500)
 # b= np.random.rand(500, 500)	
 try:
-	for i in range(100):
+	for i in range(50):
 	# hb stuff
 		# c= np.dot(b,a.T)
 		c= np.matmul(b,a.T)
