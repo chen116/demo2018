@@ -17,7 +17,7 @@ a = []
 for i in range(500):
 	a.append([])
 	for j in range(500):
-		a[i].append(j+100)
+		a[i].append(j+1)
 a=np.asarray(a)
 b=np.asarray(a)
 
