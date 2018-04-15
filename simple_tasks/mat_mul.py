@@ -17,7 +17,7 @@ a = []
 for i in range(10):
 	a.append([])
 	for j in range(10):
-		a[i][j]=j+1
+		a[i].append(j+1)
 a=np.asarray(a)
 b=np.asarray(a)
 
