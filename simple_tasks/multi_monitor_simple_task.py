@@ -555,7 +555,7 @@ shared_data = xen_interface.get_global_info()
 
 
 
-print('monitoring',monitoring_domU)
+print('monitoring:',monitoring_domU)
 
 min_heart_rate = float(sys.argv[1])
 max_heart_rate = float(sys.argv[2])

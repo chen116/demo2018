@@ -31,7 +31,7 @@ try:
 		c= np.matmul(b,a.T)
 		hb.heartbeat_beat()
 
-		comm.write("heart_rate", hb.get_window_heartrate())
+		comm.write("heart_rate", hb.get_instant_heartrate())
 except:
 	print("stopped")
 	# comm.write("heart_rate", "done")
