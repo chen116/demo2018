@@ -20,13 +20,14 @@ b = np.arange(1,500+1)
 for i in range(500-1):
 	b=np.concatenate((b,np.arange(1,500+1)),axis=0)
 
+print(b.shape)
 # a= np.random.rand(500, 500)
 # b= np.random.rand(500, 500)	
 
 for i in range(1000):
 # hb stuff
 	# c= np.dot(b,a.T)
-	c= np.matmult(b,a.T)
+	c= np.matmul(b,a.T)
 	hb.heartbeat_beat()
 	comm.write("heart_rate", hb.get_window_heartrate())
 
