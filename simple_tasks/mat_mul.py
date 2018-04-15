@@ -25,12 +25,13 @@ b=np.asarray(a)
 # a= np.random.rand(500, 500)
 # b= np.random.rand(500, 500)	
 
-it = 500
+it = 
+matsize = 500
 try:
 	for i in range(it*3):
 	# hb stuff
-		a= np.random.rand(600, 600)
-		b= np.random.rand(600, 600)	
+		a= np.random.rand(matsize, matsize)
+		b= np.random.rand(matsize, matsize)	
 		# c= np.dot(b,a.T)
 		# tn = time.time()
 		c= np.matmul(b,a.T)
