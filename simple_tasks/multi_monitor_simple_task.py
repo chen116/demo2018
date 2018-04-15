@@ -156,12 +156,11 @@ class MonitorThread(threading.Thread):
 			for vcpu in myinfo:
 				if vcpu['pcpu']!=-1:
 					cur_b=int(vcpu['b'])	
-						
+
 			# apid algo
 			pid_iter=self.pid.start
 			output = self.pid.update(heart_rate)
 			# output+=self.timeslice_us/2
-
 			if pid_iter>0:
 				tmp_cur_b = output+cur_b #int(output*cur_b+cur_b)-int(output*cur_b+cur_b)%100
 				if tmp_cur_b>=self.timeslice_us-minn:
@@ -174,7 +173,13 @@ class MonitorThread(threading.Thread):
 			cur_b=int(cur_b)-int(cur_b)%100
 			xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
 			# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
-			
+			myinfo = self.shared_data[self.domuid]
+			cnt=0
+			for vcpu in myinfo:
+				if vcpu['pcpu']!=-1:
+					vcpu['w']=cur_w
+					#print(tab,'vcpu:',cnt,'w:',vcpu['w'])
+					cnt+=1			
 		if self.anchors==4:
 			cur_b = 0
 			myinfo = self.shared_data[self.domuid]
@@ -201,7 +206,13 @@ class MonitorThread(threading.Thread):
 					cur_b=self.timeslice_us-free
 					xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
 					# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
-
+			myinfo = self.shared_data[self.domuid]
+			cnt=0
+			for vcpu in myinfo:
+				if vcpu['pcpu']!=-1:
+					vcpu['w']=cur_w
+					#print(tab,'vcpu:',cnt,'w:',vcpu['w'])
+					cnt+=1
 		if self.anchors==1:
 			if self.sched==1:
 				#print(tab,'RT-Xen anchors ACTIVE:')
@@ -210,13 +221,6 @@ class MonitorThread(threading.Thread):
 				for vcpu in myinfo:
 					if vcpu['pcpu']!=-1:
 						cur_b=int(vcpu['b'])
-
-
-
-
-
-
-
 				#simple algo			
 				if(heart_rate<self.min_heart_rate):
 					if cur_b<self.timeslice_us-minn:
