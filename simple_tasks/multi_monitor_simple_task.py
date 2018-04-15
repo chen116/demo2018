@@ -16,7 +16,11 @@ with open("info.txt", "w") as myfile:
 	myfile.write("")
 
 monitoring_items = ["heart_rate","app_mode","frame_size","timeslice"]
+
 # c = heartbeat.Dom0(monitoring_items,['1','2','3','4'])
+monitoring_domU = float(sys.argv[2])
+
+
 c = heartbeat.Dom0(monitoring_items,['1'])
 
 
