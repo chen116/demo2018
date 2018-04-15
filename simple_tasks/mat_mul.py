@@ -12,12 +12,20 @@ monitoring_items = ["heart_rate","app_mode"]
 comm = heartbeat.DomU(monitoring_items)
 # print("start")
 st = time.time()
-a= np.random.rand(500, 500)
-b= np.random.rand(500, 500)	
+
+a = np.arange(1,500+1)
+for i in range(500-1):
+	a=np.stack(a,np.arange(1,500))
+b = np.arange(1,500+1)
+for i in range(500-1):
+	b=np.stack(a,np.arange(1,500))
+# a= np.random.rand(500, 500)
+# b= np.random.rand(500, 500)	
 try:
 	for i in range(1000):
 	# hb stuff
-		c= np.dot(b,a.T)
+		# c= np.dot(b,a.T)
+		c= np.matmult(b,a.T)
 		hb.heartbeat_beat()
 		comm.write("heart_rate", hb.get_window_heartrate())
 except:
