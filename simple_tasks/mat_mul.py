@@ -39,8 +39,8 @@ try:
 
 		# time.sleep(0.1)
 		hb.heartbeat_beat()
-		if i%window_size_hr==0:
-			comm.write("heart_rate", hb.get_window_heartrate())
+		if i%window_size_hr>0:
+			comm.write("heart_rate", hb.get_instant_heartrate())
 		if i==it*1:
 			matsize=600
 			comm.write("frame_size", matsize)
@@ -68,7 +68,7 @@ try:
 		elif i==it*5:
 			matsize=600
 			comm.write("frame_size", matsize)
-			
+
 
 
 except:
