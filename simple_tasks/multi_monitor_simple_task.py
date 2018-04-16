@@ -132,7 +132,8 @@ class MonitorThread(threading.Thread):
 				# #print( token.decode(),':',msg)
 	def res_allocat(self,heart_rate):
 
-		minn=100
+		minn=int(self.timeslice_us*0.01)
+
 
 		if int(self.domuid)>=3:
 			#print("dummy",int(self.domuid)-2,"heartrate:",heart_rate)
@@ -152,6 +153,7 @@ class MonitorThread(threading.Thread):
 		if int(self.domuid)<2:
 			tab='dom '+str(int(self.domuid))
 		#print(tab,'heart_rate',heart_rate)
+
 		cur_bw = 0
 		myinfo = self.shared_data[self.domuid]
 
@@ -196,10 +198,10 @@ class MonitorThread(threading.Thread):
 			cur_bw=int(cur_bw)-int(cur_bw)%100
 
 		if self.anchors==1:
-			if(heart_rate<self.min_heart_rate):
+			if(heart_rate<self.mid):
 				if cur_bw<self.timeslice_us-minn: #dummy
 					cur_bw+=minn
-			if(heart_rate>self.max_heart_rate):
+			if(heart_rate>self.mid):
 				if cur_bw>minn:
 					cur_bw-=minn
 		if self.anchors==2:
@@ -209,7 +211,8 @@ class MonitorThread(threading.Thread):
 		if self.anchors==0:
 			default_bw=int(self.timeslice_us/2) #dummy
 			if cur_bw!=default_bw:
-				cur_bw=default_bw			
+				cur_bw=default_bw	
+
 		if self.sched==1:
 			xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_bw,[])
 			xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_bw,[])
