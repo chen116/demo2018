@@ -202,9 +202,9 @@ input_q = Queue()  # fps is better if queue is higher but then more lags
 output_q = Queue()
 
 threads = []
-every_n_frame = {'cnt':-1,'n':5}
+every_n_frame = {'cnt':-1,'n':1}
 threadLock = threading.Lock()
-total_num_threads = 5
+total_num_threads = 1
 num_threads_exiting = 0
 
 
