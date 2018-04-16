@@ -266,10 +266,10 @@ minn=100
 default_bw=int(timeslice_us)-minn
 
 
-domuid = shared_data['rtxen'][0]
+domuid = '1'
 xen_interface.sched_rtds(domuid,timeslice_us,default_bw,[])
 xen_interface.sched_rtds(str(int(domuid)+2),timeslice_us,timeslice_us-default_bw,[])
-domuid = shared_data['xen'][0]
+domuid = '2'
 xen_interface.sched_credit(domuid,default_bw)
 xen_interface.sched_credit(str(int(domuid)+2),timeslice_us-default_bw)
 
