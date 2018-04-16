@@ -92,14 +92,14 @@ if True:
 	frame_label = Label(master, textvariable=frame_var,font = "Verdana 10 bold" )
 	frame_label.pack(side=LEFT)
 	FSIZE = [
-	    ("L", 8),
+	    ("L", 3),
 	    ("M", 4),
-	    ("H", 2)
+	    ("H", 6)
 	]
 	w1 = IntVar()
 	w1.set(4) # initialize
 	previous_freq = w1.get()
-
+	window_size_hr=12
 	for text, mode in FSIZE:
 	    b = Radiobutton(master, text=text,variable=w1, value=mode)
 	    b.pack(side=LEFT)
@@ -322,7 +322,7 @@ cnt=0
 output_q_cnt=-1
 
 import heartbeat
-window_size_hr=8
+
 hb = heartbeat.Heartbeat(1024,window_size_hr,100,"vic.log",10,100)
 monitoring_items = ["heart_rate","app_mode","frame_size","timeslice"]
 comm = heartbeat.DomU(monitoring_items)
