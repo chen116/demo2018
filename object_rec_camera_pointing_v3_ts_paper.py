@@ -382,7 +382,7 @@ while True: # realvid
 			cnt+=1
 			# input_q.put(stuff)
 			try:
-				input_q.put(stuff)
+				input_q.put_nowait(stuff)
 			except:
 				print("main not gonna wait put")
 			
