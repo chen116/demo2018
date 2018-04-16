@@ -22,7 +22,7 @@ class AdapPID:
 	def update(self,feedback):
 
 		self.err = self.goal-feedback
-		if feedback = 
+
 
 		if self.start==0:
 			self.delta_time=0
