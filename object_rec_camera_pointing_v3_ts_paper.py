@@ -98,7 +98,7 @@ if True:
 	]
 	w1 = IntVar()
 	w1.set(6) # initialize
-	previous_f_size = 600#w1.get()
+	previous_freq = w1.get()
 
 	for text, mode in FSIZE:
 	    b = Radiobutton(master, text=text,variable=w1, value=mode)
@@ -369,8 +369,8 @@ while True: # realvid
 
 	if run_threads==1 and frame is not None:
 
-		# current_f_size=w1.get()
-		if remotetrack == -1 or current_f_size == 0:
+		current_freq=w1.get()
+		if remotetrack == -1 or w1.get() == 0:
 			threadLock.acquire()
 			every_n_frame['n']=-1
 			threadLock.release()
@@ -379,9 +379,9 @@ while True: # realvid
 			for i in range(total_num_threads):
 				input_q.put({'cnt':-1})
 			break		
-
-		if current_f_size > 0:
-			frame = imutils.resize(frame, width=current_f_size)
+		current_frame_size=600
+		if current_frame_size > 0:
+			frame = imutils.resize(frame, width=current_frame_size)
 			# grab the frame dimensions and convert it to a blob
 			(h, w) = frame.shape[:2]
 			blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)),
@@ -492,7 +492,7 @@ while True: # realvid
 			# #print("hb: before heartbeat_beat()")
 			if output_q_cnt%w1.get()==0:
 				hb.heartbeat_beat()
-				
+
 			# #print("hb: before get_window_heartrate()")
 			# #print("hb: before get_instant_heartrate()")
 			# instant_hr = hb.get_instant_heartrate()
@@ -505,9 +505,9 @@ while True: # realvid
 			if previous_checked!=current_checked and output_q_cnt%w1.get()==0:
 				comm.write("app_mode",current_checked)
 				previous_checked=current_checked
-			if previous_f_size!=current_f_size and output_q_cnt%w1.get()==0:
-				comm.write("frame_size",current_f_size)
-				previous_f_size=current_f_size
+			if previous_freq!=current_freq and output_q_cnt%w1.get()==0:
+				comm.write("frame_size",current_freq)
+				previous_freq=current_freq
 			current_ts=ts1.get()
 			if previous_ts!=current_ts and output_q_cnt%w1.get()==0:
 				comm.write("timeslice",current_ts)
