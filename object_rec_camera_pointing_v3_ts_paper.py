@@ -47,7 +47,7 @@ if True:
 	if "RT" in sys.argv[7]:
 		fg = "blue"
 
-	sched_label = Label(master, textvariable=sched_var,fg = fg,bg = "white",font = "Verdana 30 bold" )
+	sched_label = Label(master, textvariable=sched_var,fg = fg,bg = "white",font = "Verdana 20 bold" )
 	sched_label.pack(side=LEFT)
 
 	# scheds = [
@@ -72,9 +72,11 @@ if True:
 	anchors_label = Label(master, textvariable=anchors_var,font = "Verdana 10 bold" )
 	anchors_label.pack(side=LEFT)
 	anchors_options = [
-	    ("Anchors", 1),
+	    ("simple", 1),
 	    ("50%",0),
 	    ("100%", 2),
+	    ("aimd", 4),
+	    ("apid", 3)
 	]
 	checked = IntVar()
 	checked.set(2) # initialize
@@ -104,7 +106,7 @@ if True:
 
 	timeslice_var = StringVar()
 	timeslice_var.set(" | ")
-	timeslice_label = Label(master, textvariable=timeslice_var,font = "Verdana 14 bold" )
+	timeslice_label = Label(master, textvariable=timeslice_var,font = "Verdana 10 bold" )
 	timeslice_label.pack(side=LEFT)
 	tsSIZE = [
 	    ("Low-lat", 15),
@@ -200,7 +202,7 @@ input_q = Queue()  # fps is better if queue is higher but then more lags
 output_q = Queue()
 
 threads = []
-every_n_frame = {'cnt':-1,'n':m1.get()}
+every_n_frame = {'cnt':-1,'n':5}
 threadLock = threading.Lock()
 total_num_threads = 5
 num_threads_exiting = 0
@@ -413,12 +415,11 @@ while True: # realvid
 			# #print("hb: before heartbeat_beat()")
 			hb.heartbeat_beat()
 			# #print("hb: before get_window_heartrate()")
-			window_hr = hb.get_window_heartrate()
 			# #print("hb: before get_instant_heartrate()")
 			# instant_hr = hb.get_instant_heartrate()
 			# #print("hb: after hb stuff")
-			if global_cnt>window_size_hr and cnt%total_num_threads==0:
-				comm.write("heart_rate",window_hr)
+			if global_cnt>window_size_hr and cnt%window_size_hr==0:
+				comm.write("heart_rate",hb.get_window_heartrate())
 			# #print('------------------window_hr:',window_hr)
 			# #print('instant_hr:',instant_hr)
 			current_checked = checked.get()
