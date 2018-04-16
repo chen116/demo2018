@@ -13,7 +13,12 @@ import imutils
 from imutils.video import VideoStream
 
 from imutils.video import FileVideoStream
-from utils.app_utils import FPS, WebcamVideoStream
+from utils import FPS, WebcamVideoStream
+
+
+
+
+
 from multiprocessing import Queue, Pool
 from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils as vis_util
@@ -243,11 +248,10 @@ if __name__ == '__main__':
             outvid.write(output_rgb)
         # hb stuff
         hb.heartbeat_beat()
-        window_hr = hb.get_window_heartrate()
+
         instant_hr = hb.get_instant_heartrate()
         comm.write("heart_rate",window_hr)
-        print('------------------window_hr:',window_hr)
-        print('instant_hr:',instant_hr)
+
 
         fps.update()
         master.update_idletasks()
