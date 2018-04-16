@@ -283,21 +283,29 @@ personincam = 0
 # and initialize the FPS counter
 #print("[INFO] starting video stream...")
 #vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
-vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
-# vs= FileVideoStream("walkcat.mp4").start() # outvid
 
 
-
-tracking_target = "person" # realvid
-# tracking_target = "cat"  # outvid
-
-
-
+# tracking_target = "person" # realvid
+tracking_target = "cat"  # outvid
+# vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
+vs= FileVideoStream("walkcat.mp4").start() # outvid
 time.sleep(2.0)
+
+vidarray = None
+if tracking_target == "cat":
+	#fps = FPS().start()
+	x = 0
+	# loop over the frames from the video stream
+	cnt = 0
+	vidarray = np.zeros((550,360,640,3),dtype=np.uint8)
+	for a in range(550):
+	       frame = vs.read()
+	       vidarray[a,:,:,:]=frame
+	vs.stop()
 
 # cat_frame = vs.read()  # outvid
 # for x in range(10):  # outvid
-	# cat_frame = vs.read()  # outvid
+# 	cat_frame = vs.read()  # outvid
 
 
 # setup mulithreads
@@ -323,9 +331,10 @@ pointat = 0
 
 prev_personincam = personincam
 # while vs.more(): # outvid
-while True: # realvid
+for frame in vidarray:
+# while True: # realvid
 
-	frame = vs.read()
+	#frame = vs.read() # realvid
 	# frame = cat_frame # outvid
 
 	run_threads = 1
