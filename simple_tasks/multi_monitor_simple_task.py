@@ -216,6 +216,7 @@ class MonitorThread(threading.Thread):
 					#print(tab,'vcpu:',cnt,'b:',vcpu['b'])
 					cnt+=1
 		if self.anchors==1:
+			if self.sched==1:
 				#print(tab,'RT-Xen anchors ACTIVE:')
 				cur_bw = 0
 				myinfo = self.shared_data[self.domuid]
