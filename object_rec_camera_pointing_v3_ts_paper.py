@@ -311,20 +311,25 @@ prev_personincam = personincam
 while True: # realvid
 
 	frame = vs.read()
-	# cnt+=1
-	# print(cnt)
-	# frame = imutils.resize(frame, width=300)
-	# cv2.imshow("Frame", frame)
-	# # hb stuff
-	# # #print("hb: before heartbeat_beat()")
-	# hb.heartbeat_beat()
-	# # #print("hb: before get_window_heartrate()")
-	# # #print("hb: before get_instant_heartrate()")
-	# # instant_hr = hb.get_instant_heartrate()
-	# # #print("hb: after hb stuff")
-	# if global_cnt>window_size_hr and cnt%window_size_hr==0:
-	# 	comm.write("heart_rate",hb.get_window_heartrate())
-	if frame is not None:
+
+
+	run_threads = 0
+	if run_threads==0:
+		cnt+=1
+		print(cnt)
+		frame = imutils.resize(frame, width=300)
+		cv2.imshow("Frame", frame)
+		# hb stuff
+		# #print("hb: before heartbeat_beat()")
+		hb.heartbeat_beat()
+		# #print("hb: before get_window_heartrate()")
+		# #print("hb: before get_instant_heartrate()")
+		# instant_hr = hb.get_instant_heartrate()
+		# #print("hb: after hb stuff")
+		if global_cnt>window_size_hr:
+			comm.write("heart_rate",hb.get_instant_heartrate())		
+
+	if frame is not None and run_threads==1:
 		# frame = cat_frame # outvid
 		current_f_size=w1.get()
 		if remotetrack == -1 or current_f_size == 0:
