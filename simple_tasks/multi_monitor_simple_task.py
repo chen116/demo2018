@@ -23,7 +23,9 @@ monitoring_domU = (sys.argv[3]).split(',')
 
 c = heartbeat.Dom0(monitoring_items,monitoring_domU)
 
-
+timeslice_us=30000
+minn=100
+default_bw=int(timeslice_us)-minn
 
 
 
@@ -261,9 +263,7 @@ class MonitorThread(threading.Thread):
 threadLock = threading.Lock()
 threads = []
 shared_data = xen_interface.get_global_info()
-timeslice_us=15000
-minn=100
-default_bw=int(timeslice_us)-minn
+
 
 
 domuid = '1'
