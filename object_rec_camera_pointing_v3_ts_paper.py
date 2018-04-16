@@ -170,36 +170,51 @@ class Workers(threading.Thread):
 			if self.n==-1:
 				# self.output_q.put({'cnt':-1})
 				break
-			# blob = self.input_q.get()
-
-			stuff = self.input_q.get()
-
-			if stuff['cnt']==-1:
-				self.output_q.put({'cnt':-1})
-				break
-			# self.n = stuff['n']
-			self.my_every_n_frame_cnt = stuff['cnt']
-
-			blob = stuff['blob']
-			if self.my_every_n_frame_cnt%self.n==0:
-				self.net.setInput(blob)
-
-
-				net_result=self.net.forward()
-				self.output_q.put({'blob':net_result,'cnt':stuff['cnt']})
-				# self.output_q.put({'blob':-1*np.ones((1,1,1,2)),'cnt':stuff['cnt']})
-
-
-			else:
-
-				self.output_q.put({'blob':-1*np.ones((1,1,1,2)),'cnt':stuff['cnt']})
 
 
 
+			# stuff = self.input_q.get()
 
-		# Release lock for the next thread
-		# self.threadLock.release()
-		#print("Exiting thread" , self.thread_id)
+			# if stuff['cnt']==-1:
+			# 	self.output_q.put({'cnt':-1})
+			# 	break
+			# # self.n = stuff['n']
+			# self.my_every_n_frame_cnt = stuff['cnt']
+
+			# blob = stuff['blob']
+			# if self.my_every_n_frame_cnt%self.n==0:
+			# 	self.net.setInput(blob)
+
+
+			# 	net_result=self.net.forward()
+			# 	self.output_q.put({'blob':net_result,'cnt':stuff['cnt']})
+			# 	# self.output_q.put({'blob':-1*np.ones((1,1,1,2)),'cnt':stuff['cnt']})
+
+
+			# else:
+
+			# 	self.output_q.put({'blob':-1*np.ones((1,1,1,2)),'cnt':stuff['cnt']})
+			try:
+				stuff = self.input_q.get_nowait()
+
+				if stuff['cnt']==-1:
+					self.output_q.put({'cnt':-1})
+					break
+				# self.n = stuff['n']
+				self.my_every_n_frame_cnt = stuff['cnt']
+				net_result=-1*np.ones((1,1,1,2))
+				if self.my_every_n_frame_cnt%self.n==0:
+					blob = stuff['blob']
+					self.net.setInput(blob)
+					net_result=self.net.forward()
+				try:
+					self.output_q.put_nowait({'blob':net_result,'cnt':stuff['cnt']})
+				except:
+					meow=1
+			except:
+				meow=1
+
+
 input_q = Queue()  # fps is better if queue is higher but then more lags
 output_q = Queue()
 
@@ -368,7 +383,7 @@ while True: # realvid
 			try:
 				input_q.put_nowait(stuff)
 			except:
-				cnt=cnt
+				print("main not gonna wait put")
 			
 
 
@@ -377,6 +392,7 @@ while True: # realvid
 			try:
 				stuff = output_q.get_nowait()
 			except:
+				print("main not gonna wait get")
 				stuff = {'blob':-1*np.ones((1,1,1,2)),'cnt':output_q_cnt}
 
 
