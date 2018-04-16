@@ -238,7 +238,7 @@ class MonitorThread(threading.Thread):
 					cnt+=1	
 
 
-		buf=50
+		buf=10000
 		self.shared_data['cnt'] = (self.shared_data['cnt']+1)%buf
 		info = self.domuid+" "+str(heart_rate)+" "
 		if self.sched==1:
@@ -246,14 +246,14 @@ class MonitorThread(threading.Thread):
 		else:
 			info += str(self.shared_data[self.domuid][0]['w']/self.timeslice_us)
 
-		if self.shared_data['cnt']%buf!=0:
-			with open("info.txt", "a") as myfile:
+		# if self.shared_data['cnt']%buf!=0:
+		# 	with open("info.txt", "a") as myfile:
+		# 		myfile.write(info+"\n")
+		# else:
+		# 	with open("info.txt", "w") as myfile:
 				myfile.write(info+"\n")
-		else:
-			with open("info.txt", "w") as myfile:
-				myfile.write(info+"\n")
-		# with open("info.txt", "a") as myfile:
-		# 	myfile.write(info+"\n")
+		with open("info.txt", "a") as myfile:
+			myfile.write(info+"\n")
 
 
 		return
