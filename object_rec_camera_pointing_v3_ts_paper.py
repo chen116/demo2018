@@ -267,21 +267,21 @@ personincam = 0
 # and initialize the FPS counter
 #print("[INFO] starting video stream...")
 #vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
-# vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
-vs= FileVideoStream("walkcat.mp4").start() # outvid
+vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
+# vs= FileVideoStream("walkcat.mp4").start() # outvid
 
 
 
-# tracking_target = "person" # realvid
-tracking_target = "cat"  # outvid
+tracking_target = "person" # realvid
+# tracking_target = "cat"  # outvid
 
 
 
 time.sleep(2.0)
 
-cat_frame = vs.read()  # outvid
-for x in range(10):  # outvid
-	cat_frame = vs.read()  # outvid
+# cat_frame = vs.read()  # outvid
+# for x in range(10):  # outvid
+	# cat_frame = vs.read()  # outvid
 
 
 # setup mulithreads
@@ -309,8 +309,8 @@ prev_personincam = personincam
 # while vs.more(): # outvid
 while True: # realvid
 
-	# frame = vs.read()
-	frame = cat_frame # outvid
+	frame = vs.read()
+	# frame = cat_frame # outvid
 
 	run_threads = 1
 	if run_threads==0:
