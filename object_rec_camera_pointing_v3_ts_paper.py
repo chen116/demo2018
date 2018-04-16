@@ -224,7 +224,7 @@ m1.set(5)
 threads = []
 every_n_frame = {'cnt':-1,'n':m1.get()}
 threadLock = threading.Lock()
-total_num_threads = 1
+total_num_threads = 2
 num_threads_exiting = 0
 
 
@@ -310,7 +310,7 @@ for i in range(total_num_threads):
 prev_boxes = []
 # loop over the frames from the video stream
 cnt=0
-output_q_cnt=0
+output_q_cnt=-1
 
 import heartbeat
 window_size_hr=5
@@ -484,7 +484,7 @@ while True: # realvid
 			# #print("hb: before get_instant_heartrate()")
 			# instant_hr = hb.get_instant_heartrate()
 			# #print("hb: after hb stuff")
-			if output_q_cnt>window_size_hr :
+			if output_q_cnt>window_size_hr and output_q_cnt%m1.get()==0:
 				comm.write("heart_rate",hb.get_instant_heartrate())
 			# #print('------------------window_hr:',window_hr)
 			# #print('instant_hr:',instant_hr)
