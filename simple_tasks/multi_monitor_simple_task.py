@@ -164,10 +164,9 @@ class MonitorThread(threading.Thread):
 
 		if self.anchors==3:
 			# apid algo
-			pid_iter=self.pid.start
 			output = self.pid.update(heart_rate)
 			# output+=self.timeslice_us/2
-			if pid_iter>0:
+			if self.pid.start>0:
 				tmp_cur_bw = output+cur_bw #int(output*cur_bw+cur_bw)-int(output*cur_bw+cur_bw)%100
 				if tmp_cur_bw>=self.timeslice_us-minn: #dummy
 					cur_bw=self.timeslice_us-minn
