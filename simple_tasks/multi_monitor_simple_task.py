@@ -137,7 +137,7 @@ class MonitorThread(threading.Thread):
 
 		if int(self.domuid)>=3:
 			#print("dummy",int(self.domuid)-2,"heartrate:",heart_rate)
-			buf=10000
+			buf=50
 			self.shared_data['cnt'] = (self.shared_data['cnt']+1)%buf
 			info = self.domuid+" "+str(heart_rate)+" dummy is here"
 			if self.shared_data['cnt']%buf!=0:
@@ -238,7 +238,7 @@ class MonitorThread(threading.Thread):
 					cnt+=1	
 
 
-		buf=10000
+		buf=50
 		self.shared_data['cnt'] = (self.shared_data['cnt']+1)%buf
 		info = self.domuid+" "+str(heart_rate)+" "
 		if self.sched==1:
