@@ -192,7 +192,7 @@ class MonitorThread(threading.Thread):
 					free+=alpha*100
 					cur_bw=self.timeslice_us-free
 			cur_bw=int(cur_bw)-int(cur_bw)%100
-			
+
 		if self.anchors==1:
 			if(heart_rate<self.min_heart_rate):
 				if cur_bw<self.timeslice_us-minn: #dummy
@@ -203,7 +203,7 @@ class MonitorThread(threading.Thread):
 		if self.anchors==2:
 			default_bw=int(self.timeslice_us) #dummy
 			if cur_bw!=default_bw:
-				cur_bw=default_bw
+				cur_bw=default_bw-minn
 		if self.anchors==0:
 			default_bw=int(self.timeslice_us/2) #dummy
 			if cur_bw!=default_bw:
