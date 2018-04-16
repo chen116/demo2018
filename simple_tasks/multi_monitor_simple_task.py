@@ -203,9 +203,9 @@ class MonitorThread(threading.Thread):
 				if cur_bw>minn:
 					cur_bw-=minn
 		if self.anchors==2:
-			default_bw=int(self.timeslice_us) #dummy
+			default_bw=int(self.timeslice_us-minn) #dummy
 			if cur_bw!=default_bw:
-				cur_bw=default_bw-minn
+				cur_bw=default_bw
 		if self.anchors==0:
 			default_bw=int(self.timeslice_us/2) #dummy
 			if cur_bw!=default_bw:
