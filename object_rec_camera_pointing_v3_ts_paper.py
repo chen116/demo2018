@@ -195,7 +195,7 @@ class Workers(threading.Thread):
 
 			# 	self.output_q.put({'blob':-1*np.ones((1,1,1,2)),'cnt':stuff['cnt']})
 			try:
-				stuff = self.input_q.get_nowait()
+				stuff = self.input_q.get()
 
 				if stuff['cnt']==-1:
 					self.output_q.put({'cnt':-1})
