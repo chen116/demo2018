@@ -322,7 +322,7 @@ cnt=0
 output_q_cnt=-1
 
 import heartbeat
-window_size_hr=4
+window_size_hr=6
 hb = heartbeat.Heartbeat(1024,window_size_hr,100,"vic.log",10,100)
 monitoring_items = ["heart_rate","app_mode","frame_size","timeslice"]
 comm = heartbeat.DomU(monitoring_items)
@@ -498,7 +498,7 @@ while True: # realvid
 			# #print("hb: before get_instant_heartrate()")
 			# instant_hr = hb.get_instant_heartrate()
 			# #print("hb: after hb stuff")
-			if output_q_cnt>window_size_hr and output_q_cnt%w1.get()==w1.get()-1:
+			if output_q_cnt>window_size_hr and output_q_cnt%w1.get()==0:
 				comm.write("heart_rate",hb.get_instant_heartrate())
 			# #print('------------------window_hr:',window_hr)
 			# #print('instant_hr:',instant_hr)
