@@ -202,7 +202,7 @@ input_q = Queue()  # fps is better if queue is higher but then more lags
 output_q = Queue()
 
 threads = []
-every_n_frame = {'cnt':-1,'n':m1.get()}
+every_n_frame = {'cnt':-1,'n':5}
 threadLock = threading.Lock()
 total_num_threads = 5
 num_threads_exiting = 0
@@ -415,12 +415,11 @@ while True: # realvid
 			# #print("hb: before heartbeat_beat()")
 			hb.heartbeat_beat()
 			# #print("hb: before get_window_heartrate()")
-			window_hr = hb.get_window_heartrate()
 			# #print("hb: before get_instant_heartrate()")
 			# instant_hr = hb.get_instant_heartrate()
 			# #print("hb: after hb stuff")
-			if global_cnt>window_size_hr and cnt%total_num_threads==0:
-				comm.write("heart_rate",window_hr)
+			if global_cnt>window_size_hr and cnt%window_size_hr==0:
+				comm.write("heart_rate",hb.get_window_heartrate())
 			# #print('------------------window_hr:',window_hr)
 			# #print('instant_hr:',instant_hr)
 			current_checked = checked.get()
