@@ -15,9 +15,10 @@ from imutils.video import VideoStream
 from imutils.video import FileVideoStream
 from imutils.video import VideoStream
 from imutils.video import FPS
+import sys
+import os
 
-
-
+sys.path.insert(0, '/usr/local/lib/python3.5/dist-packages')
 
 from multiprocessing import Queue, Pool
 from object_detection.utils import label_map_util
