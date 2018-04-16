@@ -313,7 +313,7 @@ while vs.more(): # outvid
 	frame = vs.read()
 	cnt+=1
 	print(cnt)
-	frame = imutils.resize(frame, width=current_f_size)
+	frame = imutils.resize(frame, width=300)
 	cv2.imshow("Frame", frame)
 	# hb stuff
 	# #print("hb: before heartbeat_beat()")
