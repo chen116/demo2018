@@ -23,7 +23,7 @@ monitoring_domU = (sys.argv[3]).split(',')
 
 c = heartbeat.Dom0(monitoring_items,monitoring_domU)
 
-timeslice_us=15000
+timeslice_us=30000
 minn=int(timeslice_us*0.01)
 default_bw=int(timeslice_us)-minn
 
@@ -79,7 +79,7 @@ class MonitorThread(threading.Thread):
 							myfile.write(self.domuid+" "+(msg)+" frame size"+"\n")
 				if self.keys[3] in path.decode():
 					if msg.isdigit():
-						tmp_new_timeslice_us = 10*1000#int(msg)*1000
+						tmp_new_timeslice_us = int(msg)*1000
 						if self.sched ==1:
 							cur_bw = 0
 							myinfo = self.shared_data[self.domuid]
