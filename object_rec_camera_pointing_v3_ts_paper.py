@@ -315,19 +315,27 @@ while True: # realvid
 
 	run_threads = 1
 	if run_threads==0:
-		cnt+=1
-		print(cnt)
-		frame = imutils.resize(frame, width=300)
-		cv2.imshow("Frame", frame)
-		# hb stuff
-		hb.heartbeat_beat()
+		if True:
+			cnt+=1
+			print(cnt)
+			frame = imutils.resize(frame, width=300)
+			cv2.imshow("Frame", frame)
+			# hb stuff
+			hb.heartbeat_beat()
 
 
-		if global_cnt>window_size_hr:
-			comm.write("heart_rate",hb.get_instant_heartrate())		
-		fps.update()
-		master.update_idletasks()
-		master.update()
+			if global_cnt>window_size_hr:
+				comm.write("heart_rate",hb.get_instant_heartrate())		
+			fps.update()
+			master.update_idletasks()
+			master.update()
+		else:
+			time.sleep(1)
+			hb.heartbeat_beat()
+
+
+			if global_cnt>window_size_hr:
+				comm.write("heart_rate",hb.get_instant_heartrate())	
 
 	if frame is not None and run_threads==1:
 		# frame = cat_frame # outvid
