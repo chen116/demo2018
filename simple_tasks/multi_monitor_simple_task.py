@@ -174,12 +174,15 @@ class MonitorThread(threading.Thread):
 				tmp_cur_bw = output+cur_bw #int(output*cur_bw+cur_bw)-int(output*cur_bw+cur_bw)%100
 				if tmp_cur_bw>=self.timeslice_us-minn: #dummy
 					cur_bw=self.timeslice_us-minn
-				elif tmp_cur_bw<=self.timeslice_us/3:
-					cur_bw=int(self.timeslice_us/3)
+				elif tmp_cur_bw<=minn#self.timeslice_us/3:
+					cur_bw=minn#int(self.timeslice_us/3)
 				else:
 					cur_bw=tmp_cur_bw
 
 			cur_bw=int(cur_bw)-int(cur_bw)%100
+		else:
+			self.pid.reset()
+
 		if self.anchors==4:
 			# aimd algo
 			alpha=1

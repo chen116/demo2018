@@ -47,7 +47,7 @@ if True:
 	if "RT" in sys.argv[7]:
 		fg = "blue"
 
-	sched_label = Label(master, textvariable=sched_var,fg = fg,bg = "white",font = "Verdana 30 bold" )
+	sched_label = Label(master, textvariable=sched_var,fg = fg,bg = "white",font = "Verdana 20 bold" )
 	sched_label.pack(side=LEFT)
 
 	# scheds = [
@@ -72,9 +72,11 @@ if True:
 	anchors_label = Label(master, textvariable=anchors_var,font = "Verdana 10 bold" )
 	anchors_label.pack(side=LEFT)
 	anchors_options = [
-	    ("Anchors", 1),
+	    ("simple", 1),
 	    ("50%",0),
 	    ("100%", 2),
+	    ("aimd", 4),
+	    ("apid", 3)
 	]
 	checked = IntVar()
 	checked.set(2) # initialize
@@ -104,7 +106,7 @@ if True:
 
 	timeslice_var = StringVar()
 	timeslice_var.set(" | ")
-	timeslice_label = Label(master, textvariable=timeslice_var,font = "Verdana 14 bold" )
+	timeslice_label = Label(master, textvariable=timeslice_var,font = "Verdana 10 bold" )
 	timeslice_label.pack(side=LEFT)
 	tsSIZE = [
 	    ("Low-lat", 15),

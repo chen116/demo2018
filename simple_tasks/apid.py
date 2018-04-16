@@ -9,6 +9,7 @@ class AdapPID:
 		self.goal=goal
 		self.output = 0
 		self.gamma = gamma
+		self.init_gamma = gamma
 		self.last_time = 0
 		self.psn1=0
 		self.isn1=0
@@ -18,6 +19,17 @@ class AdapPID:
 		self.start=0
 		self.min_heart_rate=min_heart_rate
 		self.max_heart_rate=max_heart_rate
+
+	def reset(self):
+		self.output = 0
+		self.gamma = self.init_gamma
+		self.last_time = 0
+		self.psn1=0
+		self.isn1=0
+		self.isn1sn1=0
+		self.ds1=0
+		self.dsn1=0
+		self.start=0		
 
 	def update(self,feedback):
 
