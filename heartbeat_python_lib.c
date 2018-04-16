@@ -21,6 +21,8 @@ float get_global_heartrate(int , int);
 int anchors_heartbeat_init(int,int64_t,int64_t ,const char* , double ,double );
 
 
+
+
 float get_instant_heartrate(int anchors_hb_shm_key, int index)
 {
   int shmid;
@@ -39,6 +41,10 @@ float get_instant_heartrate(int anchors_hb_shm_key, int index)
 
 
 }
+
+
+
+
 float get_window_heartrate(int anchors_hb_shm_key, int index)
 {
   int shmid;
