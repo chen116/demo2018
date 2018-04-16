@@ -175,7 +175,7 @@ class MonitorThread(threading.Thread):
 				else:
 					cur_bw=tmp_cur_bw
 
-			cur_bw=int(int(cur_bw)/100)*100
+			cur_bw=int(cur_bw)-int(cur_bw)%100
 		if self.anchors==4:
 			# aimd algo
 			alpha=1
@@ -191,6 +191,8 @@ class MonitorThread(threading.Thread):
 				if cur_bw>minn:
 					free+=alpha*100
 					cur_bw=self.timeslice_us-free
+			cur_bw=int(cur_bw)-int(cur_bw)%100
+			
 		if self.anchors==1:
 			if(heart_rate<self.min_heart_rate):
 				if cur_bw<self.timeslice_us-minn: #dummy
