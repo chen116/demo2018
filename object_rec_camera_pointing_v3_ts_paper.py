@@ -309,8 +309,8 @@ prev_personincam = personincam
 while vs.more(): # outvid
 # while True: # realvid
 
-	frame = vs.read()
-
+	# frame = vs.read()
+	frame = cat_frame # outvid
 
 	run_threads = 1
 	if run_threads==0:
@@ -341,7 +341,7 @@ while vs.more(): # outvid
 				comm.write("heart_rate",hb.get_instant_heartrate())	
 
 	if run_threads==1 and frame is not None:
-		frame = cat_frame # outvid
+
 		current_f_size=w1.get()
 		if remotetrack == -1 or current_f_size == 0:
 			threadLock.acquire()
