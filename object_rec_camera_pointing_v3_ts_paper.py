@@ -322,7 +322,7 @@ cnt=0
 output_q_cnt=-1
 
 import heartbeat
-window_size_hr=6
+window_size_hr=w1.get()
 hb = heartbeat.Heartbeat(1024,window_size_hr,100,"vic.log",10,100)
 monitoring_items = ["heart_rate","app_mode","frame_size","timeslice"]
 comm = heartbeat.DomU(monitoring_items)
