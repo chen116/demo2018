@@ -311,6 +311,8 @@ while vs.more(): # outvid
 # while True: # realvid
 
 	frame = vs.read()
+	cnt+=1
+	print(cnt)
 	cv2.imshow("Frame", frame)
 	# hb stuff
 	# #print("hb: before heartbeat_beat()")
