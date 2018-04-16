@@ -88,17 +88,17 @@ if True:
 
 
 	frame_var = StringVar()
-	frame_var.set("Frame:")
+	frame_var.set("Freq:")
 	frame_label = Label(master, textvariable=frame_var,font = "Verdana 10 bold" )
 	frame_label.pack(side=LEFT)
 	FSIZE = [
-	    ("S", 300),
-	    ("M", 600),
-	    ("L", 800)
+	    ("L", 8),
+	    ("M", 5),
+	    ("H", 3)
 	]
 	w1 = IntVar()
-	w1.set(600) # initialize
-	previous_f_size = w1.get()
+	w1.set(5) # initialize
+	previous_f_size = 600#w1.get()
 
 	for text, mode in FSIZE:
 	    b = Radiobutton(master, text=text,variable=w1, value=mode)
@@ -222,7 +222,7 @@ output_q = Queue()
 m1 = IntVar()
 m1.set(5)
 threads = []
-every_n_frame = {'cnt':-1,'n':m1.get()}
+every_n_frame = {'cnt':-1,'n':w1.get()}
 threadLock = threading.Lock()
 total_num_threads = 2
 num_threads_exiting = 0
@@ -369,7 +369,7 @@ while True: # realvid
 
 	if run_threads==1 and frame is not None:
 
-		current_f_size=w1.get()
+		# current_f_size=w1.get()
 		if remotetrack == -1 or current_f_size == 0:
 			threadLock.acquire()
 			every_n_frame['n']=-1
@@ -387,9 +387,9 @@ while True: # realvid
 			blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)),
 				0.007843, (300, 300), 127.5)
 			threadLock.acquire()
-			every_n_frame['n']=m1.get()
+			every_n_frame['n']=w1.get()
 			threadLock.release()
-			stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
+			stuff={'blob':blob,'cnt':cnt,'n':w1.get()}
 			cnt+=1
 			input_q.put(stuff)
 			# try:
@@ -495,19 +495,19 @@ while True: # realvid
 			# #print("hb: before get_instant_heartrate()")
 			# instant_hr = hb.get_instant_heartrate()
 			# #print("hb: after hb stuff")
-			if output_q_cnt>window_size_hr and output_q_cnt%m1.get()==0:
+			if output_q_cnt>window_size_hr and output_q_cnt%w1.get()==0:
 				comm.write("heart_rate",hb.get_window_heartrate())
 			# #print('------------------window_hr:',window_hr)
 			# #print('instant_hr:',instant_hr)
 			current_checked = checked.get()
-			if previous_checked!=current_checked and output_q_cnt%m1.get()==0:
+			if previous_checked!=current_checked and output_q_cnt%w1.get()==0:
 				comm.write("app_mode",current_checked)
 				previous_checked=current_checked
-			if previous_f_size!=current_f_size and output_q_cnt%m1.get()==0:
+			if previous_f_size!=current_f_size and output_q_cnt%w1.get()==0:
 				comm.write("frame_size",current_f_size)
 				previous_f_size=current_f_size
 			current_ts=ts1.get()
-			if previous_ts!=current_ts and output_q_cnt%m1.get()==0:
+			if previous_ts!=current_ts and output_q_cnt%w1.get()==0:
 				comm.write("timeslice",current_ts)
 				previous_ts=current_ts
 			# current_sched = sched.get()
