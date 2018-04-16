@@ -498,7 +498,7 @@ while True: # realvid
 			# #print("hb: before get_instant_heartrate()")
 			# instant_hr = hb.get_instant_heartrate()
 			# #print("hb: after hb stuff")
-			if output_q_cnt>window_size_hr and output_q_cnt%w1.get()==1:
+			if output_q_cnt>window_size_hr and output_q_cnt%w1.get()==w1.get()-1:
 				comm.write("heart_rate",hb.get_instant_heartrate())
 			# #print('------------------window_hr:',window_hr)
 			# #print('instant_hr:',instant_hr)
