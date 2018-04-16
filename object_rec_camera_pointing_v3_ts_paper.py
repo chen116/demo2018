@@ -93,11 +93,11 @@ if True:
 	frame_label.pack(side=LEFT)
 	FSIZE = [
 	    ("L", 8),
-	    ("M", 5),
-	    ("H", 3)
+	    ("M", 6),
+	    ("H", 4)
 	]
 	w1 = IntVar()
-	w1.set(5) # initialize
+	w1.set(6) # initialize
 	previous_f_size = 600#w1.get()
 
 	for text, mode in FSIZE:
@@ -322,7 +322,7 @@ cnt=0
 output_q_cnt=-1
 
 import heartbeat
-window_size_hr=5
+window_size_hr=4
 hb = heartbeat.Heartbeat(1024,window_size_hr,100,"vic.log",10,100)
 monitoring_items = ["heart_rate","app_mode","frame_size","timeslice"]
 comm = heartbeat.DomU(monitoring_items)
