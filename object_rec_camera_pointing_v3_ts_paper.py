@@ -93,11 +93,11 @@ if True:
 	frame_label.pack(side=LEFT)
 	FSIZE = [
 	    ("L", 8),
-	    ("M", 6),
-	    ("H", 4)
+	    ("M", 4),
+	    ("H", 2)
 	]
 	w1 = IntVar()
-	w1.set(6) # initialize
+	w1.set(4) # initialize
 	previous_freq = w1.get()
 
 	for text, mode in FSIZE:
