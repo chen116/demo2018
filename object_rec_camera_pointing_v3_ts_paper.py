@@ -337,7 +337,7 @@ while True: # realvid
 			if global_cnt>window_size_hr:
 				comm.write("heart_rate",hb.get_instant_heartrate())	
 
-	if frame is not None and run_threads==1:
+	if run_threads==1 and frame is not None:
 		# frame = cat_frame # outvid
 		current_f_size=w1.get()
 		if remotetrack == -1 or current_f_size == 0:
