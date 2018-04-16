@@ -315,7 +315,7 @@ while True: # realvid
 
 	run_threads = 1
 	if run_threads==0:
-		if True:
+		if False:
 			cnt+=1
 			print(cnt)
 			frame = imutils.resize(frame, width=300)
