@@ -320,14 +320,14 @@ while True: # realvid
 		frame = imutils.resize(frame, width=300)
 		cv2.imshow("Frame", frame)
 		# hb stuff
-		# #print("hb: before heartbeat_beat()")
 		hb.heartbeat_beat()
-		# #print("hb: before get_window_heartrate()")
-		# #print("hb: before get_instant_heartrate()")
-		# instant_hr = hb.get_instant_heartrate()
-		# #print("hb: after hb stuff")
+
+
 		if global_cnt>window_size_hr:
 			comm.write("heart_rate",hb.get_instant_heartrate())		
+		fps.update()
+		master.update_idletasks()
+		master.update()
 
 	if frame is not None and run_threads==1:
 		# frame = cat_frame # outvid
