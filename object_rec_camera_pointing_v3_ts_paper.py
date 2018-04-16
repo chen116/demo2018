@@ -92,7 +92,7 @@ if True:
 	frame_label = Label(master, textvariable=frame_var,font = "Verdana 10 bold" )
 	frame_label.pack(side=LEFT)
 	FSIZE = [
-	    ("S", 300),
+	    ("S", 50),
 	    ("M", 600),
 	    ("L", 800)
 	]
