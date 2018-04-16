@@ -210,9 +210,10 @@ class Workers(threading.Thread):
 				try:
 					self.output_q.put_nowait({'blob':net_result,'cnt':stuff['cnt']})
 				except:
-					meow=1
+					print(thread_id,"thread not gonna wait put")
 			except:
-				meow=1
+				print(thread_id,"thread not gonna wait get")
+
 
 
 input_q = Queue()  # fps is better if queue is higher but then more lags
