@@ -5,7 +5,7 @@ import time
 
 
 class AdapPID:
-	def __init__(self,goal,gamma):
+	def __init__(self,goal,gamma,min_heart_rate,max_heart_rate):
 		self.goal=goal
 		self.output = 0
 		self.gamma = gamma
@@ -16,11 +16,14 @@ class AdapPID:
 		self.ds1=0
 		self.dsn1=0
 		self.start=0
+		self.min_heart_rate=min_heart_rate
+		self.max_heart_rate=max_heart_rate
 
 	def update(self,feedback):
 
 		self.err = self.goal-feedback
-		current_time = time.time()
+		if feedback = 
+
 		if self.start==0:
 			self.delta_time=0
 			self.start=1
@@ -33,7 +36,7 @@ class AdapPID:
 		# 	self.output = self.p() + self.i()
 		# 	self.start=1
 		# else:
-		self.output = self.p() + self.i() #+ self.p()
+		self.output = self.p() + self.i() + self.p()
 		self.last_time = current_time
 
 		return self.output
