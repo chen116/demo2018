@@ -74,7 +74,7 @@ try:
 			comm.write("frame_size", matsize)
 except:
 	print("stopped")
-	comm.write("heart_rate", "done")
+
 
 # hb.heartbeat_beat()
 # comm.write("heart_rate","reset")
@@ -128,13 +128,14 @@ except:
 
 # except:
 # 	print("stopped")
-# 	comm.write("heart_rate", "done")
+
 
 # hb.heartbeat_beat()
 
 # print(hb.get_global_heartrate())
 # print(1/hb.get_global_heartrate())
 
+comm.write("heart_rate", "done")
 
 
 hb.heartbeat_finish()

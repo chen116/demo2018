@@ -193,7 +193,7 @@ class MonitorThread(threading.Thread):
 
 			if(heart_rate>self.mid):
 				if cur_bw>minn:
-					free+=alpha*100
+					free+=alpha*minn
 					cur_bw=self.timeslice_us-free
 			cur_bw=int(cur_bw)-int(cur_bw)%100
 
