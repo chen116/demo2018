@@ -176,7 +176,7 @@ class MonitorThread(threading.Thread):
 				else:
 					cur_bw=tmp_cur_bw
 
-			cur_bw=int(cur_bw)-int(cur_bw)%100
+			cur_bw=int(int(cur_bw)/100)*100
 		if self.anchors==4:
 			# aimd algo
 			alpha=1
