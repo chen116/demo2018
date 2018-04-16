@@ -484,19 +484,19 @@ while True: # realvid
 			# #print("hb: before get_instant_heartrate()")
 			# instant_hr = hb.get_instant_heartrate()
 			# #print("hb: after hb stuff")
-			if output_q_cnt>window_size_hr and output_q_cnt%m1.get()==0:
+			if output_q_cnt>window_size_hr: #and output_q_cnt%m1.get()==0:
 				comm.write("heart_rate",hb.get_window_heartrate())
 			# #print('------------------window_hr:',window_hr)
 			# #print('instant_hr:',instant_hr)
 			current_checked = checked.get()
-			if previous_checked!=current_checked:
+			if previous_checked!=current_checked and output_q_cnt%m1.get()==0:
 				comm.write("app_mode",current_checked)
 				previous_checked=current_checked
-			if previous_f_size!=current_f_size:
+			if previous_f_size!=current_f_size and output_q_cnt%m1.get()==0:
 				comm.write("frame_size",current_f_size)
 				previous_f_size=current_f_size
 			current_ts=ts1.get()
-			if previous_ts!=current_ts:
+			if previous_ts!=current_ts and output_q_cnt%m1.get()==0:
 				comm.write("timeslice",current_ts)
 				previous_ts=current_ts
 			# current_sched = sched.get()
