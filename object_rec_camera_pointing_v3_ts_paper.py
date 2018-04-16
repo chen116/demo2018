@@ -322,7 +322,7 @@ while True: # realvid
 			cv2.imshow("Frame", frame)
 			# hb stuff
 			hb.heartbeat_beat()
-
+			global_cnt=10
 
 			if global_cnt>window_size_hr:
 				comm.write("heart_rate",hb.get_instant_heartrate())		
@@ -332,10 +332,11 @@ while True: # realvid
 		else:
 			cnt+=1
 			print(cnt)
-			
+
 			time.sleep(1)
 			hb.heartbeat_beat()
-
+			global_cnt=10
+			
 
 			if global_cnt>window_size_hr:
 				comm.write("heart_rate",hb.get_instant_heartrate())	
