@@ -202,7 +202,7 @@ input_q = Queue()  # fps is better if queue is higher but then more lags
 output_q = Queue()
 
 m1 = IntVar()
-m1.set(5)
+m1.set(1)
 threads = []
 every_n_frame = {'cnt':-1,'n':m1.get()}
 threadLock = threading.Lock()
@@ -420,8 +420,8 @@ while vs.more(): # outvid
 			# #print("hb: before get_instant_heartrate()")
 			# instant_hr = hb.get_instant_heartrate()
 			# #print("hb: after hb stuff")
-			if global_cnt>window_size_hr and myvec[0]!=-1:
-				comm.write("heart_rate",hb.get_window_heartrate())
+			if global_cnt>window_size_hr :#and myvec[0]!=-1:
+				comm.write("heart_rate",hb.get_instant_heartrate())
 			# #print('------------------window_hr:',window_hr)
 			# #print('instant_hr:',instant_hr)
 			current_checked = checked.get()
