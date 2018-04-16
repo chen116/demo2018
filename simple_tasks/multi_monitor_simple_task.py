@@ -251,7 +251,7 @@ class MonitorThread(threading.Thread):
 		# 		myfile.write(info+"\n")
 		# else:
 		# 	with open("info.txt", "w") as myfile:
-				myfile.write(info+"\n")
+		#		myfile.write(info+"\n")
 		with open("info.txt", "a") as myfile:
 			myfile.write(info+"\n")
 
