@@ -437,7 +437,7 @@ while True: # realvid
 			# instant_hr = hb.get_instant_heartrate()
 			# #print("hb: after hb stuff")
 			if global_cnt>window_size_hr:# and cnt%window_size_hr==0:
-				comm.write("heart_rate",hb.instant_heartrate())
+				comm.write("heart_rate",hb.get_instant_heartrate())
 			# #print('------------------window_hr:',window_hr)
 			# #print('instant_hr:',instant_hr)
 			current_checked = checked.get()
