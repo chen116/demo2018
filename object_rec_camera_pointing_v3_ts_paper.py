@@ -173,46 +173,46 @@ class Workers(threading.Thread):
 
 
 
-			# stuff = self.input_q.get()
+			stuff = self.input_q.get()
 
-			# if stuff['cnt']==-1:
-			# 	self.output_q.put({'cnt':-1})
-			# 	break
-			# # self.n = stuff['n']
-			# self.my_every_n_frame_cnt = stuff['cnt']
+			if stuff['cnt']==-1:
+				self.output_q.put({'cnt':-1})
+				break
+			# self.n = stuff['n']ß
+			self.my_every_n_frame_cnt = stuff['cnt']
 
-			# blob = stuff['blob']
-			# if self.my_every_n_frame_cnt%self.n==0:
-			# 	self.net.setInput(blob)
-
-
-			# 	net_result=self.net.forward()
-			# 	self.output_q.put({'blob':net_result,'cnt':stuff['cnt']})
-			# 	# self.output_q.put({'blob':-1*np.ones((1,1,1,2)),'cnt':stuff['cnt']})
+			blob = stuff['blob']
+			if self.my_every_n_frame_cnt%self.n==0:
+				self.net.setInput(blob)
 
 
-			# else:
+				net_result=self.net.forward()
+				self.output_q.put({'blob':net_result,'cnt':stuff['cnt']})
+				# self.output_q.put({'blob':-1*np.ones((1,1,1,2)),'cnt':stuff['cnt']})
 
-			# 	self.output_q.put({'blob':-1*np.ones((1,1,1,2)),'cnt':stuff['cnt']})
-			try:
-				stuff = self.input_q.get_nowait()
 
-				if stuff['cnt']==-1:
-					self.output_q.put({'cnt':-1})
-					break
-				# self.n = stuff['n']
-				self.my_every_n_frame_cnt = stuff['cnt']
-				net_result=-1*np.ones((1,1,1,2))
-				if self.my_every_n_frame_cnt%self.n==0:
-					blob = stuff['blob']
-					self.net.setInput(blob)
-					net_result=self.net.forward()
-				try:
-					self.output_q.put({'blob':net_result,'cnt':stuff['cnt']})
-				except:
-					print(thread_id,"thread not gonna wait put")
-			except:
-				print(thread_id,"thread not gonna wait get")
+			else:
+
+				self.output_q.put({'blob':-1*np.ones((1,1,1,2)),'cnt':stuff['cnt']})
+			# try:
+			# 	stuff = self.input_q.get_nowait()
+
+			# 	if stuff['cnt']==-1:
+			# 		self.output_q.put({'cnt':-1})
+			# 		break
+			# 	# self.n = stuff['n']
+			# 	self.my_every_n_frame_cnt = stuff['cnt']
+			# 	net_result=-1*np.ones((1,1,1,2))
+			# 	if self.my_every_n_frame_cnt%self.n==0:
+			# 		blob = stuff['blob']
+			# 		self.net.setInput(blob)
+			# 		net_result=self.net.forward()
+			# 	try:
+			# 		self.output_q.put({'blob':net_result,'cnt':stuff['cnt']})
+			# 	except:
+			# 		print(thread_id,"thread not gonna wait put")
+			# except:
+			# 	print(thread_id,"thread not gonna wait get")
 
 
 
