@@ -23,7 +23,7 @@ class AdapPID:
 
 		self.err = self.goal-feedback
 
-
+		current_time = time.time()
 		if self.start==0:
 			self.delta_time=0
 			self.start=1
