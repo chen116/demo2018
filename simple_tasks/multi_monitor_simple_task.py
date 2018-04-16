@@ -24,7 +24,7 @@ monitoring_domU = (sys.argv[3]).split(',')
 c = heartbeat.Dom0(monitoring_items,monitoring_domU)
 
 timeslice_us=30000
-minn=100
+minn=int(timeslice_us*0.01)
 default_bw=int(timeslice_us)-minn
 
 
@@ -328,10 +328,21 @@ for t in threads:
 pp = pprint.PrettyPrinter(indent=2)
 print('Final domUs info:')
 shared_data = xen_interface.get_global_info()
-for domuid in shared_data['rtxen']:
-	xen_interface.sched_rtds(domuid,timeslice_us,default_bw,[])
+default_bw=int(timeslice_us/2)
+
+domuid = '1'
+xen_interface.sched_rtds(domuid,timeslice_us,default_bw,[])
+xen_interface.sched_rtds(str(int(domuid)+2),timeslice_us,timeslice_us-default_bw,[])
+domuid = '2'
+xen_interface.sched_credit(domuid,default_bw)
+xen_interface.sched_credit(str(int(domuid)+2),timeslice_us-default_bw)
+
 xen_interface.sched_credit_timeslice(timeslice_us/1000)
-for domuid in shared_data['xen']:
-	xen_interface.sched_credit(domuid,default_bw)
+
+# for domuid in shared_data['rtxen']:
+# 	xen_interface.sched_rtds(domuid,timeslice_us,default_bw,[])
+# xen_interface.sched_credit_timeslice(timeslice_us/1000)
+# for domuid in shared_data['xen']:
+# 	xen_interface.sched_credit(domuid,default_bw)
 print("Exiting the Monitor, total",threads_cnt,"monitoring threads")
 print("Restored RT-Xen, Credit to all domUs have equal cpu time sharing")
