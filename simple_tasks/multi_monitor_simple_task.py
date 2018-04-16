@@ -79,30 +79,30 @@ class MonitorThread(threading.Thread):
 					if msg.isdigit():
 						tmp_new_timeslice_us = 10*1000#int(msg)*1000
 						if self.sched ==1:
-							cur_b = 0
+							cur_bw = 0
 							myinfo = self.shared_data[self.domuid]
 							for vcpu in myinfo:
 								if vcpu['pcpu']!=-1:
-									cur_b=int(vcpu['b'])
-							xen_interface.sched_rtds(self.domuid,tmp_new_timeslice_us,cur_b/self.timeslice_us*tmp_new_timeslice_us,[])
-							xen_interface.sched_rtds(str(int(self.domuid)+2),tmp_new_timeslice_us,(self.timeslice_us-cur_b)/self.timeslice_us*tmp_new_timeslice_us,[])
+									cur_bw=int(vcpu['b'])
+							xen_interface.sched_rtds(self.domuid,tmp_new_timeslice_us,cur_bw/self.timeslice_us*tmp_new_timeslice_us,[])
+							xen_interface.sched_rtds(str(int(self.domuid)+2),tmp_new_timeslice_us,(self.timeslice_us-cur_bw)/self.timeslice_us*tmp_new_timeslice_us,[])
 
 							for vcpu in myinfo:
 								if vcpu['pcpu']!=-1:
-									vcpu['b']=cur_b/self.timeslice_us*tmp_new_timeslice_us
+									vcpu['b']=cur_bw/self.timeslice_us*tmp_new_timeslice_us
 									vcpu['p']=tmp_new_timeslice_us
 
 						else:
-							cur_w = 0
+							cur_bw = 0
 							myinfo = self.shared_data[self.domuid]
 							for vcpu in myinfo:
 								if vcpu['pcpu']!=-1:
-									cur_w=int(vcpu['w'])
-							xen_interface.sched_credit(self.domuid,cur_w/self.timeslice_us*tmp_new_timeslice_us)
-							xen_interface.sched_credit(str(int(self.domuid)+2),(self.timeslice_us-cur_w)/self.timeslice_us*tmp_new_timeslice_us)
+									cur_bw=int(vcpu['w'])
+							xen_interface.sched_credit(self.domuid,cur_bw/self.timeslice_us*tmp_new_timeslice_us)
+							xen_interface.sched_credit(str(int(self.domuid)+2),(self.timeslice_us-cur_bw)/self.timeslice_us*tmp_new_timeslice_us)
 							for vcpu in myinfo:
 								if vcpu['pcpu']!=-1:
-									vcpu['w']=cur_w/self.timeslice_us*tmp_new_timeslice_us
+									vcpu['w']=cur_bw/self.timeslice_us*tmp_new_timeslice_us
 						xen_interface.sched_credit_timeslice(int(msg))
 						self.timeslice_us = tmp_new_timeslice_us
 						with open("info.txt", "a") as myfile:
@@ -152,98 +152,97 @@ class MonitorThread(threading.Thread):
 		#print(tab,'heart_rate',heart_rate)
 
 		if self.anchors==3:
-			cur_b = 0
+			cur_bw = 0
 			myinfo = self.shared_data[self.domuid]
 			for vcpu in myinfo:
 				if vcpu['pcpu']!=-1:
-					cur_b=int(vcpu['b'])	
+					cur_bw=int(vcpu['b'])	
 
 			# apid algo
 			pid_iter=self.pid.start
 			output = self.pid.update(heart_rate)
 			# output+=self.timeslice_us/2
 			if pid_iter>0:
-				tmp_cur_b = output+cur_b #int(output*cur_b+cur_b)-int(output*cur_b+cur_b)%100
-				if tmp_cur_b>=self.timeslice_us-minn:
-					cur_b=self.timeslice_us-minn
-				elif tmp_cur_b<=self.timeslice_us/3:
-					cur_b=int(self.timeslice_us/3)
+				tmp_cur_bw = output+cur_bw #int(output*cur_bw+cur_bw)-int(output*cur_bw+cur_bw)%100
+				if tmp_cur_bw>=self.timeslice_us-minn:
+					cur_bw=self.timeslice_us-minn
+				elif tmp_cur_bw<=self.timeslice_us/3:
+					cur_bw=int(self.timeslice_us/3)
 				else:
-					cur_b=tmp_cur_b
+					cur_bw=tmp_cur_bw
 
-			cur_b=int(cur_b)-int(cur_b)%100
-			# print(cur_b)
-			xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
-			# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
+			cur_bw=int(cur_bw)-int(cur_bw)%100
+			# print(cur_bw)
+			xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_bw,[])
+			# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_bw,[])
 			myinfo = self.shared_data[self.domuid]
 			cnt=0
 			for vcpu in myinfo:
 				if vcpu['pcpu']!=-1:
-					vcpu['b']=cur_b
+					vcpu['b']=cur_bw
 					#print(tab,'vcpu:',cnt,'b:',vcpu['b'])
 					cnt+=1		
 		if self.anchors==4:
-			cur_b = 0
+			cur_bw = 0
 			myinfo = self.shared_data[self.domuid]
 			for vcpu in myinfo:
 				if vcpu['pcpu']!=-1:
-					cur_b=int(vcpu['b'])		
+					cur_bw=int(vcpu['b'])		
 						# apid algo
 
 
 			# aimd algo
 			alpha=1
 			beta=.9
-			free = self.timeslice_us-cur_b
+			free = self.timeslice_us-cur_bw
 
 			if(heart_rate<self.mid):
-				if cur_b<self.timeslice_us-minn:
+				if cur_bw<self.timeslice_us-minn:
 					free=free*beta
-					cur_b=self.timeslice_us-free
-					xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
-					# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
+					cur_bw=self.timeslice_us-free
+					xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_bw,[])
+					# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_bw,[])
 			if(heart_rate>self.mid):
-				if cur_b>minn:
+				if cur_bw>minn:
 					free+=alpha*100
-					cur_b=self.timeslice_us-free
-					xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
-					# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
+					cur_bw=self.timeslice_us-free
+					xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_bw,[])
+					# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_bw,[])
 			myinfo = self.shared_data[self.domuid]
 			cnt=0
 			for vcpu in myinfo:
 				if vcpu['pcpu']!=-1:
-					vcpu['b']=cur_b
+					vcpu['b']=cur_bw
 					#print(tab,'vcpu:',cnt,'b:',vcpu['b'])
 					cnt+=1
 		if self.anchors==1:
-			if self.sched==1:
 				#print(tab,'RT-Xen anchors ACTIVE:')
-				cur_b = 0
+				cur_bw = 0
 				myinfo = self.shared_data[self.domuid]
 				for vcpu in myinfo:
 					if vcpu['pcpu']!=-1:
-						cur_b=int(vcpu['b'])
+						cur_bw=int(vcpu['b'])
 				#simple algo			
 				if(heart_rate<self.min_heart_rate):
-					if cur_b<self.timeslice_us-minn:
-						cur_b+=minn
-						xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
-						# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
+					if cur_bw<self.timeslice_us-minn:
+						cur_bw+=minn
+						xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_bw,[])
+						# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_bw,[])
 				if(heart_rate>self.max_heart_rate):
-					if cur_b>minn:
-						cur_b-=minn
-						xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
-						# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
+					if cur_bw>minn:
+						cur_bw-=minn
+						xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_bw,[])
+						# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_bw,[])
 
 
 				if heart_rate<=self.max_heart_rate and heart_rate >= self.min_heart_rate:
 					self.target_reached_cnt+=1
 					if self.target_reached_cnt==150:
 						self.target_reached_cnt-=15
-						if cur_b>minn:
-							cur_b-=minn
-							xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_b,[])
-							# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_b,[])
+						if cur_bw>minn:
+							cur_bw-=minn
+							xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_bw,[])
+							# xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_bw,[])
 				else:
 					self.target_reached_cnt=0
 
@@ -252,59 +251,59 @@ class MonitorThread(threading.Thread):
 				cnt=0
 				for vcpu in myinfo:
 					if vcpu['pcpu']!=-1:
-						vcpu['b']=cur_b
+						vcpu['b']=cur_bw
 						#print(tab,'vcpu:',cnt,'b:',vcpu['b'])
 						cnt+=1
 			else:
 				#print(tab,'Credit anchors ACTIVE:')
-				cur_w = 0
+				cur_bw = 0
 				myinfo = self.shared_data[self.domuid]
 				for vcpu in myinfo:
 					if vcpu['pcpu']!=-1:
-						cur_w=int(vcpu['w'])
+						cur_bw=int(vcpu['w'])
 
 				alpha=1
 				beta=.9
-				free = self.timeslice_us-cur_w
+				free = self.timeslice_us-cur_bw
 
 				if(heart_rate<self.min_heart_rate):
-					if cur_w<self.timeslice_us-minn:
+					if cur_bw<self.timeslice_us-minn:
 						free=free*beta
-						cur_w=self.timeslice_us-free
-						xen_interface.sched_credit(self.domuid,cur_w)
-						xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_w)
+						cur_bw=self.timeslice_us-free
+						xen_interface.sched_credit(self.domuid,cur_bw)
+						xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_bw)
 				if(heart_rate>self.min_heart_rate):
-					if cur_w>minn:
+					if cur_bw>minn:
 						free+=alpha*10
-						cur_w=self.timeslice_us-free
-						xen_interface.sched_credit(self.domuid,cur_w)
-						xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_w)
+						cur_bw=self.timeslice_us-free
+						xen_interface.sched_credit(self.domuid,cur_bw)
+						xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_bw)
 
 				# if(heart_rate<self.min_heart_rate):
-				# 	if cur_w<self.timeslice_us-minn:
-				# 		cur_w+=minn
-				# 		xen_interface.sched_credit(self.domuid,cur_w)
-				# 		xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_w)
+				# 	if cur_bw<self.timeslice_us-minn:
+				# 		cur_bw+=minn
+				# 		xen_interface.sched_credit(self.domuid,cur_bw)
+				# 		xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_bw)
 				# if(heart_rate>self.max_heart_rate):
-				# 	if cur_w>minn:
-				# 		cur_w-=minn
-				# 		xen_interface.sched_credit(self.domuid,cur_w)
-				# 		xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_w)
+				# 	if cur_bw>minn:
+				# 		cur_bw-=minn
+				# 		xen_interface.sched_credit(self.domuid,cur_bw)
+				# 		xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_bw)
 				# if heart_rate<=self.max_heart_rate and heart_rate >= self.min_heart_rate:
 				# 	self.target_reached_cnt+=1
 				# 	if self.target_reached_cnt==150:
 				# 		self.target_reached_cnt-=15
-				# 		if cur_w>minn:
-				# 			cur_w-=minn
-				# 			xen_interface.sched_credit(self.domuid,cur_w)
-				# 			xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_w)
+				# 		if cur_bw>minn:
+				# 			cur_bw-=minn
+				# 			xen_interface.sched_credit(self.domuid,cur_bw)
+				# 			xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_bw)
 				# else:
 				# 	self.target_reached_cnt=0
 				myinfo = self.shared_data[self.domuid]
 				cnt=0
 				for vcpu in myinfo:
 					if vcpu['pcpu']!=-1:
-						vcpu['w']=cur_w
+						vcpu['w']=cur_bw
 						#print(tab,'vcpu:',cnt,'w:',vcpu['w'])
 						cnt+=1
 
