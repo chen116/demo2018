@@ -13,8 +13,8 @@ import imutils
 from imutils.video import VideoStream
 
 from imutils.video import FileVideoStream
-from utils import FPS, WebcamVideoStream
-
+from imutils.video import VideoStream
+from imutils.video import FPS
 
 
 
