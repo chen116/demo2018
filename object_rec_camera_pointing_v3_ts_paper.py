@@ -313,7 +313,7 @@ while True: # realvid
 	frame = vs.read()
 
 
-	run_threads = 1
+	run_threads = 0
 	if run_threads==0:
 		if False:
 			cnt+=1
