@@ -184,9 +184,12 @@ class Workers(threading.Thread):
 				#print("--------------------thread:",self.thread_id," gonna dnn", "cnt:",self.my_every_n_frame_cnt,'n:',self.n)
 				# self.output_q.put(self.net.forward())
 				# self.output_q.put({'blob':self.net.forward(),'cnt':stuff['cnt']})
-				net_result=self.net.forward()
+
+				
+				# net_result=self.net.forward()
 				# self.output_q.put({'blob':net_result,'cnt':stuff['cnt']})
-				self.output_q.put({'blob':net_result,'cnt':stuff['cnt']})
+				self.output_q.put({'blob':-1*np.ones((1,1,1,2)),'cnt':stuff['cnt']})
+
 
 			else:
 				# self.output_q.put({'blob':-1*np.ones((1,1,1,2)),'cnt':stuff['cnt']})
