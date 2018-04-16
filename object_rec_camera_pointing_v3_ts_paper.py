@@ -310,7 +310,7 @@ prev_personincam = personincam
 # while vs.more(): # outvid
 while True: # realvid
 
-	frame = vs.read()
+	# frame = vs.read()
 
 
 	run_threads = 0
