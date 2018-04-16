@@ -153,11 +153,11 @@ class MonitorThread(threading.Thread):
 		cur_bw = 0
 		myinfo = self.shared_data[self.domuid]
 
-		if sched==1:
+		if self.sched==1:
 			for vcpu in myinfo:
 				if vcpu['pcpu']!=-1:
 					cur_bw=int(vcpu['b'])
-		elif sched==0:
+		elif self.sched==0:
 			for vcpu in myinfo:
 				if vcpu['pcpu']!=-1:
 					cur_bw=int(vcpu['w'])
