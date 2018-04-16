@@ -364,7 +364,12 @@ while True: # realvid
 			threadLock.release()
 			stuff={'blob':blob,'cnt':cnt,'n':m1.get()}
 			cnt+=1
-			input_q.put(stuff)
+			# input_q.put(stuff)
+			try:
+				input_q.put_nowait(stuff)
+			except:
+				cnt=cnt
+			
 
 
 		if True:#not output_q.empty():
