@@ -490,9 +490,9 @@ while True: # realvid
 			cv2.imshow("Frame", frame)
 			# hb stuff
 			# #print("hb: before heartbeat_beat()")
-			if output_q_cnt%4==0:
-				hb.heartbeat_beat()
-				comm.write("heart_rate",hb.get_instant_heartrate())
+
+			hb.heartbeat_beat()
+			comm.write("heart_rate",hb.get_instant_heartrate())
 
 			# if output_q_cnt>window_size_hr:
 			# 	comm.write("heart_rate",hb.get_instant_heartrate())
