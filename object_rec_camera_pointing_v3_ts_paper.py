@@ -208,7 +208,7 @@ class Workers(threading.Thread):
 					self.net.setInput(blob)
 					net_result=self.net.forward()
 				try:
-					self.output_q.put_nowait({'blob':net_result,'cnt':stuff['cnt']})
+					self.output_q.put({'blob':net_result,'cnt':stuff['cnt']})
 				except:
 					print(thread_id,"thread not gonna wait put")
 			except:
