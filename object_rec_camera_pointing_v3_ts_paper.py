@@ -330,6 +330,9 @@ while True: # realvid
 			master.update_idletasks()
 			master.update()
 		else:
+			cnt+=1
+			print(cnt)
+			
 			time.sleep(1)
 			hb.heartbeat_beat()
 
