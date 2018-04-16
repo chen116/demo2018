@@ -306,10 +306,10 @@ pointat = 0
 # loop over the frames from the video stream
 
 prev_personincam = personincam
-while vs.more(): # outvid
-# while True: # realvid
+# while vs.more(): # outvid
+while True: # realvid
 
-	frame = vs.read()
+	# frame = vs.read()
 	frame = cat_frame # outvid
 
 	run_threads = 1
