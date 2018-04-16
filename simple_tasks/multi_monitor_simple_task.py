@@ -23,7 +23,7 @@ monitoring_domU = (sys.argv[3]).split(',')
 
 c = heartbeat.Dom0(monitoring_items,monitoring_domU)
 
-timeslice_us=int(sys.argv[4s])
+timeslice_us=int(sys.argv[4])
 minn=int(timeslice_us*0.01)
 default_bw=int(timeslice_us)-minn
 
