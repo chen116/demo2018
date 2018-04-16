@@ -366,8 +366,16 @@ while True: # realvid
 			cnt+=1
 			input_q.put(stuff)
 
-		if not output_q.empty():
-			stuff = output_q.get()
+
+		if True:#not output_q.empty():
+			stuff=None
+			try:
+				stuff = output_q.get_nowait()
+			except:
+				stuff = {'blob':-1*np.ones((1,1,1,2)),'cnt':output_q_cnt}
+
+
+			# stuff = output_q.get()
 			detections = stuff['blob']
 			order = stuff['cnt']
 			#print('output cnt:',order,'global cnt:',output_q_cnt)
