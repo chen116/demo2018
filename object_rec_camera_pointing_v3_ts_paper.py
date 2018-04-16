@@ -171,7 +171,9 @@ class Workers(threading.Thread):
 				# self.output_q.put({'cnt':-1})
 				break
 			# blob = self.input_q.get()
+
 			stuff = self.input_q.get()
+
 			if stuff['cnt']==-1:
 				self.output_q.put({'cnt':-1})
 				break
