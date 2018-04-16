@@ -295,7 +295,7 @@ for i in range(total_num_threads):
 prev_boxes = []
 # loop over the frames from the video stream
 cnt=0
-global_cnt=0
+output_q_cnt=0
 
 import heartbeat
 window_size_hr=5
@@ -310,21 +310,21 @@ prev_personincam = personincam
 # while vs.more(): # outvid
 while True: # realvid
 
-	# frame = vs.read()
+	frame = vs.read()
 
 
 	run_threads = 0
 	if run_threads==0:
-		if False:
+		if True:
 			cnt+=1
 			print(cnt)
 			frame = imutils.resize(frame, width=300)
 			cv2.imshow("Frame", frame)
 			# hb stuff
 			hb.heartbeat_beat()
-			global_cnt=10
+			output_q_cnt=10
 
-			if global_cnt>window_size_hr:
+			if output_q_cnt>window_size_hr:
 				comm.write("heart_rate",hb.get_instant_heartrate())		
 			fps.update()
 			master.update_idletasks()
@@ -335,10 +335,10 @@ while True: # realvid
 
 			time.sleep(1)
 			hb.heartbeat_beat()
-			global_cnt=10
-			
+			output_q_cnt=10
 
-			if global_cnt>window_size_hr:
+
+			if output_q_cnt>window_size_hr:
 				comm.write("heart_rate",hb.get_instant_heartrate())	
 
 	if run_threads==1 and frame is not None:
@@ -371,8 +371,8 @@ while True: # realvid
 			stuff = output_q.get()
 			detections = stuff['blob']
 			order = stuff['cnt']
-			#print('output cnt:',order,'global cnt:',global_cnt)
-			global_cnt+=1
+			#print('output cnt:',order,'global cnt:',output_q_cnt)
+			output_q_cnt+=1
 
 			if detections[0][0][0][0] == -1:
 				if len(prev_boxes)>0:
@@ -453,7 +453,7 @@ while True: # realvid
 			# #print("hb: before get_instant_heartrate()")
 			# instant_hr = hb.get_instant_heartrate()
 			# #print("hb: after hb stuff")
-			if global_cnt>window_size_hr:# and cnt%window_size_hr==0:
+			if output_q_cnt>window_size_hr:# and cnt%window_size_hr==0:
 				comm.write("heart_rate",hb.get_instant_heartrate())
 			# #print('------------------window_hr:',window_hr)
 			# #print('instant_hr:',instant_hr)
