@@ -72,7 +72,9 @@ try:
 		elif i==it*5:
 			matsize=600
 			comm.write("frame_size", matsize)
-
+except:
+	print("stopped")
+	comm.write("heart_rate", "done")
 
 # hb.heartbeat_beat()
 # comm.write("heart_rate","reset")
