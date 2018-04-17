@@ -191,49 +191,49 @@ class MonitorThread(threading.Thread):
 			alpha=1
 			beta=.8
 			free = self.timeslice_us-cur_bw
-			if(heart_rate<self.mid):
-				if cur_bw<self.timeslice_us-minn:
-					free=free*beta
-					cur_bw=self.timeslice_us-free
-				else:
-					cur_bw=self.timeslice_us-minn
-
-
-
-			if(heart_rate>self.mid):
-				if cur_bw>minn:
-					free+=alpha*minn
-					cur_bw=self.timeslice_us-free
-
-
-			# if(heart_rate<self.min_heart_rate):
+			# if(heart_rate<self.mid):
 			# 	if cur_bw<self.timeslice_us-minn:
 			# 		free=free*beta
 			# 		cur_bw=self.timeslice_us-free
 			# 	else:
 			# 		cur_bw=self.timeslice_us-minn
-			# if(heart_rate>self.max_heart_rate):
+
+
+
+			# if(heart_rate>self.mid):
 			# 	if cur_bw>minn:
 			# 		free+=alpha*minn
 			# 		cur_bw=self.timeslice_us-free
+
+
+			if(heart_rate<self.min_heart_rate):
+				if cur_bw<self.timeslice_us-minn:
+					free=free*beta
+					cur_bw=self.timeslice_us-free
+				else:
+					cur_bw=self.timeslice_us-minn
+			if(heart_rate>self.max_heart_rate):
+				if cur_bw>minn:
+					free+=alpha*minn
+					cur_bw=self.timeslice_us-free
 			cur_bw=int(cur_bw)#-int(cur_bw)%100
 
 
 		if self.anchors==1:
 
-			if(heart_rate<self.mid):
-				if cur_bw<self.timeslice_us-2*minn: #dummy
-					cur_bw+=minn
-			if(heart_rate>self.mid):
-				if cur_bw>minn:
-					cur_bw-=minn
-
-			# if(heart_rate<self.min_heart_rate):
+			# if(heart_rate<self.mid):
 			# 	if cur_bw<self.timeslice_us-2*minn: #dummy
 			# 		cur_bw+=minn
-			# if(heart_rate>self.max_heart_rate):
+			# if(heart_rate>self.mid):
 			# 	if cur_bw>minn:
 			# 		cur_bw-=minn
+
+			if(heart_rate<self.min_heart_rate):
+				if cur_bw<self.timeslice_us-2*minn: #dummy
+					cur_bw+=minn
+			if(heart_rate>self.max_heart_rate):
+				if cur_bw>minn:
+					cur_bw-=minn
 			cur_bw=int(cur_bw)#-int(cur_bw)%100
 
 		if self.anchors==2:
