@@ -8,7 +8,7 @@ class AdapPID:
 	def __init__(self,goal,gamma,min_heart_rate,max_heart_rate):
 		self.goal=goal
 		self.output = 0
-		self.gamma = gamma
+		self.gamma = 1
 		self.init_gamma = gamma
 		self.last_time = 0
 		self.psn1=0
@@ -34,7 +34,7 @@ class AdapPID:
 	def update(self,feedback):
 
 		self.err = self.goal-feedback
-		self.gamma = np.log(abs(self.err)+1)/np.log(self.goal)
+		# self.gamma = np.log(abs(self.err)+1)/np.log(self.goal)
 		current_time = time.time()
 		if self.start==0:
 			self.delta_time=0
