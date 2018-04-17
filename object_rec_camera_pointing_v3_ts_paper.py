@@ -291,19 +291,20 @@ tracking_target = "cat"  # outvid # fastcat
 # vs= FileVideoStream("walkcat.mp4").start() # outvid
 time.sleep(2.0)
 catlen=0
-catlen=1 # fastcat
+catlen=3 # fastcat
+onecatvidlen = 550 # fastcat
 vidarray = None
 if catlen>0: 
 	#fps = FPS().start()
 	x = 0
 	# loop over the frames from the video stream
-	vidarray = np.zeros((550*catlen,360,640,3),dtype=np.uint8)
+	vidarray = np.zeros((onecatvidlen*catlen,360,640,3),dtype=np.uint8)
 	vs= FileVideoStream("walkcat.mp4").start()
 	time.sleep(2.0)
-	for a in range(550):
+	for a in range(onecatvidlen):
 		frame = vs.read()
 		for i in range(catlen):
-			vidarray[a+(i*550),:,:,:]=frame
+			vidarray[a+(i*onecatvidlen),:,:,:]=frame
 	vs.stop()
 
 
@@ -499,7 +500,6 @@ for frame in vidarray: # fastcat
 
 			if output_q_cnt>window_size_hr and output_q_cnt%w1.get()==0:
 				comm.write("heart_rate",hb.get_window_heartrate())
-
 			current_checked = checked.get()
 			if previous_checked!=current_checked and output_q_cnt%w1.get()==0:
 				comm.write("app_mode",current_checked)
@@ -535,6 +535,13 @@ for frame in vidarray: # fastcat
 			#print('personincam =',personincam)
 			#print('sentfoundmessage = ',sentfoundmessage)
 			#print('sentlostmessage = ',sentlostmessage)
+			if (output_q_cnt%50)==0:
+				 checked.set(str(sys.argv[8]))
+			if output_q_cnt == onecatvidlen:
+				w1.set(6)
+			if output_q_cnt == 2*onecatvidlen:
+				w1.set(3)				
+
 
 			
 # stop the timer and display FPS information
