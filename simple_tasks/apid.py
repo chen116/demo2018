@@ -34,7 +34,7 @@ class AdapPID:
 	def update(self,feedback):
 
 		self.err = self.goal-feedback
-		self.gamma = 10*np.log(abs(self.err)+1)/np.log(self.goal)
+		self.gamma = np.log(abs(self.err)+1)/np.log(self.goal)
 		current_time = time.time()
 		if self.start==0:
 			self.delta_time=0
