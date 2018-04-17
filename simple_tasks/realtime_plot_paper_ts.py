@@ -169,7 +169,7 @@ def animate2(i):
         x_for_minmax.append(i)
         miny.append(min_max[0])
         maxy.append(min_max[1])
-    if time_start>0 and time_end>0:
+    if time_start>0 and time_end>0 and len(miny)>1:
         ax1.plot([0,time_end-time_start],miny[0:2],'r')
         # ax1.plot([0,time_end-time_start],[(miny[0]+maxy[0])/2,(miny[0]+maxy[0])/2],'pink')
         ax1.plot([0,time_end-time_start],[(miny[0]+maxy[0])/2-0.5,(miny[0]+maxy[0])/2-0.5],'pink')
