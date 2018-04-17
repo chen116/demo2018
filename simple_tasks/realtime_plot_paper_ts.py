@@ -213,7 +213,7 @@ def animate2(i):
         rtxen_or_xen = 1
     area_under_curve = 0
     for i in range(1,len(x[rtxen_or_xen])):
-        area_under_curve+=cpus[rtxen_or_xen][i-1]*x[rtxen_or_xen][i]
+        area_under_curve+=cpus[rtxen_or_xen][i-1]*(x[rtxen_or_xen][i]-x[rtxen_or_xen][i-1])
     per=area_under_curve
 
 
