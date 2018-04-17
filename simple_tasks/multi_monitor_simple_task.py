@@ -46,7 +46,7 @@ class MonitorThread(threading.Thread):
 		self.timeslice_us = timeslice_us
 		self.mid=(min_heart_rate+max_heart_rate)/2
 
-		self.pid = apid.AdapPID(self.max_heart_rate,1,min_heart_rate,max_heart_rate)
+		self.pid = apid.AdapPID(self.mid,1,min_heart_rate,max_heart_rate)
 
 	def run(self):
 		# Acquire lock to synchronize thread
