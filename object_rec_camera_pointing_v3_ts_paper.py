@@ -79,7 +79,7 @@ if True:
 	    ("apid", 3)
 	]
 	checked = IntVar()
-	checked.set(int(sys.argv[8])) # initialize
+	checked.set(2) # initialize
 	previous_checked = checked.get()
 
 	for text, mode in anchors_options:
@@ -535,8 +535,8 @@ for frame in vidarray: # fastcat
 			#print('personincam =',personincam)
 			#print('sentfoundmessage = ',sentfoundmessage)
 			#print('sentlostmessage = ',sentlostmessage)
-			# if output_q_cnt==50:
-			# 	 checked.set(str(sys.argv[8]))
+			if output_q_cnt==0:
+				 checked.set(str(sys.argv[8]))
 			if output_q_cnt == onecatvidlen:
 				w1.set(6)
 			if output_q_cnt == 2*onecatvidlen:
