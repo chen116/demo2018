@@ -288,35 +288,24 @@ personincam = 0
 # tracking_target = "person" # realvid
 tracking_target = "cat"  # outvid # fastcat
 # vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
-vs= FileVideoStream("walkcat.mp4").start() # outvid # fastcat
+# vs= FileVideoStream("walkcat.mp4").start() # outvid
 time.sleep(2.0)
-meow=0
-meow=1 # fastcat
+catlen=0
+catlen=6 # fastcat
 vidarray = None
-if meow: 
+if catlen>0: 
 	#fps = FPS().start()
 	x = 0
 	# loop over the frames from the video stream
-	cnt = 0
-	vidarray = np.zeros((550*3,360,640,3),dtype=np.uint8)
+	vidarray = np.zeros((550*catlen,360,640,3),dtype=np.uint8)
+	vs= FileVideoStream("walkcat.mp4").start()
+	time.sleep(2.0)
 	for a in range(550):
-	       frame = vs.read()
-	       vidarray[a,:,:,:]=frame
+		frame = vs.read()
+		for i in range(catlen):
+			vidarray[a+(i*550),:,:,:]=frame
 	vs.stop()
-	vs= FileVideoStream("walkcat.mp4").start() # outvid # fastcat
-	time.sleep(2.0)
 
-	for a in range(550,550*2):
-	       frame = vs.read()
-	       vidarray[a,:,:,:]=frame
-	vs.stop()
-	vs= FileVideoStream("walkcat.mp4").start() # outvid # fastcat
-	time.sleep(2.0)
-
-	for a in range(550*2,550*3):
-	       frame = vs.read()
-	       vidarray[a,:,:,:]=frame
-	vs.stop()
 
 # cat_frame = vs.read()  # outvid
 # for x in range(10):  # outvid
