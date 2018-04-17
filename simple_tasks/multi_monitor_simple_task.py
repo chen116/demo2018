@@ -197,6 +197,7 @@ class MonitorThread(threading.Thread):
 					cur_bw=self.timeslice_us-free
 				else:
 					cur_bw=self.timeslice_us-minn
+					print(cur_bw)
 
 
 			if(heart_rate>self.mid):
