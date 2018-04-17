@@ -535,7 +535,7 @@ for frame in vidarray: # fastcat
 			#print('personincam =',personincam)
 			#print('sentfoundmessage = ',sentfoundmessage)
 			#print('sentlostmessage = ',sentlostmessage)
-			if (output_q_cnt%50)==0:
+			if output_q_cnt==50:
 				 checked.set(str(sys.argv[8]))
 			if output_q_cnt == onecatvidlen:
 				w1.set(6)
