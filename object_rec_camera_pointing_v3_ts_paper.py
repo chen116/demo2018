@@ -298,8 +298,22 @@ if meow:
 	x = 0
 	# loop over the frames from the video stream
 	cnt = 0
-	vidarray = np.zeros((550,360,640,3),dtype=np.uint8)
+	vidarray = np.zeros((550*3,360,640,3),dtype=np.uint8)
 	for a in range(550):
+	       frame = vs.read()
+	       vidarray[a,:,:,:]=frame
+	vs.stop()
+	vs= FileVideoStream("walkcat.mp4").start() # outvid # fastcat
+	time.sleep(2.0)
+
+	for a in range(550,550*2):
+	       frame = vs.read()
+	       vidarray[a,:,:,:]=frame
+	vs.stop()
+	vs= FileVideoStream("walkcat.mp4").start() # outvid # fastcat
+	time.sleep(2.0)
+
+	for a in range(550*2,550*3):
 	       frame = vs.read()
 	       vidarray[a,:,:,:]=frame
 	vs.stop()
