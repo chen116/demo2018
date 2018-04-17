@@ -88,6 +88,7 @@ def animate2(i):
                     maxhrs=float(line[1])
                 cpus[index].append(float(line[2])/(1)*100)
             if len(line)==2+1:
+                print(line)
                 anchor_xs[index].append(float(line[-1]))
                 anchors[index].append(int(line[1]))
                 event_last_happened_at_cnt[index]=cnt
