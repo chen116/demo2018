@@ -82,6 +82,7 @@ def animate2(i):
             line = eachLine.split()
             if cnt==0:
                 time_base = float(line[-1])
+            time_end = float(line[-1])
             index=int(line[0])-1
             if len(line)==3+1:
                 x[index].append(float(line[-1])-time_base)
@@ -167,8 +168,8 @@ def animate2(i):
         x_for_minmax.append(i)
         miny.append(min_max[0])
         maxy.append(min_max[1])
-    ax1.plot(x_for_minmax,miny,'r')
-    ax1.plot(x_for_minmax,maxy,'r',label= 'Target\nFPS\nInterval')
+    ax1.plot([0,time_end],miny[0:2],'r')
+    ax1.plot([0,time_end],maxy[0:2],'r',label= 'Target\nFPS\nInterval')
     fontP = FontProperties()
     fontP.set_size('small')
     ax1.legend(bbox_to_anchor=(1.01, 1), loc=2, borderaxespad=0.,prop=fontP)
