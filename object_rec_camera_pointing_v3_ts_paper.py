@@ -523,19 +523,8 @@ while True: # realvid
 			if key == ord("q"):
 				break
 
-			# # update the FPS counter
-			# fps.update()
-			# master.update_idletasks()
-			# master.update()
-			#if(time.time()>pointat):
-			#	canpoint = 1
-			#print('localsearch = ',localsearch)
-			#print('remotetrack = ',remotetrack)
-			#print('localtrack = ',localtrack)
-			#print('personincam =',personincam)
-			#print('sentfoundmessage = ',sentfoundmessage)
-			#print('sentlostmessage = ',sentlostmessage)
-			# if catlen>0: # fastcat
+
+			if catlen>0: 
 				if output_q_cnt==0: 
 					 checked.set(str(sys.argv[8]))
 				if output_q_cnt == onecatvidlen:
