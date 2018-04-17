@@ -292,7 +292,7 @@ tracking_target = "cat"  # outvid # fastcat
 # time.sleep(2.0) # realvid
 catlen=0
 catlen=3 # fastcat
-onecatvidlen = 550 # fastcat
+onecatvidlen = 150 # fastcat
 vidarray = None
 if catlen>0: 
 	#fps = FPS().start()
