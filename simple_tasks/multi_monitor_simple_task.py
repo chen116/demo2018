@@ -182,7 +182,6 @@ class MonitorThread(threading.Thread):
 					cur_bw=tmp_cur_bw
 
 			cur_bw=int(cur_bw)-int(cur_bw)%100
-			print(cur_bw)
 
 		else:
 			self.pid.reset()
@@ -207,23 +206,22 @@ class MonitorThread(threading.Thread):
 					free+=alpha*minn
 					cur_bw=self.timeslice_us-free
 			cur_bw=int(cur_bw)-int(cur_bw)%100
-			print(cur_bw)
 
 
 		if self.anchors==1:
 			if(heart_rate<self.mid):
-				if cur_bw<self.timeslice_us-minn: #dummy
+				if cur_bw<self.timeslice_us-2*minn: #dummy
 					cur_bw+=minn
 			if(heart_rate>self.mid):
 				if cur_bw>minn:
 					cur_bw-=minn
 			cur_bw=int(cur_bw)-int(cur_bw)%100
-			print(cur_bw)
+
 		if self.anchors==2:
 			default_bw=int(self.timeslice_us-minn) #dummy
 			if cur_bw!=default_bw:
 				cur_bw=default_bw
-			print(cur_bw)
+
 		if self.anchors==0:
 			default_bw=int(self.timeslice_us/2) #dummy
 			if cur_bw!=default_bw:
