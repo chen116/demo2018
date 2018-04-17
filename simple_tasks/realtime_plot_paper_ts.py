@@ -26,7 +26,7 @@ font_per = [{'family': 'serif',
         }]
 ax_improvement_percentage = plt.axes([0.72, 0.91, 0.2, 0.12])
 ax_improvement_percentage.text(0.08,0.42,'CPU time used %:',fontdict=font_per[0])
-ax_improvement_percentage_txt = ax_improvement_percentage.text(0.58,0.01,'%.2f%%'%(0),fontdict=font_per[1])
+ax_improvement_percentage_txt = ax_improvement_percentage.text(0.5,0.01,'%.2f%%'%(0),fontdict=font_per[1])
 ax_improvement_percentage.axis('off')
 
 last_ts=[15,15]
@@ -180,7 +180,7 @@ def animate2(i):
     # ax1.legend(loc='upper center', bbox_to_anchor=(0.5, 1.12),ncol=3, fancybox=True, shadow=True,prop=fontP)
     # ax2.legend(loc='upper center', bbox_to_anchor=(0.5, 1.1),ncol=3, fancybox=True, shadow=True,prop=fontP)
     ax2.legend(bbox_to_anchor=(1.01, 1), loc=2, borderaxespad=0.,prop=fontP)
-    fig.suptitle('RT-Xen vs Credit', fontsize=14, fontweight='bold')
+    # fig.suptitle('RT-Xen vs Credit', fontsize=14, fontweight='bold')
     per = 0
     # try:
     #     rtxen_fps = hrs[0][-1]
