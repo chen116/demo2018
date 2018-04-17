@@ -26,7 +26,7 @@ font_per = [{'family': 'serif',
         }]
 ax_improvement_percentage = plt.axes([0.72, 0.91, 0.2, 0.12])
 ax_improvement_percentage.text(0.08,0.42,'CPU time used %:',fontdict=font_per[0])
-ax_improvement_percentage_txt = ax_improvement_percentage.text(0.5,0.01,'%.2f%%'%(0),fontdict=font_per[1])
+ax_improvement_percentage_txt = ax_improvement_percentage.text(0.4,0.01,'%.2f%%'%(0),fontdict=font_per[1])
 ax_improvement_percentage.axis('off')
 
 last_ts=[15,15]
