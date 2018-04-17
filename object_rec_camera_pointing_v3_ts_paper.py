@@ -94,12 +94,12 @@ if True:
 	FSIZE = [
 	    ("L", 6),
 	    ("M", 4),
-	    ("H", 3)
+	    ("H", 2)
 	]
 	w1 = IntVar()
 	w1.set(4) # initialize
 	previous_freq = w1.get()
-	window_size_hr=12
+	window_size_hr=8
 	for text, mode in FSIZE:
 	    b = Radiobutton(master, text=text,variable=w1, value=mode)
 	    b.pack(side=LEFT)
