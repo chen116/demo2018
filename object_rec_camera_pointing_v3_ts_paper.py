@@ -399,7 +399,7 @@ while True: # realvid
 			
 
 
-		if not output_q.empty():
+		if True:#not output_q.empty():
 
 			stuff = output_q.get()
 			# stuff=None
