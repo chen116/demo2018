@@ -189,7 +189,7 @@ class MonitorThread(threading.Thread):
 		if self.anchors==4:
 			# aimd algo
 			alpha=1
-			beta=.8
+			beta=.9
 			free = self.timeslice_us-cur_bw
 			# if(heart_rate<self.mid):
 			# 	if cur_bw<self.timeslice_us-minn:
