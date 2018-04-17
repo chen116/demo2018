@@ -170,7 +170,7 @@ def animate2(i):
         maxy.append(min_max[1])
     if time_start>0:
         ax1.plot([0,time_end-time_start],miny[0:2],'r')
-        ax1.plot([0,time_end-time_start],[(miny[0]+maxy[0])/2,(miny[0]+maxy[0])/2],'lightcoral')
+        ax1.plot([0,time_end-time_start],[(miny[0]+maxy[0])/2,(miny[0]+maxy[0])/2],'pink')
         ax1.plot([0,time_end-time_start],maxy[0:2],'r',label= 'Target\nFPS\nInterval')
     fontP = FontProperties()
     fontP.set_size('small')
