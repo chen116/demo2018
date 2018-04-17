@@ -74,10 +74,12 @@ class MonitorThread(threading.Thread):
 						with open("info.txt", "a") as myfile:
 							myfile.write(self.domuid+" "+(msg)+ " "+str(time.time())+"\n")
 				if self.keys[2] in path.decode():
+					self.pid.reset()
 					if msg.isdigit():
 						with open("info.txt", "a") as myfile:
-							myfile.write(self.domuid+" "+(msg)+" frame size"+ " "+str(time.time())+"\n")
+							myfile.write(self.domuid+" "+(msg)+" frame freq"+ " "+str(time.time())+"\n")
 				if self.keys[3] in path.decode():
+					self.pid.reset()
 					if msg.isdigit():
 						tmp_new_timeslice_us = int(msg)*1000
 						if self.sched ==1:
