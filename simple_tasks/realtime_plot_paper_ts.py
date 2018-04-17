@@ -25,7 +25,7 @@ font_per = [{'family': 'serif',
         'size': 24,
         }]
 ax_improvement_percentage = plt.axes([0.72, 0.91, 0.2, 0.12])
-ax_improvement_percentage.text(0.08,0.42,'RT-Xen outperforms Credit by:',fontdict=font_per[0])
+ax_improvement_percentage.text(0.08,0.42,'CPU time used %:',fontdict=font_per[0])
 ax_improvement_percentage_txt = ax_improvement_percentage.text(0.58,0.01,'%.2f%%'%(0),fontdict=font_per[1])
 ax_improvement_percentage.axis('off')
 
@@ -207,6 +207,16 @@ def animate2(i):
             per=(rtxen_fps-credit_fps)/credit_fps*100
     except:
         per=0
+
+    rtxen_or_xen = 0
+    if len(x[1])>0:
+        rtxen_or_xen = 1
+    area_under_curve = 0
+    for i in range(1,len(x[rtxen_or_xen])):
+        area_under_curve+=cpus[rtxen_or_xen][i-1]*x[rtxen_or_xen][i]
+    per=area_under_curve
+
+
 
     ax_improvement_percentage_txt.set_text('%.2f%%'%(per))
 
