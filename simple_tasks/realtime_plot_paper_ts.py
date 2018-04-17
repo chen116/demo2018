@@ -172,7 +172,7 @@ def animate2(i):
     if time_start>0 and time_end>0 and len(miny)>1:
         ax1.plot([0,time_end-time_start],miny[0:2],'r')
         # ax1.plot([0,time_end-time_start],[(miny[0]+maxy[0])/2,(miny[0]+maxy[0])/2],'pink')
-        ax1.plot([0,time_end-time_start],[(miny[0]+maxy[0])/2-0.5,(miny[0]+maxy[0])/2-0.5],'pink')
+        ax1.plot([0,time_end-time_start],[(miny[0]+maxy[0])/2,(miny[0]+maxy[0])/2-0.5],'pink')
         ax1.plot([0,time_end-time_start],maxy[0:2],'r',label= 'Target\nFPS\nInterval')
     fontP = FontProperties()
     fontP.set_size('small')
@@ -390,31 +390,26 @@ def animate(i):
 ani = animation.FuncAnimation(fig, animate2, interval=1000)
 
 
-rax = plt.axes([0.91, 0.01, 0.085, 0.2])
-rax.axis('off')
+# rax = plt.axes([0.91, 0.01, 0.085, 0.2])
+# rax.axis('off')
+# check = CheckButtons(rax, ['Show\nFrames','Show\nAnchors','Show\nTimeslice' ], [True,True,True])
 
+# # check_per = CheckButtons(rax_per, ['Show\nFrames'], [True])
 
-# check = CheckButtons(rax, ['Show\nFrames','Show\nAnchors','Show\nDummies'], [True,True,True])
-# check = CheckButtons(rax, ['Show\nFrames','Show\nAnchors'], [True,True])
-check = CheckButtons(rax, ['Show\nFrames','Show\nAnchors','Show\nTimeslice' ], [True,True,True])
+# def func(label):
+#     global show_frames, show_anchors,show_dummies,show_ts
+#     if 'Anchors' in label:
+#       show_anchors=(show_anchors+1)%2
+#     elif 'Frames' in label:
+#       show_frames=(show_frames+1)%2    
+#     elif 'Dummies' in label:
+#       show_dummies=(show_dummies+1)%2
+#     elif 'Timeslice' in label:
+#       show_ts=(show_ts+1)%2
 
-# check_per = CheckButtons(rax_per, ['Show\nFrames'], [True])
-
-def func(label):
-    global show_frames, show_anchors,show_dummies,show_ts
-    if 'Anchors' in label:
-      show_anchors=(show_anchors+1)%2
-    elif 'Frames' in label:
-      show_frames=(show_frames+1)%2    
-    elif 'Dummies' in label:
-      show_dummies=(show_dummies+1)%2
-    elif 'Timeslice' in label:
-      show_ts=(show_ts+1)%2
-
-    return
-check.on_clicked(func)
-
-# cursor = Cursor(rax, useblit=True, color='m', linewidth=2)
+#     return
+# check.on_clicked(func)
+# # cursor = Cursor(rax, useblit=True, color='m', linewidth=2)
 
 
 plt.show()
