@@ -40,7 +40,7 @@ def animate2(i):
     minmax = open("minmax.txt","r").read()
     dataArray = pullData.split('\n')
     minmaxArray = minmax.split('\n')
-
+    time_start=0
 
     x = []
     hrs = []
@@ -168,8 +168,9 @@ def animate2(i):
         x_for_minmax.append(i)
         miny.append(min_max[0])
         maxy.append(min_max[1])
-    ax1.plot([0,time_end-time_start],miny[0:2],'r')
-    ax1.plot([0,time_end-time_start],maxy[0:2],'r',label= 'Target\nFPS\nInterval')
+    if time_start>0:
+        ax1.plot([0,time_end-time_start],miny[0:2],'r')
+        ax1.plot([0,time_end-time_start],maxy[0:2],'r',label= 'Target\nFPS\nInterval')
     fontP = FontProperties()
     fontP.set_size('small')
     ax1.legend(bbox_to_anchor=(1.01, 1), loc=2, borderaxespad=0.,prop=fontP)
