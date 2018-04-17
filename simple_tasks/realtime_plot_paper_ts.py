@@ -80,29 +80,31 @@ def animate2(i):
     for eachLine in dataArray:
         if len(eachLine)>1:
             line = eachLine.split()
+            if cnt==0:
+                time_base = float(line[-1])
             index=int(line[0])-1
             if len(line)==3+1:
-                x[index].append(float(line[-1]))
+                x[index].append(float(line[-1])-time_base)
                 hrs[index].append(float(line[1]))
                 if float(line[1])>maxhrs:
                     maxhrs=float(line[1])
                 cpus[index].append(float(line[2])/(1)*100)
             if len(line)==2+1:
                 print(line)
-                anchor_xs[index].append(float(line[-1]))
+                anchor_xs[index].append(float(line[-1])-time_base)
                 anchors[index].append(int(line[1]))
                 event_last_happened_at_cnt[index]=cnt
 
             if len(line)==4+1:
-                frame_xs[index].append(float(line[-1]))
+                frame_xs[index].append(float(line[-1])-time_base)
                 frames[index].append(int(line[1]))
                 event_last_happened_at_cnt[index]=cnt
 
             if len(line)==5+1:
-                dummy_x[index-2].append(float(line[-1]))
+                dummy_x[index-2].append(float(line[-1])-time_base)
                 dummy_hrs[index-2].append(float(line[1]))
             if len(line)==6+1:
-                ts_xs[index].append(float(line[-1]))
+                ts_xs[index].append(float(line[-1])-time_base)
                 ts[index].append(int(line[1]))
                 last_ts[index]=int(line[1])
                 event_last_happened_at_cnt[index]=cnt
