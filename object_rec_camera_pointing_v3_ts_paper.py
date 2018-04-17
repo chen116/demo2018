@@ -92,9 +92,9 @@ if True:
 	frame_label = Label(master, textvariable=frame_var,font = "Verdana 10 bold" )
 	frame_label.pack(side=LEFT)
 	FSIZE = [
-	    ("L", 3),
+	    ("L", 6),
 	    ("M", 4),
-	    ("H", 6)
+	    ("H", 3)
 	]
 	w1 = IntVar()
 	w1.set(4) # initialize
@@ -494,7 +494,7 @@ while True: # realvid
 			hb.heartbeat_beat()
 			# comm.write("heart_rate",hb.get_instant_heartrate())
 
-			if output_q_cnt>window_size_hr: # and output_q_cnt%window_size_hr==0:
+			if output_q_cnt>window_size_hr and output_q_cnt%w1.get()==0:
 				comm.write("heart_rate",hb.get_window_heartrate())
 
 			current_checked = checked.get()
