@@ -494,7 +494,7 @@ while True: # realvid
 			hb.heartbeat_beat()
 			# comm.write("heart_rate",hb.get_instant_heartrate())
 
-			if output_q_cnt>window_size_hr and output_q_cnt%w1.get()==0:
+			if output_q_cnt>window_size_hr :#and output_q_cnt%w1.get()==0:
 				comm.write("heart_rate",hb.get_window_heartrate())
 
 			current_checked = checked.get()
