@@ -82,7 +82,8 @@ def animate2(i):
             line = eachLine.split()
             if cnt==0:
                 time_start = float(line[-1])
-            time_end = float(line[-1])
+            if cnt>=0:
+                time_end = float(line[-1])
             index=int(line[0])-1
             if len(line)==3+1:
                 x[index].append(float(line[-1])-time_start)
