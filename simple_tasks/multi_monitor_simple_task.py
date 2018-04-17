@@ -213,6 +213,7 @@ class MonitorThread(threading.Thread):
 			if(heart_rate>self.mid):
 				if cur_bw>minn:
 					cur_bw-=minn
+			print(cur_bw)
 		if self.anchors==2:
 			default_bw=int(self.timeslice_us-minn) #dummy
 			if cur_bw!=default_bw:
