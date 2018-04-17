@@ -246,17 +246,17 @@ def animate2(i):
             for j in range(len(anchor_xs[i])):
                 ax1.axvline(x=anchor_xs[i][j],color=colrs[i], linestyle='-')
                 ax2.axvline(x=anchor_xs[i][j],color=colrs[i], linestyle='-')
-
+                ymin,ymax=ax1.get_ylim()
                 if anchors[i][j]==0:
-                    ax1.text(anchor_xs[i][j],1.2*maxhrs,"50%",rotation=45,fontdict=font[i])
+                    ax1.text(anchor_xs[i][j],ymax,"50%",rotation=45,fontdict=font[i])
                 elif anchors[i][j]==2:
-                    ax1.text(anchor_xs[i][j],1.2*maxhrs,"100%",rotation=45,fontdict=font[i])
+                    ax1.text(anchor_xs[i][j],ymax,"100%",rotation=45,fontdict=font[i])
                 elif anchors[i][j]==1:
-                    ax1.text(anchor_xs[i][j],1.2*maxhrs,"Linear",rotation=45,fontdict=font[i])
+                    ax1.text(anchor_xs[i][j],ymax,"Linear",rotation=45,fontdict=font[i])
                 elif anchors[i][j]==3:
-                    ax1.text(anchor_xs[i][j],1.2*maxhrs,"APID",rotation=45,fontdict=font[i])
+                    ax1.text(anchor_xs[i][j],ymax,"APID",rotation=45,fontdict=font[i])
                 elif anchors[i][j]==4:
-                    ax1.text(anchor_xs[i][j],1.2*maxhrs,"AIMD",rotation=45,fontdict=font[i])
+                    ax1.text(anchor_xs[i][j],ymax,"AIMD",rotation=45,fontdict=font[i])
     if show_frames:
         for i in range(len(frame_xs)):
             for j in range(len(frame_xs[i])):
