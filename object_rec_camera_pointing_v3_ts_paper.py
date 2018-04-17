@@ -92,9 +92,9 @@ if True:
 	frame_label = Label(master, textvariable=frame_var,font = "Verdana 10 bold" )
 	frame_label.pack(side=LEFT)
 	FSIZE = [
-	    ("L", 3),
+	    ("L", 6),
 	    ("M", 4),
-	    ("H", 6)
+	    ("H", 3)
 	]
 	w1 = IntVar()
 	w1.set(4) # initialize
@@ -224,7 +224,7 @@ m1.set(5)
 threads = []
 every_n_frame = {'cnt':-1,'n':w1.get()}
 threadLock = threading.Lock()
-total_num_threads = 2
+total_num_threads = 3
 num_threads_exiting = 0
 
 
