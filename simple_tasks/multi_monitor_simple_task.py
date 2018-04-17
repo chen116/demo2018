@@ -72,11 +72,11 @@ class MonitorThread(threading.Thread):
 					if msg.isdigit():
 						self.anchors = int(msg)
 						with open("info.txt", "a") as myfile:
-							myfile.write(self.domuid+" "+(msg)+"\n")
+							myfile.write(self.domuid+" "+(msg)+ " "+str(time.time())+"\n")
 				if self.keys[2] in path.decode():
 					if msg.isdigit():
 						with open("info.txt", "a") as myfile:
-							myfile.write(self.domuid+" "+(msg)+" frame size"+"\n")
+							myfile.write(self.domuid+" "+(msg)+" frame size"+ " "+str(time.time())+"\n")
 				if self.keys[3] in path.decode():
 					if msg.isdigit():
 						tmp_new_timeslice_us = int(msg)*1000
@@ -108,7 +108,7 @@ class MonitorThread(threading.Thread):
 						xen_interface.sched_credit_timeslice(int(msg))
 						self.timeslice_us = tmp_new_timeslice_us
 						with open("info.txt", "a") as myfile:
-							myfile.write(self.domuid+" "+(msg)+" time slice len 6"+"\n")							
+							myfile.write(self.domuid+" "+(msg)+" time slice len 6"+ " "+str(time.time())+"\n")							
 
 				if self.keys[0] in path.decode():
 					heart_rate=-1
@@ -242,9 +242,9 @@ class MonitorThread(threading.Thread):
 		self.shared_data['cnt'] = (self.shared_data['cnt']+1)%buf
 		info = self.domuid+" "+str(heart_rate)+" "
 		if self.sched==1:
-			info += str(self.shared_data[self.domuid][0]['b']/self.timeslice_us)
+			info += str(self.shared_data[self.domuid][0]['b']/self.timeslice_us) + " "+str(time.time())
 		else:
-			info += str(self.shared_data[self.domuid][0]['w']/self.timeslice_us)
+			info += str(self.shared_data[self.domuid][0]['w']/self.timeslice_us) + " "+str(time.time())
 
 		# if self.shared_data['cnt']%buf!=0:
 		# 	with open("info.txt", "a") as myfile:

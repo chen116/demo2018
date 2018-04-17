@@ -81,30 +81,54 @@ def animate2(i):
         if len(eachLine)>1:
             line = eachLine.split()
             index=int(line[0])-1
-            if len(line)==3:
-                x[index].append(cnt)
+            if len(line)==3+1:
+                x[index].append(float(line[-1]))
                 hrs[index].append(float(line[1]))
                 if float(line[1])>maxhrs:
                     maxhrs=float(line[1])
                 cpus[index].append(float(line[2])/(1)*100)
-            if len(line)==2:
-                anchor_xs[index].append(cnt)
+            if len(line)==2+1:
+                anchor_xs[index].append(float(line[-1]))
                 anchors[index].append(int(line[1]))
                 event_last_happened_at_cnt[index]=cnt
 
-            if len(line)==4:
-                frame_xs[index].append(cnt)
+            if len(line)==4+1:
+                frame_xs[index].append(float(line[-1]))
                 frames[index].append(int(line[1]))
                 event_last_happened_at_cnt[index]=cnt
 
-            if len(line)==5:
-                dummy_x[index-2].append(cnt)
+            if len(line)==5+1:
+                dummy_x[index-2].append(float(line[-1]))
                 dummy_hrs[index-2].append(float(line[1]))
-            if len(line)==6:
-                ts_xs[index].append(cnt)
+            if len(line)==6+1:
+                ts_xs[index].append(float(line[-1]))
                 ts[index].append(int(line[1]))
                 last_ts[index]=int(line[1])
                 event_last_happened_at_cnt[index]=cnt
+            # if len(line)==3:
+            #     x[index].append(cnt)
+            #     hrs[index].append(float(line[1]))
+            #     if float(line[1])>maxhrs:
+            #         maxhrs=float(line[1])
+            #     cpus[index].append(float(line[2])/(1)*100)
+            # if len(line)==2:
+            #     anchor_xs[index].append(cnt)
+            #     anchors[index].append(int(line[1]))
+            #     event_last_happened_at_cnt[index]=cnt
+
+            # if len(line)==4:
+            #     frame_xs[index].append(cnt)
+            #     frames[index].append(int(line[1]))
+            #     event_last_happened_at_cnt[index]=cnt
+
+            # if len(line)==5:
+            #     dummy_x[index-2].append(cnt)
+            #     dummy_hrs[index-2].append(float(line[1]))
+            # if len(line)==6:
+            #     ts_xs[index].append(cnt)
+            #     ts[index].append(int(line[1]))
+            #     last_ts[index]=int(line[1])
+            #     event_last_happened_at_cnt[index]=cnt
 
             cnt+=1
     min_max = []
@@ -206,15 +230,21 @@ def animate2(i):
                 ax2.axvline(x=anchor_xs[i][j],color=colrs[i], linestyle='-')
 
                 if anchors[i][j]==0:
-                    ax1.text(anchor_xs[i][j],1.2*maxhrs,"Anchors:OFF",rotation=45,fontdict=font[i])
-                else:
-                    ax1.text(anchor_xs[i][j],1.2*maxhrs,"Anchors:ON",rotation=45,fontdict=font[i])
+                    ax1.text(anchor_xs[i][j],1.2*maxhrs,"50%",rotation=45,fontdict=font[i])
+                elif anchors[i][j]==2:
+                    ax1.text(anchor_xs[i][j],1.2*maxhrs,"100%",rotation=45,fontdict=font[i])
+                elif anchors[i][j]==1:
+                    ax1.text(anchor_xs[i][j],1.2*maxhrs,"Linear",rotation=45,fontdict=font[i])
+                elif anchors[i][j]==3:
+                    ax1.text(anchor_xs[i][j],1.2*maxhrs,"APID",rotation=45,fontdict=font[i])
+                elif anchors[i][j]==4:
+                    ax1.text(anchor_xs[i][j],1.2*maxhrs,"AIMD",rotation=45,fontdict=font[i])
     if show_frames:
         for i in range(len(frame_xs)):
             for j in range(len(frame_xs[i])):
                 ax1.axvline(x=frame_xs[i][j],color=colrs[i], linestyle='--')
                 ax2.axvline(x=frame_xs[i][j],color=colrs[i], linestyle='--')
-                ax2.text(frame_xs[i][j],-10,"frame: "+str(frames[i][j]),rotation=45,fontdict=font[i],horizontalalignment='right',verticalalignment='top')
+                ax2.text(frame_xs[i][j],-10,"period: "+str(frames[i][j]),rotation=45,fontdict=font[i],horizontalalignment='right',verticalalignment='top')
     if show_ts:
         for i in range(len(ts_xs)):
             for j in range(len(ts_xs[i])):
