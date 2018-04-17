@@ -289,7 +289,7 @@ personincam = 0
 tracking_target = "cat"  # outvid # fastcat
 # vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
 # vs= FileVideoStream("walkcat.mp4").start() # outvid
-time.sleep(2.0)
+# time.sleep(2.0) # realvid
 catlen=0
 catlen=3 # fastcat
 onecatvidlen = 550 # fastcat
