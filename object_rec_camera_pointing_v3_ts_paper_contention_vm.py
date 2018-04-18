@@ -590,7 +590,7 @@ for frame in vidarray: # fastcat
 				break
 			if output_q_cnt==0:
 				checked.set(str(sys.argv[8]))
-			if cat_or_man == 'person' and w1.get()!=FSIZE[1][1]:
+			if cat_or_man == 'person' and w1.get()!=FSIZE[0][1]:
 				w1.set(FSIZE[0][1])
 			# if catlen==0: 
 			# 	if output_q_cnt==0: 
