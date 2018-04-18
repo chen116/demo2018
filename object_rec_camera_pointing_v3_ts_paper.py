@@ -586,6 +586,7 @@ while True: # realvid
 						sock_client.send(bytes('M','UTF-8'))
 				else:
 					if remotetrack>0 and remotetrack!=w1.get():
+						print('meow')
 						w1.set(remotetrack)
 
 			else:
