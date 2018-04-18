@@ -8,11 +8,15 @@ mycam2 = FoscamCamera('65.114.169.151',88,'admin','admin')
 pprint.pprint(mycam1.get_video_stream_param()[1])
 pprint.pprint(mycam2.get_video_stream_param()[1])
 
-mycam2.zoomOut()
-mycam1.zoomOut()
-time.sleep(1)
-mycam2.zoomStop()
-mycam1.zoomStop()
+pprint.pprint(mycam1.get_infra_led_config())
+pprint.pprint(mycam2.get_infra_led_config())
+
+
+# mycam2.zoomOut()
+# mycam1.zoomOut()
+# time.sleep(1)
+# mycam2.zoomStop()
+# mycam1.zoomStop()
 
 
 
