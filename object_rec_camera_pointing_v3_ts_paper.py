@@ -573,7 +573,7 @@ while True: # realvid
 				break
 
 
-			if catlen!=0: 
+			if catlen==0: 
 				if output_q_cnt==0: 
 					 checked.set(str(sys.argv[8]))
 				if "RT" in sys.argv[7]:
