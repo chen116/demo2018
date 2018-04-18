@@ -423,7 +423,7 @@ while True: # realvid
 
 
 		current_freq=w1.get()
-		if remotetrack == -1 or w1.get() == 0: #or output_q_cnt== onecatvidlen*3:
+		if remotetrack == -1 or w1.get() == 0 or output_q_cnt== onecatvidlen*3:
 			threadLock.acquire()
 			every_n_frame['n']=-1
 			threadLock.release()
@@ -432,7 +432,7 @@ while True: # realvid
 			for i in range(total_num_threads):
 				input_q.put({'cnt':-1})
 			break		
-		current_frame_size=300
+		current_frame_size=600
 		if current_frame_size > 0:
 			frame = imutils.resize(frame, width=current_frame_size)
 			# grab the frame dimensions and convert it to a blob
@@ -573,7 +573,7 @@ while True: # realvid
 				break
 
 
-			if catlen>0: 
+			if catlen!=0: 
 				if output_q_cnt==0: 
 					 checked.set(str(sys.argv[8]))
 				if "RT" in sys.argv[7]:
@@ -585,9 +585,7 @@ while True: # realvid
 						w1.set(FSIZE[1][1])
 						sock_client.send(bytes('M','UTF-8'))
 				else:
-					print('meow')
 					if remotetrack>0 and remotetrack!=w1.get():
-						print('------------------xen changing',remotetrack)
 						w1.set(remotetrack)
 
 			else:
@@ -597,6 +595,7 @@ while True: # realvid
 					w1.set(FSIZE[0][1])
 				if output_q_cnt == 2*onecatvidlen:
 					w1.set(FSIZE[1][1])			
+	
 
 
 			
