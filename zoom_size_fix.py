@@ -11,7 +11,8 @@ pprint.pprint(mycam2.get_video_stream_param()[1])
 pprint.pprint(mycam1.set_infra_led_config(1))
 pprint.pprint(mycam2.set_infra_led_config(1))
 
-
+pprint.pprint(mycam1.get_infra_led_config(1))
+pprint.pprint(mycam2.get_infra_led_config(1))
 # mycam2.zoomOut()
 # mycam1.zoomOut()
 # time.sleep(1)
