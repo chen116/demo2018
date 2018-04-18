@@ -366,7 +366,7 @@ if catlen>0:
 		for i in range(manlen):
 			man_vidarray[a+(i*onemanlen),:,:,:]=frame
 	vs.stop()	
-vidarray = np.concatenate((cat_vidarray,man_vidarray),axis=0)
+	vidarray = np.concatenate((cat_vidarray,man_vidarray),axis=0)
 
 
 
