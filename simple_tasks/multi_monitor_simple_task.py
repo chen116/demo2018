@@ -356,7 +356,8 @@ with open("minmax.txt", "w") as myfile:
 	# cpupool, vcpupin, rtds-budget,period, extratime, vcpu-list
 # https://wiki.xenproject.org/wiki/Tuning_Xen_for_Performance
 
-
+def res_allo():
+	return
 
 
 
