@@ -374,7 +374,7 @@ while True: # realvid
 	if run_threads==1 and frame is not None:
 
 		current_freq=w1.get()
-		if remotetrack == -1 or w1.get() == 0 or output_q_cnt==3*catlen:
+		if remotetrack == -1 or w1.get() == 0 or output_q_cnt== onecatvidlen*3:
 			threadLock.acquire()
 			every_n_frame['n']=-1
 			threadLock.release()
