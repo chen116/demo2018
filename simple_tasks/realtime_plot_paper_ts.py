@@ -31,7 +31,7 @@ ax_rtxen_txt = ax_rtxen.text(0.1,0.01,'%.2f%%'%(0),fontdict=font_per[1])
 ax_rtxen.axis('off')
 
 
-ax_xen = plt.axes([0.7, 0.91, 0.2, 0.12])
+ax_xen = plt.axes([0.65, 0.91, 0.2, 0.12])
 ax_xen.text(0.08,0.42,'Average Credit CPU usage (%/sec):',fontdict=font_per[0])
 ax_xen_txt = ax_xen.text(0.4,0.01,'%.2f%%'%(0),fontdict=font_per[1])
 ax_xen.axis('off')
