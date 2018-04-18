@@ -492,7 +492,7 @@ for frame in vidarray: # fastcat
 						endX=prev_box['endX']
 						endY=prev_box['endY']
 						idx=prev_box['idx']
-						label=str(order)+'--'+prev_box['label']
+						label=prev_box['label']
 						cv2.rectangle(frame, (startX, startY), (endX, endY),
 							COLORS[idx], 2)
 						y = startY - 15 if startY - 15 > 15 else startY + 15
@@ -518,8 +518,9 @@ for frame in vidarray: # fastcat
 						(startX, startY, endX, endY) = box.astype("int")
 					#	#print('startX=',startX)
 					#	#print('endX=',endX)
-						label =str(order)+'--'
-						label += "{}: {:.2f}%".format(CLASSES[idx],
+
+						# label =str(order)+'--'
+						label = "{}: {:.2f}%".format(CLASSES[idx],
 							confidence * 100)
 						cv2.rectangle(frame, (startX, startY), (endX, endY),
 							COLORS[idx], 2)
@@ -532,7 +533,7 @@ for frame in vidarray: # fastcat
 						prev_box['endX']=endX
 						prev_box['endY']=endY
 						prev_box['idx']=idx
-						prev_box['label']= "recalculating..."
+						prev_box['label']= label
 						prev_boxes.append(prev_box)
 						localtrack = 1
 						localsearch = 0
