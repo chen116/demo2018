@@ -432,7 +432,7 @@ while True: # realvid
 			for i in range(total_num_threads):
 				input_q.put({'cnt':-1})
 			break		
-		current_frame_size=600
+		current_frame_size=300
 		if current_frame_size > 0:
 			frame = imutils.resize(frame, width=current_frame_size)
 			# grab the frame dimensions and convert it to a blob
