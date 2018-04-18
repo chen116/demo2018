@@ -292,7 +292,7 @@ vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/vide
 time.sleep(2.0) # realvid
 catlen=0
 # catlen=3 # fastcat
-# onecatvidlen = 550 # fastcat #550
+onecatvidlen = 550 
 vidarray = None
 if catlen>0: 
 	#fps = FPS().start()
@@ -374,7 +374,7 @@ while True: # realvid
 	if run_threads==1 and frame is not None:
 
 		current_freq=w1.get()
-		if remotetrack == -1 or w1.get() == 0:
+		if remotetrack == -1 or w1.get() == 0 or output_q_cnt==3*catlen:
 			threadLock.acquire()
 			every_n_frame['n']=-1
 			threadLock.release()
@@ -530,7 +530,14 @@ while True: # realvid
 				if output_q_cnt == onecatvidlen:
 					w1.set(6)
 				if output_q_cnt == 2*onecatvidlen:
-					w1.set(4)				
+					w1.set(4)
+			else:
+				if output_q_cnt==0: 
+					 checked.set(str(sys.argv[8]))
+				if output_q_cnt == onecatvidlen:
+					w1.set(6)
+				if output_q_cnt == 2*onecatvidlen:
+					w1.set(4)			
 
 
 			
