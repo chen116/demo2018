@@ -190,29 +190,29 @@ class MonitorThread(threading.Thread):
 			# aimd algo
 			alpha=1
 			beta=.9
-			free = self.timeslice_us-cur_bw
-			if(heart_rate<self.mid):
-				if cur_bw<self.timeslice_us-minn:
-					free=free*beta
-					cur_bw=self.timeslice_us-free
-				else:
-					cur_bw=self.timeslice_us-minn
-			if(heart_rate>self.mid):
-				if cur_bw>minn:
-					free+=alpha*minn
-					cur_bw=self.timeslice_us-free
-
-
-			# if(heart_rate<self.min_heart_rate):
+			# free = self.timeslice_us-cur_bw
+			# if(heart_rate<self.mid):
 			# 	if cur_bw<self.timeslice_us-minn:
 			# 		free=free*beta
 			# 		cur_bw=self.timeslice_us-free
 			# 	else:
 			# 		cur_bw=self.timeslice_us-minn
-			# if(heart_rate>self.max_heart_rate):
+			# if(heart_rate>self.mid):
 			# 	if cur_bw>minn:
 			# 		free+=alpha*minn
 			# 		cur_bw=self.timeslice_us-free
+
+
+			if(heart_rate<self.min_heart_rate):
+				if cur_bw<self.timeslice_us-minn:
+					free=free*beta
+					cur_bw=self.timeslice_us-free
+				else:
+					cur_bw=self.timeslice_us-minn
+			if(heart_rate>self.max_heart_rate):
+				if cur_bw>minn:
+					free+=alpha*minn
+					cur_bw=self.timeslice_us-free
 			cur_bw=int(cur_bw)#-int(cur_bw)%100
 
 
