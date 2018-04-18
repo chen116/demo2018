@@ -224,7 +224,7 @@ m1.set(5)
 threads = []
 every_n_frame = {'cnt':-1,'n':w1.get()}
 threadLock = threading.Lock()
-total_num_threads = 4
+total_num_threads = 3
 num_threads_exiting = 0
 
 
