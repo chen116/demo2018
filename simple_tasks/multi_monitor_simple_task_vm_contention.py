@@ -25,7 +25,7 @@ c = heartbeat.Dom0(monitoring_items,monitoring_domU)
 
 timeslice_us=int(sys.argv[4])
 minn=int(timeslice_us*0.01)
-default_bw=int(timeslice_us)-minn
+default_bw=int(timeslice_us/2)
 
 
 
@@ -317,81 +317,81 @@ threadLock = threading.Lock()
 threads = []
 shared_data = xen_interface.get_global_info()
 
+if '1' in shared_data['rtxen']:
+	xen_interface.sched_rtds(1,timeslice_us,default_bw,[])
+	xen_interface.sched_rtds(2,timeslice_us,timeslice_us-default_bw,[])
+if '1' in shared_data['xen']:
+	xen_interface.sched_credit(1,default_bw)
+	xen_interface.sched_credit(2,timeslice_us-default_bw)
 
 
-# domuid = '1'
-# xen_interface.sched_rtds(domuid,timeslice_us,default_bw,[])
-# xen_interface.sched_rtds(str(int(domuid)+2),timeslice_us,timeslice_us-default_bw,[])
-# domuid = '2'
-# xen_interface.sched_credit(domuid,default_bw)
-# xen_interface.sched_credit(str(int(domuid)+2),timeslice_us-default_bw)
+# for i,domuid in enumerate(shared_data['rtxen']):
+# 	xen_interface.sched_rtds(domuid,timeslice_us,default_bw,[])
+# 	xen_interface.sched_rtds(str(int(domuid)+2),timeslice_us,timeslice_us-default_bw,[])
 
 
-# # for i,domuid in enumerate(shared_data['rtxen']):
-# # 	xen_interface.sched_rtds(domuid,timeslice_us,default_bw,[])
-# # 	xen_interface.sched_rtds(str(int(domuid)+2),timeslice_us,timeslice_us-default_bw,[])
+# for domuid in shared_data['xen']:
+# 	xen_interface.sched_credit(domuid,default_bw)
+# 	xen_interface.sched_credit(str(int(domuid)+2),timeslice_us-default_bw)
 
-
-# # for domuid in shared_data['xen']:
-# # 	xen_interface.sched_credit(domuid,default_bw)
-# # 	xen_interface.sched_credit(str(int(domuid)+2),timeslice_us-default_bw)
-
-# shared_data = xen_interface.get_global_info()
-
-
-
-# print('monitoring:',monitoring_domU)
-
-# min_heart_rate = float(sys.argv[1])
-# max_heart_rate = float(sys.argv[2])
-
-# with open("minmax.txt", "w") as myfile:
-# 	myfile.write("min "+sys.argv[1]+"\n")
-# 	myfile.write("max "+sys.argv[2]+"\n")
-# 	myfile.write("timeslice_us "+str(timeslice_us/1000)+"\n")
+shared_data = xen_interface.get_global_info()
 
 
 
-# 	# https://xenbits.xen.org/docs/unstable/man/xl.1.html#SCHEDULER-SUBCOMMANDS
-# 	# cpupool, vcpupin, rtds-budget,period, extratime, vcpu-list
-# # https://wiki.xenproject.org/wiki/Tuning_Xen_for_Performance
+print('monitoring:',monitoring_domU)
+
+min_heart_rate = float(sys.argv[1])
+max_heart_rate = float(sys.argv[2])
+
+with open("minmax.txt", "w") as myfile:
+	myfile.write("min "+sys.argv[1]+"\n")
+	myfile.write("max "+sys.argv[2]+"\n")
+	myfile.write("timeslice_us "+str(timeslice_us/1000)+"\n")
+
+
+
+	# https://xenbits.xen.org/docs/unstable/man/xl.1.html#SCHEDULER-SUBCOMMANDS
+	# cpupool, vcpupin, rtds-budget,period, extratime, vcpu-list
+# https://wiki.xenproject.org/wiki/Tuning_Xen_for_Performance
+
+
+
+rtxen_or_credit=0
+if '1' in shared_data['rtxen']:
+	rtxen_or_credit=1
+
+for domuid in c.domu_ids:
+	tmp_thread = MonitorThread(threadLock,shared_data,res_allo,domuid,rtxen_or_credit,timeslice_us,min_heart_rate,max_heart_rate, monitoring_items)
+	tmp_thread.start()
+	threads.append(tmp_thread)
 
 
 
 
+# Wait for all MonitorThreads to complete
+threads_cnt=0
+for t in threads:
+	t.join()
+	threads_cnt+=1
+#print('FINAL COUNT:',shared_data['cnt'])
+pp = pprint.PrettyPrinter(indent=2)
+print('Final domUs info:')
+shared_data = xen_interface.get_global_info()
+default_bw=int(timeslice_us/2)
 
-# for domuid in c.domu_ids:
-# 	tmp_thread = MonitorThread(threadLock,shared_data,res_allo,domuid,int(domuid)%2,timeslice_us,min_heart_rate,max_heart_rate, monitoring_items)
-# 	tmp_thread.start()
-# 	threads.append(tmp_thread)
+if '1' in shared_data['rtxen']:
+	xen_interface.sched_rtds(1,timeslice_us,default_bw,[])
+	xen_interface.sched_rtds(2,timeslice_us,timeslice_us-default_bw,[])
+if '1' in shared_data['xen']:
+	xen_interface.sched_credit(1,default_bw)
+	xen_interface.sched_credit(2,timeslice_us-default_bw)
 
+xen_interface.sched_credit_timeslice(timeslice_us/1000)
 
-
-
-# # Wait for all MonitorThreads to complete
-# threads_cnt=0
-# for t in threads:
-# 	t.join()
-# 	threads_cnt+=1
-# #print('FINAL COUNT:',shared_data['cnt'])
-# pp = pprint.PrettyPrinter(indent=2)
-# print('Final domUs info:')
-# shared_data = xen_interface.get_global_info()
-# default_bw=int(timeslice_us/2)
-
-# domuid = '1'
-# xen_interface.sched_rtds(domuid,timeslice_us,default_bw,[])
-# xen_interface.sched_rtds(str(int(domuid)+2),timeslice_us,timeslice_us-default_bw,[])
-# domuid = '2'
-# xen_interface.sched_credit(domuid,default_bw)
-# xen_interface.sched_credit(str(int(domuid)+2),timeslice_us-default_bw)
-
+# for domuid in shared_data['rtxen']:
+# 	xen_interface.sched_rtds(domuid,timeslice_us,default_bw,[])
 # xen_interface.sched_credit_timeslice(timeslice_us/1000)
-
-# # for domuid in shared_data['rtxen']:
-# # 	xen_interface.sched_rtds(domuid,timeslice_us,default_bw,[])
-# # xen_interface.sched_credit_timeslice(timeslice_us/1000)
-# # for domuid in shared_data['xen']:
-# # 	xen_interface.sched_credit(domuid,default_bw)
-# print("Exiting the Monitor, total",threads_cnt,"monitoring threads")
-# print("Restored RT-Xen, Credit to all domUs have equal cpu time sharing")
+# for domuid in shared_data['xen']:
+# 	xen_interface.sched_credit(domuid,default_bw)
+print("Exiting the Monitor, total",threads_cnt,"monitoring threads")
+print("Restored RT-Xen, Credit to all domUs have equal cpu time sharing")
