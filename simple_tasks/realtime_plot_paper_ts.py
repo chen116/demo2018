@@ -226,8 +226,8 @@ def animate2(i):
 
 
 
-    ax_xen_txt.set_text('%.2f%%'%(area_under_curve_xen))
-    ax_rtxen_txt.set_text('%.2f%%'%(area_under_curve_rtxen))
+    ax_xen_txt.set_text('%.2f%%'%(area_under_curve_xen/x[1][-1]-x[1][0]))
+    ax_rtxen_txt.set_text('%.2f%%'%(area_under_curve_rtxen/x[0][-1]-x[0][0]))
 
     # ax1.set_title('RT-Xen improved by: %.2f %%'%(per)+"\n",loc='right',fontdict=font_per[1])
     # ax1.set_title(r'$\frac{RT-Xen\'s improvement}{Percentage}$ = %.2f %%'%(per)+"\n",loc='right',fontsize=18)
