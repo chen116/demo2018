@@ -1,0 +1,3 @@
+min 10
+max 12
+timeslice_us 15.0
