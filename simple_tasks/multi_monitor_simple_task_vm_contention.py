@@ -319,24 +319,24 @@ shared_data = xen_interface.get_global_info()
 
 
 
-domuid = '1'
-xen_interface.sched_rtds(domuid,timeslice_us,default_bw,[])
-xen_interface.sched_rtds(str(int(domuid)+2),timeslice_us,timeslice_us-default_bw,[])
-domuid = '2'
-xen_interface.sched_credit(domuid,default_bw)
-xen_interface.sched_credit(str(int(domuid)+2),timeslice_us-default_bw)
+# domuid = '1'
+# xen_interface.sched_rtds(domuid,timeslice_us,default_bw,[])
+# xen_interface.sched_rtds(str(int(domuid)+2),timeslice_us,timeslice_us-default_bw,[])
+# domuid = '2'
+# xen_interface.sched_credit(domuid,default_bw)
+# xen_interface.sched_credit(str(int(domuid)+2),timeslice_us-default_bw)
 
 
-# for i,domuid in enumerate(shared_data['rtxen']):
-# 	xen_interface.sched_rtds(domuid,timeslice_us,default_bw,[])
-# 	xen_interface.sched_rtds(str(int(domuid)+2),timeslice_us,timeslice_us-default_bw,[])
+# # for i,domuid in enumerate(shared_data['rtxen']):
+# # 	xen_interface.sched_rtds(domuid,timeslice_us,default_bw,[])
+# # 	xen_interface.sched_rtds(str(int(domuid)+2),timeslice_us,timeslice_us-default_bw,[])
 
 
-# for domuid in shared_data['xen']:
-# 	xen_interface.sched_credit(domuid,default_bw)
-# 	xen_interface.sched_credit(str(int(domuid)+2),timeslice_us-default_bw)
+# # for domuid in shared_data['xen']:
+# # 	xen_interface.sched_credit(domuid,default_bw)
+# # 	xen_interface.sched_credit(str(int(domuid)+2),timeslice_us-default_bw)
 
-shared_data = xen_interface.get_global_info()
+# shared_data = xen_interface.get_global_info()
 
 
 
