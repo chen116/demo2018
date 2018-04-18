@@ -355,7 +355,7 @@ with open("minmax.txt", "w") as myfile:
 # https://wiki.xenproject.org/wiki/Tuning_Xen_for_Performance
 
 
-
+# 1 means rtxen
 rtxen_or_credit=0
 if '1' in shared_data['rtxen']:
 	rtxen_or_credit=1
