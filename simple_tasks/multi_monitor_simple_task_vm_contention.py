@@ -30,7 +30,7 @@ default_bw=int(timeslice_us/2)
 
 
 class MonitorThread(threading.Thread):
-	def __init__(self, threadLock,shared_data,res_allo,domuid,sched,timeslice_us,min_heart_rate,max_heart_rate,keys=['test'],base_path='/local/domain'):
+	def __init__(self, threadLock,shared_data,domuid,sched,timeslice_us,min_heart_rate,max_heart_rate,keys=['test'],base_path='/local/domain'):
 		threading.Thread.__init__(self)
 		self.domuid=(domuid)
 		self.keys=keys
@@ -361,7 +361,7 @@ if '1' in shared_data['rtxen']:
 	rtxen_or_credit=1
 
 for domuid in c.domu_ids:
-	tmp_thread = MonitorThread(threadLock,shared_data,res_allo,domuid,rtxen_or_credit,timeslice_us,min_heart_rate,max_heart_rate, monitoring_items)
+	tmp_thread = MonitorThread(threadLock,shared_data,domuid,rtxen_or_credit,timeslice_us,min_heart_rate,max_heart_rate, monitoring_items)
 	tmp_thread.start()
 	threads.append(tmp_thread)
 
