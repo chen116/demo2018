@@ -285,14 +285,14 @@ personincam = 0
 #vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
 
 
-# tracking_target = "person" # realvid
-tracking_target = "cat"  # outvid # fastcat
-# vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
+tracking_target = "person" # realvid
+# tracking_target = "cat"  # outvid # fastcat
+vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
 # vs= FileVideoStream("walkcat.mp4").start() # outvid
-# time.sleep(2.0) # realvid
+time.sleep(2.0) # realvid
 catlen=0
-catlen=3 # fastcat
-onecatvidlen = 550 # fastcat #550
+# catlen=3 # fastcat
+# onecatvidlen = 550 # fastcat #550
 vidarray = None
 if catlen>0: 
 	#fps = FPS().start()
@@ -337,10 +337,10 @@ pointat = 0
 prev_personincam = personincam
 # while vs.more(): # outvid
 # while True:
-for frame in vidarray: # fastcat
-# while True: # realvid
+# for frame in vidarray: # fastcat
+while True: # realvid
 
-	# frame = vs.read() # realvid
+	frame = vs.read() # realvid
 	# frame = cat_frame # outvid
 
 	run_threads = 1
