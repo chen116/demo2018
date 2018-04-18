@@ -447,7 +447,7 @@ for frame in vidarray: # fastcat
 				input_q.put({'cnt':-1})
 			break		
 		# current_frame_size=400 # realvid
-		current_frame_size=300 # fastcat
+		current_frame_size=600 # fastcat
 		if current_frame_size > 0:
 			frame = imutils.resize(frame, width=current_frame_size)
 			# grab the frame dimensions and convert it to a blob
