@@ -228,6 +228,38 @@ total_num_threads = 3
 num_threads_exiting = 0
 
 
+def start_server():
+	global remotetrack
+	remotetrack = 0
+	s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+	host = socket.gethostname()
+	s.bind((host,int(sys.argv[6])))
+	s.listen(5)
+	#print('server started')
+	while True:
+		connection, address = s.accept()
+		while True:
+			data = connection.recv(64)
+			if (len(data)>0):
+				msg = data.decode('utf-8')
+				if (msg == 'H'):
+					#print('remote node found object')
+					remotetrack = FSIZE[2][1]
+				elif (msg=='M'):
+					#print('remote node lost object')
+					remotetrack = FSIZE[1][1]
+				elif (msg=='L'):
+					#print('remote node lost object')
+					remotetrack = FSIZE[0][1]
+				elif (msg=='clean_up'):
+					#print('cleanup from other node')
+					remotetrack = -1
+			if not data:
+				break
+			connection.sendall(data)
+		remotetrack = -1
+		connection.close()
+	remotetrack = -1
 
 
 
@@ -245,6 +277,22 @@ centered = 1
 
 #sock_client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 #sock_client.connect((sys.argv[4],int(sys.argv[5])))
+thread = threading.Thread(target = start_server)
+thread.daemon = True
+thread.start()
+
+
+sock_client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+tempFlag=None
+while tempFlag is None:
+	try:
+		sock_client.connect((sys.argv[4],int(sys.argv[5])))
+		tempFlag=1
+	except:
+		#print("Waiting for other host")
+		time.sleep(1)
+		pass
+
 
 
 
@@ -373,6 +421,7 @@ while True: # realvid
 
 	if run_threads==1 and frame is not None:
 
+
 		current_freq=w1.get()
 		if remotetrack == -1 or w1.get() == 0 or output_q_cnt== onecatvidlen*3:
 			threadLock.acquire()
@@ -500,10 +549,10 @@ while True: # realvid
 
 			if output_q_cnt>window_size_hr and output_q_cnt%w1.get()==0:
 				comm.write("heart_rate",hb.get_window_heartrate())
-			current_checked = checked.get()
-			if previous_checked!=current_checked and output_q_cnt%w1.get()==0:
-				comm.write("app_mode",current_checked)
-				previous_checked=current_checked
+			current_app_mode = checked.get()
+			if previous_checked!=current_app_mode and output_q_cnt%w1.get()==0:
+				comm.write("app_mode",current_app_mode)
+				previous_checked=current_app_mode
 			if previous_freq!=current_freq and output_q_cnt%w1.get()==0:
 				comm.write("frame_size",current_freq)
 				previous_freq=current_freq
@@ -527,17 +576,25 @@ while True: # realvid
 			if catlen>0: 
 				if output_q_cnt==0: 
 					 checked.set(str(sys.argv[8]))
-				if output_q_cnt == onecatvidlen:
-					w1.set(6)
-				if output_q_cnt == 2*onecatvidlen:
-					w1.set(4)
+				if "RT" in sys.argv[7]:
+					if output_q_cnt == onecatvidlen:
+						w1.set(FSIZE[0][1])
+						sock_client.send(bytes('H','UTF-8'))
+
+					if output_q_cnt == 2*onecatvidlen:
+						w1.set(FSIZE[1][1])
+						sock_client.send(bytes('M','UTF-8'))
+				else:
+					if remotetrack>0 and remotetrack!=w1.get():
+						w1.set(remotetrack)
+
 			else:
 				if output_q_cnt==0: 
 					 checked.set(str(sys.argv[8]))
 				if output_q_cnt == onecatvidlen:
-					w1.set(6)
+					w1.set(FSIZE[0][1])
 				if output_q_cnt == 2*onecatvidlen:
-					w1.set(4)			
+					w1.set(FSIZE[1][1])			
 
 
 			
@@ -568,4 +625,6 @@ for t in threads:
 # mycam1 = FoscamCamera('65.114.169.154',88,'arittenbach','8mmhamcgt16!')
 # mycam2 = FoscamCamera('65.114.169.108',88,'admin','admin')
 
+if remotetrack!=-1:
+	sock_client.send(bytes('clean_up','UTF-8'))
 
