@@ -340,7 +340,7 @@ vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/vide
 time.sleep(2.0) # realvid
 catlen=0
 # catlen=3 # fastcat
-onecatvidlen = 55 
+onecatvidlen = 550
 vidarray = None
 if catlen>0: 
 	#fps = FPS().start()
@@ -579,13 +579,13 @@ while True: # realvid
 				if "RT" in sys.argv[7]:
 					if output_q_cnt == onecatvidlen:
 						w1.set(FSIZE[0][1])
-						sock_client.send(bytes('H','UTF-8'))
+						sock_client.send(bytes('L','UTF-8'))
 
 					if output_q_cnt == 2*onecatvidlen:
 						w1.set(FSIZE[1][1])
 						sock_client.send(bytes('M','UTF-8'))
 				else:
-					if remotetrack>0:
+					if remotetrack>0 and remotetrack!=w1.get():
 						w1.set(remotetrack)
 
 			else:
