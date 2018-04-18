@@ -585,6 +585,7 @@ while True: # realvid
 						w1.set(FSIZE[1][1])
 						sock_client.send(bytes('M','UTF-8'))
 				else:
+					print('meow')
 					if remotetrack>0 and remotetrack!=w1.get():
 						print('------------------xen changing',remotetrack)
 						w1.set(remotetrack)
