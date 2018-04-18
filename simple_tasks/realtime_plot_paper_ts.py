@@ -24,17 +24,24 @@ font_per = [{'family': 'serif',
         # 'weight': 'bold',
         'size': 24,
         }]
-ax_improvement_percentage = plt.axes([0.72, 0.91, 0.2, 0.12])
-ax_improvement_percentage.text(0.08,0.42,'CPU time used %:',fontdict=font_per[0])
-ax_improvement_percentage_txt = ax_improvement_percentage.text(0.4,0.01,'%.2f%%'%(0),fontdict=font_per[1])
-ax_improvement_percentage.axis('off')
+
+ax_rtxen = plt.axes([0, 0.91, 0.2, 0.12])
+ax_rtxen.text(0.06,0.42,'RT-Xen CPU time used %:',fontdict=font_per[0])
+ax_rtxen_txt = ax_rtxen.text(0.1,0.01,'%.2f%%'%(0),fontdict=font_per[1])
+ax_rtxen.axis('off')
+
+
+ax_xen = plt.axes([0.72, 0.91, 0.2, 0.12])
+ax_xen.text(0.08,0.42,'Xen CPU time used %:',fontdict=font_per[0])
+ax_xen_txt = ax_xen.text(0.4,0.01,'%.2f%%'%(0),fontdict=font_per[1])
+ax_xen.axis('off')
 
 last_ts=[15,15]
 
 def animate2(i):
     maxx=30000
 
-    global last_ts,show_frames, show_anchors, show_dummies, ax_improvement_percentage_txt,show_ts
+    global last_ts,show_frames, show_anchors, show_dummies, ax_xen_txt,ax_rtxen_txt,show_ts
 
     pullData = open("info.txt","r").read()
     minmax = open("minmax.txt","r").read()
@@ -208,17 +215,19 @@ def animate2(i):
     except:
         per=0
 
-    rtxen_or_xen = 0
+    area_under_curve_rtxen=0
+    area_under_curve_xen=0
     if len(x[1])>0:
-        rtxen_or_xen = 1
-    area_under_curve = 0
-    for i in range(1,len(x[rtxen_or_xen])):
-        area_under_curve+=cpus[rtxen_or_xen][i-1]*(x[rtxen_or_xen][i]-x[rtxen_or_xen][i-1])
-    per=area_under_curve
+        for i in range(1,len(x[1])):
+            area_under_curve_xen+=cpus[1][i-1]*(x[1][i]-x[1][i-1])
+    if len(x[0])>0:
+        for i in range(1,len(x[0])):
+            area_under_curve_rtxen+=cpus[0][i-1]*(x[0][i]-x[0][i-1])
 
 
 
-    ax_improvement_percentage_txt.set_text('%.2f%%'%(per))
+    ax_xen_txt.set_text('%.2f%%'%(area_under_curve_xen))
+    ax_rtxen_txt.set_text('%.2f%%'%(area_under_curve_rtxen))
 
     # ax1.set_title('RT-Xen improved by: %.2f %%'%(per)+"\n",loc='right',fontdict=font_per[1])
     # ax1.set_title(r'$\frac{RT-Xen\'s improvement}{Percentage}$ = %.2f %%'%(per)+"\n",loc='right',fontsize=18)
