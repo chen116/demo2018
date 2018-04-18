@@ -225,8 +225,9 @@ def animate2(i):
             area_under_curve_rtxen+=cpus[0][i-1]*(x[0][i]-x[0][i-1])
 
 
-
-    ax_xen_txt.set_text('%.2f%%'%(area_under_curve_xen/(x[1][-1]-x[1][0])))
+    if area_under_curve_xen>0:
+        ax_xen_txt.set_text('%.2f%%'%(area_under_curve_xen/(x[1][-1]-x[1][0])))
+    if area_under_curve_rtxen>0:
     ax_rtxen_txt.set_text('%.2f%%'%(area_under_curve_rtxen/(x[0][-1]-x[0][0])))
 
     # ax1.set_title('RT-Xen improved by: %.2f %%'%(per)+"\n",loc='right',fontdict=font_per[1])
