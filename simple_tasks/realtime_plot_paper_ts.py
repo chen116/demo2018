@@ -43,7 +43,7 @@ def animate2(i):
 
     global last_ts,show_frames, show_anchors, show_dummies, ax_xen_txt,ax_rtxen_txt,show_ts
 
-    pullData = open("rtxen_aimd_range.txt","r").read()
+    pullData = open("info.txt","r").read()
     minmax = open("minmax.txt","r").read()
     dataArray = pullData.split('\n')
     minmaxArray = minmax.split('\n')
