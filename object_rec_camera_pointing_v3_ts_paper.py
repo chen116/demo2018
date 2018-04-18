@@ -340,7 +340,7 @@ vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/vide
 time.sleep(2.0) # realvid
 catlen=0
 # catlen=3 # fastcat
-onecatvidlen = 550 
+onecatvidlen = 55 
 vidarray = None
 if catlen>0: 
 	#fps = FPS().start()
