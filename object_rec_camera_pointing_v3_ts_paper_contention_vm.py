@@ -361,7 +361,7 @@ if catlen>0:
 	man_vidarray = np.zeros((onemanvidlen*manlen,360,640,3),dtype=np.uint8)
 	vs= FileVideoStream("walkman.mp4").start()
 	time.sleep(2.0)
-	for a in range(onecatvidlen):
+	for a in range(onemanvidlen):
 		frame = vs.read()
 		for i in range(manlen):
 			man_vidarray[a+(i*onemanlen),:,:,:]=frame
