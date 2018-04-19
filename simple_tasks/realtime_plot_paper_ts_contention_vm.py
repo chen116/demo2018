@@ -135,7 +135,7 @@ def animate2(i):
     colrs = ['blue','limegreen']
     for i in range(len(x)):
         ax1.scatter(x[i],hrs[i],s= ((1)%2)*6+5 ,label= sched[i] ,color=colrs[i])
-        ax2.plot(cpu_xs[i],cpus[i],color=colrs[i],lw=((i+1)%2)+3,label= sched[i] )
+        ax2.plot(cpus_xs[i],cpus[i],color=colrs[i],lw=((i+1)%2)+3,label= sched[i] )
         # tmp=[]
         # for j in range(len(cpus[i])):
         #     tmp.append(100-cpus[i][j])
@@ -197,12 +197,12 @@ def animate2(i):
 
     area_under_curve_rtxen=0
     area_under_curve_xen=0
-    if len(cpu_xs[1])>0:
-        for i in range(1,len(cpu_xs[1])):
-            area_under_curve_xen+=cpus[1][i-1]*(cpu_xs[1][i]-cpu_xs[1][i-1])
-    if len(cpu_xs[0])>0:
-        for i in range(1,len(cpu_xs[0])):
-            area_under_curve_rtxen+=cpus[0][i-1]*(cpu_xs[0][i]-cpu_xs[0][i-1])
+    if len(cpus_xs[1])>0:
+        for i in range(1,len(cpus_xs[1])):
+            area_under_curve_xen+=cpus[1][i-1]*(cpus_xs[1][i]-cpus_xs[1][i-1])
+    if len(cpus_xs[0])>0:
+        for i in range(1,len(cpus_xs[0])):
+            area_under_curve_rtxen+=cpus[0][i-1]*(cpus_xs[0][i]-cpus_xs[0][i-1])
 
 
     if area_under_curve_xen>0:
