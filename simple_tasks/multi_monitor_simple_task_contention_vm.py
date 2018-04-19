@@ -297,6 +297,10 @@ class MonitorThread(threading.Thread):
 			self.shared_data["contention_time_passed"]+=now_time-last_time
 			self.shared_data['last_time_val'] = now_time
 			print(self.shared_data["contention_time_passed"])
+
+
+
+
 			if my_pass_val<=other_pass_val:
 				other_cur_bw=self.timeslice_us-cur_bw
 			else:
@@ -319,7 +323,7 @@ class MonitorThread(threading.Thread):
 
 		else:
 			print('domuid',self.domuid,'other_cur_bw', other_cur_bw,'cur_bw',cur_bw)
-			
+
 			self.shared_data['last_time_val'] = time.time()
 
 
@@ -357,7 +361,7 @@ class MonitorThread(threading.Thread):
 		time_now=str(time.time())
 		info = self.domuid+" "+str(heart_rate)+" hr "+time_now+"\n"
 		info += self.domuid + " " +str(cur_bw/self.timeslice_us) + " cpu1 cpu2 cpu3 cpu4 cpu5 "+time_now+"\n"
-		info += self.other_domuid+ " "+str(other_cur_bw/self.timeslice_us) + " cpu1 cpu2 cpu3 cpu4 cpu5 "+time_now
+		info += self.other_domuid+ " "+str(other_cur_bw/self.timeslice_us) + " other cpu2 cpu3 cpu4 cpu5 "+time_now
 
 
 		# if self.shared_data['cnt']%buf!=0:
@@ -402,7 +406,7 @@ if '1' in shared_data['xen']:
 # 	xen_interface.sched_credit(str(int(domuid)+2),timeslice_us-default_bw)
 
 shared_data = xen_interface.get_global_info()
-shared_data['pass_val']=[0,0]
+shared_data['pass_val']=[0.1,0.2]
 shared_data['stride_val']=[10,10]
 shared_data['last_time_val']=0
 
