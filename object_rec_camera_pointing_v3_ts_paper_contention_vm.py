@@ -97,7 +97,7 @@ if True:
 	    ("H", 3)
 	]
 	w1 = IntVar()
-	w1.set(4) # initialize
+	w1.set(3) # initialize
 	previous_freq = w1.get()
 	window_size_hr=12
 	for text, mode in FSIZE:
@@ -341,9 +341,9 @@ tracking_target = ["cat","person"]  # outvid # fastcat
 # time.sleep(2.0) # realvid
 catlen=0
 catlen=1 # fastcat
-manlen=5
-onecatvidlen = 500
-onemanvidlen = 100
+manlen=1
+onecatvidlen = 200
+onemanvidlen = 200
 vidarray = None
 if catlen>0: 
 	#fps = FPS().start()
@@ -590,8 +590,8 @@ for frame in vidarray: # fastcat
 				break
 			if output_q_cnt==0:
 				checked.set(str(sys.argv[8]))
-			if cat_or_man == 'person' and w1.get()!=FSIZE[0][1]:
-				w1.set(FSIZE[0][1])
+			if cat_or_man == 'person' and w1.get()!=FSIZE[2][1]:
+				w1.set(FSIZE[2][1])
 			# if catlen==0: 
 			# 	if output_q_cnt==0: 
 			# 		 checked.set(str(sys.argv[8]))
