@@ -341,11 +341,14 @@ tracking_target = ["cat","person"]  # outvid # fastcat
 # time.sleep(2.0) # realvid
 catlen=0
 catlen=1 # fastcat
-manlen=1
-onecatvidlen = 200
-onemanvidlen = 200
+manlen=2
+onecatvidlen = 150
+onemanvidlen = 150
 vidarray = None
+print('video setting up')
+
 if catlen>0: 
+
 	#fps = FPS().start()
 	x = 0
 	# loop over the frames from the video stream
@@ -366,9 +369,12 @@ if catlen>0:
 		for i in range(manlen):
 			man_vidarray[a+(i*onemanvidlen),:,:,:]=frame
 	vs.stop()	
-	vidarray = np.concatenate((cat_vidarray,man_vidarray),axis=0)
+	if "RT" in sys.argv[7]:
+		vidarray = np.concatenate((man_vidarray,cat_vidarray,cat_vidarray,man_vidarray),axis=0)
+	else:
+		vidarray = np.concatenate((cat_vidarray,cat_vidarray,man_vidarray,man_vidarray),axis=0)
 
-print('video setup')
+
 
 # cat_frame = vs.read()  # outvid
 # for x in range(10):  # outvid
