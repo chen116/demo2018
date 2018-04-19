@@ -335,7 +335,7 @@ personincam = 0
 
 
 # tracking_target = "person" # realvid
-tracking_target = ["cat","person"]  # outvid # fastcat
+tracking_target = ["cat","person","car"]  # outvid # fastcat
 # vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
 # vs= FileVideoStream("walkcat.mp4").start() # outvid
 # time.sleep(2.0) # realvid
@@ -345,7 +345,7 @@ manlen=2
 nonelen=1
 onecatvidlen = 300
 onemanvidlen = 150
-onenonevidlen=100
+onecarvidlen=100
 vidarray = None
 print('video setting up')
 
@@ -373,20 +373,20 @@ if catlen>0:
 	vs.stop()	
 
 
-	none_vidarray = np.zeros((onenonevidlen*nonelen,360,640,3),dtype=np.uint8)
+	car_vidarray = np.zeros((onecarvidlen*carlen,360,640,3),dtype=np.uint8)
 	vs= FileVideoStream("walkcar.mp4").start()
 	time.sleep(2.0)
-	for a in range(onenonevidlen):
+	for a in range(onecarvidlen):
 		frame = vs.read()
-		for i in range(nonelen):
-			none_vidarray[a+(i*onenonevidlen),:,:,:]=frame
+		for i in range(carlen):
+			car_vidarray[a+(i*onecarvidlen),:,:,:]=frame
 	vs.stop()
 
 
 	if "RT" in sys.argv[7]:
-		vidarray = np.concatenate((none_vidarray,cat_vidarray,cat_vidarray,man_vidarray,none_vidarray),axis=0)
+		vidarray = np.concatenate((car_vidarray,cat_vidarray,cat_vidarray,man_vidarray,car_vidarray),axis=0)
 	else:
-		vidarray = np.concatenate((none_vidarray,cat_vidarray,man_vidarray,man_vidarray,none_vidarray),axis=0)
+		vidarray = np.concatenate((car_vidarray,cat_vidarray,man_vidarray,man_vidarray,car_vidarray),axis=0)
 
 
 
