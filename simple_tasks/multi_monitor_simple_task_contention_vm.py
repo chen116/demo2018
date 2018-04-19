@@ -286,13 +286,25 @@ class MonitorThread(threading.Thread):
 		if cur_bw+other_cur_bw>self.timeslice_us:
 			my_pass_val = self.shared_data['pass_val'][int(self.domuid)-1]
 			other_pass_val = self.shared_data['pass_val'][int(self.other_domuid)-1]
-			if my_pass_val<other_pass_val:
+			last_time = self.shared_data['last_time_val']
+			now_time = time.time()
+			if last_time==0:
+				last_time = now_time
+				self.shared_data['last_time_val'] = now_time
+
+
+			if my_pass_val<=other_pass_val:
 				other_cur_bw=self.timeslice_us-cur_bw
-				self.shared_data['pass_val'][int(self.domuid)-1]+=self.shared_data['stride_val'][int(self.domuid)-1]
+				if now_time-last_time>5:
+					self.shared_data['last_time_val'] = now_time
+					self.shared_data['pass_val'][int(self.domuid)-1]+=self.shared_data['stride_val'][int(self.domuid)-1]
 			else:
 				cur_bw=self.timeslice_us-other_cur_bw
-				self.shared_data['pass_val'][int(self.other_domuid)-1]+=self.shared_data['stride_val'][int(self.other_domuid)-1]
-				
+				if now_time-last_time>5:
+					self.shared_data['last_time_val'] = now_time
+					self.shared_data['pass_val'][int(self.other_domuid)-1]+=self.shared_data['stride_val'][int(self.other_domuid)-1]
+		else:
+			self.shared_data['last_time_val'] = time.time()
 
 
 
@@ -374,7 +386,8 @@ if '1' in shared_data['xen']:
 
 shared_data = xen_interface.get_global_info()
 shared_data['pass_val']=[0,0]
-shared_data['stride_val']=[10,3]
+shared_data['stride_val']=[10,10]
+shared_data['last_time_val']=0
 
 
 pp = pprint.PrettyPrinter(indent=2)
