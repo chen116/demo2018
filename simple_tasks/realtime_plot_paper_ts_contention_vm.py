@@ -219,8 +219,8 @@ def animate2(i):
     ax2.set_ylabel('Assigned CPU Time (%)')
     # ax2.set_ylim( 45, 105 )  
     ax2.set_ylim( -5, 105 )  
-    ax1.set_xlim(0,200)
-    ax2.set_xlim(0,200)
+    # ax1.set_xlim(0,200)
+    # ax2.set_xlim(0,200)
     ax=[ax1, ax2]
     font = [{'family': 'serif',
             'color':  'dodgerblue',
