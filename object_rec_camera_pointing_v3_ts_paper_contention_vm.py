@@ -490,7 +490,7 @@ for frame in vidarray: # fastcat
 
 
 		if True:#not output_q.empty():
-			cat_or_man = ''
+			object_detected = ''
 			stuff = output_q.get()
 			# stuff=None
 			# try:
@@ -530,7 +530,7 @@ for frame in vidarray: # fastcat
 					# filter out weak detections by ensuring the `confidence` is
 					# greater than the minimum confidence
 					if ((confidence > 0.2) and (CLASSES[idx2] in tracking_target)):
-						cat_or_man = CLASSES[idx2]
+						object_detected = CLASSES[idx2]
 						# extract the index of the class label from the
 						# `detections`, then compute the (x, y)-coordinates of
 						# the bounding box for the object
@@ -612,9 +612,11 @@ for frame in vidarray: # fastcat
 				break
 			if output_q_cnt==0:
 				checked.set(str(sys.argv[8]))
-			if cat_or_man == 'person' and w1.get()!=FSIZE[2][1]:
+			if object_detected == 'person' and w1.get()!=FSIZE[2][1]:
 				w1.set(FSIZE[2][1])
-			if cat_or_man == 'cat' and w1.get()!=FSIZE[0][1]:
+			if object_detected == 'cat' and w1.get()!=FSIZE[1][1]:
+				w1.set(FSIZE[1][1])
+			if object_detected == 'car' and w1.get()!=FSIZE[0][1]:
 				w1.set(FSIZE[0][1])
 			# if catlen==0: 
 			# 	if output_q_cnt==0: 
