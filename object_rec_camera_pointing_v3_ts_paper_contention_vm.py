@@ -321,8 +321,11 @@ CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
 L=0.3
 R=0.7
 COLORS = np.random.uniform(0, 255, size=(len(CLASSES), 3))
+print(COLORS)
+
 COLORS = [[255, 0, 0],[0,0,0],[255,125,0]]
 COLORS=np.asarray(COLORS)
+print(COLORS)
 
 canpoint = 1
 # load our serialized model from disk
