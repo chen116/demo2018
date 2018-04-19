@@ -276,8 +276,9 @@ sentfoundmessage = 0
 sentlostmessage = 0
 centered = 1
 
-
-if True:
+synch = 0
+synch = 1 #synch
+if synch:
 	thread = threading.Thread(target = start_server)
 	thread.daemon = True
 	thread.start()
@@ -291,7 +292,7 @@ if True:
 			tempFlag=1
 		except:
 			#print("Waiting for other host")
-			time.sleep(1)
+			# time.sleep(1)
 			pass
 
 
