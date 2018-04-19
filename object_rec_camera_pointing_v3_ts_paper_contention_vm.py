@@ -345,7 +345,7 @@ manlen=2
 nonelen=1
 onecatvidlen = 300
 onemanvidlen = 150
-onenonelen=100
+onenonevidlen=100
 vidarray = None
 print('video setting up')
 
