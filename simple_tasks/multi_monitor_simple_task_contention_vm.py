@@ -157,7 +157,7 @@ class MonitorThread(threading.Thread):
 		tab='               dom '+str(int(self.domuid))
 		if int(self.domuid)<2:
 			tab='dom '+str(int(self.domuid))
-		#print(tab,'heart_rate',heart_rate)
+		print(tab,'heart_rate',heart_rate)
 
 		cur_bw = 0
 		myinfo = self.shared_data[self.domuid]
@@ -282,7 +282,7 @@ class MonitorThread(threading.Thread):
 			for vcpu in other_info:
 				if vcpu['pcpu']!=-1:
 					other_cur_bw=vcpu['w']
-		print('domuid',domuid,'other_cur_bw', other_cur_bw,'cur_bw',cur_bw)
+		# print('domuid',domuid,'other_cur_bw', other_cur_bw,'cur_bw',cur_bw)
 
 		if cur_bw+other_cur_bw>self.timeslice_us:
 			my_pass_val = self.shared_data['pass_val'][int(self.domuid)-1]
@@ -292,7 +292,7 @@ class MonitorThread(threading.Thread):
 			if last_time==0:
 				last_time = now_time
 				self.shared_data['last_time_val'] = now_time
-			print('domuid',domuid,'last_time', last_time,'now_time',now_time)
+			# print('domuid',domuid,'last_time', last_time,'now_time',now_time)
 
 			if now_time-last_time>5:
 				if my_pass_val<=other_pass_val:
