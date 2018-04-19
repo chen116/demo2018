@@ -97,7 +97,7 @@ if True:
 	    ("H", 3)
 	]
 	w1 = IntVar()
-	w1.set(3) # initialize
+	w1.set(FSIZE[0][1]) # initialize
 	previous_freq = w1.get()
 	window_size_hr=12
 	for text, mode in FSIZE:
