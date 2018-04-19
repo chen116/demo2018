@@ -277,22 +277,22 @@ sentlostmessage = 0
 centered = 1
 
 
+if True:
+	thread = threading.Thread(target = start_server)
+	thread.daemon = True
+	thread.start()
 
-# thread = threading.Thread(target = start_server)
-# thread.daemon = True
-# thread.start()
 
-
-# sock_client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-# tempFlag=None
-# while tempFlag is None:
-# 	try:
-# 		sock_client.connect((sys.argv[4],int(sys.argv[5])))
-# 		tempFlag=1
-# 	except:
-# 		#print("Waiting for other host")
-# 		time.sleep(1)
-# 		pass
+	sock_client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+	tempFlag=None
+	while tempFlag is None:
+		try:
+			sock_client.connect((sys.argv[4],int(sys.argv[5])))
+			tempFlag=1
+		except:
+			#print("Waiting for other host")
+			time.sleep(1)
+			pass
 
 
 
