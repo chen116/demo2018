@@ -282,6 +282,7 @@ class MonitorThread(threading.Thread):
 			for vcpu in other_info:
 				if vcpu['pcpu']!=-1:
 					other_cur_bw=vcpu['w']
+		print('domuid',domuid,'other_cur_bw', other_cur_bw,'cur_bw',cur_bw)
 
 		if cur_bw+other_cur_bw>self.timeslice_us:
 			my_pass_val = self.shared_data['pass_val'][int(self.domuid)-1]
