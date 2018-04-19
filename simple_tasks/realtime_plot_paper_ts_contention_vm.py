@@ -52,6 +52,7 @@ def animate2(i):
 
     x = []
     hrs = []
+    cpus_xs  =[]
     cpus = []
     anchor_xs = []
     anchors = []
@@ -65,7 +66,8 @@ def animate2(i):
 
     for i in range(2):
         x.append([])
-        hrs.append([])        
+        hrs.append([])  
+        cpus_xs.append([])    
         cpus.append([])
         anchor_xs.append([])
         anchors.append([])
@@ -97,7 +99,7 @@ def animate2(i):
                 hrs[index].append(float(line[1]))
                 if float(line[1])>maxhrs:
                     maxhrs=float(line[1])
-                cpus[index].append(float(line[2])/(1)*100)
+                cpus[index].append(float(line[2])*100)
             if len(line)==2+1:
                 # print(line)
                 anchor_xs[index].append(float(line[-1])-time_start)
@@ -117,30 +119,10 @@ def animate2(i):
                 ts[index].append(int(line[1]))
                 last_ts[index]=int(line[1])
                 event_last_happened_at_cnt[index]=cnt
-            # if len(line)==3:
-            #     x[index].append(cnt)
-            #     hrs[index].append(float(line[1]))
-            #     if float(line[1])>maxhrs:
-            #         maxhrs=float(line[1])
-            #     cpus[index].append(float(line[2])/(1)*100)
-            # if len(line)==2:
-            #     anchor_xs[index].append(cnt)
-            #     anchors[index].append(int(line[1]))
-            #     event_last_happened_at_cnt[index]=cnt
+            if len(line)==7+1:
+                cpus_xs[index].append(float(line[-1])-time_start)
+                cpus[index].append(float(line[2])*100)
 
-            # if len(line)==4:
-            #     frame_xs[index].append(cnt)
-            #     frames[index].append(int(line[1]))
-            #     event_last_happened_at_cnt[index]=cnt
-
-            # if len(line)==5:
-            #     dummy_x[index-2].append(cnt)
-            #     dummy_hrs[index-2].append(float(line[1]))
-            # if len(line)==6:
-            #     ts_xs[index].append(cnt)
-            #     ts[index].append(int(line[1]))
-            #     last_ts[index]=int(line[1])
-            #     event_last_happened_at_cnt[index]=cnt
 
             cnt+=1
     min_max = []
@@ -235,10 +217,12 @@ def animate2(i):
     # ax1.set_title(r'$\frac{RT-Xen \quad FPS}{Credit \quad FPS }$ = %.2f %%'%(per)+"\n",loc='right',fontsize=18)
     # ax1.set_xlabel('Time\n \n')
     ax2.set_xlabel('Time')
-    ax1.set_ylabel('Moving Average FPS(frames/sec) \n (Window Size = 5)')
+    ax1.set_ylabel('Moving Average FPS(frames/sec) \n (Window Size = 12)')
     ax2.set_ylabel('Assigned CPU Time (%)')
     # ax2.set_ylim( 45, 105 )  
     ax2.set_ylim( -5, 105 )  
+    ax1.set_xlim(0,200)
+    ax2.set_xlim(0,200)
     ax=[ax1, ax2]
     font = [{'family': 'serif',
             'color':  'dodgerblue',
@@ -279,7 +263,6 @@ def animate2(i):
                 ax1.axvline(x=ts_xs[i][j],color=colrs[i], linestyle=':')
                 ax2.axvline(x=ts_xs[i][j],color=colrs[i], linestyle=':')
                 ax2.text(ts_xs[i][j],10,"ts: "+str(ts[i][j]),rotation=45,fontdict=font[i],horizontalalignment='right',verticalalignment='top')
-
 
 
 

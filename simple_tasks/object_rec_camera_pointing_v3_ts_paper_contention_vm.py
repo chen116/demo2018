@@ -97,7 +97,7 @@ if True:
 	    ("H", 3)
 	]
 	w1 = IntVar()
-	w1.set(3) # initialize
+	w1.set(4) # initialize
 	previous_freq = w1.get()
 	window_size_hr=12
 	for text, mode in FSIZE:
@@ -224,8 +224,8 @@ m1.set(5)
 threads = []
 every_n_frame = {'cnt':-1,'n':w1.get()}
 threadLock = threading.Lock()
-total_num_threads = 3 # realvid
-# total_num_threads = 4 # fastcat
+# total_num_threads = 3 # realvid
+total_num_threads = 4 # fastcat
 num_threads_exiting = 0
 
 
@@ -276,23 +276,23 @@ sentfoundmessage = 0
 sentlostmessage = 0
 centered = 1
 
-#sock_client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-#sock_client.connect((sys.argv[4],int(sys.argv[5])))
-thread = threading.Thread(target = start_server)
-thread.daemon = True
-thread.start()
 
 
-sock_client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-tempFlag=None
-while tempFlag is None:
-	try:
-		sock_client.connect((sys.argv[4],int(sys.argv[5])))
-		tempFlag=1
-	except:
-		#print("Waiting for other host")
-		time.sleep(1)
-		pass
+# thread = threading.Thread(target = start_server)
+# thread.daemon = True
+# thread.start()
+
+
+# sock_client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+# tempFlag=None
+# while tempFlag is None:
+# 	try:
+# 		sock_client.connect((sys.argv[4],int(sys.argv[5])))
+# 		tempFlag=1
+# 	except:
+# 		#print("Waiting for other host")
+# 		time.sleep(1)
+# 		pass
 
 
 
@@ -334,27 +334,40 @@ personincam = 0
 #vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
 
 
-tracking_target = "person" # realvid
-# tracking_target = "cat"  # outvid # fastcat
-vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
+# tracking_target = "person" # realvid
+tracking_target = ["cat","person"]  # outvid # fastcat
+# vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
 # vs= FileVideoStream("walkcat.mp4").start() # outvid
-time.sleep(2.0) # realvid
+# time.sleep(2.0) # realvid
 catlen=0
-# catlen=3 # fastcat
-onecatvidlen = 550
+catlen=1 # fastcat
+manlen=5
+onecatvidlen = 500
+onemanvidlen = 100
 vidarray = None
 if catlen>0: 
 	#fps = FPS().start()
 	x = 0
 	# loop over the frames from the video stream
-	vidarray = np.zeros((onecatvidlen*catlen,360,640,3),dtype=np.uint8)
+	cat_vidarray = np.zeros((onecatvidlen*catlen,360,640,3),dtype=np.uint8)
 	vs= FileVideoStream("walkcat.mp4").start()
 	time.sleep(2.0)
 	for a in range(onecatvidlen):
 		frame = vs.read()
 		for i in range(catlen):
-			vidarray[a+(i*onecatvidlen),:,:,:]=frame
+			cat_vidarray[a+(i*onecatvidlen),:,:,:]=frame
 	vs.stop()
+
+	man_vidarray = np.zeros((onemanvidlen*manlen,360,640,3),dtype=np.uint8)
+	vs= FileVideoStream("walkman.mp4").start()
+	time.sleep(2.0)
+	for a in range(onemanvidlen):
+		frame = vs.read()
+		for i in range(manlen):
+			man_vidarray[a+(i*onemanvidlen),:,:,:]=frame
+	vs.stop()	
+	vidarray = np.concatenate((cat_vidarray,man_vidarray),axis=0)
+
 
 
 # cat_frame = vs.read()  # outvid
@@ -386,10 +399,10 @@ pointat = 0
 prev_personincam = personincam
 # while vs.more(): # outvid
 # while True:
-# for frame in vidarray: # fastcat
-while True: # realvid
+for frame in vidarray: # fastcat
+# while True: # realvid
 
-	frame = vs.read() # realvid
+	# frame = vs.read() # realvid
 	# frame = cat_frame # outvid
 
 	run_threads = 1
@@ -433,8 +446,8 @@ while True: # realvid
 			for i in range(total_num_threads):
 				input_q.put({'cnt':-1})
 			break		
-		current_frame_size=400 # realvid
-		# current_frame_size=600 # fastcat
+		# current_frame_size=400 # realvid
+		current_frame_size=600 # fastcat
 		if current_frame_size > 0:
 			frame = imutils.resize(frame, width=current_frame_size)
 			# grab the frame dimensions and convert it to a blob
@@ -455,7 +468,7 @@ while True: # realvid
 
 
 		if True:#not output_q.empty():
-
+			cat_or_man = ''
 			stuff = output_q.get()
 			# stuff=None
 			# try:
@@ -479,7 +492,7 @@ while True: # realvid
 						endX=prev_box['endX']
 						endY=prev_box['endY']
 						idx=prev_box['idx']
-						label=str(order)+'--'+prev_box['label']
+						label=prev_box['label']
 						cv2.rectangle(frame, (startX, startY), (endX, endY),
 							COLORS[idx], 2)
 						y = startY - 15 if startY - 15 > 15 else startY + 15
@@ -494,7 +507,8 @@ while True: # realvid
 					idx2 = int(detections[0,0,i,1])
 					# filter out weak detections by ensuring the `confidence` is
 					# greater than the minimum confidence
-					if ((confidence > 0.2) and (CLASSES[idx2]==tracking_target)):
+					if ((confidence > 0.2) and (CLASSES[idx2] in tracking_target)):
+						cat_or_man = CLASSES[idx2]
 						# extract the index of the class label from the
 						# `detections`, then compute the (x, y)-coordinates of
 						# the bounding box for the object
@@ -504,8 +518,9 @@ while True: # realvid
 						(startX, startY, endX, endY) = box.astype("int")
 					#	#print('startX=',startX)
 					#	#print('endX=',endX)
-						label =str(order)+'--'
-						label += "{}: {:.2f}%".format(CLASSES[idx],
+
+						# label =str(order)+'--'
+						label = "{}: {:.2f}%".format(CLASSES[idx],
 							confidence * 100)
 						cv2.rectangle(frame, (startX, startY), (endX, endY),
 							COLORS[idx], 2)
@@ -518,7 +533,7 @@ while True: # realvid
 						prev_box['endX']=endX
 						prev_box['endY']=endY
 						prev_box['idx']=idx
-						prev_box['label']= "recalculating..."
+						prev_box['label']= label
 						prev_boxes.append(prev_box)
 						localtrack = 1
 						localsearch = 0
@@ -573,30 +588,32 @@ while True: # realvid
 			# if the `q` key was pressed, break from the loop
 			if key == ord("q"):
 				break
+			if output_q_cnt==0:
+				checked.set(str(sys.argv[8]))
+			if cat_or_man == 'person' and w1.get()!=FSIZE[0][1]:
+				w1.set(FSIZE[0][1])
+			# if catlen==0: 
+			# 	if output_q_cnt==0: 
+			# 		 checked.set(str(sys.argv[8]))
+			# 	if "RT" in sys.argv[7]:
+			# 		if output_q_cnt == onecatvidlen:
+			# 			w1.set(FSIZE[0][1])
+			# 			sock_client.send(bytes('L','UTF-8'))
 
+			# 		if output_q_cnt == 2*onecatvidlen:
+			# 			w1.set(FSIZE[1][1])
+			# 			sock_client.send(bytes('M','UTF-8'))
+			# 	else:
+			# 		if remotetrack>0 and remotetrack!=w1.get():
+			# 			w1.set(remotetrack)
 
-			if catlen==0: 
-				if output_q_cnt==0: 
-					 checked.set(str(sys.argv[8]))
-				if "RT" in sys.argv[7]:
-					if output_q_cnt == onecatvidlen:
-						w1.set(FSIZE[0][1])
-						sock_client.send(bytes('L','UTF-8'))
-
-					if output_q_cnt == 2*onecatvidlen:
-						w1.set(FSIZE[1][1])
-						sock_client.send(bytes('M','UTF-8'))
-				else:
-					if remotetrack>0 and remotetrack!=w1.get():
-						w1.set(remotetrack)
-
-			else:
-				if output_q_cnt==0: 
-					 checked.set(str(sys.argv[8]))
-				if output_q_cnt == onecatvidlen:
-					w1.set(FSIZE[0][1])
-				if output_q_cnt == 2*onecatvidlen:
-					w1.set(FSIZE[1][1])			
+			# else:
+			# 	if output_q_cnt==0: 
+			# 		 checked.set(str(sys.argv[8]))
+			# 	if output_q_cnt == onecatvidlen:
+			# 		w1.set(FSIZE[0][1])
+			# 	if output_q_cnt == 2*onecatvidlen:
+			# 		w1.set(FSIZE[1][1])			
 	
 
 
@@ -628,6 +645,6 @@ for t in threads:
 # mycam1 = FoscamCamera('65.114.169.154',88,'arittenbach','8mmhamcgt16!')
 # mycam2 = FoscamCamera('65.114.169.108',88,'admin','admin')
 
-if remotetrack!=-1:
-	sock_client.send(bytes('clean_up','UTF-8'))
+# if remotetrack!=-1:
+# 	sock_client.send(bytes('clean_up','UTF-8'))
 

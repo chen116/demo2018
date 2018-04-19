@@ -325,14 +325,11 @@ class MonitorThread(threading.Thread):
 
 		buf=10000
 		self.shared_data['cnt'] = (self.shared_data['cnt']+1)%buf
-		info = self.domuid+" "+str(heart_rate)+" "
 		time_now=str(time.time())
-		if self.sched==1:
-			info += str(self.shared_data[self.domuid][0]['b']/self.timeslice_us) + " "+time_now
-			info += str(self.shared_data[self.domuid][1]['b']/self.timeslice_us) + " "+time_now
-		else:
-			info += str(self.shared_data[self.domuid][0]['w']/self.timeslice_us) + " "+time_now
-			info += str(self.shared_data[self.domuid][1]['w']/self.timeslice_us) + " "+time_now
+		info = self.domuid+" "+str(heart_rate)+" hr "+time_now+"\n"
+		info += self.domuid + " " +str(cur_bw/self.timeslice_us) + " cpu1 cpu2 cpu3 cpu4 "+time_now+"\n"
+		info += self.other_domuid+ " "+str(other_cur_bw/self.timeslice_us) + " cpu1 cpu2 cpu3 cpu4 "+time_now
+
 
 		# if self.shared_data['cnt']%buf!=0:
 		# 	with open("info.txt", "a") as myfile:
