@@ -225,7 +225,7 @@ threads = []
 every_n_frame = {'cnt':-1,'n':w1.get()}
 threadLock = threading.Lock()
 # total_num_threads = 3 # realvid
-total_num_threads = 3 # fastcat
+total_num_threads = 4 # fastcat
 num_threads_exiting = 0
 
 
