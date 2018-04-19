@@ -140,24 +140,24 @@ class MonitorThread(threading.Thread):
 		minn=int(self.timeslice_us*0.01)
 
 
-		if int(self.domuid)>=3:
-			#print("dummy",int(self.domuid)-2,"heartrate:",heart_rate)
-			buf=50
-			self.shared_data['cnt'] = (self.shared_data['cnt']+1)%buf
-			info = self.domuid+" "+str(heart_rate)+" dummy is here"
-			if self.shared_data['cnt']%buf!=0:
-				with open("info.txt", "a") as myfile:
-					myfile.write(info+"\n")
-			else:
-				with open("info.txt", "w") as myfile:
-					myfile.write(info+"\n")			
+		# if int(self.domuid)>=3:
+		# 	#print("dummy",int(self.domuid)-2,"heartrate:",heart_rate)
+		# 	buf=50
+		# 	self.shared_data['cnt'] = (self.shared_data['cnt']+1)%buf
+		# 	info = self.domuid+" "+str(heart_rate)+" dummy is here"
+		# 	if self.shared_data['cnt']%buf!=0:
+		# 		with open("info.txt", "a") as myfile:
+		# 			myfile.write(info+"\n")
+		# 	else:
+		# 		with open("info.txt", "w") as myfile:
+		# 			myfile.write(info+"\n")			
 
-			return
+		# 	return
 
-		tab='               dom '+str(int(self.domuid))
-		if int(self.domuid)<2:
-			tab='dom '+str(int(self.domuid))
-		print(tab,'heart_rate',heart_rate)
+		# tab='               dom '+str(int(self.domuid))
+		# if int(self.domuid)<2:
+		# 	tab='dom '+str(int(self.domuid))
+		# print(tab,'heart_rate',heart_rate)
 
 		cur_bw = 0
 		myinfo = self.shared_data[self.domuid]
@@ -282,7 +282,7 @@ class MonitorThread(threading.Thread):
 			for vcpu in other_info:
 				if vcpu['pcpu']!=-1:
 					other_cur_bw=vcpu['w']
-		# print('domuid',domuid,'other_cur_bw', other_cur_bw,'cur_bw',cur_bw)
+		print('domuid',self.domuid,'other_cur_bw', other_cur_bw,'cur_bw',cur_bw)
 
 		if cur_bw+other_cur_bw>self.timeslice_us:
 			my_pass_val = self.shared_data['pass_val'][int(self.domuid)-1]
