@@ -262,7 +262,7 @@ class MonitorThread(threading.Thread):
 
 
 		if self.anchors==0:
-			default_bw=int(self.timeslice_us/3*2) #dummy
+			default_bw=int(self.timeslice_us/2) #dummy
 			if cur_bw!=default_bw:
 				cur_bw=default_bw	
 
