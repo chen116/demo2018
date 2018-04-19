@@ -342,7 +342,7 @@ tracking_target = ["cat","person"]  # outvid # fastcat
 catlen=0
 catlen=1 # fastcat
 manlen=2
-onecatvidlen = 150
+onecatvidlen = 300
 onemanvidlen = 150
 vidarray = None
 print('video setting up')
