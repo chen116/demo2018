@@ -374,7 +374,7 @@ if catlen>0:
 
 
 	none_vidarray = np.zeros((onenonevidlen*nonelen,360,640,3),dtype=np.uint8)
-	vs= FileVideoStream("walknone.mp4").start()
+	vs= FileVideoStream("walkcar.mp4").start()
 	time.sleep(2.0)
 	for a in range(onenonevidlen):
 		frame = vs.read()
