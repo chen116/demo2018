@@ -389,7 +389,7 @@ if catlen>0:
 		vidarray = np.concatenate((car_vidarray,cat_vidarray,cat_vidarray,man_vidarray,car_vidarray),axis=0)
 	else:
 		vidarray = np.concatenate((car_vidarray,cat_vidarray,man_vidarray,man_vidarray,car_vidarray),axis=0)
-
+	print(len(vidarray))
 
 
 # cat_frame = vs.read()  # outvid
