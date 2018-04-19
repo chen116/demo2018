@@ -318,6 +318,8 @@ class MonitorThread(threading.Thread):
 			print('domuid',self.domuid,'other_cur_bw', other_cur_bw,'cur_bw',cur_bw)
 
 		else:
+			print('domuid',self.domuid,'other_cur_bw', other_cur_bw,'cur_bw',cur_bw)
+			
 			self.shared_data['last_time_val'] = time.time()
 
 
