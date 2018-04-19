@@ -327,8 +327,8 @@ class MonitorThread(threading.Thread):
 		self.shared_data['cnt'] = (self.shared_data['cnt']+1)%buf
 		time_now=str(time.time())
 		info = self.domuid+" "+str(heart_rate)+" hr "+time_now+"\n"
-		info += self.domuid + " " +str(cur_bw/self.timeslice_us) + " cpu1 cpu2 cpu3 cpu4 "+time_now+"\n"
-		info += self.other_domuid+ " "+str(other_cur_bw/self.timeslice_us) + " cpu1 cpu2 cpu3 cpu4 "+time_now
+		info += self.domuid + " " +str(cur_bw/self.timeslice_us) + " cpu1 cpu2 cpu3 cpu4 cpu5 "+time_now+"\n"
+		info += self.other_domuid+ " "+str(other_cur_bw/self.timeslice_us) + " cpu1 cpu2 cpu3 cpu4 cpu5 "+time_now
 
 
 		# if self.shared_data['cnt']%buf!=0:

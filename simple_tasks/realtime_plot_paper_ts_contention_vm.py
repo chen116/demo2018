@@ -97,9 +97,7 @@ def animate2(i):
             if len(line)==3+1:
                 x[index].append(float(line[-1])-time_start)
                 hrs[index].append(float(line[1]))
-                if float(line[1])>maxhrs:
-                    maxhrs=float(line[1])
-                cpus[index].append(float(line[2])*100)
+
             if len(line)==2+1:
                 # print(line)
                 anchor_xs[index].append(float(line[-1])-time_start)
@@ -121,7 +119,7 @@ def animate2(i):
                 event_last_happened_at_cnt[index]=cnt
             if len(line)==7+1:
                 cpus_xs[index].append(float(line[-1])-time_start)
-                cpus[index].append(float(line[2])*100)
+                cpus[index].append(float(line[1])*100)
 
 
             cnt+=1
@@ -137,7 +135,7 @@ def animate2(i):
     colrs = ['blue','limegreen']
     for i in range(len(x)):
         ax1.scatter(x[i],hrs[i],s= ((1)%2)*6+5 ,label= sched[i] ,color=colrs[i])
-        ax2.plot(x[i],cpus[i],color=colrs[i],lw=((i+1)%2)+3,label= sched[i] )
+        ax2.plot(cpu_xs[i],cpus[i],color=colrs[i],lw=((i+1)%2)+3,label= sched[i] )
         # tmp=[]
         # for j in range(len(cpus[i])):
         #     tmp.append(100-cpus[i][j])
@@ -199,12 +197,12 @@ def animate2(i):
 
     area_under_curve_rtxen=0
     area_under_curve_xen=0
-    if len(x[1])>0:
-        for i in range(1,len(x[1])):
-            area_under_curve_xen+=cpus[1][i-1]*(x[1][i]-x[1][i-1])
-    if len(x[0])>0:
-        for i in range(1,len(x[0])):
-            area_under_curve_rtxen+=cpus[0][i-1]*(x[0][i]-x[0][i-1])
+    if len(cpu_xs[1])>0:
+        for i in range(1,len(cpu_xs[1])):
+            area_under_curve_xen+=cpus[1][i-1]*(cpu_xs[1][i]-cpu_xs[1][i-1])
+    if len(cpu_xs[0])>0:
+        for i in range(1,len(cpu_xs[0])):
+            area_under_curve_rtxen+=cpus[0][i-1]*(cpu_xs[0][i]-cpu_xs[0][i-1])
 
 
     if area_under_curve_xen>0:
