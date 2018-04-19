@@ -278,21 +278,21 @@ centered = 1
 
 
 
-# thread = threading.Thread(target = start_server)
-# thread.daemon = True
-# thread.start()
+thread = threading.Thread(target = start_server)
+thread.daemon = True
+thread.start()
 
 
-# sock_client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-# tempFlag=None
-# while tempFlag is None:
-# 	try:
-# 		sock_client.connect((sys.argv[4],int(sys.argv[5])))
-# 		tempFlag=1
-# 	except:
-# 		#print("Waiting for other host")
-# 		time.sleep(1)
-# 		pass
+sock_client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+tempFlag=None
+while tempFlag is None:
+	try:
+		sock_client.connect((sys.argv[4],int(sys.argv[5])))
+		tempFlag=1
+	except:
+		#print("Waiting for other host")
+		time.sleep(1)
+		pass
 
 
 
@@ -368,7 +368,7 @@ if catlen>0:
 	vs.stop()	
 	vidarray = np.concatenate((cat_vidarray,man_vidarray),axis=0)
 
-
+print('video setup')
 
 # cat_frame = vs.read()  # outvid
 # for x in range(10):  # outvid
@@ -645,6 +645,6 @@ for t in threads:
 # mycam1 = FoscamCamera('65.114.169.154',88,'arittenbach','8mmhamcgt16!')
 # mycam2 = FoscamCamera('65.114.169.108',88,'admin','admin')
 
-# if remotetrack!=-1:
-# 	sock_client.send(bytes('clean_up','UTF-8'))
+if remotetrack!=-1:
+	sock_client.send(bytes('clean_up','UTF-8'))
 
