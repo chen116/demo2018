@@ -34,7 +34,7 @@ class MonitorThread(threading.Thread):
 		threading.Thread.__init__(self)
 		self.domuid=(domuid)
 		self.other_domuid='2'
-		if self.domuid=='2'
+		if self.domuid=='2':
 			other_domuid='1'
 		self.stride = int(10/int(domuid))
 		self.keys=keys
