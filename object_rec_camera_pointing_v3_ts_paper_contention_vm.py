@@ -342,8 +342,10 @@ tracking_target = ["cat","person"]  # outvid # fastcat
 catlen=0
 catlen=1 # fastcat
 manlen=2
+nonelen=1
 onecatvidlen = 300
 onemanvidlen = 150
+onenonelen=100
 vidarray = None
 print('video setting up')
 
@@ -369,10 +371,22 @@ if catlen>0:
 		for i in range(manlen):
 			man_vidarray[a+(i*onemanvidlen),:,:,:]=frame
 	vs.stop()	
+
+
+	none_vidarray = np.zeros((onenonevidlen*nonelen,360,640,3),dtype=np.uint8)
+	vs= FileVideoStream("walknone.mp4").start()
+	time.sleep(2.0)
+	for a in range(onenonevidlen):
+		frame = vs.read()
+		for i in range(nonelen):
+			none_vidarray[a+(i*onenonevidlen),:,:,:]=frame
+	vs.stop()
+
+
 	if "RT" in sys.argv[7]:
-		vidarray = np.concatenate((man_vidarray,cat_vidarray,cat_vidarray,man_vidarray),axis=0)
+		vidarray = np.concatenate((none_vidarray,cat_vidarray,cat_vidarray,man_vidarray,none_vidarray),axis=0)
 	else:
-		vidarray = np.concatenate((cat_vidarray,cat_vidarray,man_vidarray,man_vidarray),axis=0)
+		vidarray = np.concatenate((none_vidarray,cat_vidarray,man_vidarray,man_vidarray,none_vidarray),axis=0)
 
 
 
