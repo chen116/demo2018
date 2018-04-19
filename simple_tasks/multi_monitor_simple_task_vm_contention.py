@@ -33,6 +33,10 @@ class MonitorThread(threading.Thread):
 	def __init__(self, threadLock,shared_data,domuid,sched,timeslice_us,min_heart_rate,max_heart_rate,keys=['test'],base_path='/local/domain'):
 		threading.Thread.__init__(self)
 		self.domuid=(domuid)
+		self.other_domuid='2'
+		if self.domuid=='2'
+			other_domuid='1'
+		self.stride = int(10/int(domuid))
 		self.keys=keys
 		self.base_path=base_path
 		self.threadLock=threadLock
@@ -262,35 +266,73 @@ class MonitorThread(threading.Thread):
 			if cur_bw!=default_bw:
 				cur_bw=default_bw	
 
+
+
+		other_cur_bw = 0
+		other_info = self.shared_data[self.other_domuid]
+		cur_bw = cur_bw
+		myinfo = self.shared_data[self.domuid]
+
 		if self.sched==1:
-			xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_bw,[])
-			xen_interface.sched_rtds(str(int(self.domuid)+2),self.timeslice_us,self.timeslice_us-cur_bw,[])
-			myinfo = self.shared_data[self.domuid]
-			cnt=0
+			for vcpu in other_info:
+				if vcpu['pcpu']!=-1:
+					other_cur_bw=vcpu['b']		
+
+		elif self.sched==0:
+			for vcpu in other_info:
+				if vcpu['pcpu']!=-1:
+					other_cur_bw=vcpu['w']
+
+		if cur_bw+other_cur_bw>self.timeslice_us:
+			my_pass_val = self.shared_data['pass_val'][int(self.domuid)-1]
+			other_pass_val = self.shared_data['pass_val'][int(self.other_domuid)-1]
+			if my_pass_val<other_pass_val:
+				other_cur_bw=self.timeslice_us-cur_bw
+				self.shared_data['pass_val'][int(self.domuid)-1]+=self.shared_data['stride_val'][int(self.domuid)-1]
+			else:
+				cur_bw=self.timeslice_us-other_cur_bw
+				self.shared_data['pass_val'][int(self.other_domuid)-1]+=self.shared_data['stride_val'][int(self.other_domuid)-1]
+				
+
+
+
+
+
+
+
+
+		if self.sched==1:
+			for vcpu in other_info:
+				if vcpu['pcpu']!=-1:
+					vcpu['b']=other_cur_bw
 			for vcpu in myinfo:
 				if vcpu['pcpu']!=-1:
 					vcpu['b']=cur_bw
-					#print(tab,'vcpu:',cnt,'b:',vcpu['b'])
-					cnt+=1	
+			xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_bw,[])
+			xen_interface.sched_rtds(self.other_domuid,self.timeslice_us,other_cur_bw,[])
+
 		elif self.sched==0:
-			xen_interface.sched_credit(self.domuid,cur_bw)
-			xen_interface.sched_credit(str(int(self.domuid)+2),self.timeslice_us-cur_bw)
-			myinfo = self.shared_data[self.domuid]
-			cnt=0
+			for vcpu in other_info:
+				if vcpu['pcpu']!=-1:
+					vcpu['w']=other_cur_bw
 			for vcpu in myinfo:
 				if vcpu['pcpu']!=-1:
 					vcpu['w']=cur_bw
-					#print(tab,'vcpu:',cnt,'w:',vcpu['w'])
-					cnt+=1	
+			xen_interface.sched_credit(self.domuid,cur_bw)
+			xen_interface.sched_credit(self.other_domuid,other_cur_bw)
+
 
 
 		buf=10000
 		self.shared_data['cnt'] = (self.shared_data['cnt']+1)%buf
 		info = self.domuid+" "+str(heart_rate)+" "
+		time_now=str(time.time())
 		if self.sched==1:
-			info += str(self.shared_data[self.domuid][0]['b']/self.timeslice_us) + " "+str(time.time())
+			info += str(self.shared_data[self.domuid][0]['b']/self.timeslice_us) + " "+time_now
+			info += str(self.shared_data[self.domuid][0]['b']/self.timeslice_us) + " "+time_now
 		else:
-			info += str(self.shared_data[self.domuid][0]['w']/self.timeslice_us) + " "+str(time.time())
+			info += str(self.shared_data[self.domuid][0]['w']/self.timeslice_us) + " "+time_now
+			info += str(self.shared_data[self.domuid][0]['w']/self.timeslice_us) + " "+time_now
 
 		# if self.shared_data['cnt']%buf!=0:
 		# 	with open("info.txt", "a") as myfile:
@@ -334,7 +376,12 @@ if '1' in shared_data['xen']:
 # 	xen_interface.sched_credit(str(int(domuid)+2),timeslice_us-default_bw)
 
 shared_data = xen_interface.get_global_info()
+shared_data['pass_val']=[0,0]
+shared_data['stride_val']=[3,10]
 
+
+pp = pprint.PrettyPrinter(indent=2)
+pp.pprint(shared_data)
 
 
 print('monitoring:',monitoring_domU)
@@ -375,13 +422,13 @@ for t in threads:
 #print('FINAL COUNT:',shared_data['cnt'])
 pp = pprint.PrettyPrinter(indent=2)
 print('Final domUs info:')
-shared_data = xen_interface.get_global_info()
+shared_data_clean_up = xen_interface.get_global_info()
 default_bw=int(timeslice_us/2)
 
-if '1' in shared_data['rtxen']:
+if '1' in shared_data_clean_up['rtxen']:
 	xen_interface.sched_rtds(1,timeslice_us,default_bw,[])
 	xen_interface.sched_rtds(2,timeslice_us,timeslice_us-default_bw,[])
-if '1' in shared_data['xen']:
+if '1' in shared_data_clean_up['xen']:
 	xen_interface.sched_credit(1,default_bw)
 	xen_interface.sched_credit(2,timeslice_us-default_bw)
 
