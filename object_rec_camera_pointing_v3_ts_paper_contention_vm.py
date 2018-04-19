@@ -321,6 +321,8 @@ CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
 L=0.3
 R=0.7
 COLORS = np.random.uniform(0, 255, size=(len(CLASSES), 3))
+COLORS = np.random.uniform(0, 255, size=(len(3), 3))
+print(COLORS)
 canpoint = 1
 # load our serialized model from disk
 # #print("[INFO] loading model...")
