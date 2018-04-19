@@ -343,12 +343,12 @@ tracking_target = ["cat","person","car"]  # outvid # fastcat
 # vs= FileVideoStream("walkcat.mp4").start() # outvid
 # time.sleep(2.0) # realvid
 catlen=0
-catlen=1 # fastcat
-manlen=1
-carlen=1
-onecatvidlen = 50
-onemanvidlen = 50
-onecarvidlen = 50
+catlen=2 # fastcat
+manlen=2
+carlen=2
+onecatvidlen = 150
+onemanvidlen = 150
+onecarvidlen = 150
 vidarray = None
 print('video setting up')
 
@@ -389,10 +389,10 @@ if catlen>0:
 
 	if "RT" in sys.argv[7]:
 		vidarray = np.concatenate((car_vidarray[0:len(car_vidarray/2)],car_vidarray,cat_vidarray,cat_vidarray,man_vidarray,car_vidarray),axis=0)
-		vidarray = np.concatenate((car,cat,car,man,car),axis=0)
+		# vidarray = np.concatenate((car,cat,car,man,car),axis=0)
 	else:
 		vidarray = np.concatenate((car_vidarray,cat_vidarray,man_vidarray,man_vidarray,car_vidarray,car_vidarray[0:len(car_vidarray/2)]),axis=0)
-		vidarray = np.concatenate((car,man,cat,car,car),axis=0)
+		# vidarray = np.concatenate((car,man,cat,car,car),axis=0)
 	print(len(vidarray))
 
 
