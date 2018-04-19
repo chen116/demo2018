@@ -374,7 +374,7 @@ if '1' in shared_data['xen']:
 
 shared_data = xen_interface.get_global_info()
 shared_data['pass_val']=[0,0]
-shared_data['stride_val']=[3,10]
+shared_data['stride_val']=[10,3]
 
 
 pp = pprint.PrettyPrinter(indent=2)
