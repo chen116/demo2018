@@ -321,8 +321,9 @@ CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
 L=0.3
 R=0.7
 COLORS = np.random.uniform(0, 255, size=(len(CLASSES), 3))
-COLORS = np.random.uniform(0, 255, size=(3, 3))
-print(COLORS)
+COLORS = [[255, 0, 0],[0,0,0],[255,125,0]]
+COLORS=np.asarray(COLORS)
+
 canpoint = 1
 # load our serialized model from disk
 # #print("[INFO] loading model...")
@@ -344,7 +345,7 @@ tracking_target = ["cat","person","car"]  # outvid # fastcat
 catlen=0
 catlen=1 # fastcat
 manlen=2
-nonelen=1
+carlen=1
 onecatvidlen = 300
 onemanvidlen = 150
 onecarvidlen=100
