@@ -295,6 +295,7 @@ class MonitorThread(threading.Thread):
 			# print('domuid',self.domuid,'last_time', last_time,'now_time',now_time)
 
 			self.shared_data["contention_time_passed"]+=now_time-last_time
+			self.shared_data['last_time_val'] = now_time
 			print(self.shared_data["contention_time_passed"])
 			if my_pass_val<=other_pass_val:
 				other_cur_bw=self.timeslice_us-cur_bw
