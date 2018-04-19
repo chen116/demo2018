@@ -598,6 +598,8 @@ for frame in vidarray: # fastcat
 				checked.set(str(sys.argv[8]))
 			if cat_or_man == 'person' and w1.get()!=FSIZE[2][1]:
 				w1.set(FSIZE[2][1])
+			if cat_or_man == 'cat' and w1.get()!=FSIZE[0][1]:
+				w1.set(FSIZE[0][1])
 			# if catlen==0: 
 			# 	if output_q_cnt==0: 
 			# 		 checked.set(str(sys.argv[8]))
