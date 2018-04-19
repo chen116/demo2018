@@ -292,22 +292,23 @@ class MonitorThread(threading.Thread):
 			if last_time==0:
 				last_time = now_time
 				self.shared_data['last_time_val'] = now_time
-			print('domuid',self.domuid,'last_time', last_time,'now_time',now_time)
+			# print('domuid',self.domuid,'last_time', last_time,'now_time',now_time)
 
-			if now_time-last_time>5:
+			self.shared_data["contention_time_passed"]+=now_time-last_time
+			if my_pass_val<=other_pass_val:
+				other_cur_bw=self.timeslice_us-cur_bw
+			else:
+				cur_bw=self.timeslice_us-other_cur_bw
+
+			if self.shared_data["contention_time_passed"]>=5 and self.shared_data["contention_time_passed"]%5==0:
 				if my_pass_val<=other_pass_val:
-					other_cur_bw=self.timeslice_us-cur_bw
-					self.shared_data['last_time_val'] = now_time
 					self.shared_data['pass_val'][int(self.domuid)-1]+=self.shared_data['stride_val'][int(self.domuid)-1]
 				else:
-					cur_bw=self.timeslice_us-other_cur_bw
-					self.shared_data['last_time_val'] = now_time
 					self.shared_data['pass_val'][int(self.other_domuid)-1]+=self.shared_data['stride_val'][int(self.other_domuid)-1]
-			else:
-				if my_pass_val<=other_pass_val:
-					other_cur_bw=self.timeslice_us-cur_bw
-				else:
-					cur_bw=self.timeslice_us-other_cur_bw
+
+
+
+
 
 
 
@@ -315,6 +316,7 @@ class MonitorThread(threading.Thread):
 
 		else:
 			self.shared_data['last_time_val'] = time.time()
+
 
 
 
@@ -398,6 +400,9 @@ shared_data = xen_interface.get_global_info()
 shared_data['pass_val']=[0.1,0.2]
 shared_data['stride_val']=[10,10]
 shared_data['last_time_val']=0
+
+shared_data['contention_time_passed']=0
+
 
 
 pp = pprint.PrettyPrinter(indent=2)
