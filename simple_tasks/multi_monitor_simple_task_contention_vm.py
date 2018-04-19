@@ -301,7 +301,8 @@ class MonitorThread(threading.Thread):
 			else:
 				cur_bw=self.timeslice_us-other_cur_bw
 
-			if self.shared_data["contention_time_passed"]>=5 and int(self.shared_data["contention_time_passed"])%5==0:
+			if self.shared_data["contention_time_passed"]>=5:# and int(self.shared_data["contention_time_passed"])%5==0:
+				self.shared_data["contention_time_passed"]=0
 				if my_pass_val<=other_pass_val:
 					self.shared_data['pass_val'][int(self.domuid)-1]+=self.shared_data['stride_val'][int(self.domuid)-1]
 				else:
@@ -398,7 +399,7 @@ if '1' in shared_data['xen']:
 # 	xen_interface.sched_credit(str(int(domuid)+2),timeslice_us-default_bw)
 
 shared_data = xen_interface.get_global_info()
-shared_data['pass_val']=[0.1,0.2]
+shared_data['pass_val']=[0,0]
 shared_data['stride_val']=[10,10]
 shared_data['last_time_val']=0
 
