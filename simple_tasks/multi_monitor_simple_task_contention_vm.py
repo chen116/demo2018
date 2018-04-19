@@ -306,7 +306,7 @@ class MonitorThread(threading.Thread):
 			else:
 				cur_bw=self.timeslice_us-other_cur_bw
 
-			if self.shared_data["contention_time_passed"]>=5:# and int(self.shared_data["contention_time_passed"])%5==0:
+			if self.shared_data["contention_time_passed"]>=1:# and int(self.shared_data["contention_time_passed"])%5==0:
 				self.shared_data["contention_time_passed"]=0
 				if my_pass_val<=other_pass_val:
 					self.shared_data['pass_val'][int(self.domuid)-1]+=self.shared_data['stride_val'][int(self.domuid)-1]
