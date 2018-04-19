@@ -385,13 +385,14 @@ if catlen>0:
 			car_vidarray[a+(i*onecarvidlen),:,:,:]=frame
 	vs.stop()
 
+	car, cat, man = car_vidarray,cat_vidarray,man_vidarray
 
 	if "RT" in sys.argv[7]:
 		vidarray = np.concatenate((car_vidarray[0:len(car_vidarray/2)],car_vidarray,cat_vidarray,cat_vidarray,man_vidarray,car_vidarray),axis=0)
-		vidarray = np.concatenate((car_vidarray[0:len(car_vidarray/2)],car_vidarray,cat_vidarray,cat_vidarray,man_vidarray,car_vidarray),axis=0)
+		vidarray = np.concatenate((car,cat,man,cat,man,cat),axis=0)
 	else:
 		vidarray = np.concatenate((car_vidarray,cat_vidarray,man_vidarray,man_vidarray,car_vidarray,car_vidarray[0:len(car_vidarray/2)]),axis=0)
-		vidarray = np.concatenate((car_vidarray,cat_vidarray,man_vidarray,man_vidarray,car_vidarray,car_vidarray[0:len(car_vidarray/2)]),axis=0)
+		vidarray = np.concatenate((car,man,car,cat,man,car),axis=0)
 	print(len(vidarray))
 
 
