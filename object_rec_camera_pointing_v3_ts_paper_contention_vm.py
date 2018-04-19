@@ -342,12 +342,12 @@ tracking_target = ["cat","person","car"]  # outvid # fastcat
 # vs= FileVideoStream("walkcat.mp4").start() # outvid
 # time.sleep(2.0) # realvid
 catlen=0
-catlen=1 # fastcat
-manlen=1
-carlen=1
-onecatvidlen = 100
-onemanvidlen = 100
-onecarvidlen=100
+catlen=2 # fastcat
+manlen=2
+carlen=2
+onecatvidlen = 150
+onemanvidlen = 150
+onecarvidlen=150
 vidarray = None
 print('video setting up')
 
