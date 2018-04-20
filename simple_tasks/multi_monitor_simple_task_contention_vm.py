@@ -316,6 +316,8 @@ class MonitorThread(threading.Thread):
 				else:
 					self.shared_data['pass_val'][int(self.other_domuid)-1]+=self.shared_data['stride_val'][int(self.other_domuid)-1]
 
+				with open("info.txt", "a") as myfile:
+					myfile.write(self.domuid+" "+self.domuid+" time slice len 6"+ " "+str(now_time)+"\n")							
 
 
 
