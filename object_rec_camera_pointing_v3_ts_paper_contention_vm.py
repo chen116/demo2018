@@ -281,7 +281,7 @@ sentlostmessage = 0
 centered = 1
 
 synch = 0
-# synch = 1 #synch
+synch = 1 #synch
 if synch:
 	thread = threading.Thread(target = start_server)
 	thread.daemon = True
