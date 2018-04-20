@@ -343,9 +343,9 @@ tracking_target = ["cat","person","car"]  # outvid # fastcat
 # vs= FileVideoStream("walkcat.mp4").start() # outvid
 # time.sleep(2.0) # realvid
 catlen=0
-catlen=2 # fastcat
-manlen=2
-carlen=2
+catlen=1 # fastcat
+manlen=1
+carlen=1
 onecatvidlen = 150
 onemanvidlen = 150
 onecarvidlen = 150
@@ -365,6 +365,7 @@ if catlen>0:
 		for i in range(catlen):
 			cat_vidarray[a+(i*onecatvidlen),:,:,:]=frame
 	vs.stop()
+	print('vroom')
 
 	man_vidarray = np.zeros((onemanvidlen*manlen,360,640,3),dtype=np.uint8)
 	vs= FileVideoStream("walkman.mp4").start()
@@ -374,6 +375,8 @@ if catlen>0:
 		for i in range(manlen):
 			man_vidarray[a+(i*onemanvidlen),:,:,:]=frame
 	vs.stop()	
+	print('hi')
+
 
 
 	car_vidarray = np.zeros((onecarvidlen*carlen,360,640,3),dtype=np.uint8)
@@ -384,6 +387,8 @@ if catlen>0:
 		for i in range(carlen):
 			car_vidarray[a+(i*onecarvidlen),:,:,:]=frame
 	vs.stop()
+	print('meow')
+
 
 	car, cat, man = car_vidarray,cat_vidarray,man_vidarray
 
