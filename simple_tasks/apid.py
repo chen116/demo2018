@@ -35,9 +35,9 @@ class AdapPID:
 
 		self.err = self.goal-feedback
 		if self.err>0:
-			self.err=self.err*0.5
+			self.err=self.err*1
 		if self.err>(self.max_heart_rate-self.min_heart_rate)/2 and self.err<0:
-			self.err=self.err*0.5
+			self.err=self.err*1
 		self.gamma = np.log(abs(self.err)+1)/np.log(self.goal)
 		current_time = time.time()
 		if self.start==0:
