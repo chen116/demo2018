@@ -236,12 +236,12 @@ def start_server():
 	host = socket.gethostname()
 	tempFlag = None
 	while tempFlag is None:
-	try:
-		s.bind((host,int(sys.argv[6])))
-		tempFlag=1
-	except:
-		print("Waiting for other host")
-		pass
+		try:
+			s.bind((host,int(sys.argv[6])))
+			tempFlag=1
+		except:
+			print("Waiting for other host")
+			pass
 	
 	s.listen(5)
 	#print('server started')
