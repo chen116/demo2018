@@ -394,10 +394,10 @@ if catlen>0:
 
 	if "RT" in sys.argv[7]:
 		vidarray = np.concatenate((car_vidarray[0:len(car_vidarray/2)],car_vidarray,cat_vidarray,cat_vidarray,man_vidarray,car_vidarray),axis=0)
-		vidarray = np.concatenate((man,cat,cat),axis=0)
+		vidarray = np.concatenate((cat,man,man,cat),axis=0)
 	else:
 		vidarray = np.concatenate((car_vidarray,cat_vidarray,man_vidarray,man_vidarray,car_vidarray,car_vidarray[0:len(car_vidarray/2)]),axis=0)
-		vidarray = np.concatenate((man,car,cat),axis=0)
+		vidarray = np.concatenate((cat,cat,man,man),axis=0)
 	print(len(vidarray))
 
 
@@ -621,11 +621,11 @@ for frame in vidarray: # fastcat
 				break
 			if output_q_cnt==0:
 				checked.set(str(sys.argv[8]))
-			if object_detected == 'person' and w1.get()!=FSIZE[2][1] and output_q_cnt%w1.get()==0:
+			if object_detected == 'person' and w1.get()!=FSIZE[2][1]:
 				w1.set(FSIZE[2][1])
-			if object_detected == 'cat' and w1.get()!=FSIZE[1][1] and output_q_cnt%w1.get()==0:
+			if object_detected == 'car' and w1.get()!=FSIZE[1][1] :
 				w1.set(FSIZE[1][1])
-			if object_detected == 'car' and w1.get()!=FSIZE[0][1] and output_q_cnt%w1.get()==0:
+			if object_detected == 'cat' and w1.get()!=FSIZE[0][1] :
 				w1.set(FSIZE[0][1])
 			# if catlen==0: 
 			# 	if output_q_cnt==0: 
