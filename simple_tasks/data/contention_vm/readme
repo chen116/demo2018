@@ -1,0 +1,15 @@
+set1:
+
+M,H
+
+frame sequence:
+mmhh
+mhhm
+
+process unit time: 3
+
+
+vid_len=2*150
+frame=600
+nn frame=300
+gamma of gammr = 0.95
