@@ -411,7 +411,7 @@ if '1' in shared_data['xen']:
 # 	xen_interface.sched_credit(str(int(domuid)+2),timeslice_us-default_bw)
 
 shared_data = xen_interface.get_global_info()
-shared_data['pass_val']=[1,2]
+shared_data['pass_val']=[0.1,0.2]
 shared_data['stride_val']=[10,10]
 shared_data['last_time_val']=0
 
