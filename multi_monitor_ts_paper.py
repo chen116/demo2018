@@ -288,7 +288,7 @@ class MonitorThread(threading.Thread):
 		elif self.anchors==0:
 			if self.sched==1:
 				#print(tab,'-------------RT-Xen anchors INACTIVE:')
-				default_b=int(self.timeslice_us/2)
+				default_b=int(self.timeslice_us)-minn
 				myinfo = self.shared_data[self.domuid]
 				cnt=0
 				not_default_b = 0
