@@ -681,6 +681,6 @@ for t in threads:
 # mycam1 = FoscamCamera('65.114.169.154',88,'arittenbach','8mmhamcgt16!')
 # mycam2 = FoscamCamera('65.114.169.108',88,'admin','admin')
 
-# if remotetrack!=-1:
-# 	sock_client.send(bytes('clean_up','UTF-8'))
+if remotetrack!=-1:
+	sock_client.send(bytes('clean_up','UTF-8'))
 
