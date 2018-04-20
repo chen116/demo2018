@@ -292,7 +292,7 @@ if synch:
 			tempFlag=1
 		except:
 			#print("Waiting for other host")
-			time.sleep(0.5)
+			time.sleep(1)
 			pass
 
 
