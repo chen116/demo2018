@@ -397,7 +397,7 @@ if catlen>0:
 		vidarray = np.concatenate((car,man,cat),axis=0)
 	else:
 		vidarray = np.concatenate((car_vidarray,cat_vidarray,man_vidarray,man_vidarray,car_vidarray,car_vidarray[0:len(car_vidarray/2)]),axis=0)
-		vidarray = np.concatenate((cat,car,cat),axis=0)
+		vidarray = np.concatenate((cat,cat,cat),axis=0)
 	print(len(vidarray))
 
 
@@ -478,7 +478,7 @@ for frame in vidarray: # fastcat
 				input_q.put({'cnt':-1})
 			break		
 		# current_frame_size=400 # realvid
-		current_frame_size=600 # fastcat
+		current_frame_size=800 # fastcat
 		if current_frame_size > 0:
 			frame = imutils.resize(frame, width=current_frame_size)
 			# grab the frame dimensions and convert it to a blob
