@@ -235,14 +235,10 @@ def start_server():
 	s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 	host = socket.gethostname()
 	tempFlag = None
-	while tempFlag is None:
-		try:
-			s.bind((host,int(sys.argv[6])))
-			tempFlag=1
-		except:
-			print("Waiting for other host")
-			pass
-	
+
+
+	s.bind((host,int(sys.argv[6])))
+
 	s.listen(5)
 	#print('server started')
 	while True:
