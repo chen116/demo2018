@@ -285,6 +285,7 @@ class MonitorThread(threading.Thread):
 		# print('domuid',self.domuid,'other_cur_bw', other_cur_bw,'cur_bw',cur_bw)
 
 		if cur_bw+other_cur_bw>self.timeslice_us:
+
 			my_pass_val = self.shared_data['pass_val'][int(self.domuid)-1]
 			other_pass_val = self.shared_data['pass_val'][int(self.other_domuid)-1]
 			last_time = self.shared_data['last_time_val']
@@ -305,6 +306,8 @@ class MonitorThread(threading.Thread):
 				other_cur_bw=self.timeslice_us-cur_bw
 			else:
 				cur_bw=self.timeslice_us-other_cur_bw
+				self.pid.reset()
+
 
 			if self.shared_data["contention_time_passed"]>=5:# and int(self.shared_data["contention_time_passed"])%5==0:
 				self.shared_data["contention_time_passed"]=0
