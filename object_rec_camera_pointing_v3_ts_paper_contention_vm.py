@@ -483,8 +483,8 @@ for frame in vidarray: # fastcat
 			frame = imutils.resize(frame, width=current_frame_size)
 			# grab the frame dimensions and convert it to a blob
 			(h, w) = frame.shape[:2]
-			blob = cv2.dnn.blobFromImage(cv2.resize(frame, (200, 200)),
-				0.007843, (200, 200), 127.5)
+			blob = cv2.dnn.blobFromImage(cv2.resize(frame, (250, 250)),
+				0.007843, (250, 250), 127.5)
 			threadLock.acquire()
 			every_n_frame['n']=w1.get()
 			threadLock.release()
