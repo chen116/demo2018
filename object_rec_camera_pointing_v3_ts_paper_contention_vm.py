@@ -234,7 +234,15 @@ def start_server():
 	remotetrack = 0
 	s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 	host = socket.gethostname()
-	s.bind((host,int(sys.argv[6])))
+	tempFlag = None
+	while tempFlag is None:
+	try:
+		s.bind((host,int(sys.argv[6])))
+		tempFlag=1
+	except:
+		#print("Waiting for other host")
+		pass
+	
 	s.listen(5)
 	#print('server started')
 	while True:
