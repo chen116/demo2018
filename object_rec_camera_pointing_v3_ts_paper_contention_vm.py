@@ -298,14 +298,6 @@ if synch:
 			#print("Waiting for other host")
 			time.sleep(1)
 			pass
-thread = threading.Thread(target = start_server)
-thread.daemon = True
-thread.start()
-input('press enter when other node is ready')
-sock_client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-sock_client.connect((sys.argv[4],int(sys.argv[5])))
-
-
 
 
 #setup CAM
