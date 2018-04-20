@@ -483,8 +483,8 @@ for frame in vidarray: # fastcat
 			frame = imutils.resize(frame, width=current_frame_size)
 			# grab the frame dimensions and convert it to a blob
 			(h, w) = frame.shape[:2]
-			blob = cv2.dnn.blobFromImage(cv2.resize(frame, (250, 250)),
-				0.007843, (250, 250), 127.5)
+			blob = cv2.dnn.blobFromImage(cv2.resize(frame, (275, 275)),
+				0.007843, (275, 275), 127.5)
 			threadLock.acquire()
 			every_n_frame['n']=w1.get()
 			threadLock.release()
@@ -623,9 +623,9 @@ for frame in vidarray: # fastcat
 				checked.set(str(sys.argv[8]))
 			if object_detected == 'person' and w1.get()!=FSIZE[2][1] and output_q_cnt%w1.get()==0:
 				w1.set(FSIZE[2][1])
-			if object_detected == 'car' and w1.get()!=FSIZE[1][1] and output_q_cnt%w1.get()==0:
+			if object_detected == 'cat' and w1.get()!=FSIZE[1][1] and output_q_cnt%w1.get()==0:
 				w1.set(FSIZE[1][1])
-			if object_detected == 'cat' and w1.get()!=FSIZE[0][1] and output_q_cnt%w1.get()==0:
+			if object_detected == 'car' and w1.get()!=FSIZE[0][1] and output_q_cnt%w1.get()==0:
 				w1.set(FSIZE[0][1])
 			# if catlen==0: 
 			# 	if output_q_cnt==0: 
