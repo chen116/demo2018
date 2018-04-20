@@ -240,7 +240,7 @@ def start_server():
 		s.bind((host,int(sys.argv[6])))
 		tempFlag=1
 	except:
-		#print("Waiting for other host")
+		print("Waiting for other host")
 		pass
 	
 	s.listen(5)
