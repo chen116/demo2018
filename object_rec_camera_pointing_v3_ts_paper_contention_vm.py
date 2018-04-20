@@ -347,12 +347,12 @@ tracking_target = ["cat","person","car"]  # outvid # fastcat
 # vs= FileVideoStream("walkcat.mp4").start() # outvid
 # time.sleep(2.0) # realvid
 catlen=0
-catlen=1 # fastcat
-manlen=1
-carlen=1
-onecatvidlen = 200
-onemanvidlen = 200
-onecarvidlen = 200
+catlen=2 # fastcat
+manlen=2
+carlen=2
+onecatvidlen = 150
+onemanvidlen = 150
+onecarvidlen = 150
 vidarray = None
 print('video setting up')
 
@@ -482,7 +482,7 @@ for frame in vidarray: # fastcat
 				input_q.put({'cnt':-1})
 			break		
 		# current_frame_size=400 # realvid
-		current_frame_size=400 # fastcat
+		current_frame_size=600 # fastcat
 		if current_frame_size > 0:
 			frame = imutils.resize(frame, width=current_frame_size)
 			# grab the frame dimensions and convert it to a blob
@@ -680,7 +680,7 @@ for i in range(total_num_threads):
 	input_q.put({'cnt':-1})
 for t in threads:
 	t.join()
-thread.join()
+
 
 #print("worker threads cleaned up")
 # mycam1 = FoscamCamera('65.114.169.154',88,'arittenbach','8mmhamcgt16!')
