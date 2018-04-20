@@ -397,7 +397,7 @@ if catlen>0:
 		vidarray = np.concatenate((cat,man,man,cat),axis=0)
 	else:
 		vidarray = np.concatenate((car_vidarray,cat_vidarray,man_vidarray,man_vidarray,car_vidarray,car_vidarray[0:len(car_vidarray/2)]),axis=0)
-		vidarray = np.concatenate((cat,cat,cat,man),axis=0)
+		vidarray = np.concatenate((cat,man,cat,man),axis=0)
 	print(len(vidarray))
 
 
