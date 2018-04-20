@@ -308,8 +308,8 @@ class MonitorThread(threading.Thread):
 				cur_bw=self.timeslice_us-other_cur_bw
 				self.pid.reset()
 
-
-			if self.shared_data["contention_time_passed"]>=2:# and int(self.shared_data["contention_time_passed"])%5==0:
+			process_unit_time=5
+			if self.shared_data["contention_time_passed"]>=process_unit_time:# and int(self.shared_data["contention_time_passed"])%5==0:
 				self.shared_data["contention_time_passed"]=0
 				if my_pass_val<=other_pass_val:
 					self.shared_data['pass_val'][int(self.domuid)-1]+=self.shared_data['stride_val'][int(self.domuid)-1]
