@@ -350,9 +350,9 @@ catlen=0
 catlen=1 # fastcat
 manlen=1
 carlen=1
-onecatvidlen = 150
-onemanvidlen = 150
-onecarvidlen = 150
+onecatvidlen = 200
+onemanvidlen = 200
+onecarvidlen = 200
 vidarray = None
 print('video setting up')
 
