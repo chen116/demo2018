@@ -680,6 +680,7 @@ for i in range(total_num_threads):
 	input_q.put({'cnt':-1})
 for t in threads:
 	t.join()
+thread.join()
 
 #print("worker threads cleaned up")
 # mycam1 = FoscamCamera('65.114.169.154',88,'arittenbach','8mmhamcgt16!')
