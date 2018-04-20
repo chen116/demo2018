@@ -423,7 +423,7 @@ import heartbeat
 hb = heartbeat.Heartbeat(1024,window_size_hr,100,"vic.log",10,100)
 monitoring_items = ["heart_rate","app_mode","frame_size","timeslice"]
 comm = heartbeat.DomU(monitoring_items)
-fps = FPS().start()
+# fps = FPS().start()
 pointat = 0
 # loop over the frames from the video stream
 
@@ -449,7 +449,7 @@ for frame in vidarray: # fastcat
 
 			if output_q_cnt>window_size_hr:
 				comm.write("heart_rate",hb.get_instant_heartrate())		
-			fps.update()
+			# fps.update()
 			master.update_idletasks()
 			master.update()
 		else:
@@ -612,7 +612,7 @@ for frame in vidarray: # fastcat
 			# if previous_sched!=current_sched:
 			# 	comm.write("sched",current_sched)
 			# 	previous_sched=current_sched
-			fps.update()
+			# fps.update()
 			master.update_idletasks()
 			master.update()
 			key = cv2.waitKey(1) & 0xFF
@@ -654,7 +654,7 @@ for frame in vidarray: # fastcat
 
 			
 # stop the timer and display FPS information
-fps.stop()
+# fps.stop()
 #print("[INFO] elapsed time: {:.2f}".format(fps.elapsed()))
 #print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 
