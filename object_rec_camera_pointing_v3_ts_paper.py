@@ -586,7 +586,7 @@ while True: # realvid
 						w1.set(FSIZE[0][1])
 						sent_cnt+=1
 
-					if time.time()-time_start>50 and sent_cnt==1:#output_q_cnt == 2*onecatvidlen:
+					if time.time()-time_start>100 and sent_cnt==1:#output_q_cnt == 2*onecatvidlen:
 						sock_client.send(bytes('M','UTF-8'))
 						sent_cnt+=1
 						w1.set(FSIZE[1][1])
