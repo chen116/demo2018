@@ -426,7 +426,7 @@ while True: # realvid
 
 
 		current_freq=w1.get()
-		if remotetrack == -1 or w1.get() == 0 and time_start-time.time()>150:#or output_q_cnt== onecatvidlen*3:
+		if remotetrack == -1 or w1.get() == 0 and time.time()-time_start>150:#or output_q_cnt== onecatvidlen*3:
 			threadLock.acquire()
 			every_n_frame['n']=-1
 			threadLock.release()
