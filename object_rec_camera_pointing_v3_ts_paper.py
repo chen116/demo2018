@@ -387,6 +387,8 @@ prev_personincam = personincam
 # while vs.more(): # outvid
 # while True:
 # for frame in vidarray: # fastcat
+time_start= time.time()
+sent_cnt=0
 while True: # realvid
 
 	frame = vs.read() # realvid
@@ -579,13 +581,15 @@ while True: # realvid
 				if output_q_cnt==0: 
 					 checked.set(str(sys.argv[8]))
 				if "RT" in sys.argv[7]:
-					if output_q_cnt == onecatvidlen:
-						w1.set(FSIZE[0][1])
+					if time.time()-time_start>50 and sent_cnt==0:#output_q_cnt == onecatvidlen  :
 						sock_client.send(bytes('L','UTF-8'))
+						w1.set(FSIZE[0][1])
+						sent_cnt+=1
 
-					if output_q_cnt == 2*onecatvidlen:
-						w1.set(FSIZE[1][1])
+					if time.time()-time_start>50 and sent_cnt==1:#output_q_cnt == 2*onecatvidlen:
 						sock_client.send(bytes('M','UTF-8'))
+						sent_cnt+=1
+						w1.set(FSIZE[1][1])
 				else:
 					if remotetrack>0 and remotetrack!=w1.get():
 						w1.set(remotetrack)
