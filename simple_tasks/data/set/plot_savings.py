@@ -38,7 +38,7 @@ for f in files:
     ax_rtxen_txt = ax_rtxen.text(0.1,0.01,'%.2f%%'%(0),fontdict=font_per[1])
     ax_rtxen.axis('off')
 
-    ax_rtxen_inrange = plt.axes([0.2q, 0.91, 0.2, 0.12])
+    ax_rtxen_inrange = plt.axes([0.2, 0.91, 0.2, 0.12])
     ax_rtxen_inrange.text(0.06,0.42,'Average RT-Xen CPU\nutilization(%/sec):',fontdict=font_per[0])
     ax_rtxen_inrange_txt = ax_rtxen_inrange.text(0.1,0.01,'%.2f%%'%(0),fontdict=font_per[1])
     ax_rtxen_inrange.axis('off')
