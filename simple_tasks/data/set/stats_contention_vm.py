@@ -7,7 +7,7 @@ files = [ f for f in onlyfiles if "contention_vm_" in f]
 print(files)
 
 
-
+import numpy as np
 
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
@@ -18,12 +18,12 @@ from matplotlib.widgets import CheckButtons
 import time
 for f in files:
 
-
+    print('\n',f)
     fig = plt.figure(figsize=(10, 7))
     ax1 = fig.add_subplot(2,1,1)
     ax2 = fig.add_subplot(2,1,2)
     buf = 1000
-    show_frames=1
+    show_modes=1
     show_anchors=0
     show_dummies=0
     show_ts=1
@@ -66,8 +66,8 @@ for f in files:
     cpus = []
     anchor_xs = []
     anchors = []
-    frame_xs = []
-    frames = []
+    mode_xs = []
+    modes = []
     dummy_x = []
     dummy_hrs = []
     ts_xs = []
@@ -81,8 +81,8 @@ for f in files:
         cpus.append([])
         anchor_xs.append([])
         anchors.append([])
-        frame_xs.append([])
-        frames.append([])
+        mode_xs.append([])
+        modes.append([])
         dummy_x.append([])
         dummy_hrs.append([])        
         ts_xs.append([])
@@ -115,8 +115,8 @@ for f in files:
                 event_last_happened_at_cnt[index]=cnt
 
             if len(line)==4+1:
-                frame_xs[index].append(float(line[-1])-time_start)
-                frames[index].append(int(line[1]))
+                mode_xs[index].append(float(line[-1])-time_start)
+                modes[index].append(int(line[1]))
                 event_last_happened_at_cnt[index]=cnt
 
             if len(line)==5+1:
@@ -225,7 +225,7 @@ for f in files:
     # ax1.set_title(r'$\frac{RT-Xen \quad FPS}{Credit \quad FPS }$ = %.2f %%'%(per)+"\n",loc='right',fontsize=18)
     # ax1.set_xlabel('Time\n \n')
     ax2.set_xlabel('Time')
-    ax1.set_ylabel('Moving Average FPS(frames/sec) \n (Window Size = 12)')
+    ax1.set_ylabel('Moving Average FPS(modes/sec) \n (Window Size = 12)')
     ax2.set_ylabel('Assigned CPU Time (%)')
     # ax2.set_ylim( 45, 105 )  
     ax2.set_ylim( -5, 105 )  
@@ -259,12 +259,12 @@ for f in files:
                     ax1.text(anchor_xs[i][j],ymax,"APID",rotation=45,fontdict=font[i])
                 elif anchors[i][j]==4:
                     ax1.text(anchor_xs[i][j],ymax,"AIMD",rotation=45,fontdict=font[i])
-    if show_frames:
-        for i in range(len(frame_xs)):
-            for j in range(len(frame_xs[i])):
-                ax1.axvline(x=frame_xs[i][j],color=colrs[i], linestyle='--')
-                ax2.axvline(x=frame_xs[i][j],color=colrs[i], linestyle='--')
-                ax2.text(frame_xs[i][j],-10,"period: "+str(frames[i][j]),rotation=45,fontdict=font[i],horizontalalignment='right',verticalalignment='top')
+    if show_modes:
+        for i in range(len(mode_xs)):
+            for j in range(len(mode_xs[i])):
+                ax1.axvline(x=mode_xs[i][j],color=colrs[i], linestyle='--')
+                ax2.axvline(x=mode_xs[i][j],color=colrs[i], linestyle='--')
+                ax2.text(mode_xs[i][j],-10,"period: "+str(modes[i][j]),rotation=45,fontdict=font[i],horizontalalignment='right',verticalalignment='top')
     if show_ts:
         for i in range(len(ts_xs)):
             for j in range(len(ts_xs[i])):
@@ -272,4 +272,72 @@ for f in files:
                 ax2.axvline(x=ts_xs[i][j],color=colrs[i], linestyle=':')
                 ax2.text(ts_xs[i][j],10,"ts: "+str(ts[i][j]),rotation=45,fontdict=font[i],horizontalalignment='right',verticalalignment='top')
 
-    plt.show()
+    for i in range(2):
+        tmp_xs = np.asarray(x[i])
+        tmp_hrs = np.asarray(hrs[i])
+        tmp_cpus = np.asarray(cpus[i])
+        tmp_freq_xs = np.asarray(mode_xs[i])
+        tmp_freqs = np.asarray(modes[i])
+
+        # [x for x in a if x<=4]
+
+        first_sec2_index = 0
+        first_sec3_index =0
+        first_sec4_index =0
+        events_time = [mode_xs[1][0],mode_xs[0][0],mode_xs[1][1]]
+        for j in range(len(tmp_xs)):
+            if tmp_xs[j]<events_time[0]:
+                first_sec2_index = j+1
+            if tmp_xs[j]<events_time[1]:
+                first_sec3_index=j+1
+            if tmp_xs[j]<events_time[2]:
+                first_sec4_index=j+1
+        idx = [0,first_sec2_index,first_sec3_index,first_sec4_index,len(tmp_xs)]
+
+        # time to range:
+        for j in range(4):
+            start = idx[j]
+            end = idx[j+1]
+            inrange_at=0
+            found=0
+            inrange=0
+            inrange_first_cnt=0
+            inrange_cnt=0
+            using_events=1
+            outrange_after_inrange=0
+            if using_events:
+                total = end-start
+            else:
+                total = tmp_hrs[end-1]-tmp_hrs[start]
+            for k in range(start,end):
+                if tmp_hrs[k]<=11 and tmp_hrs[k]>=9:
+                    # print(tmp_xs[k]-tmp_xs[start])
+                    if not found:
+                        inrange_first_cnt=k-start
+                        inrange_at=k
+                        found=1
+                    inrange_cnt+=1
+                else:
+                    if found:
+                        outrange_after_inrange+=1
+            # if inrange_at==0:
+            #     print('never')
+
+            # mean_hr & var_hr
+            mean_hr=np.mean(tmp_hrs[inrange_at:end])
+            mean_cpu=np.mean(tmp_cpus[inrange_at:end])
+            var_hr=np.var(tmp_hrs[inrange_at:end])
+            var_cpu=np.var(tmp_cpus[inrange_at:end])
+            if found>0:
+                time_took_inrange=tmp_xs[inrange_at]-tmp_xs[start]
+                hbs_took_inrange=inrange_first_cnt
+                in_after_in_per=1-outrange_after_inrange/(inrange_cnt+outrange_after_inrange)
+            else:
+                time_took_inrange=-1
+                hbs_took_inrange=-1     
+                in_after_in_per=-1    
+            print(time_took_inrange,hbs_took_inrange,inrange_cnt/total,in_after_in_per,mean_hr,var_hr,(var_hr**.5)/mean_hr*100,mean_cpu,var_cpu,(var_cpu**.5)/mean_cpu*100)
+
+
+
+

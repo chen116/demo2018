@@ -363,17 +363,20 @@ for f in files:
             # if inrange_at==0:
             #     print('never')
 
-            # mean & var
-            mean=np.mean(tmp_hrs[inrange_at:end])
-            var=np.var(tmp_hrs[inrange_at:end])
+            # mean_hr & var_hr
+            mean_hr=np.mean(tmp_hrs[inrange_at:end])
+            mean_cpu=np.mean(tmp_cpus[inrange_at:end])
+            var_hr=np.var(tmp_hrs[inrange_at:end])
+            var_cpu=np.var(tmp_cpus[inrange_at:end])
             if found>0:
                 time_took_inrange=tmp_xs[inrange_at]-tmp_xs[start]
                 hbs_took_inrange=inrange_first_cnt
+                in_after_in_per=1-outrange_after_inrange/(inrange_cnt+outrange_after_inrange)
             else:
                 time_took_inrange=-1
-                hbs_took_inrange=-1         
-
-            print(time_took_inrange,hbs_took_inrange,inrange_cnt/total,outrange_after_inrange/total,  ,mean,var,(var**.5)/mean*100)
+                hbs_took_inrange=-1     
+                in_after_in_per=-1    
+            print(time_took_inrange,hbs_took_inrange,inrange_cnt/total,in_after_in_per,mean_hr,var_hr,(var_hr**.5)/mean_hr*100,mean_cpu,var_cpu,(var_cpu**.5)/mean_cpu*100)
 
 
 
