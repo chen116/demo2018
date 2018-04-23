@@ -73,6 +73,7 @@ for f in files:
     ts_xs = []
     ts = []
     event_last_happened_at_cnt=[-1,-1]
+    event_cnt_x=[]
 
     for i in range(2):
         x.append([])
@@ -105,34 +106,34 @@ for f in files:
             time_end = float(line[-1])
             index=int(line[0])-1
             if len(line)==3+1:
-                x[index].append(float(line[-1])-time_start)
+                x[index].append(cnt)#float(line[-1])-time_start)
                 hrs[index].append(float(line[1]))
 
             if len(line)==2+1:
                 # print(line)
-                anchor_xs[index].append(float(line[-1])-time_start)
+                anchor_xs[index].append(cnt)#float(line[-1])-time_start)
                 anchors[index].append(int(line[1]))
                 event_last_happened_at_cnt[index]=cnt
 
             if len(line)==4+1:
-                frame_xs[index].append(float(line[-1])-time_start)
+                frame_xs[index].append(cnt)#float(line[-1])-time_start)
                 frames[index].append(int(line[1]))
                 event_last_happened_at_cnt[index]=cnt
 
             if len(line)==5+1:
-                dummy_x[index-2].append(float(line[-1])-time_start)
+                dummy_x[index-2].append(cnt)#float(line[-1])-time_start)
                 dummy_hrs[index-2].append(float(line[1]))
             if len(line)==6+1:
-                ts_xs[index].append(float(line[-1])-time_start)
+                ts_xs[index].append(cnt)#float(line[-1])-time_start)
                 ts[index].append(int(line[1]))
                 last_ts[index]=int(line[1])
                 event_last_happened_at_cnt[index]=cnt
             if len(line)==7+1:
-                cpus_xs[index].append(float(line[-1])-time_start)
+                cpus_xs[index].append(cnt)#float(line[-1])-time_start)
                 cpus[index].append(float(line[1])*100)
 
-
-            cnt+=1
+            if len(line)!=7+1:
+                cnt+=1
     min_max = []
     for eachLine in minmaxArray:
         if len(eachLine)>1:
@@ -161,16 +162,28 @@ for f in files:
     x_for_minmax = []
     miny = []
     maxy = []
+    midy=[]
     total_x_len = len(x[0])+len(x[1])+len(dummy_x[0])+len(dummy_x[1])
     for i in range(total_x_len):
         x_for_minmax.append(i)
         miny.append(min_max[0])
         maxy.append(min_max[1])
-    if time_start>0 and time_end>0 and len(miny)>1:
-        ax1.plot([0,time_end-time_start],miny[0:2],'r')
-        # ax1.plot([0,time_end-time_start],[(miny[0]+maxy[0])/2,(miny[0]+maxy[0])/2],'pink')
-        ax1.plot([0,time_end-time_start],[(miny[0]+maxy[0])/2,(miny[0]+maxy[0])/2],'pink')
-        ax1.plot([0,time_end-time_start],maxy[0:2],'r',label= 'Target\nFPS\nInterval')
+        midy.append(min_max[0]/2+min_max[1]/2)
+
+
+
+    # if time_start>0 and time_end>0 and len(miny)>1:
+    #     ax1.plot([0,time_end-time_start],miny[0:2],'r')
+    #     # ax1.plot([0,time_end-time_start],[(miny[0]+maxy[0])/2,(miny[0]+maxy[0])/2],'pink')
+    #     ax1.plot([0,time_end-time_start],[(miny[0]+maxy[0])/2,(miny[0]+maxy[0])/2],'pink')
+    #     ax1.plot([0,time_end-time_start],maxy[0:2],'r',label= 'Target\nFPS\nInterval')
+    ax1.plot(x_for_minmax,miny,'r')
+    ax1.plot(x_for_minmax,midy,'pink')
+    ax1.plot(x_for_minmax,maxy,'r',label= 'Target\nFPS\nRange')
+
+
+
+
     fontP = FontProperties()
     fontP.set_size('small')
     ax1.legend(bbox_to_anchor=(1.01, 1), loc=2, borderaxespad=0.,prop=fontP)
