@@ -26,7 +26,7 @@ for f in files:
     show_frames=1
     show_anchors=0
     show_dummies=0
-    show_ts=1
+    show_ts=0
     font_per = [{'family': 'serif',
             'color':  'k',
             'size': 12,
