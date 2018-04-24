@@ -317,7 +317,7 @@ class MonitorThread(threading.Thread):
 				cur_bw=self.timeslice_us-other_cur_bw
 				self.pid.reset()
 
-			process_unit_time=1.5
+			process_unit_time=3
 			if self.shared_data["contention_time_passed"]>=process_unit_time:# and int(self.shared_data["contention_time_passed"])%5==0:
 				self.shared_data["contention_time_passed"]=0
 				if my_pass_val<=other_pass_val:
@@ -421,7 +421,7 @@ if '1' in shared_data['xen']:
 
 shared_data = xen_interface.get_global_info()
 shared_data['pass_val']=[0.2,0.1]
-shared_data['stride_val']=[20,10]
+shared_data['stride_val']=[10,20]
 shared_data['last_time_val']=0
 
 shared_data['contention_time_passed']=0
