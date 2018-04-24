@@ -11,7 +11,7 @@ import sys
 
 from pyxs import Client
 
-import apid
+
 with open("info.txt", "w") as myfile:
 	myfile.write("")
 
