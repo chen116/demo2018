@@ -1,0 +1,17 @@
+
+cd demo2018/demo04062018
+
+make for all
+
+dom0:
+python3 multi_monitor_ts.py 10 25
+
+dom1:
+python3 object_rec_camera_pointing_v3_ts.py 65.114.169.139 arittenbach 8mmhamcgt16! dom2 8093 8094 RT-Xen 
+
+dom2:
+python3 object_rec_camera_pointing_v3_ts.py 65.114.169.151 admin admin dom1 8094 8093 Xen
+
+
+dom0:
+python3 gtPlot.py 
