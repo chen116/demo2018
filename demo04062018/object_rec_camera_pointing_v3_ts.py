@@ -147,7 +147,7 @@ if True:
 class Workers(threading.Thread):
 	def __init__(self,threadLock,every_n_frame,thread_id,input_q,output_q):
 		threading.Thread.__init__(self)
-		self.net = cv2.dnn.readNetFromCaffe("MobileNetSSD_deploy.prototxt.txt", "MobileNetSSD_deploy.caffemodel")
+		self.net = cv2.dnn.readNetFromCaffe("./MobileNetSSD_deploy.prototxt.txt", "MobileNetSSD_deploy.caffemodel")
 		self.thread_id=thread_id
 		self.input_q=input_q
 		self.output_q=output_q
