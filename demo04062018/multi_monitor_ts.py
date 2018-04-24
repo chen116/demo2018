@@ -11,7 +11,7 @@ import sys
 
 from pyxs import Client
 
-
+import apid
 with open("info.txt", "w") as myfile:
 	myfile.write("")
 
@@ -32,14 +32,14 @@ class MonitorThread(threading.Thread):
 		self.threadLock=threadLock
 		self.shared_data=shared_data
 		self.res_allo=res_allo
-		self.anchors = 1
+		self.anchors = 0
 		self.sched = sched
 		self.target_reached_cnt = 0
 		self.min_heart_rate=min_heart_rate
 		self.max_heart_rate=max_heart_rate
 		self.timeslice_us = timeslice_us
 
-
+		self.pid = apid.AdapPID(min_heart_rate,0.01)
 
 	def run(self):
 		# Acquire lock to synchronize thread
