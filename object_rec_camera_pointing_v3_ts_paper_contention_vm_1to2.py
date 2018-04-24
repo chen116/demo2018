@@ -79,7 +79,7 @@ if True:
 	    ("apid", 3)
 	]
 	checked = IntVar()
-	checked.set(str(sys.argv[8]))
+	checked.set(0) # initialize
 	previous_checked = checked.get()
 
 	for text, mode in anchors_options:
