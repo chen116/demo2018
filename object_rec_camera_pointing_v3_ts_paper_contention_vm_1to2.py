@@ -358,15 +358,15 @@ if catlen>0:
 	#fps = FPS().start()
 	x = 0
 	# loop over the frames from the video stream
-	cat_vidarray = np.zeros((onecatvidlen*catlen,360,640,3),dtype=np.uint8)
-	vs= FileVideoStream("walkcat.mp4").start()
-	time.sleep(2.0)
-	for a in range(onecatvidlen):
-		frame = vs.read()
-		for i in range(catlen):
-			cat_vidarray[a+(i*onecatvidlen),:,:,:]=frame
-	vs.stop()
-	print('vroom')
+	# cat_vidarray = np.zeros((onecatvidlen*catlen,360,640,3),dtype=np.uint8)
+	# vs= FileVideoStream("walkcat.mp4").start()
+	# time.sleep(2.0)
+	# for a in range(onecatvidlen):
+	# 	frame = vs.read()
+	# 	for i in range(catlen):
+	# 		cat_vidarray[a+(i*onecatvidlen),:,:,:]=frame
+	# vs.stop()
+	# print('meow')
 
 	man_vidarray = np.zeros((onemanvidlen*manlen,360,640,3),dtype=np.uint8)
 	vs= FileVideoStream("walkman.mp4").start()
@@ -388,16 +388,15 @@ if catlen>0:
 		for i in range(carlen):
 			car_vidarray[a+(i*onecarvidlen),:,:,:]=frame
 	vs.stop()
-	print('meow')
+	print('vroom')
 
 
-	car, cat, man = car_vidarray,cat_vidarray,man_vidarray
+	car,man = car_vidarray,man_vidarray
 
 	if "RT" in sys.argv[7]:
-		vidarray = np.concatenate((car_vidarray[0:len(car_vidarray/2)],car_vidarray,cat_vidarray,cat_vidarray,man_vidarray,car_vidarray),axis=0)
+
 		vidarray = np.concatenate((car,car,man,man,man),axis=0)
 	else:
-		vidarray = np.concatenate((car_vidarray,cat_vidarray,man_vidarray,man_vidarray,car_vidarray,car_vidarray[0:len(car_vidarray/2)]),axis=0)
 		vidarray = np.concatenate((car,man,man,car),axis=0)
 	print(len(vidarray))
 
