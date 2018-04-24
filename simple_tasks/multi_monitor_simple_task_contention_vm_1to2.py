@@ -170,6 +170,8 @@ class MonitorThread(threading.Thread):
 			for vcpu in myinfo:
 				if vcpu['pcpu']!=-1:
 					cur_bw=int(vcpu['w'])
+		
+
 
 		if self.anchors==3:
 			# apid algo
@@ -266,7 +268,14 @@ class MonitorThread(threading.Thread):
 			if cur_bw!=default_bw:
 				cur_bw=default_bw	
 
-
+		if self.anchors==5:
+			default_bw=int(self.timeslice_us/3) #dummy
+			if cur_bw!=default_bw:
+				cur_bw=default_bw
+		if self.anchors==6:
+			default_bw=int(self.timeslice_us/3*2) #dummy
+			if cur_bw!=default_bw:
+				cur_bw=default_bw
 
 		other_cur_bw = 0
 		other_info = self.shared_data[self.other_domuid]
@@ -412,7 +421,7 @@ if '1' in shared_data['xen']:
 
 shared_data = xen_interface.get_global_info()
 shared_data['pass_val']=[0.2,0.1]
-shared_data['stride_val']=[10,10]
+shared_data['stride_val']=[20,10]
 shared_data['last_time_val']=0
 
 shared_data['contention_time_passed']=0
