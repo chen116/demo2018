@@ -25,7 +25,7 @@ c = heartbeat.Dom0(monitoring_items,monitoring_domU)
 
 timeslice_us=int(sys.argv[4])
 minn=int(timeslice_us*0.01)
-default_bw=int(timeslice_us/3*2)
+default_bw=int(timeslice_us/3)
 
 
 
@@ -421,7 +421,7 @@ if '1' in shared_data['xen']:
 
 shared_data = xen_interface.get_global_info()
 shared_data['pass_val']=[0.2,0.1]
-shared_data['stride_val']=[10,20]
+shared_data['stride_val']=[20,10]
 shared_data['last_time_val']=0
 
 shared_data['contention_time_passed']=0
