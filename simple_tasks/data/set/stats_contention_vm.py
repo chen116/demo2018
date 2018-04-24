@@ -18,7 +18,7 @@ from matplotlib.widgets import CheckButtons
 import time
 for f in files:
 
-    print('\n',f)
+    print('\n')
     fig = plt.figure(figsize=(10, 7))
     ax1 = fig.add_subplot(2,1,1)
     ax2 = fig.add_subplot(2,1,2)
@@ -129,7 +129,10 @@ for f in files:
                 event_last_happened_at_cnt[index]=cnt
             if len(line)==7+1:
                 cpus_xs[index].append(float(line[-1])-time_start)
-                cpus[index].append(float(line[1])*100)
+                cpus[index].append(round((float(line[1]))*100,2))
+                if cpus[index][-1]==56.00000000000001 and cnt >20 and cnt <33:
+                    print(cnt, f)
+
 
 
             cnt+=1
@@ -272,6 +275,30 @@ for f in files:
                 ax2.axvline(x=ts_xs[i][j],color=colrs[i], linestyle=':')
                 ax2.text(ts_xs[i][j],10,"ts: "+str(ts[i][j]),rotation=45,fontdict=font[i],horizontalalignment='right',verticalalignment='top')
 
+
+
+    vm_inrange = []
+    vm_inrange.append([])
+    vm_inrange.append([])
+    vm_cpu = []
+    vm_cpu.append([])
+    vm_cpu.append([])
+
+
+    v1=(np.asarray(cpus[0]))
+    v2=(np.asarray(cpus[1]))
+    v3=v1+v2
+    # print(v3)
+    aa=[i for i,v in enumerate(v3) if v > 100]
+    if aa:
+        for i in aa:
+            print(cpus[0][aa[0]])
+            print(cpus[1][aa[0]])
+    # print(aa)
+    vs=[]
+    vs.append([])
+    vs.append([])
+
     for i in range(2):
         tmp_xs = np.asarray(x[i])
         tmp_hrs = np.asarray(hrs[i])
@@ -316,7 +343,7 @@ for f in files:
                         inrange_first_cnt=k-start
                         inrange_at=k
                         found=1
-                    inrange_cnt+=1
+                    inrange_cnt+=1 
                 else:
                     if found:
                         outrange_after_inrange+=1
@@ -324,8 +351,10 @@ for f in files:
             #     print('never')
 
             # mean_hr & var_hr
+            vs[i].append(tmp_cpus[start:end])
             mean_hr=np.mean(tmp_hrs[inrange_at:end])
-            mean_cpu=np.mean(tmp_cpus[inrange_at:end])
+            mean_cpu=np.mean(tmp_cpus[start:end])
+            # mean_cpu=np.trapz(tmp_cpus[start:end],x=tmp_xs[start:end])/(tmp_xs[end-1]-tmp_xs[start])
             var_hr=np.var(tmp_hrs[inrange_at:end])
             var_cpu=np.var(tmp_cpus[inrange_at:end])
             if found>0:
@@ -336,8 +365,25 @@ for f in files:
                 time_took_inrange=-1
                 hbs_took_inrange=-1     
                 in_after_in_per=-1    
-            print(time_took_inrange,hbs_took_inrange,inrange_cnt/total,in_after_in_per,mean_hr,var_hr,(var_hr**.5)/mean_hr*100,mean_cpu,var_cpu,(var_cpu**.5)/mean_cpu*100)
+            vm_inrange[i].append(float( format(inrange_cnt/total*100, '.2f')))
+            vm_cpu[i].append(float( format(mean_cpu, '.2f')))
 
+
+            # print(time_took_inrange,hbs_took_inrange,inrange_cnt/total,in_after_in_per,mean_hr,var_hr,(var_hr**.5)/mean_hr*100,mean_cpu,var_cpu,(var_cpu**.5)/mean_cpu*100)
+    var_name = f.split('.txt')[0].split('vm_')[1]
+    print(var_name+'_inrange_1 =',vm_inrange[0])
+    print(var_name+'_inrange_2 =',vm_inrange[1])
+    var_name = f.split('.txt')[0].split('vm_')[1]
+    print(var_name+'_cpu_1 =',vm_cpu[0])
+    print(var_name+'_cpu_2 =',vm_cpu[1])
+    a=np.mean(np.asarray(vm_cpu[0]))
+    b=np.mean(np.asarray(vm_cpu[1]))
+    print(a+b)
+
+
+
+    # print('vm1=',vm_inrange[0])
+    # print('vm2=',vm_inrange[1])
 
 
 

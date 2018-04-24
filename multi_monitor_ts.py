@@ -72,7 +72,7 @@ class MonitorThread(threading.Thread):
 							myfile.write(self.domuid+" "+(msg)+" frame size"+"\n")
 				if self.keys[3] in path.decode():
 					if msg.isdigit():
-						tmp_new_timeslice_us = 10*1000#int(msg)*1000
+						tmp_new_timeslice_us = int(msg)*1000
 						if self.sched ==1:
 							cur_b = 0
 							myinfo = self.shared_data[self.domuid]

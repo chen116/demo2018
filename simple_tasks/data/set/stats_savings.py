@@ -16,7 +16,7 @@ from matplotlib.widgets import CheckButtons
 import numpy as np
 import time
 for f in files:
-    print('\n',f)
+    print('\n')
 
     fig = plt.figure(figsize=(10, 7))
     ax1 = fig.add_subplot(2,1,1)
@@ -315,7 +315,12 @@ for f in files:
     rtds_freqs = np.asarray(modes[0])
     xen_freqs = np.asarray(modes[1])
 
-
+    vm_inrange = []
+    vm_inrange.append([])
+    vm_inrange.append([])
+    vm_cpu = []
+    vm_cpu.append([])
+    vm_cpu.append([])
     for i in range(2):
         tmp_xs = np.asarray(x[i])
         tmp_hrs = np.asarray(hrs[i])
@@ -365,7 +370,7 @@ for f in files:
 
             # mean_hr & var_hr
             mean_hr=np.mean(tmp_hrs[inrange_at:end])
-            mean_cpu=np.mean(tmp_cpus[inrange_at:end])
+            mean_cpu=np.mean(tmp_cpus[start:end])
             var_hr=np.var(tmp_hrs[inrange_at:end])
             var_cpu=np.var(tmp_cpus[inrange_at:end])
             if found>0:
@@ -375,11 +380,20 @@ for f in files:
             else:
                 time_took_inrange=-1
                 hbs_took_inrange=-1     
-                in_after_in_per=-1    
+                in_after_in_per=-1  
+
+
+            vm_inrange[i].append(float(format(inrange_cnt/total*100, '.2f')))
+            vm_cpu[i].append(float( format(99-mean_cpu, '.2f')))
+
             print(time_took_inrange,hbs_took_inrange,inrange_cnt/total,in_after_in_per,mean_hr,var_hr,(var_hr**.5)/mean_hr*100,mean_cpu,var_cpu,(var_cpu**.5)/mean_cpu*100)
 
-
-
+    var_name = f.split('.txt')[0].split('savings_')[1]
+    print(var_name+'_inrange_1 =',vm_inrange[0])
+    print(var_name+'_inrange_2 =',vm_inrange[1])
+    var_name = f.split('.txt')[0].split('savings_')[1]
+    print(var_name+'_cpu_1 =',vm_cpu[0])
+    print(var_name+'_cpu_2 =',vm_cpu[1])
 
 
 

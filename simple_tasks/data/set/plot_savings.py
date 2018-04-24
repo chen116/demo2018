@@ -255,9 +255,10 @@ for f in files:
     # ax1.set_title(r'$\frac{RT-Xen\'s improvement}{Percentage}$ = %.2f %%'%(per)+"\n",loc='right',fontsize=18)
     # ax1.set_title(r'$\frac{RT-Xen \quad FPS}{Credit \quad FPS }$ = %.2f %%'%(per)+"\n",loc='right',fontsize=18)
     # ax1.set_xlabel('Time\n \n')
-    ax2.set_xlabel('Time')
-    ax1.set_ylabel('Moving Average FPS(frames/sec) \n (Window Size = 5)')
-    ax2.set_ylabel('Assigned CPU Time (%)')
+    ax2.set_xlabel('Time(Heartbeat)')
+    ax1.set_xlabel('Time(Heartbeat)')
+    ax1.set_ylabel('Moving Average FPS(frames/sec) \n (Window Size = 12)')
+    ax2.set_ylabel('Assigned CPU Utilization(%)')
     # ax2.set_ylim( 45, 105 )  
     ax2.set_ylim( -5, 105 )  
     ax=[ax1, ax2]
