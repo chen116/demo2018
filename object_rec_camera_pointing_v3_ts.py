@@ -77,7 +77,7 @@ if True:
 	    ("100%", 2),
 	]
 	checked = IntVar()
-	checked.set(1) # initialize
+	checked.set(0) # initialize
 	previous_checked = checked.get()
 
 	for text, mode in anchors_options:
