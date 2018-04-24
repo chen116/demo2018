@@ -37,13 +37,13 @@ for f in files:
             }]
 
     ax_rtxen = plt.axes([0, 0.91, 0.2, 0.12])
-    ax_rtxen.text(0.06,0.42,'Average RT-Xen CPU utilization(%/sec):',fontdict=font_per[0])
+    ax_rtxen.text(0.06,0.42,'Average VM1 CPU Utilization(%/sec):',fontdict=font_per[0])
     ax_rtxen_txt = ax_rtxen.text(0.1,0.01,'%.2f%%'%(0),fontdict=font_per[1])
     ax_rtxen.axis('off')
 
 
     ax_xen = plt.axes([0.65, 0.91, 0.2, 0.12])
-    ax_xen.text(0.08,0.42,'Average Credit CPU utilization(%/sec):',fontdict=font_per[0])
+    ax_xen.text(0.08,0.42,'Average VM2 CPU Utilization(%/sec):',fontdict=font_per[0])
     ax_xen_txt = ax_xen.text(0.4,0.01,'%.2f%%'%(0),fontdict=font_per[1])
     ax_xen.axis('off')
 
@@ -142,8 +142,9 @@ for f in files:
 
     ax1.clear()
     ax2.clear()
-    sched=["RT-Xen","Credit"]
-    colrs = ['blue','limegreen']
+    sched=["VM1","VM2"]
+    colrs = ['blue','skyblue']
+    colrs = ['g','lightgreen']
     for i in range(len(x)):
         ax1.scatter(x[i],hrs[i],s= ((1)%2)*6+5 ,label= sched[i] ,color=colrs[i])
         ax2.plot(cpus_xs[i],cpus[i],color=colrs[i],lw=((i+1)%2)+3,label= sched[i] )
@@ -246,17 +247,30 @@ for f in files:
     # ax1.set_xlim(0,200)
     # ax2.set_xlim(0,200)
     ax=[ax1, ax2]
+
+
+
+
     font = [{'family': 'serif',
-            'color':  'dodgerblue',
+            'color':  'b',
             'weight': 'bold',
             'size': 8,
             },{'family': 'serif',
-            'color':  'forestgreen',
+            'color':  'skyblue',
             'weight': 'bold',
             'size': 8,
             }]
-    colrs = ['dodgerblue','forestgreen']
-
+    colrs = ['b','skyblue']
+    font = [{'family': 'serif',
+            'color':  'g',
+            'weight': 'bold',
+            'size': 8,
+            },{'family': 'serif',
+            'color':  'lightgreen',
+            'weight': 'bold',
+            'size': 8,
+            }]
+    colrs = ['g','lightgreen']
     if show_anchors:
         for i in range(len(anchor_xs)):
             for j in range(len(anchor_xs[i])):
