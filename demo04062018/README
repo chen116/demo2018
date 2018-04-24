@@ -15,3 +15,10 @@ python3 object_rec_camera_pointing_v3_ts.py 65.114.169.151 admin admin dom1 8094
 
 dom0:
 python3 gtPlot.py 
+
+
+if Can't open "MobileNetSSD_deploy.prototxt.txt":
+
+cd demo2018
+
+run same commands in demo2018

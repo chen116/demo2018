@@ -1,0 +1,69 @@
+paper data under simple_tasks/data/set
+
+
+to run:
+
+
+savings:
+
+	dom0:
+	cd demo2018/simple_tasks 
+	python3 multi_monitor_simple_task.py
+
+	dom0:
+	cd demo2018/simple_tasks 
+	python3 realtime_plot_paper_ts.py
+
+
+
+	dom1: 
+	cd demo2018/
+	python3 object_rec_camera_pointing_v3_ts_paper.py 65.114.169.139 arittenbach 8mmhamcgt16! dom2 8093 8094 RT-Xen 3
+
+
+	dom2:
+	python3 object_rec_camera_pointing_v3_ts_paper.py 65.114.169.151 admin admin dom1 8094 8093 Xen 3
+
+
+contention_vm:
+
+	dom0:
+	cd demo2018/simple_tasks 
+	python3 multi_monitor_simple_task_contention_vm.py
+
+	dom0:
+	cd demo2018/simple_tasks 
+	python3 realtime_plot_paper_ts_contention_vm.py
+
+
+
+	dom1: 
+	cd demo2018/
+	python3 object_rec_camera_pointing_v3_ts_paper_contention_vm.py 65.114.169.139 arittenbach 8mmhamcgt16! dom2 8093 8094 RT-Xen 3
+
+
+	dom2:
+	python3 object_rec_camera_pointing_v3_ts_paper_contention_vm.py 65.114.169.151 admin admin dom1 8094 8093 Xen 3
+
+
+last param:
+
+1=aimd
+3=apid
+4=aimd_range
+0=50%
+2=99%
+
+
+
+2vm contention:
+
+to credit:
+xl vcpu-pin 3 all 6-15 6-15 && xl cpupool-migrate 3 Pool-0 && xl vcpu-pin 3 all 6-10 6-10 && xl vcpu-pin 4 all 6-15 6-15 && xl cpupool-migrate 4 credit && xl vcpu-pin 4 all 11-15 11-15 && xl vcpu-pin 1 all 6-15 6-15 && xl cpupool-migrate 1 Pool-0 && xl vcpu-pin 1 all 6-10 6-10 && xl vcpu-pin 2 all 6-15 6-15 && xl cpupool-migrate 2 credit && xl vcpu-pin 2 all 11-15 11-15 && xl vcpu-list && xl sched-rtds -v all && xl sched-credit -d 4 -c 500 && xl sched-credit -d 2 -c 500 && xl sched-credit && xl vcpu-pin 3 all 6-15 6-15 && xl cpupool-migrate 3 Pool-0 && xl vcpu-pin 3 all 6-10 6-10 && xl vcpu-pin 4 all 6-15 6-15 && xl cpupool-migrate 4 Pool-0 && xl vcpu-pin 4 all 6-10 6-10 && xl vcpu-pin 1 all 6-15 6-15 && xl cpupool-migrate 1 credit && xl vcpu-pin 1 all 11-15 11-15 &&  xl vcpu-list && xl sched-credit -d 1 -c 500 && xl sched-credit -d 2 -c 500 && xl sched-credit 
+
+
+to rtds:
+xl vcpu-pin 3 all 6-15 6-15 && xl cpupool-migrate 3 Pool-0 && xl vcpu-pin 3 all 6-10 6-10 && xl vcpu-pin 4 all 6-15 6-15 && xl cpupool-migrate 4 credit && xl vcpu-pin 4 all 11-15 11-15 && xl vcpu-pin 1 all 6-15 6-15 && xl cpupool-migrate 1 Pool-0 && xl vcpu-pin 1 all 6-10 6-10 && xl vcpu-pin 2 all 6-15 6-15 && xl cpupool-migrate 2 credit && xl vcpu-pin 2 all 11-15 11-15 && xl vcpu-list && xl sched-rtds -v all && xl sched-credit -d 4 -c 500 && xl sched-credit -d 2 -c 500 && xl sched-credit && xl vcpu-pin 3 all 6-15 6-15 && xl cpupool-migrate 3 credit &&  xl vcpu-pin 3 all 11-15 11-15 && xl vcpu-pin 4 all 6-15 6-15 && xl cpupool-migrate 4 credit && xl vcpu-pin 4 all 11-15 11-15 && xl vcpu-pin 2 all 6-15 6-15 && xl cpupool-migrate 2 Pool-0 && xl vcpu-pin 2 all 6-10 6-10 && xl vcpu-list &&  xl sched-rtds -v all
+
+back to normal:
+xl vcpu-pin 3 all 6-15 6-15 && xl cpupool-migrate 3 Pool-0 && xl vcpu-pin 3 all 6-10 6-10 && xl vcpu-pin 4 all 6-15 6-15 && xl cpupool-migrate 4 credit && xl vcpu-pin 4 all 11-15 11-15 && xl vcpu-pin 1 all 6-15 6-15 && xl cpupool-migrate 1 Pool-0 && xl vcpu-pin 1 all 6-10 6-10 && xl vcpu-pin 2 all 6-15 6-15 && xl cpupool-migrate 2 credit && xl vcpu-pin 2 all 11-15 11-15 && xl vcpu-list && xl sched-rtds -v all && xl sched-credit -d 4 -c 500 && xl sched-credit -d 2 -c 500 && xl sched-credit
