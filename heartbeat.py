@@ -129,7 +129,7 @@ class DomU:
 	def wait_till_val_read(self,key,desired_val):
 		with Client(xen_bus_path="/dev/xen/xenbus") as c:
 			msg = desired_val-1
-			while not msg!=desired_val:
+			while msg!=desired_val:
 				try:
 					msg=int(c.read(self.key_path_hash[key]).decode())
 				except:
