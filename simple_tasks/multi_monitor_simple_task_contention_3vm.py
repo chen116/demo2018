@@ -247,7 +247,7 @@ class MonitorThread(threading.Thread):
 			if cur_bw!=default_bw:
 				cur_bw=default_bw	
 
-		if cur_bw+other_cur_bw>=self.timeslice_us
+		if cur_bw+other_cur_bw>=self.timeslice_us:
 			print("contention")
 
 		other_cur_bw = 0
