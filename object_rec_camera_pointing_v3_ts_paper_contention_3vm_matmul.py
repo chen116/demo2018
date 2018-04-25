@@ -25,8 +25,7 @@ comm.write(monitoring_items[1],0)
 
 comm.wait_till_val_read(monitoring_items[1],1)
 print("start")
-with open("info.txt", "a") as myfile:
-	myfile.write("")
+
 
 matsize = 500
 time_start=time.time()
@@ -39,6 +38,6 @@ while True:
 	if comm.read(monitoring_items[1])==2:
 		break
 	with open("info.txt", "a") as myfile:
-		myfile.write(str(i)+' '+str(time.time()-time_start))
+		myfile.write(str(i)+' '+str(time.time()-time_start)+'\n')
 	i+=1
 print(time.time()-time_start)
