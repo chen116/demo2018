@@ -247,7 +247,8 @@ class MonitorThread(threading.Thread):
 			if cur_bw!=default_bw:
 				cur_bw=default_bw	
 
-
+		if cur_bw+other_cur_bw>=self.timeslice_us
+			print("contention")
 
 		other_cur_bw = 0
 		other_info = self.shared_data[self.other_domuid]
