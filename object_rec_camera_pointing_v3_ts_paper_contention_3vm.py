@@ -391,7 +391,7 @@ if catlen>0:
 	print('vroom')
 
 
-	car, cat, man = car_vidarray,cat_vidarray,man_vidarray
+	car, man = car_vidarray,man_vidarray
 
 	if "RT" in sys.argv[7]:
 		# vidarray = np.concatenate((car_vidarray[0:len(car_vidarray/2)],car_vidarray,cat_vidarray,cat_vidarray,man_vidarray,car_vidarray),axis=0)
