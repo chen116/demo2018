@@ -1,0 +1,28 @@
+set:
+
+freq= L:6, M:4, H:3
+synched thru tcp thread
+hr window =12
+
+contention:
+
+M,H
+
+frame sequence:
+mmhh
+mhhm
+
+process unit time: 3
+
+
+vid_len=2*150 frames
+frame size=600
+nn frame=300
+gamma of gammr = 0.95
+
+savings:
+
+vid_len= 50 seconds
+frame size=600
+nn frame=300
+gamma of gammr = 0.95
