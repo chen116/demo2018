@@ -11,6 +11,9 @@ with open("info.txt", "w") as myfile:
 monitoring_items = ["heart_rate","timeslice"]
 comm = heartbeat.DomU(monitoring_items)
 
+comm.write(monitoring_items[1],0)
+
+
 # a = []
 # for i in range(400):
 # 	a.append([])
