@@ -602,7 +602,10 @@ for frame in vidarray: # fastcat
 			# 		w1.set(FSIZE[0][1])
 			# 	if output_q_cnt == 2*onecatvidlen:
 			# 		w1.set(FSIZE[1][1])			
-	
+
+			
+			if output_q_cnt==0: 
+				 checked.set(str(sys.argv[8]))	
 			if "RT" in sys.argv[7]:
 				if output_q_cnt == onecatvidlen  and sent_cnt==0:#output_q_cnt == onecatvidlen  :
 					sock_client.send(bytes('L','UTF-8'))
