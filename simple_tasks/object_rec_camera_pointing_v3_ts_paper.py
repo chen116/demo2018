@@ -224,8 +224,8 @@ m1.set(5)
 threads = []
 every_n_frame = {'cnt':-1,'n':w1.get()}
 threadLock = threading.Lock()
-total_num_threads = 3 # realvid
-# total_num_threads = 4 # fastcat
+# total_num_threads = 3 # realvid
+total_num_threads = 4 # fastcat
 num_threads_exiting = 0
 
 
@@ -334,13 +334,13 @@ personincam = 0
 #vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
 
 
-tracking_target = "person" # realvid
-# tracking_target = "cat"  # outvid # fastcat
-vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
+# tracking_target = "person" # realvid
+tracking_target = "cat"  # outvid # fastcat
+# vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
 # vs= FileVideoStream("walkcat.mp4").start() # outvid
-time.sleep(2.0) # realvid
+# time.sleep(2.0) # realvid
 catlen=0
-# catlen=3 # fastcat
+catlen=3 # fastcat
 onecatvidlen = 550
 vidarray = None
 if catlen>0: 
@@ -386,10 +386,10 @@ pointat = 0
 prev_personincam = personincam
 # while vs.more(): # outvid
 # while True:
-# for frame in vidarray: # fastcat
-while True: # realvid
+for frame in vidarray: # fastcat
+# while True: # realvid
 
-	frame = vs.read() # realvid
+	# frame = vs.read() # realvid
 	# frame = cat_frame # outvid
 
 	run_threads = 1
@@ -433,8 +433,8 @@ while True: # realvid
 			for i in range(total_num_threads):
 				input_q.put({'cnt':-1})
 			break		
-		current_frame_size=400 # realvid
-		# current_frame_size=600 # fastcat
+		# current_frame_size=400 # realvid
+		current_frame_size=600 # fastcat
 		if current_frame_size > 0:
 			frame = imutils.resize(frame, width=current_frame_size)
 			# grab the frame dimensions and convert it to a blob
@@ -595,8 +595,12 @@ while True: # realvid
 					 checked.set(str(sys.argv[8]))
 				if output_q_cnt == onecatvidlen:
 					w1.set(FSIZE[0][1])
+					sock_client.send(bytes('L','UTF-8'))
+
 				if output_q_cnt == 2*onecatvidlen:
 					w1.set(FSIZE[1][1])			
+					sock_client.send(bytes('M','UTF-8'))
+
 	
 
 
