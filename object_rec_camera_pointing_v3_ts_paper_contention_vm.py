@@ -97,7 +97,7 @@ if True:
 	    ("H", 3)
 	]
 	w1 = IntVar()
-	w1.set(FSIZE[1][1]) # initialize
+	w1.set(FSIZE[0][1]) # initialize
 	previous_freq = w1.get()
 	window_size_hr=12
 	for text, mode in FSIZE:
@@ -622,10 +622,10 @@ for frame in vidarray: # fastcat
 				break
 			if output_q_cnt==0:
 				checked.set(str(sys.argv[8]))
-			if object_detected == 'person' and w1.get()!=FSIZE[2][1]:
-				w1.set(FSIZE[2][1])
-			if object_detected == 'car' and w1.get()!=FSIZE[1][1] :
+			if object_detected == 'person' and w1.get()!=FSIZE[1][1]:
 				w1.set(FSIZE[1][1])
+			if object_detected == 'car' and w1.get()!=FSIZE[0][1] :
+				w1.set(FSIZE[0][1])
 			if object_detected == 'cat' and w1.get()!=FSIZE[0][1] :
 				w1.set(FSIZE[0][1])
 			# if catlen==0: 
