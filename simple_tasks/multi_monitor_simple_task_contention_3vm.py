@@ -59,7 +59,8 @@ class MonitorThread(threading.Thread):
 		# self.threadLock.release()
 		#print("Exiting " , self.name)
 	def vmonitor(self):  # one monitor observe one domU at a time
-		with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
+		# with Client(unix_socket_path="/var/run/xenstored/socket_ro") as c:
+		with Client() as c:
 			m = c.monitor()
 			for key in self.keys:
 				tmp_key_path = (self.base_path+'/'+self.domuid+'/'+key).encode()
