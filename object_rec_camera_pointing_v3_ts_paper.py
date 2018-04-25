@@ -386,10 +386,11 @@ pointat = 0
 prev_personincam = personincam
 # while vs.more(): # outvid
 # while True:
-# for frame in vidarray: # fastcat
 time_start= time.time()
 sent_cnt=0
-while True: # realvid
+for frame in vidarray: # fastcat
+
+# while True: # realvid
 
 	# frame = vs.read() # realvid
 	# frame = cat_frame # outvid
