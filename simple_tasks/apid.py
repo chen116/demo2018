@@ -37,7 +37,7 @@ class AdapPID:
 		if self.err>0:
 			self.err=self.err*3
 		if abs(self.err)>(self.max_heart_rate-self.min_heart_rate)/2 and self.err<0:
-			self.err=self.err*3
+			self.err=self.err*1.5
 		self.gamma = np.log(abs(self.err)+1)/np.log(self.goal)
 		current_time = time.time()
 		if self.start==0:
