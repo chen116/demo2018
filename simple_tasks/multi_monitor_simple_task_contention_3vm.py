@@ -25,7 +25,7 @@ c = heartbeat.Dom0(monitoring_items,monitoring_domU)
 
 timeslice_us=int(sys.argv[4])
 minn=int(timeslice_us*0.01)
-default_bw=int(timeslice_us*.45)
+default_bw=int(timeslice_us*.40)
 
 
 
@@ -248,7 +248,7 @@ class MonitorThread(threading.Thread):
 				cur_bw=default_bw
 
 		if self.anchors==7:
-			default_bw=int(self.timeslice_us*.45) #dummy
+			default_bw=int(self.timeslice_us*.40) #dummy
 			if cur_bw!=default_bw:
 				cur_bw=default_bw	
 
@@ -403,7 +403,7 @@ for t in threads:
 pp = pprint.PrettyPrinter(indent=2)
 print('Final domUs info:')
 shared_data_clean_up = xen_interface.get_global_info()
-default_bw=int(timeslice_us*.45)
+default_bw=int(timeslice_us*.40)
 
 if '1' in shared_data_clean_up['rtxen']:
 	xen_interface.sched_rtds(1,timeslice_us,default_bw,[])
