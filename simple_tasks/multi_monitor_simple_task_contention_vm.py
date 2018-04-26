@@ -41,7 +41,7 @@ class MonitorThread(threading.Thread):
 		self.base_path=base_path
 		self.threadLock=threadLock
 		self.shared_data=shared_data
-		self.anchors = 2
+		self.anchors = 0
 		self.sched = sched
 		self.target_reached_cnt = 0
 		self.min_heart_rate=min_heart_rate
