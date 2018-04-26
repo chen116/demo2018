@@ -92,14 +92,14 @@ if True:
 	frame_label = Label(master, textvariable=frame_var,font = "Verdana 10 bold" )
 	frame_label.pack(side=LEFT)
 	FSIZE = [
-	    ("L", 6),
-	    ("M", 4),
+	    ("L", 10),
+	    ("M", 5),
 	    ("H", 3)
 	]
 	w1 = IntVar()
 	w1.set(FSIZE[0][1]) # initialize
 	previous_freq = w1.get()
-	window_size_hr=12
+	window_size_hr=10
 	for text, mode in FSIZE:
 	    b = Radiobutton(master, text=text,variable=w1, value=mode)
 	    b.pack(side=LEFT)
