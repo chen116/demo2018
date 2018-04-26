@@ -340,7 +340,7 @@ tracking_target = "cat"  # outvid # fastcat
 # vs= FileVideoStream("walkcat.mp4").start() # outvid
 # time.sleep(2.0) # realvid
 catlen=0
-catlen=3 # fastcat
+catlen=6 # fastcat
 onecatvidlen = 550
 vidarray = None
 if catlen>0: 
