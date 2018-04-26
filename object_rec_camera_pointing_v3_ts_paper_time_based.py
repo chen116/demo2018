@@ -228,6 +228,30 @@ threadLock = threading.Lock()
 total_num_threads = 4 # fastcat
 num_threads_exiting = 0
 
+# tracking_target = "person" # realvid
+tracking_target = "cat"  # outvid # fastcat
+# vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
+# vs= FileVideoStream("walkcat.mp4").start() # outvid
+# time.sleep(2.0) # realvid
+catlen=0
+catlen=6 # fastcat
+onecatvidlen = 550
+vidarray = None
+if catlen>0: 
+	#fps = FPS().start()
+	x = 0
+	# loop over the frames from the video stream
+	vidarray = np.zeros((onecatvidlen*catlen,360,640,3),dtype=np.uint8)
+	vs= FileVideoStream("walkcat.mp4").start()
+	time.sleep(2.0)
+	for a in range(onecatvidlen):
+		frame = vs.read()
+		for i in range(catlen):
+			vidarray[a+(i*onecatvidlen),:,:,:]=frame
+	vs.stop()
+print('socket connecting...')
+
+
 
 def start_server():
 	global remotetrack
@@ -334,27 +358,6 @@ personincam = 0
 #vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
 
 
-# tracking_target = "person" # realvid
-tracking_target = "cat"  # outvid # fastcat
-# vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
-# vs= FileVideoStream("walkcat.mp4").start() # outvid
-# time.sleep(2.0) # realvid
-catlen=0
-catlen=6 # fastcat
-onecatvidlen = 550
-vidarray = None
-if catlen>0: 
-	#fps = FPS().start()
-	x = 0
-	# loop over the frames from the video stream
-	vidarray = np.zeros((onecatvidlen*catlen,360,640,3),dtype=np.uint8)
-	vs= FileVideoStream("walkcat.mp4").start()
-	time.sleep(2.0)
-	for a in range(onecatvidlen):
-		frame = vs.read()
-		for i in range(catlen):
-			vidarray[a+(i*onecatvidlen),:,:,:]=frame
-	vs.stop()
 
 
 # cat_frame = vs.read()  # outvid
