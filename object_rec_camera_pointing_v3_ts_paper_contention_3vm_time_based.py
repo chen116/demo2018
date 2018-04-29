@@ -481,7 +481,7 @@ pointat = 0
 
 prev_personincam = personincam
 
-time_start=time.time()
+
 # while vs.more(): # outvid
 # while True:
 # for frame in vidarray: # fastcat
