@@ -93,27 +93,27 @@ def animate2(i):
             time_end = float(line[-1])
             index=int(line[0])-1
             if len(line)==3+1:
-                x[index].append(cnt)
+                x[index].append(float(line[-1])-time_start)
                 hrs[index].append(float(line[1]))
                 if float(line[1])>maxhrs:
                     maxhrs=float(line[1])
                 cpus[index].append(float(line[2])/(1)*100)
             if len(line)==2+1:
                 # print(line)
-                anchor_xs[index].append(cnt)
+                anchor_xs[index].append(float(line[-1])-time_start)
                 anchors[index].append(int(line[1]))
                 event_last_happened_at_cnt[index]=cnt
 
             if len(line)==4+1:
-                frame_xs[index].append(cnt)
+                frame_xs[index].append(float(line[-1])-time_start)
                 frames[index].append(int(line[1]))
                 event_last_happened_at_cnt[index]=cnt
 
             if len(line)==5+1:
-                dummy_x[index-2].append(cnt)
+                dummy_x[index-2].append(float(line[-1])-time_start)
                 dummy_hrs[index-2].append(float(line[1]))
             if len(line)==6+1:
-                ts_xs[index].append(cnt)
+                ts_xs[index].append(float(line[-1])-time_start)
                 ts[index].append(int(line[1]))
                 last_ts[index]=int(line[1])
                 event_last_happened_at_cnt[index]=cnt
@@ -176,13 +176,11 @@ def animate2(i):
         x_for_minmax.append(i)
         miny.append(min_max[0])
         maxy.append(min_max[1])
-    ax1.plot(x_for_minmax,miny,'r')
-    ax1.plot(x_for_minmax,maxy,'r',label= 'Target\nFPS\nInterval')
-    # if time_start>0 and time_end>0 and len(miny)>1:
-    #     ax1.plot([0,time_end-time_start],miny[0:2],'r')
-    #     # ax1.plot([0,time_end-time_start],[(miny[0]+maxy[0])/2,(miny[0]+maxy[0])/2],'pink')
-    #     ax1.plot([0,time_end-time_start],[(miny[0]+maxy[0])/2,(miny[0]+maxy[0])/2],'pink')
-    #     ax1.plot([0,time_end-time_start],maxy[0:2],'r',label= 'Target\nFPS\nInterval')
+    if time_start>0 and time_end>0 and len(miny)>1:
+        ax1.plot([0,time_end-time_start],miny[0:2],'r')
+        # ax1.plot([0,time_end-time_start],[(miny[0]+maxy[0])/2,(miny[0]+maxy[0])/2],'pink')
+        ax1.plot([0,time_end-time_start],[(miny[0]+maxy[0])/2,(miny[0]+maxy[0])/2],'pink')
+        ax1.plot([0,time_end-time_start],maxy[0:2],'r',label= 'Target\nFPS\nInterval')
     fontP = FontProperties()
     fontP.set_size('small')
     ax1.legend(bbox_to_anchor=(1.01, 1), loc=2, borderaxespad=0.,prop=fontP)

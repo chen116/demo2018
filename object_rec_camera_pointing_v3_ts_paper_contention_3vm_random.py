@@ -397,40 +397,40 @@ if catlen>0:
 
 		# vidarray = np.concatenate((car_vidarray[0:len(car_vidarray/2)],car_vidarray,cat_vidarray,cat_vidarray,man_vidarray,car_vidarray),axis=0)
 
-		vidarray=[]
-		for i in range(550):
-			vidarray.append(cat)
-		for i in range(549,782):
-			vidarray.append(man)
-		for i in range(781,988):
-			vidarray.append(cat)
-		for i in range(987,1062):
-			vidarray.append(man)
-		for i in range(1061,1200):
-			vidarray.append(cat)
-
-
-		# vidarray = []
-		# for i in range(10):
+		# vidarray=[]
+		# for i in range(550):
 		# 	vidarray.append(cat)
-		# while len(vidarray)<=1200:
-		# 	waittime4man = int(np.random.exponential(800,1))
-		# 	print('waittime4man',waittime4man)
-		# 	while waittime4man>0:
-		# 		vidarray.append(cat)
-		# 		if len(vidarray)>=1200:
-		# 			break
-		# 		waittime4man-=1
-		# 	if len(vidarray)>=1200:
-		# 		break
-		# 	hangtime4man = int(np.random.exponential(800/2,1))
-		# 	print('hangtime4man',hangtime4man)
+		# for i in range(549,782):
+		# 	vidarray.append(man)
+		# for i in range(781,988):
+		# 	vidarray.append(cat)
+		# for i in range(987,1062):
+		# 	vidarray.append(man)
+		# for i in range(1061,1200):
+		# 	vidarray.append(cat)
 
-		# 	while hangtime4man>0:
-		# 		vidarray.append(man)
-		# 		if len(vidarray)>=1200:
-		# 			break
-		# 		hangtime4man-=1
+
+		vidarray = []
+		for i in range(10):
+			vidarray.append(cat)
+		while len(vidarray)<=1200:
+			waittime4man = int(np.random.exponential(800,1))
+			print('waittime4man',waittime4man)
+			while waittime4man>0:
+				vidarray.append(cat)
+				if len(vidarray)>=1200:
+					break
+				waittime4man-=1
+			if len(vidarray)>=1200:
+				break
+			hangtime4man = int(np.random.exponential(800/2,1))
+			print('hangtime4man',hangtime4man)
+
+			while hangtime4man>0:
+				vidarray.append(man)
+				if len(vidarray)>=1200:
+					break
+				hangtime4man-=1
 
 
 
