@@ -436,7 +436,7 @@ if catlen>0:
 				if len(vidarray)==1200:
 					break
 				hangtime4man-=1
-	vidarray=np.asarray(vidarray)
+	vidarray=np.concatenate( vidarray, axis=0 )
 	print(len(vidarray))
 
 
