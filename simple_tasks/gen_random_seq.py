@@ -13,6 +13,9 @@ while t<100:
 
 
 
+
+
+
 print((np.random.exponential(30,2)))
 print((np.random.exponential(10,2)))
 

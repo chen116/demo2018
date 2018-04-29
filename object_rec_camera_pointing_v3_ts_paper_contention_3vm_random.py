@@ -393,64 +393,64 @@ if catlen>0:
 
 	cat, man = cat_vidarray,man_vidarray
 
-	if "RT" in sys.argv[7]:
+	# if "RT" in sys.argv[7]:
 
-		# vidarray = np.concatenate((car_vidarray[0:len(car_vidarray/2)],car_vidarray,cat_vidarray,cat_vidarray,man_vidarray,car_vidarray),axis=0)
+	# 	# vidarray = np.concatenate((car_vidarray[0:len(car_vidarray/2)],car_vidarray,cat_vidarray,cat_vidarray,man_vidarray,car_vidarray),axis=0)
 
-		# vidarray=[]
-		# for i in range(550):
-		# 	vidarray.append(cat)
-		# for i in range(549,782):
-		# 	vidarray.append(man)
-		# for i in range(781,988):
-		# 	vidarray.append(cat)
-		# for i in range(987,1062):
-		# 	vidarray.append(man)
-		# for i in range(1061,1200):
-		# 	vidarray.append(cat)
-
-
-		vidarray = []
-		for i in range(10):
-			vidarray.append(cat)
-		while len(vidarray)<=1200:
-			waittime4man = int(np.random.exponential(800,1))
-			print('waittime4man',waittime4man)
-			while waittime4man>0:
-				vidarray.append(cat)
-				if len(vidarray)>=1200:
-					break
-				waittime4man-=1
-			if len(vidarray)>=1200:
-				break
-			hangtime4man = int(np.random.exponential(800/2,1))
-			print('hangtime4man',hangtime4man)
-
-			while hangtime4man>0:
-				vidarray.append(man)
-				if len(vidarray)>=1200:
-					break
-				hangtime4man-=1
+	# 	# vidarray=[]
+	# 	# for i in range(550):
+	# 	# 	vidarray.append(cat)
+	# 	# for i in range(549,782):
+	# 	# 	vidarray.append(man)
+	# 	# for i in range(781,988):
+	# 	# 	vidarray.append(cat)
+	# 	# for i in range(987,1062):
+	# 	# 	vidarray.append(man)
+	# 	# for i in range(1061,1200):
+	# 	# 	vidarray.append(cat)
 
 
+	# 	vidarray = []
+	# 	for i in range(10):
+	# 		vidarray.append(cat)
+	# 	while len(vidarray)<=1200:
+	# 		waittime4man = int(np.random.exponential(800,1))
+	# 		print('waittime4man',waittime4man)
+	# 		while waittime4man>0:
+	# 			vidarray.append(cat)
+	# 			if len(vidarray)>=1200:
+	# 				break
+	# 			waittime4man-=1
+	# 		if len(vidarray)>=1200:
+	# 			break
+	# 		hangtime4man = int(np.random.exponential(800/2,1))
+	# 		print('hangtime4man',hangtime4man)
+
+	# 		while hangtime4man>0:
+	# 			vidarray.append(man)
+	# 			if len(vidarray)>=1200:
+	# 				break
+	# 			hangtime4man-=1
 
 
 
 
-	else:
-		# vidarray = np.concatenate((car_vidarray,cat_vidarray,man_vidarray,man_vidarray,car_vidarray,car_vidarray[0:len(car_vidarray/2)]),axis=0)
+
+
+	# else:
+	# 	# vidarray = np.concatenate((car_vidarray,cat_vidarray,man_vidarray,man_vidarray,car_vidarray,car_vidarray[0:len(car_vidarray/2)]),axis=0)
 		
-		vidarray=[]
-		for i in range(900):
-			vidarray.append(cat)
-		for i in range(899,1004):
-			vidarray.append(man)
-		for i in range(1003,1200):
-			vidarray.append(cat)
+	# 	vidarray=[]
+	# 	for i in range(900):
+	# 		vidarray.append(cat)
+	# 	for i in range(899,1004):
+	# 		vidarray.append(man)
+	# 	for i in range(1003,1200):
+	# 		vidarray.append(cat)
 
 
-	vidarray=np.concatenate( vidarray, axis=0 )
-	print(len(vidarray))
+	# vidarray=np.concatenate( vidarray, axis=0 )
+	# print(len(vidarray))
 
 
 # cat_frame = vs.read()  # outvid
@@ -480,13 +480,46 @@ pointat = 0
 # loop over the frames from the video stream
 
 prev_personincam = personincam
+
+time_start=time.time()
 # while vs.more(): # outvid
 # while True:
-for frame in vidarray: # fastcat
+# for frame in vidarray: # fastcat
 # while True: # realvid
+while time.time()-time_start<120:
 
 	# frame = vs.read() # realvid
 	# frame = cat_frame # outvid
+	frame=None
+	time_cur = time.time()
+	if "RT" in sys.argv[7]:
+		if time_cur-time_start <17:
+			frame=cat[0]
+		elif time_cur-time_start <24:
+			frame=man[0]
+		elif time_cur-time_start <49:
+			frame=cat[0]
+		elif time_cur-time_start <75:
+			frame=man[0]
+		elif time_cur-time_start <99:
+			frame=cat[0]
+		elif time_cur-time_start <104:
+			frame=man[0]			
+		else:
+			frame=cat[0]
+
+	else:
+		if time_cur-time_start <31:
+			frame=cat[0]
+		elif time_cur-time_start <44:
+			frame=man[0]
+		elif time_cur-time_start <62:
+			frame=cat[0]
+		elif time_cur-time_start <80:
+			frame=man[0]
+		else:
+			frame=cat[0]
+
 
 	run_threads = 1
 	if run_threads==0:
