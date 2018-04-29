@@ -401,6 +401,7 @@ if catlen>0:
 			vidarray.append(cat)
 		while len(vidarray)<=1200:
 			waittime4man = int(np.random.exponential(800,1))
+			print('waittime4man',waittime4man)
 			while waittime4man>0:
 				vidarray.append(cat)
 				if len(vidarray)>=1200:
@@ -409,6 +410,8 @@ if catlen>0:
 			if len(vidarray)>=1200:
 				break
 			hangtime4man = int(np.random.exponential(800/2,1))
+			print('hangtime4man',hangtime4man)
+			
 			while hangtime4man>0:
 				vidarray.append(man)
 				if len(vidarray)>=1200:
