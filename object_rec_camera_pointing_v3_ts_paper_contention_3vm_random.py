@@ -449,7 +449,7 @@ if catlen>0:
 	vidarray=np.concatenate( vidarray, axis=0 )
 	print(len(vidarray))
 
-
+exit(0)
 # cat_frame = vs.read()  # outvid
 # for x in range(10):  # outvid
 # 	cat_frame = vs.read()  # outvid
