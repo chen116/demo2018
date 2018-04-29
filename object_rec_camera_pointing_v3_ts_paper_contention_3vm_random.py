@@ -401,12 +401,15 @@ if catlen>0:
 			waittime4man = int(np.random.exponential(50,1))
 			while waittime4man>0:
 				vidarray = np.concatenate((vidarray,cat),axis=0)
+				print(len(vidarray))
+
 				waittime4man-=1
 			hangtime4man = int(np.random.exponential(50/2,1))
 			while hangtime4man>0:
 				vidarray = np.concatenate((vidarray,man),axis=0)
+				print(len(vidarray))
+
 				hangtime4man-=1
-			print(len(vidarray))
 
 
 
@@ -420,13 +423,16 @@ if catlen>0:
 			waittime4man = int(np.random.exponential(50,1))
 			while waittime4man>0:
 				vidarray = np.concatenate((vidarray,cat),axis=0)
+				print(len(vidarray))
+
 				waittime4man-=1
 			hangtime4man = int(np.random.exponential(50/2,1))
 			while hangtime4man>0:
 				vidarray = np.concatenate((vidarray,man),axis=0)
+				print(len(vidarray))
+
 				hangtime4man-=1
-			print(len(vidarray))
-			
+
 	print(len(vidarray))
 
 
