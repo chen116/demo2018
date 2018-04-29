@@ -402,7 +402,7 @@ if catlen>0:
 			vidarray.append(cat)
 		for i in range(549,782):
 			vidarray.append(man)
-		for i in range(781,988)
+		for i in range(781,988):
 			vidarray.append(cat)
 		for i in range(987,1062):
 			vidarray.append(man)
