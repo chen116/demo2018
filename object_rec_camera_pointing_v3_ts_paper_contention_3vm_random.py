@@ -396,19 +396,21 @@ if catlen>0:
 	if "RT" in sys.argv[7]:
 
 		# vidarray = np.concatenate((car_vidarray[0:len(car_vidarray/2)],car_vidarray,cat_vidarray,cat_vidarray,man_vidarray,car_vidarray),axis=0)
-		vidarray = np.concatenate((cat,cat,cat,cat,cat,cat,cat,cat,cat,cat),axis=0)
+		vidarray = []
+		for i in range(10):
+			vidarray.append(cat)
 		while len(vidarray)<=1200:
 			waittime4man = int(np.random.exponential(50,1))
 			while waittime4man>0:
-				vidarray = np.concatenate((vidarray,cat),axis=0)
-				print(len(vidarray))
-
+				vidarray.append(cat)
+				if len(vidarray)==1200:
+					break
 				waittime4man-=1
 			hangtime4man = int(np.random.exponential(50/2,1))
 			while hangtime4man>0:
-				vidarray = np.concatenate((vidarray,man),axis=0)
-				print(len(vidarray))
-
+				vidarray.append(man)
+				if len(vidarray)==1200:
+					break
 				hangtime4man-=1
 
 
@@ -418,19 +420,21 @@ if catlen>0:
 
 	else:
 		# vidarray = np.concatenate((car_vidarray,cat_vidarray,man_vidarray,man_vidarray,car_vidarray,car_vidarray[0:len(car_vidarray/2)]),axis=0)
-		vidarray = np.concatenate((cat,cat,cat,cat,cat,cat,cat,cat,cat,cat),axis=0)
+		vidarray = []
+		for i in range(10):
+			vidarray.append(cat)
 		while len(vidarray)<=1200:
 			waittime4man = int(np.random.exponential(50,1))
 			while waittime4man>0:
-				vidarray = np.concatenate((vidarray,cat),axis=0)
-				print(len(vidarray))
-
+				vidarray.append(cat)
+				if len(vidarray)==1200:
+					break
 				waittime4man-=1
 			hangtime4man = int(np.random.exponential(50/2,1))
 			while hangtime4man>0:
-				vidarray = np.concatenate((vidarray,man),axis=0)
-				print(len(vidarray))
-
+				vidarray.append(man)
+				if len(vidarray)==1200:
+					break
 				hangtime4man-=1
 
 	print(len(vidarray))
