@@ -22,7 +22,7 @@ comm.write(monitoring_items[1],0)
 # a=np.asarray(a)
 # b=np.asarray(a)
 
-
+print("waiting...")
 comm.wait_till_val_read(monitoring_items[1],1)
 print("start")
 
@@ -41,3 +41,4 @@ while True:
 		myfile.write(str(i)+' '+str(time.time()-time_start)+'\n')
 	i+=1
 print(time.time()-time_start)
+print(str(i))
