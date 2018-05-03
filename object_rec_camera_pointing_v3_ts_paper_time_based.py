@@ -185,9 +185,9 @@ class Workers(threading.Thread):
 			if self.my_every_n_frame_cnt%self.n==0:
 				self.net.setInput(blob)
 
-				timepre = time.time()
+				# timepre = time.time()
 				net_result=self.net.forward()
-				print(time.time()-timepre)
+				# print(time.time()-timepre)
 				self.output_q.put({'blob':net_result,'cnt':stuff['cnt']})
 				# self.output_q.put({'blob':-1*np.ones((1,1,1,2)),'cnt':stuff['cnt']})
 
