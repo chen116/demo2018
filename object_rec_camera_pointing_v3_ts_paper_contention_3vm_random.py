@@ -492,34 +492,56 @@ while time.time()-time_start<120:
 	# frame = cat_frame # outvid
 	frame=None
 	time_cur = time.time()
+	# if "RT" in sys.argv[7]:
+	# 	if time_cur-time_start <17:
+	# 		frame=cat[0]
+	# 	elif time_cur-time_start <24:
+	# 		frame=man[0]
+	# 	elif time_cur-time_start <49:
+	# 		frame=cat[0]
+	# 	elif time_cur-time_start <75:
+	# 		frame=man[0]
+	# 	elif time_cur-time_start <99:
+	# 		frame=cat[0]
+	# 	elif time_cur-time_start <104:
+	# 		frame=man[0]			
+	# 	else:
+	# 		frame=cat[0]
+
+	# else:
+	# 	if time_cur-time_start <31:
+	# 		frame=cat[0]
+	# 	elif time_cur-time_start <44:
+	# 		frame=man[0]
+	# 	elif time_cur-time_start <62:
+	# 		frame=cat[0]
+	# 	elif time_cur-time_start <80:
+	# 		frame=man[0]
+	# 	else:
+	# 		frame=cat[0]
 	if "RT" in sys.argv[7]:
-		if time_cur-time_start <17:
+		if time_cur-time_start <26:
 			frame=cat[0]
-		elif time_cur-time_start <24:
+		elif time_cur-time_start <32:
 			frame=man[0]
-		elif time_cur-time_start <49:
+		elif time_cur-time_start <58:
 			frame=cat[0]
-		elif time_cur-time_start <75:
-			frame=man[0]
-		elif time_cur-time_start <99:
-			frame=cat[0]
-		elif time_cur-time_start <104:
-			frame=man[0]			
+		elif time_cur-time_start <79:
+			frame=man[0]		
 		else:
 			frame=cat[0]
 
 	else:
-		if time_cur-time_start <31:
+		if time_cur-time_start <36:
 			frame=cat[0]
-		elif time_cur-time_start <44:
+		elif time_cur-time_start <49:
 			frame=man[0]
-		elif time_cur-time_start <62:
+		elif time_cur-time_start <68:
 			frame=cat[0]
-		elif time_cur-time_start <80:
+		elif time_cur-time_start <72:
 			frame=man[0]
 		else:
 			frame=cat[0]
-
 
 	run_threads = 1
 	if run_threads==0:
