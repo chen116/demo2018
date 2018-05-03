@@ -189,7 +189,7 @@ class MonitorThread(threading.Thread):
 		if self.anchors==4:
 			# aimd algo
 			alpha=10
-			beta=.8
+			beta=.85
 			free = self.timeslice_us-cur_bw
 
 
