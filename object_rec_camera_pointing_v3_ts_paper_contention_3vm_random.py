@@ -524,9 +524,9 @@ while time.time()-time_start<120:
 			frame=cat[0]
 		elif time_cur-time_start <32:
 			frame=man[0]
-		elif time_cur-time_start <58:
+		elif time_cur-time_start <68:
 			frame=cat[0]
-		elif time_cur-time_start <79:
+		elif time_cur-time_start <89:
 			frame=man[0]		
 		else:
 			frame=cat[0]
@@ -535,9 +535,9 @@ while time.time()-time_start<120:
 			frame=cat[0]
 		elif time_cur-time_start <49:
 			frame=man[0]
-		elif time_cur-time_start <65:
+		elif time_cur-time_start <75:
 			frame=cat[0]
-		elif time_cur-time_start <73:
+		elif time_cur-time_start <83:
 			frame=man[0]
 		else:
 			frame=cat[0]
