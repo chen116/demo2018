@@ -530,15 +530,14 @@ while time.time()-time_start<120:
 			frame=man[0]		
 		else:
 			frame=cat[0]
-
 	else:
 		if time_cur-time_start <36:
 			frame=cat[0]
 		elif time_cur-time_start <49:
 			frame=man[0]
-		elif time_cur-time_start <68:
+		elif time_cur-time_start <65:
 			frame=cat[0]
-		elif time_cur-time_start <72:
+		elif time_cur-time_start <73:
 			frame=man[0]
 		else:
 			frame=cat[0]
