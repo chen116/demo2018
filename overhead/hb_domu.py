@@ -106,9 +106,9 @@ else:
 
 	tx_timestamps=[]
 	hb_timestamps=[]
-	rx_timestamps=[0 for i in range(1e4)]
+	rx_timestamps=[0 for i in range(int(1e4))]
 	with Client(xen_bus_path="/dev/xen/xenbus") as c:
-		for i in range(1e4):
+		for i in range(int(1e4)):
 		# hb stuff
 
 			# hb_timestamps.append(time.time())
