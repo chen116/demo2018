@@ -1,0 +1,17 @@
+Output written on socc2018.pdf (1 page, 74641 bytes).                                                                            
+SyncTeX written on socc2018.synctex.gz.                                                                                          
+Transcript written on socc2018.log.                                                                                              
+/Library/TeX/texbin/bibtex socc2018                                                                                              
+This is BibTeX, Version 0.99d (TeX Live 2015)                                                                                    
+The top-level auxiliary file: socc2018.aux                                                                                       
+The style file: ./IEEEtranBST/IEEEtran.bst                                                                                       
+I found no \citation commands---while reading file socc2018.aux                                                                  
+Database file #1: socc2018.bib                                                                                                   
+-- IEEEtran.bst version 1.13 (2008/09/30) by Michael Shell.                                                                      
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/                                                                              
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.                                                                
+                                                                                                                                 
+Done.                                                                                                                            
+(There was 1 error message)                                                                                                      
+make: *** [all] Error 2                                                                                                          
+Victors-MacBook-Pro-3:writing yvictorck$                                                                                         
