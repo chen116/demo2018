@@ -45,7 +45,7 @@ if 'thru' in lat_or_thruput:
 	time_now = time.time()
 
 	print(int(1e4)/(time_now-st))
-	print( (time_now-st)/int(1e4))
+	print( (time_now-st)/int(1e4)*1000)
 
 	# hb.heartbeat_beat()
 
