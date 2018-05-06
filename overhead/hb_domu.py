@@ -171,7 +171,7 @@ else:
 
 	# print( np.average((rxs-txs)/2+(txs-hbs)))
 
-	print(np.average((rxs-txs)/2))
+	print(np.average((rxs-txs)/2)*1000)
 	# print(((rxs-txs)/2))
 
 		# print(rx_timestamps)
