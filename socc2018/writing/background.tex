@@ -1,0 +1,27 @@
+\section{Background}
+\label{sb}
+  
+
+\subsection{Real-time Application}
+A real-time application refers to an application that requires tasks to finish before certain deadlines. Based on how critical it is to meet the deadlines, real-time applications can be divided into three categories\cite{rtapp}: 
+\begin{enumerate}
+\item Hard Real-time: Any task that misses deadline indicates application failure. An example includes nuclear reactor monitoring.
+\item Firm Real-time: Tasks missing deadlines are allowed, but become useless for the application. An example includes database transactions. 
+\item Soft Real-time: Tasks that miss deadlines are allowed but their usefulness degrades over time. An example includes video surveillance. 
+\end{enumerate}
+Many real-time applications that are running in the cloud are soft real-time because of their tolerance for deadline misses allow the benefits of cloud computing to be exploited. Our work focuses on dynamic resource allocation for soft real-time applications. 
+
+\subsection{Heartbeats API}
+The Heartbeats API\cite{hb} is a tool used for monitoring application's status. Many applications perform certain tasks repeatedly, such as video and audio processing. The idea of the Heartbeats API is that the application programmer inserts heartbeat calls between periodic tasks and then the framework can report application performance in terms of heart rate(beats/second). The interpretation of heart rate depends on the application. For example, heart rate for a video application can be interpreted as frame per second (FPS) if heartbeats are recorded for every frame. Pacer uses heart rate as the mechanism for real-time performance feedback. In this work, we also define a deadline miss as when the reported heart rate (based on the time between the current and previous heart beats) is lower than a predetermined value.
+
+
+
+\subsection{Virtualization Through Xen}
+Xen is an open-source hypervisor that supports para-virtualization\cite{xen}. Domain0(Dom0) is the privileged domain that manages other guest domains (VMs). In this work, applications are run inside the VMs, while the Pacer resource manager runs inside Dom0. In Xen, physical CPUs(PCPUs) are virtualized for all VMs including Dom0. All VMs are required to be assigned to a PCPU pool. A PCPU Pool is composed of a subset of PCPUs and a scheduler that schedules virtual CPUs (VCPUs) to run on PCPUs. To avoid confusion, CPU refers to VCPU in the remainder of this paper. 
+
+The default CPU scheduler in Xen is the Credit scheduler\cite{credit}. The Credit scheduler is a proportional fair share scheduler that allocates CPU utilization based on the weight of the VM and time-slice set by the user. Each VM shares the CPU time proportionally in each time-slice. For example, in a PCPU pool with 2 VMs, if the user want both VMs to have 50\% utilization, the user can simply set the same weight values for both VMs.
+
+The Real-Time-Deferrable-Server(RTDS) scheduler \cite{rtxen}, a CPU scheduler designed for real-time tasks, is another scheduler option for Xen. In the RTDS scheduler, CPU utilization for each VM is determined by the budget and period set by the user. Each VM is guaranteed to receive the assigned CPU budget time for every period. For example, in a PCPU pool with 2 VMs, if the user want to assign 50\% utilization for both VMs, the user can simply set the same budget values for both VMs. Pacer provides an interface to both Credit and RTDS scheduler for developers to assign CPU utilization for VMs.
+
+
+

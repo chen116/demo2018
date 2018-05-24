@@ -1,0 +1,155 @@
+\documentclass[10pt,conference,compsocconf]{./IEEEtran} 
+%\documentclass[10pt,conference]{IEEEtran} 
+\baselineskip 12pt
+\textheight 9in
+\textwidth 6.5in
+\oddsidemargin 0in
+\topmargin 0in
+\headheight 0in
+\headsep 0in
+% \usepackage{tabularx}
+
+\usepackage{setspace}
+%\usepackage[firstpage]{draftwatermark}
+\usepackage{epstopdf}
+\usepackage{times}
+\usepackage[table]{xcolor}
+%\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+%\usepackage{url}
+\usepackage{comment}
+%\usepackage[lofdepth,lotdepth]{subfig}
+%\usepackage{floatrow}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+\usepackage{listings}
+\usepackage{rotating}
+%\usepackage[usenames]{color}
+\usepackage{setspace}
+%\usepackage{tabularx,colortbl}
+%\usepackage{subfigure}
+\usepackage{subcaption}
+\usepackage[noadjust]{cite}
+\usepackage{multicol}
+%\usepackage[usenames]{color}
+%\usepackage{todonotes}
+%\usepackage{enumitem}
+
+
+\usepackage{amsmath}
+\usepackage{booktabs, multicol, multirow}
+
+% Used to balance last page
+% \usepackage{flushend}
+
+%\SetWatermarkText{PREPRINT}							
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+%see http://tex.stackexchange.com/questions/62720/vertical-space-after-algorithm
+\def\textfloatsep{6pt}
+\def\intextsep{6pt}
+\def\IEEEbibitemsep{0pt plus .5pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Program Float
+%
+\usepackage{float}
+
+\floatstyle{ruled}
+\newfloat{program}{thp}{lop}
+\floatname{program}{Program}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\title{\huge{Pacer: Automated Feedback-Based Vertical Elasticity for Heterogeneous Soft Real-Time Workloads}}
+
+\author{
+% Author Block
+\IEEEauthorblockN{
+\phantom{xxx}Yu-An Chen\IEEEauthorrefmark{1},
+Andrew J. Rittenbach\IEEEauthorrefmark{2},
+Geoffrey Phi C. Tran\IEEEauthorrefmark{2}\IEEEauthorrefmark{1},
+John Paul Walters\IEEEauthorrefmark{2}, and
+Stephen P. Crago\IEEEauthorrefmark{1}\IEEEauthorrefmark{2}\phantom{xxx}
+}
+\and
+\IEEEauthorblockN{
+}
+\and
+\IEEEauthorblockA{\IEEEauthorrefmark{1}Department of Electrical Engineering\\
+University of Southern California\\
+Los Angeles, CA 90089\\
+Email: \{chen116, geoffret\}@usc.edu}
+\and
+\IEEEauthorblockA{\IEEEauthorrefmark{2}Information Sciences Institute\\
+University of Southern California\\
+Arlington, VA 22203\\
+Email: \{arittenb, gtran, jwalters, crago\}@isi.edu}
+
+}
+% \author{
+
+
+% \IEEEauthorblockN{
+% %Geoffrey Phi C. Tran\IEEEauthorrefmark{1}\IEEEauthorrefmark{2},
+% \phantom{(Victor)}Yu-An Chen\IEEEauthorrefmark{2},
+% %Dong-In Kang\IEEEauthorrefmark{1}, 
+% % Mikyung Kang\IEEEauthorrefmark{1}, 
+% John Paul Walters\IEEEauthorrefmark{1}, and
+% Stephen P. Crago\IEEEauthorrefmark{1}\phantom{(Victor)}
+% }
+% % \and
+% % \IEEEauthorblockN{
+% % \phantom{(Victor)}
+% % }
+% % \IEEEauthorblockN{
+% % }
+% \and
+% \IEEEauthorblockA{\IEEEauthorrefmark{1}Information Sciences Institute\\
+% University of Southern California,
+% Arlington, VA 22203\\
+% Email: \{jwalters, crago\}@isi.edu}
+% % gtran dkang, mkkang, jwalters, crago
+% \and
+% \IEEEauthorblockA{\IEEEauthorrefmark{2}Department of Electrical Engineering\\
+% University of Southern California,
+% Los Angeles, CA 90089\\
+% Email: chen116@usc.edu}
+% % geoffret chen116
+
+% }
+
+\maketitle
+\thispagestyle{plain}
+\pagestyle{plain}
+
+\begin{abstract}
+ 
+Cloud computing can be used to provide a virtualized platform for running various services, including soft real-time applications such as video streaming. To satisfy an application's real-time requirements, CPU resources are often allocated for the worst case, resulting in system under-utilization. To solve this problem, we present Pacer, a framework that allows system or application developers to implement their own resource allocation algorithm and utilize real-time performance feedback from applications that are running in VMs. We then present and compare two example resource allocation algorithms that are based on Additive-Increase-Multiplicative-Decrease and Self-Tuning PID control. We apply Pacer to a video stream object detection application and show that Pacer can save more than 50\% CPU utilization while still meeting deadlines. Finally, we present a stride scheduling based sharing algorithm to maintain application’s real-time performance when the total resource demands exceed the system's available resources. Compared with static CPU resource allocation, our experiments show that Pacer can reduce deadline misses by more than 50\% in an oversubscribed system.
+
+\end{abstract}
+
+\begin{IEEEkeywords}
+soft real-time; vertical elasticity; feedback-based resource allocation; Virtualization; Xen
+\end{IEEEkeywords}
+
+% \input{test}
+\input{intro}
+\input{related}
+\input{background}
+\input{framework}
+\input{controller}
+\input{results}
+%\section{Results}
+% \input{discussion}
+\input{conclusion}
+% \clearpage 
+
+% Adjust this to balance last page if not using package
+\IEEEtriggeratref{24}
+\bibliography{socc2018}
+\bibliographystyle{./IEEEtranBST/IEEEtran}
+
+\end{document}
+

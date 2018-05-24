@@ -1,0 +1,10 @@
+\section{Conclusion and Future Work}
+\label{send}
+
+
+In this work, we present Pacer, a Xen-based framework that monitors multiple VMS and provides developers a platform to implement their choice of CPU resource allocation algorithms that utilize feedback from soft real-time applications. We also present two resource allocation algorithms that are based on AIMD and STPID to dynamically adjust CPU utilization assignments to the VMs from their application's heartbeats feedback. Finally, we develop stride sharing, a stride scheduling based control algorithm that distributes CPU resource proportionally to improve real-time performance in an overloaded system. 
+
+Future work includes expanding Pacer to manage multi-node systems. As of now, Pacer has been implemented on nodes provisioned using OpenStack\cite{openstack}. Docker containers\cite{docker} are another virtualization technology with which Pacer can be implemented. Besides deploying Pacer to distributed systems, we also plan to expand Pacer's ability to manage multiple resources such as memory and network. Finally, learning-based methods such as Q-learning and regression can be used to develop new resource allocation algorithms.
+
+This work was supported by the Office of Naval Research grant \#N00014-16-1-2887.
+

@@ -1,0 +1,23 @@
+\section{Related Work}
+\label{sr}
+
+There is much related work on feedback-based resource control and vertical elasticity in the cloud.
+
+Tran et al. \cite{dartc} present a dynamic resource allocation framework that calculates the resources needed and adjusts CPU resources before workload changes. This work targets hard real-time applications and requires that the system has prior knowledge about workload changes. Our work emphasizes feedback-based resource allocations that apply to soft real-time applications whose behavior is not known in advance.
+
+Guan et al. \cite{dockerwork} design a resource allocation algorithm for Docker containers that uses applications' requirements as one of the optimization variables. Their work focuses on resource placement for containers and assumes all jobs in the application have the same finish time. 
+
+Sotiriadis at al. \cite{loadbalancer} create a dynamic reconfiguration system that implements vertical and horizontal elasticity by eliminating service down-times and communication failures. Their work focuses on load balancing service traffic to the servers. 
+
+
+Hoffmann et al. have much related work\cite{poet}\cite{bard}\cite{poet2}\cite{calo} that uses feedback-based control and machine learning to optimize soft real-time performance and energy efficiency of embedded or bare-metal systems. One major difference between our work and theirs is that we provide a framework that is applied to virtualized platforms that host multiple applications.
+
+Molto et al. \cite{mem} present a framework for a cloud management system that controls live VM migration and adjusts memory resources assigned to the VMs based on memory usage.
+
+
+
+
+
+
+
+
