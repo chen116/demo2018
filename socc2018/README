@@ -5,6 +5,71 @@ the last parameter indicate resource allocation method
 
 to run:
 
+1vm:
+
+
+dom0:
+cd demo2018/simple_tasks 
+python3 multi_monitor_simple_task.py 10 12 1,2 30000
+
+(lower, upper, montioting vms, timeslice)
+
+
+dom1: 
+cd demo2018/
+python3 object_rec_camera_pointing_v3_ts_paper_time_based.py 65.114.169.139 arittenbach 8mmhamcgt16! dom2 8093 8094 RT-Xen 3
+
+
+dom2:
+cd demo2018/
+python3 object_rec_camera_pointing_v3_ts_paper_time_based.py 65.114.169.151 admin admin dom1 8094 8093 Xen 3
+
+
+
+(third experiment in paper) 2vm:
+
+dom0:
+cd demo2018/simple_tasks 
+python3 multi_monitor_simple_task_contention_2vm.py 10 12 1,2 30000
+
+(lower, upper, montioting vms, timeslice)
+
+
+dom1: 
+cd demo2018/
+python3 object_rec_camera_pointing_v3_ts_paper_contention_2vm_time_based.py 65.114.169.139 arittenbach 8mmhamcgt16! dom2 8093 8094 RT-Xen 3
+
+
+dom2:
+cd demo2018/
+python3 object_rec_camera_pointing_v3_ts_paper_contention_2vm_time_based.py 65.114.169.151 admin admin dom1 8094 8093 Xen 3
+
+(second experiment in paper) 3vm:
+
+dom0:
+cd demo2018/simple_tasks 
+python3 multi_monitor_simple_task_contention_3vm.py 10 12 1,2 30000
+
+(lower, upper, montioting vms, timeslice)
+
+
+dom1: 
+cd demo2018/
+python3 object_rec_camera_pointing_v3_ts_paper_contention_3vm_random.py 65.114.169.139 arittenbach 8mmhamcgt16! dom2 8093 8094 RT-Xen 3
+
+
+dom2:
+cd demo2018/
+python3 object_rec_camera_pointing_v3_ts_paper_contention_3vm_random.py 65.114.169.151 admin admin dom1 8094 8093 Xen 3
+
+dom3:
+cd demo2018/
+python3 object_rec_camera_pointing_v3_ts_paper_contention_3vm_matmul.py
+
+
+
+
+///////
 
 savings:
 
