@@ -307,7 +307,7 @@ personincam = 0
 #print("[INFO] starting video stream...")
 #vs = VideoStream('rtsp://arittenbach:8mmhamcgt16!@65.114.169.154:88/videoMain').start()
 # vs = VideoStream('rtsp://'+sys.argv[2]+':'+sys.argv[3]+'@'+sys.argv[1]+':88/videoMain').start() # realvid
-vs= FileVideoStream("walkcat.mp4").start() # outvid
+vs= FileVideoStream("../walkcat.mp4").start() # outvid
 
 
 
