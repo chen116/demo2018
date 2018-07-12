@@ -18,7 +18,7 @@ monitoring_items = ["heart_rate","app_mode","frame_size","timeslice"]
 monitoring_domU = (sys.argv[3]).split(',')
 
 
-c = heartbeat.Dom0(monitoring_items,monitoring_domU)
+c = host_guest_comm.Dom0(monitoring_items,monitoring_domU)
 
 timeslice_us=int(sys.argv[4])
 minn=int(timeslice_us*0.01)
