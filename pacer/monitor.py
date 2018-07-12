@@ -1,4 +1,4 @@
-import heartbeat
+
 import host_guest_comm
 import xen_interface
 import threading
