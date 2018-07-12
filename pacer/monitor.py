@@ -283,8 +283,8 @@ class MonitorThread(threading.Thread):
 
 		if cur_bw+other_cur_bw>self.timeslice_us:
 
-			my_pass_val = self.shared_data['pass_val'][int(self.domuid)-1]
-			other_pass_val = self.shared_data['pass_val'][int(self.other_domuid)-1]
+			my_pass_val = self.shared_data['pass_val'][int(self.domuid)-17]
+			other_pass_val = self.shared_data['pass_val'][int(self.other_domuid)-17]
 			last_time = self.shared_data['last_time_val']
 			now_time = time.time()
 			if last_time==0:
