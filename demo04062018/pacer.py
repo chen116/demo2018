@@ -1,4 +1,6 @@
 import heartbeat
+import numpy as np
+
 window_size_hr=5
 hb = heartbeat.Heartbeat(1024,window_size_hr,100,"vic.log",10,100)
 monitoring_items = ["heart_rate","app_mode","frame_size","timeslice"]
