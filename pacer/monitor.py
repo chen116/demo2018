@@ -441,8 +441,8 @@ with open("minmax.txt", "w") as myfile:
 
 
 # 1 means rtxen
-rtxen_or_credit=0
-if '1' in shared_data['rtxen']:
+rtxen_or_credit=1
+if '1' in shared_data['xen']:
 	rtxen_or_credit=1
 
 for domuid in c.domu_ids:

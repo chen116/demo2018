@@ -17,9 +17,9 @@ for i in range(it*6):
 # hb stuff
 	a= np.random.rand(matsize, matsize)
 	b= np.random.rand(matsize, matsize)	
-	# tn = time.time()
+	tn = time.time()
 	c= np.matmul(b,a.T)
-	# print(time.time()-tn)
+	print(time.time()-tn)
 	time.sleep(0.1)
 	hb.heartbeat_beat()
 	if i%window_size_hr==0:
