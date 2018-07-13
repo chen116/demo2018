@@ -9,7 +9,7 @@ monitoring_items = ["heart_rate","app_mode","frame_size","timeslice"]
 comm = host_guest_comm.DomU(monitoring_items)
 
 
-it = 500
+it = 1
 matsize = 500
 comm.write("app_mode", 4)
 comm.write("frame_size", matsize)
