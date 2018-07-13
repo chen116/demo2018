@@ -135,6 +135,7 @@ class MonitorThread(threading.Thread):
 	def res_allocat(self,heart_rate):
 
 		minn=int(self.timeslice_us*0.01)
+		print(self.domuid, heart_rate)
 
 
 		# if int(self.domuid)>=3:
