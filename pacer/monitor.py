@@ -30,9 +30,9 @@ class MonitorThread(threading.Thread):
 	def __init__(self, threadLock,shared_data,domuid,sched,timeslice_us,min_heart_rate,max_heart_rate,keys=['test'],base_path='/local/domain'):
 		threading.Thread.__init__(self)
 		self.domuid=(domuid)
-		self.other_domuid='18'
-		if self.domuid=='18':
-			self.other_domuid='17'
+		self.other_domuid='1'
+		if self.domuid=='1':
+			self.other_domuid='2'
 		self.stride = int(10/int(domuid))
 		self.keys=keys
 		self.base_path=base_path
