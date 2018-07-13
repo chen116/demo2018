@@ -11,7 +11,7 @@ comm = host_guest_comm.DomU(monitoring_items)
 
 it = 500
 matsize = 500
-comm.write("app_mode", 2)
+comm.write("app_mode", 4)
 comm.write("frame_size", matsize)
 for i in range(it*6):
 # hb stuff
