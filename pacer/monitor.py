@@ -217,6 +217,7 @@ class MonitorThread(threading.Thread):
 					free+=alpha*minn
 					cur_bw=self.timeslice_us-free
 			cur_bw=int(cur_bw)#-int(cur_bw)%100
+			print("      ",cur_bw)
 
 
 		if self.anchors==1:
