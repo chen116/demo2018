@@ -1,0 +1,68 @@
+assuming u have a rtxen running:
+
+$dd if=/dev/zero of=image1.img bs=1024M count=20  
+ # that gives to 10*1024 => 10gb img will be 20gb
+
+to mount on loop device to create file system on it
+$losetup /dev/loop4 image1.img
+to create file system
+$mkfs.ext4 /dev/loop4
+
+
+
+
+wget http://archive.ubuntu.com/ubuntu/dists/xenial-updates/main/installer-amd64/current/images/netboot/xen/vmlinuz 
+wget http://archive.ubuntu.com/ubuntu/dists/xenial-updates/main/installer-amd64/current/images/netboot/xen/initrd.gz
+
+
+nano pacer.cfg
+
+
+name="pacer"
+memory=4096
+vcpus=8
+disk=['file:/root/pacer.img,xvda,w']
+#vif=['bridge=virbr0'] (use this f libvirt-bin is installed)
+#vif=['']  (use this f libvirt-bin is not installed)
+kernel="/root/vmlinuz"
+ramdisk="/root/initrd.gz"
+extra="debian-installer/exit/alwaus_halt=true -- console=hvc0"
+
+
+
+xl create -f pacer.cfg
+
+xl console pacer
+
+# go install linux
+
+# after installation complete, xen will restart the domu, xl shutdown it frist
+
+xl shutdown pacer
+
+nano pacer.cfg
+
+name="pacer"
+memory=4096
+vcpus=8
+disk=['file:/root/pacer.img,xvda,w']
+#vif=['bridge=virbr0'] (use this f libvirt-bin is installed)
+#vif=['']  (use this f libvirt-bin is not installed)
+bootloader="pygrub"
+
+xl create -f pacer.cfg
+
+now setup up domU:
+
+sudo -i
+passwd
+nano /etc/ssh/sshd_config
+# Authentication:
+#LoginGraceTime 120
+PermitRootLogin yes
+#StrictModes yes
+
+service sshd restart
+
+ifconfig to see ip
+

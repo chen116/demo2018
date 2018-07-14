@@ -1,0 +1,41 @@
+apt update && git clone https://github.com/PennPanda/RT-Xen.git && cd RT-Xen && apt -y install python-dev && apt -y install bin86 && apt -y install bcc && apt -y install iasl && apt -y install uuid && apt -y install uuid-dev && apt -y install ncurses-dev && apt -y install libglib2.0-dev && apt -y install libpixman-1-dev && apt -y install libaio-dev && apt -y install libssl-dev && apt -y install libyajl-dev && apt -y install libc6-dev-i386 && apt -y install gettext && ./configure --disable-werror --enable-mc && ./configure --disable-qemuu-traditional  --with-extra-qemuu-configure-args='--disable-werror' && apt-get -y install texinfo
+
+
+
+make world
+nano /root/RT-Xen/extras/mini-os-remote/Makefile
+
+include /root/RT-Xen/config/MiniOS.mk
+#include $(MINI-OS_ROOT)/config/MiniOS.mk
+
+sed -i 's/include \$(MINI-OS_ROOT)\/config\/MiniOS.mk/include \/root\/RT-Xen\/config\/MiniOS.mk/g' /root/RT-Xen/extras/mini-os-remote/Makefile
+
+./configure --disable-qemu-traditional  --with-extra-qemuu-configure-args='--disable-werror'
+make world
+make install
+/sbin/ldconfig
+update-rc.d xencommons defaults 19 18
+update-rc.d xendomains defaults 21 20
+update-rc.d xen-watchdog defaults 22 23
+service xencommons start
+service apparmor stop
+update-rc.d -f apparmor remove
+
+
+sed -i '/GRUB_DEFAULT=0/a GRUB_CMDLINE_XEN_DEFAULT="dom0_mem=24000M,max:24000M dom0_max_vcpus=6 dom0_vcpus_pin sched=rtds"' /etc/default/grub
+sed -i 's/GRUB_DEFAULT=0/GRUB_DEFAULT="Ubuntu GNU\/Linux, with Xen hypervisor"/g' /etc/default/grub
+update-grub
+sed -i 's/#autoballoon="auto"/autoballoon=0/g' /etc/xen/xl.conf
+#reboot
+apt -y install libvirt-bin
+reboot
+
+
+
+
+cd /root/  && apt update && apt -y install git &&  apt -y install gcc && apt -y install python3-dev && wget http://semanchuk.com/philip/sysv_ipc/sysv_ipc-1.0.0.tar.gz && tar -xzf sysv_ipc-1.0.0.tar.gz && cd sysv_ipc-1.0.0 && python3 setup.py install && cd /root/  && apt -y install python3-pip && pip3 install numpy && apt-get -y install python3-setuptools && git clone https://github.com/selectel/pyxs && cd pyxs && python3 setup.py install && cd /root/ && apt -y install xenstore-utils && cd /root &&  git clone https://github.com/chen116/demo2018.git && cd demo2018/pacer 
+python3 monitor.py 2 10 1,2 10000
+
+at domU:
+
+python3 pacer.py

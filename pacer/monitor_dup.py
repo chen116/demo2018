@@ -27,7 +27,7 @@ default_bw=int(timeslice_us/len(monitoring_domU))
 
 
 class MonitorThread(threading.Thread):
-	def __init__(self, threadLock,shared_data,domuid,xen_sched,timeslice_us,min_heart_rate,max_heart_rate,keys=['test'],base_path='/local/domain'):
+	def __init__(self, threadLock,shared_data,domuid,sched,timeslice_us,min_heart_rate,max_heart_rate,keys=['test'],base_path='/local/domain'):
 		threading.Thread.__init__(self)
 		self.domuid=(domuid)
 		self.other_domuid='1'
@@ -38,8 +38,8 @@ class MonitorThread(threading.Thread):
 		self.base_path=base_path
 		self.threadLock=threadLock
 		self.shared_data=shared_data
-		self.algo = 4
-		self.xen_sched = xen_sched # 1 is rtds, 0 is credit
+		self.anchors = 4
+		self.sched = sched
 		self.target_reached_cnt = 0
 		self.min_heart_rate=min_heart_rate
 		self.max_heart_rate=max_heart_rate
@@ -70,7 +70,7 @@ class MonitorThread(threading.Thread):
 				self.threadLock.acquire()
 				if self.keys[1] in path.decode():
 					if msg.isdigit():
-						self.algo = int(msg)
+						self.anchors = int(msg)
 						with open("info.txt", "a") as myfile:
 							myfile.write(self.domuid+" "+(msg)+ " "+str(time.time())+"\n")
 				if self.keys[2] in path.decode():
@@ -82,7 +82,7 @@ class MonitorThread(threading.Thread):
 					self.pid.reset()
 					if msg.isdigit():
 						tmp_new_timeslice_us = int(msg)*1000
-						if self.xen_sched ==1:
+						if self.sched ==1:
 							cur_bw = 0
 							myinfo = self.shared_data[self.domuid]
 							for vcpu in myinfo:
@@ -120,12 +120,12 @@ class MonitorThread(threading.Thread):
 						heart_rate=-1
 					if heart_rate>-1:
 						self.res_allocat(heart_rate)					
-						#self.res_allo(self.algo,self.xen_sched,float(msg),self.shared_data,self.domuid ,self.min_heart_rate,self.max_heart_rate)					
+						#self.res_allo(self.anchors,self.sched,float(msg),self.shared_data,self.domuid ,self.min_heart_rate,self.max_heart_rate)					
 
 				# try :
 				# 	if self.keys[0] in path.decode():
 				# 		self.res_allocat(float(msg))					
-				# 		#self.res_allo(self.algo,self.xen_sched,float(msg),self.shared_data,self.domuid ,self.min_heart_rate,self.max_heart_rate)					
+				# 		#self.res_allo(self.anchors,self.sched,float(msg),self.shared_data,self.domuid ,self.min_heart_rate,self.max_heart_rate)					
 				# except:
 				# 	#print("meow",int(self.domuid),token.decode(),msg)
 
@@ -135,7 +135,7 @@ class MonitorThread(threading.Thread):
 	def res_allocat(self,heart_rate):
 
 		minn=int(self.timeslice_us*0.01)
-		print(self.domuid, heart_rate, self.algo)
+		print(self.domuid, heart_rate, self.anchors)
 
 
 		# if int(self.domuid)>=3:
@@ -160,16 +160,16 @@ class MonitorThread(threading.Thread):
 		cur_bw = 0
 		myinfo = self.shared_data[self.domuid]
 
-		if self.xen_sched==1:
+		if self.sched==1:
 			for vcpu in myinfo:
 				if vcpu['pcpu']!=-1:
 					cur_bw=int(vcpu['b'])
-		elif self.xen_sched==0:
+		elif self.sched==0:
 			for vcpu in myinfo:
 				if vcpu['pcpu']!=-1:
 					cur_bw=int(vcpu['w'])
 
-		if self.algo==3:
+		if self.anchors==3:
 			# apid algo
 			output = self.pid.update(heart_rate)
 			# output+=self.timeslice_us/2
@@ -187,7 +187,7 @@ class MonitorThread(threading.Thread):
 		else:
 			self.pid.reset()
 
-		if self.algo==4:
+		if self.anchors==4:
 			# aimd algo
 			alpha=3.5
 			beta=.9
@@ -220,7 +220,7 @@ class MonitorThread(threading.Thread):
 			print("      ",cur_bw)
 
 
-		if self.algo==1:
+		if self.anchors==1:
 
 			alpha=1
 			beta=.9
@@ -253,14 +253,14 @@ class MonitorThread(threading.Thread):
 			# 		cur_bw-=minn
 			cur_bw=int(cur_bw)#-int(cur_bw)%100
 
-		if self.algo==2:
+		if self.anchors==2:
 			default_bw=int(self.timeslice_us-minn) #dummy
 			if cur_bw!=default_bw:
 				cur_bw=default_bw
 			cur_bw=int(cur_bw)#-int(cur_bw)%100
 
 
-		if self.algo==0:
+		if self.anchors==0:
 			default_bw=int(self.timeslice_us/2) #dummy
 			if cur_bw!=default_bw:
 				cur_bw=default_bw	
@@ -272,12 +272,12 @@ class MonitorThread(threading.Thread):
 		cur_bw = cur_bw
 		myinfo = self.shared_data[self.domuid]
 
-		if self.xen_sched==1:
+		if self.sched==1:
 			for vcpu in other_info:
 				if vcpu['pcpu']!=-1:
 					other_cur_bw=vcpu['b']		
 
-		elif self.xen_sched==0:
+		elif self.sched==0:
 			for vcpu in other_info:
 				if vcpu['pcpu']!=-1:
 					other_cur_bw=vcpu['w']
@@ -338,7 +338,7 @@ class MonitorThread(threading.Thread):
 
 
 
-		if self.xen_sched==1:
+		if self.sched==1:
 			for vcpu in other_info:
 				if vcpu['pcpu']!=-1:
 					vcpu['b']=other_cur_bw
@@ -348,7 +348,7 @@ class MonitorThread(threading.Thread):
 			xen_interface.sched_rtds(self.domuid,self.timeslice_us,cur_bw,[])
 			xen_interface.sched_rtds(self.other_domuid,self.timeslice_us,other_cur_bw,[])
 
-		elif self.xen_sched==0:
+		elif self.sched==0:
 			for vcpu in other_info:
 				if vcpu['pcpu']!=-1:
 					vcpu['w']=other_cur_bw
